@@ -1,0 +1,28 @@
+# Turn on URL rewriting
+RewriteEngine On
+
+# Installation directory
+RewriteBase /
+
+# Protect hidden files from being viewed
+<Files .*>
+	Order Deny,Allow
+	Deny From All
+</Files>
+
+# Protect application and system files from being viewed
+RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
+
+# Allow any files or directories that exist to be displayed directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite all other URLs to index.php/URL
+RewriteRule .* index.php [L]
+
+
+Order Deny,Allow
+Deny From All
+# Список IP через пробел, с которых доступ разрешен
+Allow From 176.36.166.147 127.0.0.1 37.190.5.216 109.227.215.240 77.222.8.10 141.105.24.251 188.0.121.10 95.67.67.170 195.239.11.238
+
