@@ -7,6 +7,8 @@ class Controller_Base extends Kohana_Controller_Template {
     protected $auth;
     protected $session;
     protected $user;
+    protected $bodyClass = '';
+    
     public $template = 'v_base';
     public $auth_required = false;
     public $auto_render = true;
@@ -14,6 +16,8 @@ class Controller_Base extends Kohana_Controller_Template {
 
     public function before() {
         parent::before();
+        $this->template->bodyClass = $this->bodyClass;
+        
 //        $this->geo = new Model_Geo();
 //        $this->geo->define_region();
 //        $arr_lang  = ORM::factory('Lang')->get_array_alias();
@@ -66,4 +70,12 @@ class Controller_Base extends Kohana_Controller_Template {
 //        }
     }
 
+    public function after()
+    {
+        $this->template->bodyClass = $this->bodyClass;
+        //echo View::factory('profiler/stats');
+        parent::after();
+    }
+    
+        
 }
