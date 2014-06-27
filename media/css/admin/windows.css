@@ -1,0 +1,53 @@
+.content input[type="text"], select, .content .inputBlock  input.m{
+    width: 200px;
+}
+.content .inputBlock h3.input,
+.content .inputBlock .input{
+    width: 100%;
+    height: 30px
+}
+.content .inputBlock h3.input{
+    
+    height: 21px;
+    padding-top: 8px;
+}
+.content .inputBlock h3.select,
+.content .inputBlock .select{
+    width: 100%;
+    height: 30px;
+}
+.content .inputBlock h3.select{
+    padding-top: 7px;
+    height: 23px; 
+}
+.content .inputBlock h3.logo,
+.content .inputBlock .logo{
+    width: 100%;
+    height: 210px;
+}
+.content .inputBlock h3.logo{
+    padding-top: 10px;
+    height: 200px; 
+}
+.content .inputBlock textarea {
+    width: 90%;
+    overflow:auto;
+    resize: vertical;
+}
+.content .inputBlock h3.textarea,
+.content .inputBlock .textarea{
+    width: 100%;
+    height: 70px;
+}
+.content .inputBlock h3.textarea{
+    padding-top: 15px;
+    height: 70px;
+}
+.rit .inputBlock input{
+    text-align: right;
+    width: 100px;
+    float: right;
+    margin-right: 15px;
+}
+.rit .inputBlock div{
+}

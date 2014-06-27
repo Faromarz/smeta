@@ -2,7 +2,7 @@
 
 defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Loggin extends Controller_Base {
+class Controller_Loggin extends Controller_Core {
 
 
 

@@ -1,0 +1,41 @@
+.itemNews span{
+    border-right: 1px solid #ababab;
+    width: 84px;
+    display: table-cell;
+    height: 30px;
+    margin: auto;
+    vertical-align: middle;
+}
+.itemNews table{
+    text-align: center;
+}
+.itemNews table td{
+    vertical-align: middle;
+}
+.itemNews img {
+    float: none;
+    display: inline;
+    margin: 0px;
+    vertical-align: bottom;
+}
+.itemNews {
+    padding: 0;
+    margin: 0;
+    width: 98%;
+}
+.itemNews textarea{
+    margin: 0px;
+    vertical-align: bottom;
+}
+input[type='submit']:hover{
+    color: #000;
+    cursor: pointer;
+}
+.itemNews span.width_40,
+.content input[type="text"].width_40{
+    width: 40px;
+}
+.menu{
+    width: 9%;
+}
+.content{width:88%;}

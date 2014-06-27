@@ -1,0 +1,11 @@
+.box-modal {
+                position: relative;
+                background: #ffffff;
+                z-index: 999999;
+                padding: 30px 40px 34px;
+                -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+                -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+                box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+}
+.box-modal_close { position: absolute; right: 10px; top: 6px; font-size: 11px; line-height: 15px; color: #999; cursor: pointer; }
+.box-modal_close:hover { color: #666; }
