@@ -1,0 +1,59 @@
+rooms:
+    repair_cc: 2
+    repair_ebp: 2
+    repair_nv: 2
+    partner_id: false
+    geo_id: false
+    name: ''
+    size: 0
+    heigth: 0
+    price_materials: 0
+    price_work_dem: 0
+    price_work_mon: 0
+    time_work_dem: 0
+    time_work_mon: 0
+    room_name: 0
+    room:
+        type: 1
+        id: 1
+        title: Комната №1
+        width: 0.01
+        length: 0.01
+        enable: false
+        balcon: false
+        door: false
+        window: false
+        categories:
+            cat_id: 1
+            chaild_id: 0
+            enable: false
+            name: Обои
+            material_scroll: 10 #min 0 max 21
+            material_count: 21 #количество матириалов
+            materials_selected:
+                id: 1
+                name: Обои
+            materials: #array materials for cat max 21
+                0: {}
+                ...: ...
+                21: {}
+        work_dem:
+            work:
+                0:
+                    enable: false
+                    work: 
+                        id: 0
+                        price: 0.01
+        work_mon:
+            work:
+                0:
+                    enable: false
+                    work: 
+                        id: 0
+                        price: 0.01
+geo_id: 0
+partner:
+    id: 0
+    name: 'название партнера'
+name: sdkiux54d8
+        

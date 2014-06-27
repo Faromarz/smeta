@@ -1,20 +1,24 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Controller_Auth extends Controller_Core{
-
+class Model_User extends Model_Auth_User
+{
     public function action_signin()
     {
+        if (Auth::instance()->logged_in())
+        {
+            $this->redirect('/');
+        }
         if($this->request->post()){
             $username    = (string)Arr::get($_POST, 'username', '');
             $password = (string)Arr::get($_POST, 'password', '');
             $token = Arr::get($_POST, 'token', false);
             if ($token === Security::token() && Auth::instance()->login($username, $password, true))
             {
-                die(json_encode(array('success' => 'Вы успешно авторизованы!')));
+                $this->redirect('/');
             }
             else
             {
-                die(json_encode(array('error' => 'Неверные данные!')));
+                $this->set('_message','Неверные данные');
             }
         }
     }
@@ -27,5 +31,4 @@ class Controller_Auth extends Controller_Core{
         }
         $this->redirect('/');
     }
-
 }

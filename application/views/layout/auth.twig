@@ -1,0 +1,83 @@
+<script>
+    $(document).ready(function() {
+        $("#privat p").on("click", authorization);
+        $(".privatAuth").on("click", authorization);
+        $("#close_pop_up").on("click", close_authorization);
+        $("#pop_up_signin").on("click", signin);
+    });
+    function authorization(){
+        $("#overlap").show();
+        $("#pop_up").show();
+        $("#close_pop_up").show();
+        $("#authorization").show();
+    }
+    function close_authorization(){
+        $("#overlap").hide();
+        $("#pop_up").hide();
+        $("#close_pop_up").hide();
+        $("#authorization").hide();
+        $("#registration").hide();
+        $("#remind_password").hide();
+        $("#pop_up-add_review").hide();
+    }
+    function signin(){
+        var username = $('#username').val(), password=$('#password').val();
+        $.ajax({
+            type: "POST",
+            url: "{{ Url.site("auth/signin") }}",
+            data: { token: '{{ _token }}', username: username, password: password },
+            success: function(data){
+                var result = JSON.parse(data);
+                console.log(result);
+                if(result.success){
+                    window.location.replace("{{ Url.site('/') }}");
+                }else {
+                    $("#error_auth").empty();
+                    $("#error_auth").append(result.error);
+                    $("#error_auth").show();
+                }
+            }
+        }, 'json');
+    }
+</script>
+<div id="overlap"></div>
+<div id="pop_up">
+    <div id="remind_password">
+        <p class="pop_up_header">Напомнить пароль</p>
+        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
+
+        <p class="pop_up_enter">Отправить</p>
+        <a href="#" id="leave_remind_password">войти в личный кабинет</a>
+    </div>
+    <div id="authorization">
+        <p class="pop_up_header">авторизация</p>
+        <span style="display: none;color: red;margin-left: 160px;" id="error_auth"></span>
+        <input class="pop_up_input" id="username" placeholder="Ваше имя"/>
+        <input class="pop_up_input" id="password" placeholder="Пароль" type="password"/>
+
+        <p class="pop_up_enter" id="pop_up_signin">Войти</p>
+        <a href="#" id="go_remind_password">напомнить пароль</a>
+        <a href="#" id="go_registration">Регистрация</a>
+    </div>
+    <div id="registration">
+        <p class="pop_up_header">регистрация</p>
+        <input class="pop_up_input" placeholder="Представтесь, пожалуйста"/>
+        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
+
+        <p class="pop_up_enter" id="send_password">Выслать пароль для входа</p>
+        <a href="#" id="go_authorization">войти в личный кабинет</a>
+    </div>
+    <div id="pop_up-add_review">
+        <h1>Оставить отзыв</h1>
+
+        <h2 style="display: none">Имя пользователя:</h2>
+        <textarea placeholder="Ваше мнение (не более 110 символов)" style="display: none"></textarea>
+        <a id="send_review" style="display: none">отправить</a>
+
+        <p style="display: block">Для того, чтобы оставить отзыв,
+            необходимо пройти <a id="add_review-go_registration">регистрацию</a>.
+            Это займет всего пару минут.</p>
+
+    </div>
+</div>
+<div id="close_pop_up"></div>

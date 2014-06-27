@@ -6,19 +6,36 @@
     <meta name="description" content="{{ _title }}"/>
     <meta name="keywords" content="{{ _keywords }}"/>
     <link rel="shortcut icon" href="{{ Url.media('/media/img/favicon.ico') }}" type="image/x-icon"/>
-
+    {# ---------------------СТИЛИ----------------------------- #}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/reset.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/slider.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/slider/slider.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/arcticmodal/jquery.arcticmodal.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/arcticmodal/themes/smeta.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/selectbox/jquery.selectbox.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/slider/slider.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/mCustomScrollbar/jquery.mCustomScrollbar_portal.css') }}">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700&subset=cyrillic,latin' rel='stylesheet'
           type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic' rel='stylesheet' type='text/css'>
+    {# ---------------------СКРИПТЫ--------------------------- #}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/portal.js') }}"></script>
+    {#<script type="text/javascript" src="{{ Url.media('/media/js/scrolling_portal.js') }}"></script>#}
+    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.anythingslider.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.easing.1.2.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/slider/jquery-slider.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.extensions.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.date.extensions.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.numeric.extensions.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.custom.extensions.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/arcticmodal/jquery.arcticmodal.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/all.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/base.js') }}"></script>
+
 </head>
 <body>
 <div id="background{% if _controller=='Budget' %}_budget{% endif %}">
@@ -39,7 +56,14 @@
             </div>
             <div id="header_right">
                 <div id="privat">
-                    <p>личный кабинет</p>
+                    <p>
+                    {% if _user %}
+                        {{ _user.username }}
+                        <a href="{{ Url.site('auth/logout') }}">Выйти</a>
+                    {% else %}
+                        личный кабинет
+                    {% endif %}
+                    </p>
                 </div>
                 <div id="sticker"></div>
                 <p id="cel">+7 (499) 162-83-96</p>
@@ -81,46 +105,9 @@
     </div>
 </div>
 
-<div id="overlap"></div>
-<div id="pop_up">
-    <div id="remind_password">
-        <p class="pop_up_header">Напомнить пароль</p>
-        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
-
-        <p class="pop_up_enter">Отправить</p>
-        <a href="#" id="leave_remind_password">войти в личный кабинет</a>
-    </div>
-    <div id="authorization">
-        <p class="pop_up_header">авторизация</p>
-        <input class="pop_up_input" placeholder="Ваше имя"/>
-        <input class="pop_up_input" placeholder="Пароль"/>
-
-        <p class="pop_up_enter">Войти</p>
-        <a href="#" id="go_remind_password">напомнить пароль</a>
-        <a href="#" id="go_registration">Регистрация</a>
-    </div>
-    <div id="registration">
-        <p class="pop_up_header">регистрация</p>
-        <input class="pop_up_input" placeholder="Представтесь, пожалуйста"/>
-        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
-
-        <p class="pop_up_enter" id="send_password">Выслать пароль для входа</p>
-        <a href="#" id="go_authorization">войти в личный кабинет</a>
-    </div>
-    <div id="pop_up-add_review">
-        <h1>Оставить отзыв</h1>
-
-        <h2 style="display: none">Имя пользователя:</h2>
-        <textarea placeholder="Ваше мнение (не более 110 символов)" style="display: none"></textarea>
-        <a id="send_review" style="display: none">отправить</a>
-
-        <p style="display: block">Для того, чтобы оставить отзыв,
-            необходимо пройти <a id="add_review-go_registration">регистрацию</a>.
-            Это займет всего пару минут.</p>
-
-    </div>
-</div>
-<div id="close_pop_up"></div>
+{% if _user.username is not defined %}
+    {% include "layout/auth.twig" %}
+{% endif %}
 
 <div id="calculation">
     <div id="calculation_line"></div>
@@ -133,6 +120,7 @@
     <div id="top_right_stiker_four_room" data-id="4"></div>
     <div id="top_right_stiker_five_room" data-id="5"></div>
 </div>
+
 {% if _controller=='Main' %}
     <div id="top_right_stiker">
         <p>Сколько комнат в вашей квартире?</p>
