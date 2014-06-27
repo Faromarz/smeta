@@ -1,0 +1,986 @@
+#background_budget {
+    overflow: hidden;
+    background: url('../img/background_smeta.jpg');
+
+
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px){
+    #background_budget  {
+        width: 1215px;
+    }
+}
+
+#budget_dop_options {
+    width: 1060px;
+    margin: 63px 0 0 78px;
+    background: #ffffff;
+    display: none;
+}
+
+
+#budget_dop_options_header{
+    width: 340px;
+    font-family: Roboto;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-left: 35px;
+    background: url("../img/order_options_arrow.png") no-repeat 100% 3px;
+
+}
+
+
+#budget_dop_options-hide {
+    width: 130px;
+    font-family: Roboto;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #40c1b6;
+    margin: -9px 0 0 750px;
+    border-top: solid 9px #f7540f;
+    padding: 10px 10px 0 10px;
+    cursor: pointer;
+    display: none;
+}
+
+
+
+
+
+.budget_basic_options {
+    width: 1028px;
+
+    background: #ffffff;
+    margin: 20px 0 0 78px;
+    border: solid 1px #84909a;
+    font-family: Roboto;
+}
+
+.budget_basic_options_header{
+    width: 100%;
+    height: 58px;
+}
+
+.budget_basic_options_header h1{
+    width: 412px;
+    font-size: 12px;
+    text-transform: uppercase;
+    float: right;
+    color: #274761;
+    margin: 22px 0 0 20px;
+}
+
+.ignore_for_basic_options_header {
+    margin-top: 7px;
+}
+
+.budget_basic_options_header dl{
+    width: 230px;
+    color: #274761;
+    float: right;
+    margin: 22px 20px 0 20px;
+}
+
+.budget_basic_options_header dl dt{
+    font-style: italic;
+    font-size: 12px;
+    float: right;
+    margin-right: 10px;
+}
+
+.budget_basic_options_header dl dd{
+    text-align: right;
+    font-size: 20px;
+    font-style: normal;
+    float: right;
+    margin-top: -4px;
+}
+
+.budget_basic_options_name{
+    width: 988px;
+    height: 60px;
+    margin: 2px 0 0 20px;
+    clear: both;
+}
+
+.style1{
+    background: #e6ecf1;
+}
+
+.budget_basic_options_name_style1_down{
+    width: 947px;
+    height: 60px;
+    float: right;
+    background: url("../img/arrow_down.png") no-repeat 98% 50% #e6ecf1;
+    cursor: pointer;
+}
+.budget_basic_options_name_style1_down:hover {
+    background-position: 98% 55%;
+}
+
+.budget_basic_options_name_style1_up{
+    width: 947px;
+    height: 60px;
+    float: right;
+    background: url("../img/arrow_up.png") no-repeat 98% 50% #e6ecf1;
+    cursor: pointer;
+}
+.budget_basic_options_name_style1_up:hover {
+    background-position: 98% 45%;
+}
+
+.style2 {
+    background: #d3dde6;
+}
+
+.budget_basic_options_name_style2_down{
+    width: 947px;
+    height: 60px;
+    float: right;
+    background: url("../img/arrow_down.png") no-repeat 98% 50% #d3dde6;
+    cursor: pointer;
+}
+.budget_basic_options_name_style2_down:hover {
+    background-position: 98% 55%;
+}
+
+.budget_basic_options_name_style2_up{
+    width: 947px;
+    height: 60px;
+    float: right;
+    background: url("../img/arrow_up.png") no-repeat 98% 50% #d3dde6;
+    cursor: pointer;
+}
+.budget_basic_options_name_style2_up:hover {
+    background-position: 98% 45%;
+}
+
+.budget_basic_options_name h2{
+    font-size: 14px;
+    color: #84909a;
+    float: right;
+    margin: 23px 72px 0 0;
+}
+
+.budget_basic_options_name h2:first-child{
+    margin-right: 109px;
+}
+
+.budget_basic_options_name h1{
+    width: 457px;
+    font-size: 28px;
+    color: #000000;
+    float: right;
+    text-transform: uppercase;
+    margin: 15px 0 18px 5px;
+}
+
+
+.budget_basic_options_name ul{
+    width: 878px;
+    display: none;
+    float: right;
+    margin-right: 55px;
+}
+
+.budget_basic_options_name ul li{
+    width: 100%;
+    /*   height: 40px; */
+    border-bottom: solid 1px #efefef;
+    float: right;
+}
+
+.budget_basic_options_name ul li p{
+    width: 110px;
+    font-size: 20px;
+    color: #000000;
+    float: right;
+    margin: 10px 0 0 35px;
+
+}
+
+
+.budget_basic_options_name ul li p:first-child{
+    margin-right: 15px;
+}
+
+.budget_basic_options_job{
+    width: 120px;
+    height: 40px;
+    float: right;
+    margin: 0 5px 0 20px;
+
+}
+
+.budget_basic_options_job h3{
+    font-size: 20px;
+    color: #000000;
+    margin-top: 10px;
+    float: left;
+
+}
+
+.budget_basic_options_job h6{
+    font-size: 20px;
+    color: #000000;
+    float: left;
+    margin: 10px 0 0 5px;
+}
+.budget_basic_options_job input {
+    width: 80px;
+    height: 25px;
+    font-family: Roboto;
+    font-size: 20px;
+    float: left;
+    text-align: center;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+    margin-top: 7px;
+    display: none;
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px){
+    .budget_basic_options_job input {
+        margin-top: 6px;
+        height: 17px;
+    }
+}
+
+
+.budget_basic_options_name ul li h5{
+    width: 386px;
+    font-size: 14px;
+    color: #000000;
+    float: right;
+    margin: 14px 0 5px 10px;
+
+}
+
+.ignore_5 {
+    width: 22px;
+    height: 25px;
+    background: url("../img/ignore_4.png") no-repeat;
+    float: right;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.ignore_5:hover{
+    width: 140px;
+    margin-right: -110px;
+    background-position: -19px 0;
+}
+
+.ignored_5 {
+    width: 22px;
+    height: 25px;
+    background: url("../img/ignore_4.png") no-repeat 0 -25px;
+    float: right;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.ignored_5:hover{
+    width: 130px;
+    margin-right: -100px;
+    background-position: -19px -25px;
+}
+
+.budget_basic_options_rasporka {
+    width: 100%;
+    height: 20px;
+    clear: both;
+}
+
+.budget_basic_options_rasporka2 {
+    width: 100%;
+    height: 50px;
+    clear: both;
+}
+
+/* бэкграунды для разных списков в монтажных работах */
+.budget_basic_options_list-1 {
+    margin-top: 20px;
+}
+
+.budget_basic_options_list-1 li:first-child {
+    width: 84px;
+    height: 79px;
+    background: url("../img/list_bk/list1.png");
+    float: left;
+    margin: 0 0 0 -118px;
+    border-bottom: none;
+}
+
+.budget_basic_options_list-2 {
+    margin-top: 20px;
+}
+
+.budget_basic_options_list-2 li:first-child {
+    width: 84px;
+    height: 79px;
+    background: url("../img/list_bk/list2.png");
+    float: left;
+    margin: 0 0 0 -118px;
+    border-bottom: none;
+}
+
+.budget_basic_options_list-3 {
+    margin-top: 20px;
+}
+
+.budget_basic_options_list-3 li:first-child {
+    width: 84px;
+    height: 79px;
+    background: url("../img/list_bk/list3.png");
+    float: left;
+    margin: 0 0 0 -118px;
+    border-bottom: none;
+}
+
+.budget_basic_options_list-4 {
+    margin-top: 20px;
+}
+
+.budget_basic_options_list-4 li:first-child {
+    width: 74px;
+    height: 66px;
+    background: url("../img/list_bk/list4.png");
+    float: left;
+    margin: 0 0 0 -113px;
+    border-bottom: none;
+}
+
+.budget_basic_options_list-5 {
+    margin-top: 20px;
+}
+
+.budget_basic_options_list-5 li:first-child {
+    width: 65px;
+    height: 77px;
+    background: url("../img/list_bk/list5.png");
+    float: left;
+    margin: 0 0 0 -108px;
+    border-bottom: none;
+}
+
+.budget_basic_options_list-6 {
+    margin-top: 20px;
+}
+
+.budget_basic_options_list-6 li:first-child {
+    width: 84px;
+    height: 79px;
+    background: url("../img/list_bk/list6.png");
+    float: left;
+    margin: 0 0 0 -118px;
+    border-bottom: none;
+}
+
+.budget_basic_options_list-7 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.budget_basic_options_list-7 li:first-child {
+    width: 83px;
+    height: 82px;
+    background: url("../img/list_bk/list7.png");
+    float: left;
+    margin: 0 0 0 -117px;
+    border-bottom: none;
+}
+/* ---------------------------------- */
+
+/* стиль для блока материалы для ремонта */
+
+.budget_basic_options_name_materials{
+    width: 988px;
+    height: 60px;
+    margin: 2px 0 0 20px;
+    clear: both;
+}
+
+.budget_basic_options_name_materials_header{
+
+    font-size: 28px;
+    color: #000000;
+    float: left;
+    text-transform: uppercase;
+    margin: 15px 0 18px 5px;
+
+}
+
+.budget_basic_options_name_materials_block{
+    width: 988px;
+    display: none;
+    float: right;
+    margin-right: 25px;
+    margin-bottom: 10px;
+}
+
+.budget_basic_options_header_header{
+    width: 682px;
+    font-size: 12px;
+    text-transform: uppercase;
+    float: right;
+    color: #274761;
+    margin: 22px 0 0 20px;
+}
+
+/* блок на металическом фоне: цены и сметы от ремонтных компаний */
+#budget_repair_estimate {
+    width: 1230px;
+    height: 612px;
+    background: url("../img/steel.jpg") -1px -1px;
+    box-shadow: 15px 15px 35px rgba(102, 102, 102, 0.49);
+    margin: 50px 0 0 -24px;
+    padding-top: 1px;
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px){
+    #budget_repair_estimate{
+        margin: 50px 0 0 -17px;
+    }
+}
+
+#steel_roll_down {
+    width: 1230px;
+    height: 19px;
+    background: url("../img/steel_roll_down.jpg");
+    box-shadow: 15px 15px 35px rgba(102, 102, 102, 0.49);
+    margin: 0 0 50px -24px;
+}
+
+#budget_repair_estimate-type_and_rate{
+    width: 700px;
+    height: 115px;
+    float: left;
+}
+
+#budget_repair_estimate dl{
+    font-family: Roboto;
+    font-size: 12px;
+}
+
+#budget_repair_estimate dt{
+    float: left;
+    color: #274761;
+    text-transform: uppercase;
+}
+
+#budget_repair_estimate dd{
+    float: left;
+}
+
+.budget_repair_estimate-type {
+    margin: 45px 0 0 105px;
+}
+
+.budget_repair_estimate-type dd{
+    font-size: 28px;
+    margin: -9px 30px 0 5px;
+}
+
+.budget_repair_estimate-rate{
+    margin: 90px 0 0 105px;
+}
+
+.budget_repair_estimate-rate dd{
+    text-transform: uppercase;
+    margin: 0 0 0 5px;
+}
+
+.dote {
+    margin: 0 15px 0 15px;
+    float: left;
+    color: #274761;
+}
+
+#change_budget{
+    width: 90px;
+    font-family: Roboto;
+    font-size: 14px;
+    float: left;
+    text-decoration: none;
+    color: #000000;
+    padding: 17px 10px 17px 10px;
+    border-top: solid 30px #f7540f;
+    border-bottom: solid 3px #f7540f;
+    margin-left: 58px;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+#budget_repair_estimate-header {
+    width: 1230px;
+    height: 150px;
+    clear: both;
+
+}
+
+#your_budget {
+    width: 114px;
+    font-family: Roboto;
+    font-size: 22px;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    background: #f7540f;
+    padding: 27px 0 27px 0;
+    float: left;
+    margin-top: 15px;
+
+}
+
+#budget_repair_estimate-header h1{
+    width: 941px;
+    font-family: Roboto;
+    font-size: 100px;
+    font-weight: 700;
+    float: left;
+    text-transform: uppercase;
+    color: #2f0d03;
+    margin-left: 20px;
+    padding: 0;
+}
+
+
+#budget_repair_estimate-header h2{
+    font-family: Roboto Slab;
+    font-size: 40px;
+    color: #84909a;
+    float: left;
+    margin: 10px 0 0 100px;
+}
+
+
+
+#budget_repair_estimate-header a{
+
+    height: 71px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+    display: block;
+
+    float: left;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.pdf{
+    background: url("../img/budget_in_pdf.png");
+    width: 75px;
+    margin: 15px 0 0 5px;
+}
+
+.pdf:hover{
+    background-position: -75px 0;
+    width: 135px;
+    margin-left: -55px;
+    transition: all 0.5s;
+}
+
+.xls{
+    background: url("../img/budget_in_xls.png");
+    width: 75px;
+    margin: 15px 0 0 0;
+}
+
+.xls:hover{
+    background-position: -75px 0;
+    width: 135px;
+    margin-left: -60px;
+    transition: all 0.5s;
+}
+
+#budget_repair_estimate-scrolling{
+    width: 100%;
+    height: 250px;
+    margin-top: 20px;
+    padding-top: 1px;
+}
+
+#budget_repair_estimate-bottom{
+    width: 100%;
+    height: 60px;
+    margin-top: 14px;
+    padding-top: 1px;
+}
+
+#budget_repair_estimate-bottom p {
+    width: 400px;
+    height: 25px;
+    font-family: Roboto;
+    font-size: 20px;
+    color: #84909a;
+
+    text-transform: uppercase;
+    margin: 15px 0 0 100px;
+    cursor: pointer;
+    float: left;
+}
+
+
+
+.budget_repair_estimate-bottom-arrow_down{
+    background: url("../img/arrow_down.png") no-repeat 350px 2px;
+}
+
+.budget_repair_estimate-bottom-arrow_down:hover{
+    background-position: 350px 5px;
+}
+
+.budget_repair_estimate-bottom-arrow_up{
+    background: url("../img/arrow_up.png") no-repeat 350px 4px;
+}
+
+.budget_repair_estimate-bottom-arrow_up:hover{
+    background-position: 350px 1px;
+}
+
+#mail{
+    width: 400px;
+    height: 60px;
+    background: #f7550f;
+    float: left;
+    margin-left: 232px;
+    position: relative;
+    z-index: 100;
+}
+
+#mail input {
+    width: 160px;
+    height: 40px;
+    margin: 7px 0 0 7px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    color: #84909a;
+    float: left;
+}
+
+#mail_send {
+    width: 200px;
+    height: 42px;
+    font-family: Roboto;
+    font-size: 20px;
+    color: #ffffff;
+    float: left;
+    margin: 0 0 0 15px;
+    cursor: pointer;
+    text-align: center;
+    padding-top: 18px;
+}
+
+#budget_repair_estimate-slide_menu {
+    width: 100%;
+    height: 347px;
+    display: none;
+}
+
+.budget_repair_estimate-slide_menu-slide1 {
+    width: 100%;
+    height: 100%;
+    background: url("../img/budget_slide_menu/smeta_image-1.jpg");
+}
+
+.budget_repair_estimate-slide_menu-slide2 {
+    width: 100%;
+    height: 100%;
+    background: url("../img/budget_slide_menu/smeta_image-2.jpg");
+    display: none;
+}
+
+.budget_repair_estimate-slide_menu-slide3 {
+    width: 100%;
+    height: 100%;
+    background: url("../img/budget_slide_menu/smeta_image-3.jpg");
+    display: none;
+}
+
+.budget_repair_estimate-scrolling-external_unit {
+    width: 1038px;
+    height: 250px;
+    overflow: hidden;
+    margin: 0 0 0 17px;
+    float: left;
+}
+
+.budget_repair_estimate-scrolling-inner_unit{
+    width: 1930px;
+    height: 230px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+#budget_repair_estimate-scrolling-left_arrow {
+    width: 60px;
+    height: 60px;
+    background: url("../img/scrolling_arrows.png");
+    margin: 95px 0 0 20px;
+    cursor: pointer;
+    float: left;
+}
+
+#budget_repair_estimate-scrolling-left_arrow:hover{
+    background-position: 0 -60px;
+}
+
+#budget_repair_estimate-scrolling-right_arrow {
+    width: 60px;
+    height: 60px;
+    background: url("../img/scrolling_arrows.png") 61px 0;
+    margin: 95px 20px 0 0;
+    cursor: pointer;
+    float: right;
+}
+
+#budget_repair_estimate-scrolling-right_arrow:hover{
+    background-position: 61px -60px;
+}
+
+.firm {
+    width: 320px;
+    height: 230px;
+    background: #ffffff;
+    float: left;
+    border-left: solid 2px #84909a;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.firm_selected{
+    background: #274761;
+}
+
+.firm_conteyner{
+    width: 100%;
+    height: 500px;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.firm:first-child{
+    border: none;
+}
+
+.firm h1{
+    font-family: Roboto;
+    font-size: 28px;
+    color: #274761;
+    margin: 10px 0 20px 20px;
+}
+
+.firm_selected h1{
+    color: #ffffff;
+}
+
+.firm h2 {
+    font-family: Roboto;
+    font-size: 16px;
+    color: #274761;
+    margin: 10px 0 0 20px;
+}
+
+.firm_selected h2{
+    color: #ffffff;
+}
+
+.firm h3{
+    font-family: Roboto;
+    font-size: 14px;
+    color: #84909a;
+    text-transform: uppercase;
+    margin: 50px 0 0 150px;
+}
+
+.firm_selected h3{
+    color: #40c1b6;
+}
+
+.firm h5{
+    font-family: Roboto;
+    font-size: 14px;
+    color: #000000;
+    margin: 3px 0 0 150px;
+}
+
+.firm_selected h5{
+    color: #ffffff;
+}
+
+
+.firm h6{
+    font-family: Roboto;
+    font-size: 14px;
+    color: #000000;
+    margin: 20px 0 0 150px;
+}
+
+.firm_selected h6{
+    color: #ffffff;
+}
+
+.firm a{
+    font-family: Roboto;
+    font-size: 14px;
+    color: #40c1b6;
+    display: block;
+    margin: 35px 0 0 150px;
+}
+
+.firm p{
+    font-family: Tahoma;
+    color: #40c1b6;
+    margin-left: 20px;
+
+}
+
+.firm_name{
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.firm_price{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.firm_rate {
+    margin: 40px 0 0 20px;
+}
+
+.stamp {
+    width: 114px;
+    height: 114px;
+    float: right;
+
+    margin: 10px 30px 0 0;
+}
+
+.stamp_3stars{
+    background: url("../img/stamp_3stars.png");
+}
+
+.stamp_4stars{
+    background: url("../img/stamp_4stars.png");
+}
+
+.stamp_5stars{
+    background: url("../img/stamp_5stars.png");
+}
+
+.firm_logo {
+    width: 116px;
+    height: 116px;
+    background: url("../img/firm_logo.png");
+    margin: 50px 0 0 20px;
+    float: left;
+}
+
+/* нижняя часть контента */
+
+#budget-content_bottom-left{
+    width: 450px;
+    font-family: Roboto;
+    margin: 0 0 0 100px;
+    float: left;
+}
+
+#budget-content_bottom-left-sale {
+    width: 151px;
+    height: 92px;
+    background: url("../img/procent.png");
+    float: right;
+    margin: -3px 120px 0 0;
+}
+
+#budget-content_bottom-left-sale h3{
+    font-family: Roboto Slab;
+    font-size: 26px;
+    color: #f7580f;
+    margin: 32px 0 0 0;
+    text-align: center;
+}
+
+#budget-content_bottom-left h1{
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #274761;
+}
+
+#budget-content_bottom-left h2 {
+    font-size: 28px;
+    color: #000000;
+    margin: 5px 0 41px 0;
+}
+
+#budget-content_bottom-left dl{
+    color: #84909a;
+    margin-top: 10px;
+}
+
+#budget-content_bottom-left dl dt{
+    font-size: 12px;
+
+}
+
+#budget-content_bottom-left dl dd{
+    font-size: 20px;
+    margin-top: 3px;
+}
+
+#budget-content_bottom-left p{
+    font-size: 14px;
+    color: #151717;
+    margin-top: 39px;
+}
+
+#budget-content_bottom-left a{
+    font-size: 14px;
+    text-decoration: none;
+    color: #40c1b6;
+}
+
+#budget-content_bottom-center{
+    font-family: Roboto;
+    float: left;
+}
+
+#budget-content_bottom-center p{
+    font-size: 14px;
+    margin-left: -14px;
+    margin-top: 10px;
+}
+
+#budget-content_bottom-center p:first-child{
+    margin: 0;
+}
+
+#budget-content_bottom-center h1{
+    font-size: 12px;
+    color: #84909a;
+    margin-top: 3px;
+}
+
+#budget-content_bottom-center a{
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+    background: #f7580f;
+    text-transform: uppercase;
+    padding: 35px 20px 35px 20px;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+#budget-content_bottom-center a:hover{
+    background: #40c1b6;
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title></title>
+    <meta name="description" content="{{ _title }}"/>
+    <meta name="keywords" content="{{ _keywords }}"/>
+    <link rel="shortcut icon" href="{{ Url.media('/media/img/favicon.ico') }}" type="image/x-icon"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/slider.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/arcticmodal/jquery.arcticmodal.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/arcticmodal/themes/smeta.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/selectbox/jquery.selectbox.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/slider/slider.css') }}">
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700&subset=cyrillic,latin' rel='stylesheet'
+          type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
+</head>
+<body>
+<div id="background{% if _controller=='Budget' %}_budget{% endif %}">
+    <div id="conteyner">
+        <div id="header">
+            <div id="header_left">
+                <ul class="navigation">
+                    <li><a href="/">{% if _controller=='Main' %}<span>{% endif %}
+                                услуги{% if _controller=='Main' %}</span>{% endif %}</a></li>
+                    <li><a href="/repair">{% if _controller=='Repair' %}<span>{% endif %}
+                                о ремонте{% if _controller=='Main' %}</span>{% endif %}</a></li>
+                    <li><a href="/project">{% if _controller=='Project' %}<span>{% endif %}
+                                о проекте{% if _controller=='Main' %}</span>{% endif %}</a></li>
+                    <li><a href="/contacts">{% if _controller=='Contacts' %}<span>{% endif %}
+                                контакты{% if _controller=='Main' %}</span>{% endif %}</a></li>
+                </ul>
+                <div id="logo"></div>
+            </div>
+            <div id="header_right">
+                <div id="privat">
+                    <p>личный кабинет</p>
+                </div>
+                <div id="sticker"></div>
+                <p id="cel">+7 (499) 162-83-96</p>
+
+                <div id="call"></div>
+                <h1>Круглосуточно, без выходных</h1>
+
+                <h2>Позвоните и узнайте о действующих акциях</h2>
+            </div>
+        </div>
+        {% block content %}
+        {% endblock content %}
+        <div id="footer">
+            <div id="footer_left">
+                <ul class="navigation">
+                    <li><a href="#">Подбор ремонтной компании <span>онлайн</span></a></li>
+                    <li><a href="#">Ваш представитель</a></li>
+                    <li><a href="#">О проекте</a></li>
+                </ul>
+                <div id="footer_counter">
+                    <div class="counter_number n_none"></div>
+                    <div class="counter_number n8"></div>
+                    <div class="counter_number n9"></div>
+                    <div class="counter_number n6"></div>
+                    <div class="counter_number n3"></div>
+                    <div class="counter_number n1"></div>
+                    <p>смет расчитано</p>
+                </div>
+                <h1>© 2013–2014 MasterSmeta LLC. Все права защищены. Запрещено любое копирование материалов
+                    ресурса.</h1>
+            </div>
+            <div id="footer_right">
+                <div id="footer_social_networks">
+                    <p>Расскажите о&nbsp;нас&nbsp;друзьям</p>
+                </div>
+                <a href="#" id="sum"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="overlap"></div>
+<div id="pop_up">
+    <div id="remind_password">
+        <p class="pop_up_header">Напомнить пароль</p>
+        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
+
+        <p class="pop_up_enter">Отправить</p>
+        <a href="#" id="leave_remind_password">войти в личный кабинет</a>
+    </div>
+    <div id="authorization">
+        <p class="pop_up_header">авторизация</p>
+        <input class="pop_up_input" placeholder="Ваше имя"/>
+        <input class="pop_up_input" placeholder="Пароль"/>
+
+        <p class="pop_up_enter">Войти</p>
+        <a href="#" id="go_remind_password">напомнить пароль</a>
+        <a href="#" id="go_registration">Регистрация</a>
+    </div>
+    <div id="registration">
+        <p class="pop_up_header">регистрация</p>
+        <input class="pop_up_input" placeholder="Представтесь, пожалуйста"/>
+        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
+
+        <p class="pop_up_enter" id="send_password">Выслать пароль для входа</p>
+        <a href="#" id="go_authorization">войти в личный кабинет</a>
+    </div>
+    <div id="pop_up-add_review">
+        <h1>Оставить отзыв</h1>
+
+        <h2 style="display: none">Имя пользователя:</h2>
+        <textarea placeholder="Ваше мнение (не более 110 символов)" style="display: none"></textarea>
+        <a id="send_review" style="display: none">отправить</a>
+
+        <p style="display: block">Для того, чтобы оставить отзыв,
+            необходимо пройти <a id="add_review-go_registration">регистрацию</a>.
+            Это займет всего пару минут.</p>
+
+    </div>
+</div>
+<div id="close_pop_up"></div>
+
+<div id="calculation">
+    <div id="calculation_line"></div>
+</div>
+
+<div id="top_right_stiker_rooms">
+    <div id="top_right_stiker_one_room" data-id="1"></div>
+    <div id="top_right_stiker_two_room" data-id="2"></div>
+    <div id="top_right_stiker_three_room" data-id="3"></div>
+    <div id="top_right_stiker_four_room" data-id="4"></div>
+    <div id="top_right_stiker_five_room" data-id="5"></div>
+</div>
+{% if _controller=='Main' %}
+    <div id="top_right_stiker">
+        <p>Сколько комнат в вашей квартире?</p>
+        <a href="#" class="send_form">Ваша смета</a>
+    </div>
+
+    <div id="instruments_top_left"></div>
+    <div id="instruments_top_right_1"></div>
+    <div id="instruments_top_right_2"></div>
+    <div id="instruments_bottom_left"></div>
+    <div id="instruments_bottom_right"></div>
+{% endif %}
+
+<div id="page_up"></div>
+</body>
+</html>

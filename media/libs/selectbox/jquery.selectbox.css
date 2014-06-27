@@ -1,0 +1,316 @@
+@CHARSET "UTF-8";
+.sbHolder{
+	background-color: #ffffff;
+	border: solid 1px #ffffff;
+    font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	height: 34px;
+	position: relative;
+	width: 251px;
+	float: left;
+
+	margin-left: 30px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+
+
+
+
+
+.sbHolder:focus .sbSelector{
+	
+}
+.sbSelector{
+	display: block;
+	height: 34px;
+	left: 0;
+	line-height: 30px;
+	outline: none;
+	overflow: hidden;
+	position: absolute;
+	text-indent: 10px;
+	top: 2px;
+	width: 251px;
+}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover{
+	color: #000000;
+	outline: none;
+	text-decoration: none;
+}
+.sbToggle{
+	background: url(../img/arrow_down.png) no-repeat;
+	display: block;
+	height: 30px;
+	outline: none;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 30px;
+}
+/*.sbToggle:hover{
+	background: url(../img/select-icons.png) 0 -167px no-repeat;
+}*/
+.sbToggleOpen{
+    background: url(../img/arrow_down.png) no-repeat;
+}
+/*.sbToggleOpen:hover{
+	background: url(../img/select-icons.png) 0 -66px no-repeat;
+}*/
+.sbHolderDisabled{
+	background-color: #3C3C3C;
+	border: solid 1px #515151;
+}
+.sbHolderDisabled .sbHolder{
+	
+}
+.sbHolderDisabled .sbToggle{
+	
+}
+.sbOptions{
+	background-color: #ffffff;
+/*	border: solid 1px #666666; */
+	list-style: none;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 30px;
+	width: 251px;
+/*	height: 100px; */
+	z-index: 3;
+	overflow-y: auto;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+.sbOptions li{
+	padding: 0 7px;
+}
+.sbOptions a{
+/*	border-bottom: dotted 1px #515151; */
+	display: block;
+	outline: none;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions a:link, .sbOptions a:visited{
+	color: #000000;
+	text-decoration: none;
+}
+.sbOptions a:hover,
+.sbOptions a:focus,
+.sbOptions a.sbFocus{
+	color: #EBB52D;
+}
+.sbOptions li.last a{
+	border-bottom: none;
+}
+.sbOptions .sbDisabled{
+	border-bottom: dotted 1px #515151;
+	color: #999;
+	display: block;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions .sbGroup{
+	border-bottom: dotted 1px #515151;
+	color: #EBB52D;
+	display: block;
+	font-weight: bold;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions .sbSub{
+	padding-left: 17px;
+}
+
+/* для бокса геопривязки */
+.sbHolder2{
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    height: 34px;
+    position: relative;
+    width: 330px;
+    float: left;
+    margin-left: 10px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.sbSelector2{
+    display: block;
+    height: 34px;
+    left: 0;
+    line-height: 30px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 10px;
+    top: 2px;
+    width: 330px;
+}
+
+.sbSelector2:link, .sbSelector2:visited, .sbSelector2:hover{
+    color: #000000;
+    outline: none;
+    text-decoration: none;
+}
+
+.sbOptions2{
+    background-color: #ffffff;
+    /*	border: solid 1px #666666; */
+    list-style: none;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    width: 330px;
+    /*	height: 100px; */
+    z-index: 3;
+    overflow-y: auto;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+.sbOptions2 li{
+    padding: 0 7px;
+}
+.sbOptions2 a{
+    /*	border-bottom: dotted 1px #515151; */
+    display: block;
+    outline: none;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions2 a:link, .sbOptions2 a:visited{
+    color: #000000;
+    text-decoration: none;
+}
+.sbOptions2 a:hover,
+.sbOptions2 a:focus,
+.sbOptions2 a.sbFocus{
+    color: #EBB52D;
+}
+.sbOptions2 li.last a{
+    border-bottom: none;
+}
+.sbOptions2 .sbDisabled{
+    border-top: dotted 1px #515151;
+    color: #999;
+    display: block;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions2 .sbGroup{
+    border-bottom: dotted 1px #515151;
+    color: #EBB52D;
+    display: block;
+    font-weight: bold;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions2 .sbSub{
+    padding-left: 17px;
+}
+
+
+
+
+
+
+/* для личного кабинета компаний */
+
+.sbHolder3{
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    height: 44px;
+    position: relative;
+    width: 338px;
+    float: left;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7);
+    margin-bottom: 30px;
+
+}
+
+.sbSelector3{
+    display: block;
+    height: 44px;
+    left: 0;
+    line-height: 30px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 10px;
+    top: 8px;
+    width: 338px;
+}
+
+.sbSelector3:link, .sbSelector3:visited, .sbSelector3:hover{
+    color: #84909a;
+    outline: none;
+    text-decoration: none;
+}
+
+.sbOptions3{
+    background-color: #ffffff;
+    /*	border: solid 1px #666666; */
+    list-style: none;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    width: 338px;
+    /*	height: 100px; */
+    z-index: 3;
+    overflow-y: auto;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+.sbOptions3 li{
+    padding: 0 7px;
+}
+.sbOptions3 a{
+    /*	border-bottom: dotted 1px #515151; */
+    display: block;
+    outline: none;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions3 a:link, .sbOptions2 a:visited{
+    color: #000000;
+    text-decoration: none;
+}
+.sbOptions3 a:hover,
+.sbOptions3 a:focus,
+.sbOptions3 a.sbFocus{
+    color: #EBB52D;
+}
+.sbOptions3 li.last a{
+    border-bottom: none;
+}
+.sbOptions3 .sbDisabled{
+    border-top: dotted 1px #515151;
+    color: #999;
+    display: block;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions3 .sbGroup{
+    border-bottom: dotted 1px #515151;
+    color: #EBB52D;
+    display: block;
+    font-weight: bold;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions3 .sbSub{
+    padding-left: 17px;
+}
+
+.sbToggle3{
+    background: url(../img/arrow_down.png) no-repeat;
+    display: block;
+    height: 30px;
+    outline: none;
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    width: 30px;
+}
+/*.sbToggle:hover{
+	background: url(../img/select-icons.png) 0 -167px no-repeat;
+}*/
