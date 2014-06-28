@@ -143,7 +143,7 @@ Kohana::modules(array(
 Route::set('admin', 'admin(/<controller>(/<action>(/<param>)))')
 	->defaults(array(
 		'directory'  => 'admin',
-		'controller' => 'calculations',
+		'controller' => 'category',
 		'action'     => 'index',
 	));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
