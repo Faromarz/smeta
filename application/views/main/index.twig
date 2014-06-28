@@ -3,34 +3,6 @@
     <script type="text/javascript">
         var o5 = 1000;
         var profil = [];
-        <?php
-                $i = 1;
-        foreach ($okna as $key => $val) {
-            $row = $val->as_array();
-            echo "profil[" . $i . "] = ['" .
-                    $row['cat_id'] . "'," . //0
-                    $i . "," . //1
-                    $row['price'] . "," . //2
-                    $row['countflap1'] . "," . //3
-                    $row['base_povorot'] . "," . //4
-                    $row['base_povorot_otk'] . "," . //5
-                    $row['podokonnik_otliv'] . "," . //6
-                    $row['otkos_shtuk'] . "," . //7
-                    $row['otkos_plastik'] . "," . //8
-                    $row['montaj'] . "," . //9
-                    $row['setka'] . "," . //10
-                    $row['countflap2'] . "," . //11
-                    $row['countflap3'] . "," . //12
-                    $row['framuga'] . "," . //13
-                    $row['color_wood'] . ", '" . //14
-                    $row['site'] . "' ,'" . //15
-                    $row['tel'] . "', '" . //16
-                    $row['address'] . "', '" . //17
-                    $row['dop_info1'] . "', '" . //18
-                    $row['dop_info2'] . "']; \n ";    //19
-            $i++;
-        }
-        ?>
     </script>
 
     <div id="content">
