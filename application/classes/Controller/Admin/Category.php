@@ -193,15 +193,15 @@ class Controller_Admin_Category extends Controller_Admin_Index
 
         $image = Image::factory($file);
 //            $image->save("$directory/logo/$filename.$ext");// сохряняем оригинал
-//        $watermark = Image::factory("media/img/logo.png");
-//        $ratio = $image->width / $image->height;
-//        $ratio_2 = $watermark->width / $watermark->height;
-//        if ($ratio < $ratio_2) {
-//            $watermark->resize($image->width, $image->height, Image::WIDTH);
-//        } else {
-//            $watermark->resize($image->width, $image->height, Image::HEIGHT);
-//        }
-//        $image->watermark($watermark, NULL, NULL, 20);
+        $watermark = Image::factory("media/img/logo.png");
+        $ratio = $image->width / $image->height;
+        $ratio_2 = $watermark->width / $watermark->height;
+        if ($ratio < $ratio_2) {
+            $watermark->resize($image->width, $image->height, Image::WIDTH);
+        } else {
+            $watermark->resize($image->width, $image->height, Image::HEIGHT);
+        }
+        $image->watermark($watermark, NULL, NULL, 20);
         $image->save("$directory/$filename.$ext");
 
 //        // лого для стр. события    
