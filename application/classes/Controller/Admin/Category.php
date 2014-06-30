@@ -203,7 +203,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
         }
         $image->watermark($watermark, NULL, NULL, 20);
         $image->save("$directory/$filename.$ext");
-
 //        // лого для стр. события    
 //        $width = '290';
 //        $height = '1000';
