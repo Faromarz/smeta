@@ -131,7 +131,9 @@ Kohana::modules(array(
 	// 'minion'     => MODPATH.'minion',     // CLI Tasks
 	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	 'orm-mptt'        => MODPATH.'orm-mptt',  
-	 'pagination'        => MODPATH.'pagination',   
+	 'pagination'        => MODPATH.'pagination',
+     'email'       => MODPATH.'email',
+    'htmlpurifirer' => MODPATH . 'htmlpurifirer',
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));

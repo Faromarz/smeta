@@ -2,33 +2,15 @@
 
 class Model_User extends Model_Auth_User
 {
-    public function action_signin()
+    public static function username_available($username)
     {
-        if (Auth::instance()->logged_in())
-        {
-            $this->redirect('/');
-        }
-        if($this->request->post()){
-            $username    = (string)Arr::get($_POST, 'username', '');
-            $password = (string)Arr::get($_POST, 'password', '');
-            $token = Arr::get($_POST, 'token', false);
-            if ($token === Security::token() && Auth::instance()->login($username, $password, true))
-            {
-                $this->redirect('/');
-            }
-            else
-            {
-                $this->set('_message','Неверные данные');
-            }
-        }
+        $data = ORM::factory('User')->where('username', '=', strtolower($username))->count_all();
+        return $data ? FALSE : TRUE;
     }
 
-    public function action_logout()
+    public static function email_available($email)
     {
-        if (Auth::instance()->logged_in())
-        {
-            Auth::instance()->logout();
-        }
-        $this->redirect('/');
+        $data = ORM::factory('User')->where('email', '=', mb_strtolower($email))->count_all();
+        return $data ? FALSE : TRUE;
     }
 }

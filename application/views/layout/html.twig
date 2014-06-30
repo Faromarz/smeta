@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title></title>
-    <meta name="description" content="{{ _title }}"/>
+    <title>{{ _title }}</title>
+    <meta name="description" content="{{ _description }}"/>
     <meta name="keywords" content="{{ _keywords }}"/>
     <link rel="shortcut icon" href="{{ Url.media('/media/img/favicon.ico') }}" type="image/x-icon"/>
     {# ---------------------СТИЛИ----------------------------- #}
@@ -27,14 +27,16 @@
     <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/slider/jquery-slider.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.js') }}"></script>
+    {#    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.extensions.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.date.extensions.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.numeric.extensions.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.custom.extensions.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.custom.extensions.js') }}"></script>#}
     <script type="text/javascript" src="{{ Url.media('/media/libs/arcticmodal/jquery.arcticmodal.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/all.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/base.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/jquery.inputmask.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/jquery.inputmask.regex.extensions.js') }}"></script>
 
 </head>
 <body>
