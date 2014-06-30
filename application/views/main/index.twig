@@ -1,40 +1,53 @@
 {% extends "layout/html.twig" %}
 {% block content %}
     <script type="text/javascript">
-        var o5 = 1000;
-        var profil = [];
-    </script>
 
+        function formatText(index, panel) {
+            return index + "";
+        }
+
+        jQuery(document).ready(function() {
+            jQuery('.anythingSlider').anythingSlider({
+                easing: "easeInOutExpo",        // Anything other than "linear" or "swing" requires the easing plugin
+                autoPlay: true,                 // This turns off the entire FUNCTIONALY, not just if it starts running or not.
+                delay: 300,                    // How long between slide transitions in AutoPlay mode
+                startStopped: true,            // If autoPlay is on, this can force it to start stopped
+                animationTime: 600,             // How long the slide transition takes
+                hashTags: false,                 // Should links change the hashtag in the URL?
+                buildNavigation: false,          // If true, builds and list of anchor links to link to each slide
+                pauseOnHover: false,             // If true, and autoPlay is enabled, the show will pause on hover
+                startText: "",             // Start text
+                stopText: "",               // Stop text
+                navigationFormatter: formatText       // Details at the top of the file on this use (advanced use)
+            });
+
+            jQuery("#slide-jump").click(function(){
+                jQuery('.anythingSlider').anythingSlider(6);
+            });
+
+        });
+    </script>
     <div id="content">
     <div id="order_options">
         <div id="order_options_left">
             <div id="slider"></div>
             <ul id="order_options_rate">
                 <p>тариф</p>
-                <?php $i = 0;
-                foreach ($repait_options as $val): ?>
-                <?php if ($val->type == 1): ++$i; ?>
-                <li  data-type="<?= $val->alias ?>"<?php if($i == 2):?> class="selected"<?php endif;?>><div><h1><?= $val->name ?></h1><h2><?= $val->name ?></h2></div></li>
-                <?php endif; ?>
-                <?php endforeach; ?>
+                {% for item in types_rate %}
+                    <li data-type="{{ item.id }}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                {% endfor %}
             </ul>
             <ul id="order_options_repairs">
                 <p>ремонт</p>
-                <?php $i = 0;
-                foreach ($repait_options as $val): ?>
-                <?php if ($val->type == 2): ++$i; ?>
-                <li data-type="<?= $val->alias ?>"<?php if($i == 2):?> class="selected"<?php endif;?>><div><h1><?= $val->name ?></h1><h2><?= $val->name ?></h2></div></li>
-                <?php endif; ?>
-                <?php endforeach; ?>
+                {% for item in types_repair %}
+                    <li data-type="{{ item.id }}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                {% endfor %}
             </ul>
             <ul id="order_options_type">
                 <p>тип квартиры</p>
-                <?php $i = 0;
-                foreach ($repait_options as $val): ?>
-                <?php if ($val->type == 3): ++$i; ?>
-                <li data-type="<?= $val->alias ?>"<?if($i == 2):?> class="selected"<?  endif;?>><div><h1><?= $val->name ?></h1><h2><?= $val->name ?></h2></div></li>
-                <?php endif; ?>
-                <?php endforeach; ?>
+                {% for item in types_apartment %}
+                    <li data-type="{{ item.id }}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                {% endfor %}
             </ul>
             <div id="design_project">
                 <h2>Ремонт по дизайн-проекту</h2>
@@ -84,7 +97,7 @@
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
                         <h3 id="cacl-room-size">0,00</h3>
-                        <h5>м²</h5>
+                        <h5>м?</h5>
                     </div>
                     <div class="smeta_room_square_height">
                         <input value="0,00" id="calc-room-length" class="smeta_room_square_height_input input_filter"/>
@@ -107,7 +120,7 @@
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
                         <h3 id="cacl-kitchen-size"><?= number_format(0, 2, ',', ' ') ?></h3>
-                        <h5>м²</h5>
+                        <h5>м?</h5>
                     </div>
                     <div class="smeta_room_square_height">
                         <input value="0,00" class="smeta_room_square_height_input input_filter" id="calc-kitchen-length"/>
@@ -129,7 +142,7 @@
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
                         <h3 id="cacl-coridor-size">0,00</h3>
-                        <h5>м²</h5>
+                        <h5>м?</h5>
                     </div>
                     <div class="smeta_room_square_height">
                         <input value="0,00" class="smeta_room_square_height_input input_filter" id="calc-coridor-length"/>
@@ -150,7 +163,7 @@
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
                         <h3 id="cacl-bath-size">0,00</h3>
-                        <h5>м²</h5>
+                        <h5>м?</h5>
                     </div>
                     <div class="smeta_room_square_height">
                         <input value="0,00" class="smeta_room_square_height_input" id="calc-bath-length"/>
@@ -172,7 +185,7 @@
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
                         <h3 id="cacl-toilet-size">0,00</h3>
-                        <h5>м²</h5>
+                        <h5>м?</h5>
                     </div>
                     <div class="smeta_room_square_height">
                         <input value="0,00" class="smeta_room_square_height_input input_filter" id="calc-toilet-length"/>
@@ -262,7 +275,7 @@
             <div id="dop_options_footer_rezult">
                 <h1>Для какой квартиры рассчитать смету?</h1>
                 <h2 style="display: none">Общая площадь:</h2>
-                <h3 style="display: none">0,00 м²</h3>
+                <h3 style="display: none">0,00 м?</h3>
             </div>
             <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
         </div>
@@ -444,7 +457,7 @@ foreach ($repait_options as $val): ?>
                     <div class="last_calculations_pop-up_second_line">
                         <ul>
                             <li class="number_rooms"><?= $val->room_name ?></li>
-                            <li class="area"><?= number_format($val->size, 2, ',', ' ') ?> м²</li>
+                            <li class="area"><?= number_format($val->size, 2, ',', ' ') ?> м?</li>
                         </ul>
                         <ul class="last_calculations_form_options">
                             <li><?= $val->name_ebp ?></li>
@@ -456,7 +469,7 @@ foreach ($repait_options as $val): ?>
                         <?php foreach (json_decode($val->rooms_short) as $r_n): ?>
                         <dl>
                             <dt><?= $r_n->name ?></dt>
-                            <dd><?= $r_n->size ?> м²</dd>
+                            <dd><?= $r_n->size ?> м?</dd>
                         </dl>
                         <?php endforeach; ?>
                     </div>
@@ -479,7 +492,7 @@ foreach ($repait_options as $val): ?>
                 <div class="second_line">
                     <ul>
                         <li class="number_rooms"><?= $val->room_name ?></li>
-                        <li class="area"><?= number_format($val->size, 2, ',', ' ') ?> м²</li>
+                        <li class="area"><?= number_format($val->size, 2, ',', ' ') ?> м?</li>
                     </ul>
                     <ul class="last_calculations_form_options">
                         <li><?= $val->name_ebp ?></li>
