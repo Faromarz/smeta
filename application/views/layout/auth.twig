@@ -5,9 +5,11 @@
         $("#close_pop_up").on("click", close_authorization);
         $("#pop_up_signin").on("click", signin);
         $("#send_password").on("click", signup);
+        $("#remind_me").on("click", remind);
 
         $("#username_reg").inputmask("Regex", { regex: '[a-zA-Z0-9\/,\>!"№;%:\?\*\(\)\+=-]{3,24}' });
         $("#email_reg").inputmask('Regex', { regex: "[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,4}" });
+        $("#email_remind").inputmask('Regex', { regex: "[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,4}" });
 
 
         $("#email_reg").on('blur',function(){
@@ -94,14 +96,22 @@
             }, 'json');
         }
     }
+    function remind(){
+        var email=$('#email_remind').val();
+            $.ajax({
+                type: "POST",
+                url: "{{ Url.site("auth/remind") }}",
+                data: { email: email }
+            }, 'json');
+    }
 </script>
 <div id="overlap"></div>
 <div id="pop_up">
     <div id="remind_password">
         <p class="pop_up_header">Напомнить пароль</p>
-        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
+        <input class="pop_up_input" id="email_remind" placeholder="Адрес вашей электронной почты"/>
 
-        <p class="pop_up_enter">Отправить</p>
+        <p class="pop_up_enter" id="remind_me">Отправить</p>
         <a href="#" id="leave_remind_password">войти в личный кабинет</a>
     </div>
     <div id="authorization">

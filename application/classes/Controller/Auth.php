@@ -45,6 +45,21 @@ class Controller_Auth extends Controller_Core{
         }
     }
 
+
+    public function action_remind(){
+        if($this->request->post()){
+            $email =  Security::xss_clean(Arr::get($_POST, 'email', ''));
+            $user = ORM::factory('User')->where('email','=',$email)->find();
+            $password = substr(md5(uniqid(mt_rand(), true)), 0, 8);
+            $user->password = $password;
+            $user->save();
+            $config = Kohana::$config->load('email');
+            Email::connect($config);
+            Email::send($email, 'ya.test-test777@yandex.ru', "Напоминание пароля", "Ваш пароль - ".$password.", от личного кабинета на сайте http://mastersmeta.ru/.", false);
+            die(json_encode(array('success' => 'Напоминание пароля успешно отослано на почту!')));
+        }
+    }
+
     public function action_allow_login()
     {
         $login = $this->request->param('id');
@@ -76,7 +91,6 @@ class Controller_Auth extends Controller_Core{
         }else{
             die(json_encode(array('data' => '0')));
         }
-
     }
 
     public function action_logout()
