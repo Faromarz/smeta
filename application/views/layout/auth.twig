@@ -4,8 +4,54 @@
         $(".privatAuth").on("click", authorization);
         $("#close_pop_up").on("click", close_authorization);
         $("#pop_up_signin").on("click", signin);
+        $("#send_password").on("click", signup);
+
+        $("#username_reg").inputmask("Regex", { regex: '[a-zA-Z0-9\/,\>!"№;%:\?\*\(\)\+=-]{3,24}' });
+        $("#email_reg").inputmask('Regex', { regex: "[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,4}" });
+
+
+        $("#email_reg").on('blur',function(){
+            var email = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "{{ Url.site("auth/allow_email") }}",
+                data: {  email : email },
+                success: function(data){
+                    var result = JSON.parse(data);
+                    if (parseInt(result.data) != 1){
+                     $("#error_reg").empty();
+                     $("#error_reg").append('Email не доступен для регистрации');
+                     $('#error_reg').show();
+                     }else{
+                     $('#error_reg').hide();
+                     }
+                }
+            }, 'json');
+        });
+
+        $("#username_reg").on('blur',function(){
+            var login = $(this).val();
+            $.ajax({
+                url: "{{ Url.site('auth/allow_login') }}"+"/"+login,
+                method : "POST",
+                success : function(status){
+                    if (parseInt(status) != 1){
+                        $("#error_reg").empty();
+                        $("#error_reg").append('Логин не доступен для регистрации');
+                        $('#error_reg').show();
+                    }else{
+                        $('#error_reg').hide();
+                    }
+                }
+            });
+        });
     });
     function authorization(){
+        $('#pop_up').find('input').each(function () {
+            $(this).val('');
+        });
+        $('#error_reg').hide();
+        $("#error_auth").hide();
         $("#overlap").show();
         $("#pop_up").show();
         $("#close_pop_up").show();
@@ -28,7 +74,6 @@
             data: { token: '{{ _token }}', username: username, password: password },
             success: function(data){
                 var result = JSON.parse(data);
-                console.log(result);
                 if(result.success){
                     window.location.replace("{{ Url.site('/') }}");
                 }else {
@@ -38,6 +83,16 @@
                 }
             }
         }, 'json');
+    }
+    function signup(){
+        var username = $('#username_reg').val(), email=$('#email_reg').val();
+        if($('#error_reg').is(':hidden')){
+            $.ajax({
+                type: "POST",
+                url: "{{ Url.site("auth/signup") }}",
+                data: { token: '{{ _token }}', username: username, email: email }
+            }, 'json');
+        }
     }
 </script>
 <div id="overlap"></div>
@@ -51,7 +106,7 @@
     </div>
     <div id="authorization">
         <p class="pop_up_header">авторизация</p>
-        <span style="display: none;color: red;margin-left: 160px;" id="error_auth"></span>
+        <span style="display: none;color: red;margin-left: 160px;margin-top: -10px;position: absolute;" id="error_auth"></span>
         <input class="pop_up_input" id="username" placeholder="Ваше имя"/>
         <input class="pop_up_input" id="password" placeholder="Пароль" type="password"/>
 
@@ -61,8 +116,9 @@
     </div>
     <div id="registration">
         <p class="pop_up_header">регистрация</p>
-        <input class="pop_up_input" placeholder="Представтесь, пожалуйста"/>
-        <input class="pop_up_input" placeholder="Адрес вашей электронной почты"/>
+        <span style="display: none;color: red;margin-left: 110px;margin-top: -10px;position: absolute;" id="error_reg"></span>
+        <input class="pop_up_input" id="username_reg" placeholder="Представтесь, пожалуйста"/>
+        <input class="pop_up_input" id="email_reg" placeholder="Адрес вашей электронной почты"/>
 
         <p class="pop_up_enter" id="send_password">Выслать пароль для входа</p>
         <a href="#" id="go_authorization">войти в личный кабинет</a>
