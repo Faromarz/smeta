@@ -7,7 +7,7 @@ if ($_SERVER['HTTP_HOST'] === 'one.mastersmeta.ru')
         echo 'error';
         exit;
     } elseif ($_SERVER['PHP_AUTH_PW'] !== 'Smeta888') {
-
+        exit;
     }
 }
 
