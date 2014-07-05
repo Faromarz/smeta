@@ -55,7 +55,7 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
             $id = (int) Arr::get($_POST, 'pk', false);
             $value = trim(Arr::get($_POST, 'value', false));
 
-            if ($name && $id && ($name == 'name' && $value != '' || in_array($name, array('img_title', 'img_alt')))) {
+            if ($name && $id &&  $value != '') {
                 $object = ORM::factory('Room', $id);
                 if ($object->loaded()) {
                     if (in_array($name, array('type', 'name'))) {
