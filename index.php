@@ -2,8 +2,8 @@
 if ($_SERVER['HTTP_HOST'] === 'one.mastersmeta.ru')
 {
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
-        header('WWW-Authenticate: Basic realm="My Realm"');
-        header('HTTP/1.0 401 Unauthorized smeta888');
+        header('WWW-Authenticate: Basic realm="My Realm smeta888"');
+        header('HTTP/1.0 401 Unauthorized');
         echo 'error';
         exit;
     } elseif ($_SERVER['PHP_AUTH_PW'] !== 'smeta888') {
