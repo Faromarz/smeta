@@ -29,6 +29,12 @@
                     <span class="title">Категории</span>
                 </a>
             </li>
+            <li{% if _controller == 'Rooms' %} class="active"{% endif %}>
+                <a href="{{ Url.site('/admin/rooms') }}">
+                    <i class="fa fa-sitemap"></i>
+                    <span class="title">Комнаты</span>
+                </a>
+            </li>
             {#<li>
                 <a href="javascript:;">
                     <i class="fa fa-shopping-cart"></i>
