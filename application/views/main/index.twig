@@ -1,357 +1,777 @@
 {% extends "layout/html.twig" %}
 {% block content %}
-    <script type="text/javascript">
+<script>
+    function Smeta(){
+        this.types = new Array();
+        this.count_rooms = 0;
+        this.height_ceiling = 2.75;
 
-        function formatText(index, panel) {
-            return index + "";
+        this.init = function(){
+            this.setAllTypes(2,2,2);
+        }
+        this.setAllTypes = function(rate, repair, apartment) {
+            if (rate!=0) this.types[0] = rate;
+            if (repair!=0) this.types[1] = repair;
+            if (apartment!=0) this.types[2] = apartment;
+        }
+        this.add_Rooms = function(numb) {
+            this.count_rooms = numb;
+        }
+        this.set_Ceiling = function(numb) {
+            this.height_ceiling = numb;
+        }
+    }
+    $(document).ready(function () {
+        var smeta = new Smeta();
+        smeta.init;
+
+        //-------выбор тарифа, ремонта и типа квартиры
+        $("#order_options_rate").on("click", 'li',select_rate);
+        $("#order_options_repairs").on("click", 'li', select_repairs);
+        $("#order_options_type").on("click", 'li', select_type);
+
+        //-------выбор комнат у квартиры
+        $("#rooms div").hover( function() { $("#rooms").css("background-position", "0 -" + numb_bg(this) + "px"); },
+                               function() { $("#rooms").css("background-position", '0px -' + (128 * smeta.count_rooms) + 'px'); }).on("click", before_on_smeta);
+        $("#top_right_stiker_rooms div").hover(
+                function() {
+                    $("#top_right_stiker_rooms").css("background-position", "35px -" + (numb_bg(this) - 20) + "px");
+                },
+                function() {
+                    $("#top_right_stiker_rooms").css("background-position", '35px -' + (128 * smeta.count_rooms - 20) + 'px');
+                 }
+        ).on("click", before_on_smeta);
+        $("#top_right_stiker p").hover(function(){ $("#top_right_stiker_rooms").show(); }, function() {$("#top_right_stiker_rooms").hide();} )
+        $("#top_right_stiker_rooms").hover(function(){ $("#top_right_stiker_rooms").show(); }, function() {$("#top_right_stiker_rooms").hide();} )
+
+        //кнопка добавления комнат
+        $("#add_room").on("click", add_room);
+
+        // увеличение/уменьшение высоты потолока
+        $("#plus_ceiling").on("click", function() { select_ceiling(0) });
+        $("#minus_ceiling").on("click", function() { select_ceiling(1) });
+        $('#input_ceiling').on('change', function() { change_ceiling($(this).val()) });
+
+        function select_ceiling(type){
+            if(type==0) var height = parseFloat($('#input_ceiling').val()) + 0.1 > 4 ? 4 : parseFloat($('#input_ceiling').val()) + 0.1;
+            else var height = parseFloat($('#input_ceiling').val()) - 0.1 < 1.5 ? 1.5 : parseFloat($('#input_ceiling').val()) - 0.1;
+            $('#input_ceiling').val(height.toFixed(2));
+            smeta.set_Ceiling(height.toFixed(2));
+        }
+        function change_ceiling(val){
+            var height = 0;
+            height = parseFloat(val) > 4 ? 4 : parseFloat(val);
+            height = height < 1.5 ? 1.5 : height;
+            $('#input_ceiling').val(parseFloat(height).toFixed(2));
+            smeta.set_Ceiling(parseFloat(height).toFixed(2));
         }
 
-        jQuery(document).ready(function() {
-            jQuery('.anythingSlider').anythingSlider({
-                easing: "easeInOutExpo",        // Anything other than "linear" or "swing" requires the easing plugin
-                autoPlay: true,                 // This turns off the entire FUNCTIONALY, not just if it starts running or not.
-                delay: 300,                    // How long between slide transitions in AutoPlay mode
-                startStopped: true,            // If autoPlay is on, this can force it to start stopped
-                animationTime: 600,             // How long the slide transition takes
-                hashTags: false,                 // Should links change the hashtag in the URL?
-                buildNavigation: false,          // If true, builds and list of anchor links to link to each slide
-                pauseOnHover: false,             // If true, and autoPlay is enabled, the show will pause on hover
-                startText: "",             // Start text
-                stopText: "",               // Stop text
-                navigationFormatter: formatText       // Details at the top of the file on this use (advanced use)
-            });
 
-            jQuery("#slide-jump").click(function(){
-                jQuery('.anythingSlider').anythingSlider(6);
-            });
+        // кнопка добавления окна
+        $("#add_window").on("click", function() { add_window() } );
 
-        });
-    </script>
+        function add_window(){
+            $('#add_window').parent().children('.smeta_window').eq(0).clone(true).insertBefore('#add_window').attr('data-room', $('.smeta_window[data-window]').length);
+
+        }
+
+        // Выбор в меню тарифов, типа ремонта, типа квартиры
+        function select_rate () {
+            $("#order_options_rate li").removeClass("selected");
+            $(this).addClass("selected");
+            smeta.setAllTypes($(this).index(),0,0);
+            var id = $(this).attr("id");
+            $("#choose_rate li").removeClass("choose_rate_selected");
+            if (id == 'order_options_rate_econom') {
+                $("#choose_rate_econom").addClass('choose_rate_selected');
+                $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
+                $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
+                setTimeout(function(){ $("#examples_works_slider_econom").show(function() {$("#examples_works_slider_econom").children('div').fadeIn(); }); }, 500);
+            }
+            if (id == 'order_options_rate_standart') {
+                $("#choose_rate_standart").addClass('choose_rate_selected');
+                $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
+                $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
+                setTimeout(function(){ $("#examples_works_slider_standart").show(function() {$("#examples_works_slider_standart").children('div').fadeIn(); }); }, 500);
+
+            }
+            if (id == 'order_options_rate_premium') {
+                $("#choose_rate_premium").addClass('choose_rate_selected');
+                $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
+                $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
+                setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
+            }
+
+        }
+
+        // кнопка плюс
+        $("#order_options_plus").on("click", come_dop_option);
+        $("#order_options_right h5").on("click", come_dop_option);
+        // открытие и скрытие дополнительных параметров
+                function come_dop_option() {
+                    $("#dop_options").slideToggle();
+                    $("#order_options_plus").toggleClass("minus plus");
+                }
+        // ---------------
+
+        function select_repairs () {
+            $("#order_options_repairs li").removeClass("selected");
+            $(this).addClass("selected");
+            smeta.setAllTypes(0,$(this).index(),0);
+        }
+
+        function select_type () {
+            $("#order_options_type li").removeClass("selected");
+            $(this).addClass("selected");
+            smeta.setAllTypes(0,0,$(this).index());
+        }
+        // --------------
+
+        function before_on_smeta(){
+            $("#rooms").css("background-position", '0px -' + numb_bg(this) + 'px');
+            smeta.add_Rooms(numb_room(this));
+            console.log($('.smeta_room[data-room]').length+' '+smeta.count_rooms);
+            var length = $('.smeta_room[data-room]').length;
+            if(smeta.count_rooms>length)
+            for (var i=1; i<=smeta.count_rooms-length; i++){
+                $("#add_room").parent().children('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length);
+            }
+            console.log($('.smeta_room[data-room]').length+' '+smeta.count_rooms);
+            if(smeta.count_rooms<length)
+                for (var i=length; i>smeta.count_rooms; i--){
+                    $("#add_room").parent().children('.smeta_room[data-room='+i+']').remove();
+                }
+            assign_numb();
+            on_smeta();
+        }
+        // Дествие что происходит после выбора количества комнат
+        function on_smeta() {
+            smeta.set_Ceiling(parseFloat($('#input_ceiling').val()).toFixed(2));
+            $("#top_right_stiker_rooms").hide();
+            $("#top_right_stiker p").hide();
+            $("#top_right_stiker").css("width", "155px");
+            $("#top_right_stiker a").css("display", "block");
+            $("#partners").hide();
+            $("#be_partners").hide();
+            $("#your_smeta").show();
+            $("#your_price").show();
+            $("#examples_works").slideUp();
+            $("#last_calculations").slideUp("400", function () {
+                $("#materials").slideDown();
+                $("#repair_company").slideDown();
+            });
+            setInterval( function(){$("#your_price_without_discount").fadeToggle(); }, 4000);
+        }
+        // --------------
+        function numb_room(object){
+            var name = $(object).attr("class");
+            var ar = name.split('_');
+            return ar[1];
+        }
+        function numb_bg(object){
+            var name = $(object).attr("class");
+            var ar = name.split('_');
+            var bp = 128 * ar[1];
+            return bp;
+        }
+        function add_room(){
+            smeta.add_Rooms($('.smeta_room[data-room]').length+1);
+            $(this).parent().children('.smeta_room').eq(0).clone(true).insertBefore(this).attr('data-room', $('.smeta_room[data-room]').length);
+            $("#rooms").css("background-position", '0px -' + (128 * smeta.count_rooms) + 'px');
+            assign_numb();
+            on_smeta();
+        }
+        function assign_numb(){
+            if (smeta.count_rooms>0){
+                $(".smeta_room[data-room]").children('.smeta_room_text').children('.smeta_text_header').each(function(i) {
+                   $(this).html('комната №'+(i+1));
+                });
+            }
+        }
+
+    });
+</script>
     <div id="content">
     <div id="order_options">
+
         <div id="order_options_left">
+
             <div id="slider"></div>
+
             <ul id="order_options_rate">
                 <p>тариф</p>
                 {% for item in types_rate %}
-                    <li data-type="{{ item.id }}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                    <li id="order_options_rate_{% if loop.index==1 %}econom{% elseif loop.index==2 %}standart{% else %}premium{% endif %}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
                 {% endfor %}
             </ul>
+
             <ul id="order_options_repairs">
                 <p>ремонт</p>
                 {% for item in types_repair %}
-                    <li data-type="{{ item.id }}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                    <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
                 {% endfor %}
             </ul>
+
             <ul id="order_options_type">
                 <p>тип квартиры</p>
                 {% for item in types_apartment %}
-                    <li data-type="{{ item.id }}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                    <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
                 {% endfor %}
             </ul>
+
             <div id="design_project">
                 <h2>Ремонт по дизайн-проекту</h2>
                 <h3>Мы готовим для вас индивидуальный дизайн-проект и подбираем эксклюзивные материалы.</h3>
             </div>
+
             <div id="order_options_plus" class="plus"></div>
+
             <div id="tube"></div>
+
             <a href="#" id="show_me_more">ПОДРОБНЕЕ</a>
+
         </div>
+
         <div id="order_options_right">
+
             <h1>Cколько комнат<br>в вашей квартире?</h1>
+
             <div id="rooms">
-                <div id="one_room" data-id="1"></div>
-                <div id="two_room" data-id="2"></div>
-                <div id="three_room" data-id="3"></div>
-                <div id="four_room" data-id="4"></div>
-                <div id="five_room" data-id="5"></div>
+
+                <div class="room_1"></div>
+                <div class="room_2"></div>
+                <div class="room_3"></div>
+                <div class="room_4"></div>
+                <div class="room_5"></div>
+
             </div>
+
             <div id="partners">
-                <h2><?= number_format(ORM::factory('Partners')->count_all(), 0, ',', ' ') ?></h2>
+
+                <h2>ХХХ ХХХ</h2>
                 <a href="#">ремонтных компаний</a>
                 <h3>в нашей базе.</h3>
+
             </div>
+
             <div id="your_smeta">
-                <a href="#" class="send_form">Ваша смета</a>
+
+                <a href="#">Ваша смета</a>
+
             </div>
+
             <div id="your_price">
+
                 <div id="your_price_without_discount">
                     <p>Стоимость материалов:</p>
-                    <h2><?= number_format(0, 0, ',', ' ') ?> р.</h2>
+                    <h2>XXX XXX р.</h2>
                     <p>Стоимость работ:</p>
-                    <h2><?= number_format(0, 0, ',', ' ') ?> р.</h2>
+                    <h2>XXX XXX р.</h2>
+
                 </div>
+
                 <div id="your_price_with_discount">
                     <p>СКИДКА</p>
+
                 </div>
+
             </div>
+
             <div id="be_partners"></div>
+
             <h5>Дополнительные параметры вашей&nbsp;квартиры.</h5>
+
             <h6>Развернуть список.</h6>
+
         </div>
+
+
     </div>
+
     <div id="dop_options">
-        <div id="dop_options_left">
-            <div class="smeta_room" data-room="1">
-                <div class="smeta_room_square">
-                    <div class="smeta_room_square_summ">
-                        <h2>площадь</h2>
-                        <h3 id="cacl-room-size">0,00</h3>
-                        <h5>м?</h5>
-                    </div>
-                    <div class="smeta_room_square_height">
-                        <input value="0,00" id="calc-room-length" class="smeta_room_square_height_input input_filter"/>
-                    </div>
-                    <div class="smeta_room_square_width">
-                        <input value="0,00" id="calc-room-width" class="smeta_room_square_width_input input_filter"/>
-                    </div>
-                </div>
-                <div class="smeta_room_text">
-                    <p class="smeta_text_header" id="cacl-room-title">комната-шаблон<p>
-                    <h6>Габариты в метрах</h6>
-                    <h5>Балкон</h5>
-                    <div class="check_box_out" id="calc-room-balcon" data-enable="false"></div>
-                </div>
-                <div class="ignored" id="calc-room-enable" data-enable="false"></div>
-            </div>
-            <div id="add_room" class="add_room">добавить комнату</div>
-            <div class="smeta_room" data-kitchen="1">
-                <div class="smeta_room_square">
-                    <div class="smeta_room_square_summ">
-                        <h2>площадь</h2>
-                        <h3 id="cacl-kitchen-size"><?= number_format(0, 2, ',', ' ') ?></h3>
-                        <h5>м?</h5>
-                    </div>
-                    <div class="smeta_room_square_height">
-                        <input value="0,00" class="smeta_room_square_height_input input_filter" id="calc-kitchen-length"/>
-                    </div>
-                    <div class="smeta_room_square_width">
-                        <input value="0,00" class="smeta_room_square_width_input input_filter" id="calc-kitchen-width"/>
-                    </div>
-                </div>
-                <div class="smeta_room_text">
-                    <p class="smeta_text_header" id="cacl-kitchen-title">кухня</p>
-                    <h6>Габариты в метрах</h6>
-                    <h5>Балкон</h5>
-                    <div class="check_box_out" id="calc-kitchen-balcon" data-enable="false"></div>
-                </div>
-                <div class="ignored" id="calc-kitchen-enable" data-enable="false"></div>
-            </div>
-            <div class="smeta_room" data-coridor="1">
-                <div class="smeta_room_square">
-                    <div class="smeta_room_square_summ">
-                        <h2>площадь</h2>
-                        <h3 id="cacl-coridor-size">0,00</h3>
-                        <h5>м?</h5>
-                    </div>
-                    <div class="smeta_room_square_height">
-                        <input value="0,00" class="smeta_room_square_height_input input_filter" id="calc-coridor-length"/>
-                    </div>
-                    <div class="smeta_room_square_width">
-                        <input value="0,00" class="smeta_room_square_width_input input_filter" id="calc-coridor-width"/>
-                    </div>
-                </div>
-                <div class="smeta_room_text">
-                    <p class="smeta_text_header" id="cacl-coridor-title">коридор</p>
-                    <h6>Габариты в метрах</h6>
-                </div>
-                <div class="ignored" id="calc-coridor-enable" data-enable="off"></div>
+
+    <div id="dop_options_left">
+
+    <div class="smeta_room" data-room="1">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3>XXX,XX</h3>
+                <h5>м²</h5>
+
             </div>
 
-            <div id="bath" class="smeta_room" data-bath="1">
-                <div class="smeta_room_square">
-                    <div class="smeta_room_square_summ">
-                        <h2>площадь</h2>
-                        <h3 id="cacl-bath-size">0,00</h3>
-                        <h5>м?</h5>
-                    </div>
-                    <div class="smeta_room_square_height">
-                        <input value="0,00" class="smeta_room_square_height_input" id="calc-bath-length"/>
-                    </div>
-                    <div class="smeta_room_square_width">
-                        <input value="0,00" class="smeta_room_square_width_input" id="calc-bath-width"/>
-                    </div>
-                </div>
-                <div class="smeta_room_text">
-                    <p class="smeta_text_header" id="cacl-bath-title">ванна</p>
-                    <h6>Габариты в метрах</h6>
-                </div>
-                <div class="ignored"  id="calc-bath-enable" data-enable="off"></div>
-            </div>
-            <div class="change-combine combine"></div>
+            <div class="smeta_room_square_height">
 
-            <div id="toilet" class="smeta_room" data-toilet="1">
-                <div class="smeta_room_square">
-                    <div class="smeta_room_square_summ">
-                        <h2>площадь</h2>
-                        <h3 id="cacl-toilet-size">0,00</h3>
-                        <h5>м?</h5>
-                    </div>
-                    <div class="smeta_room_square_height">
-                        <input value="0,00" class="smeta_room_square_height_input input_filter" id="calc-toilet-length"/>
-                    </div>
-                    <div class="smeta_room_square_width">
-                        <input value="00,00" class="smeta_room_square_width_input input_filter" id="calc-toilet-width"/>
-                    </div>
-                </div>
-                <div class="smeta_room_text">
-                    <p class="smeta_text_header" id="cacl-toilet-title">туалет</p>
-                    <h6>Габариты в метрах</h6>
-                </div>
-                <div class="ignored" id="calc-toilet-enable" data-enable="off"></div>
+                <input value="00,00" class="smeta_room_square_height_input"/>
+
             </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="00,00" class="smeta_room_square_width_input"/>
+
+            </div>
+
         </div>
-        <div id="dop_options_right">
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">комната<p>
+            <h6>Габариты в метрах</h6>
+            <h5>Балкон</h5>
+            <div class="check_box_out"></div>
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
 
 
-            <div class="smeta_block smeta_window" data-type-room="1" data-id-room="1" data-window="1">
-                <h1 class="smeta_text_header" id="cacl-window-title">окна</h1>
+    <div id="add_room" class="add_room">добавить комнату</div>
+
+    <div class="smeta_room">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3>XXX,XX</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="00,00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="00,00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">кухня</p>
+            <h6>Габариты в метрах</h6>
+            <h5>Балкон</h5>
+            <div class="check_box_out"></div>
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+    <div class="smeta_room">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3>XXX,XX</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="00,00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="00,00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">корридор</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+    <div id="bath_and_toilet" class="smeta_room">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3>XXX,XX</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="00,00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="00,00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">ванна и&nbsp;туалет</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+
+    <div id="bath" class="smeta_room">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3>XXX,XX</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="00,00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="00,00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">ванна</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+    <div class="combine"></div>
+    <div class="uncombine"></div>
+
+    <div id="toilet" class="smeta_room">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3>XXX,XX</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="00,00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="00,00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">туалет</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+
+
+    </div>
+
+    <div id="dop_options_right">
+
+        <div id="smeta_ceiling">
+
+            <p class="smeta_text_header">высота потолков</p>
+            <div class="button_minus" id="minus_ceiling"></div>
+            <input id="input_ceiling" value="2.75" />
+            <div class="button_plus" id="plus_ceiling"></div>
+            <h6>метров</h6>
+
+        </div>
+
+        <div class="smeta_block smeta_window">
+
+
+            <div class="smeta_wind" data-window="1">
+
+                <h1 class="smeta_text_header">окно на кухне</h1>
+
+                        <!---     <div class="choose_type_window">
+
+                    <p>Выберите тип окна:</p>
+
+                    <div class="smeta_count_window_one"></div>
+                    <div class="smeta_count_window_two"></div>
+                    <div class="smeta_count_window_three"></div>
+
+                        </div> --->
+
+
                 <div class="smeta_count_window_right">
-                    <input value="0,00" class="input_filter" id="calc-window-width"/>
+                    <input value="0,00"/>
                     <div class="smeta_characteristics_x"></div>
-                    <input value="0,00" class="input_filter" id="calc-window-length" />
+                    <input value="0,00">
                     <p class="smeta_characteristics_width">ширина</p>
                     <p class="smeta_characteristics_height">высота</p>
                     <h6>Габариты в метрах</h6>
                 </div>
+
                 <div class="smeta_count_window_left">
-                    <div class="smeta_count_window_chosen" id="calc-window-flap" data-type="2"></div>
-                    <div class="button_minus" id="calc-window-countDown"></div>
-                    <input class="smeta_count_input" value="0" id="calc-window-count" />
-                    <div class="button_plus" id="calc-window-countUp"></div>
+                    <div class="smeta_count_window_chosen" style="width:80px;background-position:-79px 25px"></div>
+                    <div class="button_minus"></div>
+                    <input class="smeta_count_input" value="0" />
+                    <div class="button_plus"></div>
                     <h6>шт.</h6>
                 </div>
-                <div class="ignored ignore_window" id="calc-window-enable" data-enable="false"></div>
+
+                <div class="ignore ignore_window"></div>
+            </div>
+        </div>
+
+        <div id="add_window" class="add_room">Добавить окно</div>
+
+        <div class="smeta_block">
+
+            <h1 class="smeta_text_header">Входная дверь</h1>
+
+            <div class="smeta_characteristics">
+
+                <input value="0,00"/>
+                <div class="smeta_characteristics_x"></div>
+                <input value="0,00">
+                <p class="smeta_characteristics_width">ширина</p>
+                <p class="smeta_characteristics_height">высота</p>
+                <h6>Габариты в метрах</h6>
+
             </div>
 
-            <div id="add_window" class="add_room">Добавить окно</div>
+            <div class="smeta_count_entrance_door">
 
-            <div id="smeta_ceiling">
-                <p class="smeta_text_header">высота потолков</p>
+
+            </div>
+            <div class="ignore"></div>
+
+        </div>
+
+
+        <div class="smeta_block smeta_door">
+
+            <h1 class="smeta_text_header">межкомнатные двери</h1>
+
+            <div class="choose_type_door">
+
+                <p>Выберите тип двери:</p>
+
+                <div class="smeta_count_interior_door_one"></div>
+                <div class="smeta_count_interior_door_two"></div>
+
+            </div>
+
+            <div class="smeta_count_interior_door_right">
+
+                <input value="0,00"/>
+                <div class="smeta_characteristics_x"></div>
+                <input value="0,00">
+                <p class="smeta_characteristics_width">ширина</p>
+                <p class="smeta_characteristics_height">высота</p>
+                <h6>Габариты в метрах</h6>
+
+            </div>
+
+            <div class="smeta_count_interior_door_left">
+
+                <div class="smeta_count_interior_door_chosen"></div>
                 <div class="button_minus"></div>
-                <input id="input_ceiling" class="input_filter" value="2,75" />
+                <input class="smeta_count_input" value="0" />
                 <div class="button_plus"></div>
-                <h6>метров</h6>
-            </div>
+                <h6>шт.</h6>
 
-
-            <div class="smeta_block smeta_door" data-type-room="3" data-id-room="1" data-door="1">
-                <h1 class="smeta_text_header" id="cacl-door-title">Входная дверь</h1>
-                <div class="smeta_characteristics">
-                    <input value="0,00" class="input_filter" id="calc-door-width" />
-                    <div class="smeta_characteristics_x"></div>
-                    <input value="0,00" class="input_filter" id="calc-door-length" />
-                    <p class="smeta_characteristics_width">ширина</p>
-                    <p class="smeta_characteristics_height">высота</p>
-                    <h6>Габариты в метрах</h6>
-                </div>
-                <div class="smeta_count_entrance_door">
-                </div>
-                <div class="ignored" id="calc-door-enable" data-enable="false"></div>
             </div>
+            <div class="ignore ignore_door"></div>
 
-            <div class="smeta_block smeta_door"  data-type-room="1" data-id-room="1" data-door="1">
-                <h1 class="smeta_text_header" id="cacl-door-title">межкомнатные двери</h1>
-                <div class="smeta_count_interior_door_right">
-                    <input value="0,00"  class="input_filter"  id="calc-door-width" />
-                    <div class="smeta_characteristics_x"></div>
-                    <input value="0,00"  class="input_filter" id="calc-door-length" />
-                    <p class="smeta_characteristics_width">ширина</p>
-                    <p class="smeta_characteristics_height">высота</p>
-                    <h6>Габариты в метрах</h6>
-                </div>
-                <div class="smeta_count_interior_door_left">
-                    <div class="smeta_count_interior_door_chosen" id="calc-door-flap" data-type="1"></div>
-                    <div class="button_minus" id="calc-door-countDown"></div>
-                    <input class="smeta_count_input" value="0" id="calc-door-count" />
-                    <div class="button_plus" id="calc-door-countUp"></div>
-                    <h6>шт.</h6>
-                </div>
-                <div class="ignored" id="calc-door-enable" data-enable="false"></div>
-            </div>
-            <div id="add_door" class="add_room">Добавить дверь</div>
         </div>
-        <div id="dop_options_footer">
-            <div id="dop_options_footer_rezult">
-                <h1>Для какой квартиры рассчитать смету?</h1>
-                <h2 style="display: none">Общая площадь:</h2>
-                <h3 style="display: none">0,00 м?</h3>
-            </div>
-            <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
-        </div>
+
+        <div id="add_door" class="add_room">Добавить дверь</div>
+
     </div>
+
+    <div id="dop_options_footer">
+
+        <div id="dop_options_footer_rezult">
+
+            <h1>однокомнатная квартира</h1>
+            <h2>Общая площадь:</h2>
+            <h3>XXX,XX м²</h3>
+
+        </div>
+
+        <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
+
+    </div>
+
+
+    </div>
+
     <div id="repair_company">
+
         <div id="repair_company_summ">
+
             <div id="rus_flag"></div>
-            <div id="rus_select"<?php if ($country_id->get_country_id() != 185): ?> style="display: none"<?php elseif ($country_id->get_country_id() == 185): ?> class="active"<?php endif; ?>>
-            <select  class="selectbox2 select-geo">
-                <?= $country_id->get_options('185'); ?>
-            </select>
+
+            <div id="rus_select">
+                <select  class="selectbox2">
+                    <option  value="Санкт-Петербур">Санкт-Петербур</option>
+                    <option  value="Москва">Москва</option>
+                    <option  value="Томск">Томск</option>
+                </select>
+            </div>
+
+            <div class="repair_company_rasporka"></div>
+
+            <div id="uk_flag"></div>
+            <div id="uk_select">
+                <select   class="selectbox2">
+                    <option  value="Санкт-Петербур">Киев</option>
+                    <option  value="Москва">Житомир</option>
+                    <option  value="Томск">Львов</option>
+                </select>
+            </div>
+
+            <div class="repair_company_rasporka"></div>
+
+            <div id="repair_company_summ_table">
+
+                <div class="repair_company_summ_table_summ">
+
+                    <p>Общее время:</p>
+                    <h1>ХХХ,ХХ часов</h1>
+                    <p>Общая сумма:</p>
+                    <h1>ХХХ ХХХ р.</h1>
+                    <h2>подробнее</h2>
+
+                </div>
+                <div class="repair_company_summ_table_name">
+
+                    <div class="repair_company_summ_table_name_rasporka"></div>
+                    <p>демонтажные</p>
+                    <p>работы</p>
+
+                </div>
+                <div class="ignore_3"></div>
+
+                <div class="repair_company_summ_table_summ">
+
+                    <p>Общее время:</p>
+                    <h1>ХХХ,ХХ часов</h1>
+                    <p>Общая сумма:</p>
+                    <h1>ХХХ ХХХ р.</h1>
+                    <h2>подробнее</h2>
+
+                </div>
+
+
+                <div class="repair_company_summ_table_name">
+
+                    <div class="repair_company_summ_table_name_rasporka"></div>
+                    <p>монтажные</p>
+                    <p>работы</p>
+
+                </div>
+
+
+                <div class="ignore_3"></div>
+
+            </div>
+
+
+            <a class="link" href="#">Выбрать другую компанию</a>
+
+
         </div>
+
+
+        <div id="repair_company_reviews">
+
+            <p class="text_header">Цены и сметы от ремонтных компаний<p>
+
+            <div id="repair_company_reviews_rate" class="rate_4"></div>
+            <p id="repair_company_reviews_header">ООО «СтройРемонтСервис»</p>
+
+            <h1>Работы проведены c XX.XX.XX по XX.XX.XX ул. Мосфильмовская, 24</h1>
+            <h2>«Сделано, конечно, на 5 с плюсом...Почти все провода в квартире удалось спрятать.»</h2>
+            <h1 class="signature">Николай</h1>
+
+            <h2><span>+</span></h2>
+
+            <h1>Работы проведены c XX.XX.XX по XX.XX.XX ул. Зои и Александры Космодемьянских, 12 строение 2</h1>
+            <h2>«Спасибо за отличный ремонт!»</h2>
+            <h1 class="signature">Ольга павловна</h1>
+
+            <h2><span>+</span></h2>
+
+            <h2><a class="link" href="#">Все отзывы</a> о ремонтной компании</h2>
+
+        </div>
+
+        <div class="ignore_2"></div>
+
         <div class="repair_company_rasporka"></div>
-        <div id="uk_flag"></div>
-        <div id="uk_select"<?php if ($country_id->get_country_id() == 222): ?> style="display: block" class="active"<?php endif; ?>>
-        <select   class="selectbox2 select-geo">
-            <?= $country_id->get_options('222'); ?>
-        </select>
-    </div>
-    <div class="repair_company_rasporka"></div>
-    <div id="repair_company_summ_table">
-        <div class="repair_company_summ_table_summ">
-            <p>Общее время:</p>
-            <h1 class="dem-watch">0,00 часов</h1>
-            <p>Общая сумма:</p>
-            <h1 class="dem-price">0 р.</h1>
-            <h2><a class="link-smeta send_form" target="_blank" href="#" style="color: #fff;text-decoration: none">подробнее</a></h2>
-        </div>
-        <div class="repair_company_summ_table_name">
-            <div class="repair_company_summ_table_name_rasporka"></div>
-            <p>демонтажные</p>
-            <p>работы</p>
-        </div>
-        <div class="ignore_3 work-change" data-work="0"></div>
-        <div class="repair_company_summ_table_summ">
-            <p>Общее время:</p>
-            <h1 class="mon-watch">0,00 часов</h1>
-            <p>Общая сумма:</p>
-            <h1 class="mon-price">0 р.</h1>
-            <h2><a  class="link-smeta send_form"  target="_blank"  href="#" style="color: #fff;text-decoration: none">подробнее</a></h2>
-        </div>
-        <div class="repair_company_summ_table_name">
-            <div class="repair_company_summ_table_name_rasporka"></div>
-            <p>монтажные</p>
-            <p>работы</p>
-        </div>
-        <div class="ignore_3 work-change" data-work="1"></div>
-    </div>
-    <a class="link send_form" href="#">Выбрать другую компанию</a>
-    </div>
-    <div id="repair_company_reviews">
-
-        <p class="text_header">Цены и сметы от ремонтных компаний<p>
-
-        <div id="repair_company_reviews_rate" class="rate_4"></div>
-        <p id="repair_company_reviews_header">ООО «СтройРемонтСервис»</p>
-
-        <h1>Работы проведены c XX.XX.XX по XX.XX.XX ул. Мосфильмовская, 24</h1>
-        <h2>«Сделано, конечно, на 5 с плюсом...Почти все провода в квартире удалось спрятать.»</h2>
-        <h1 class="signature">Николай</h1>
-
-        <h2><span>+</span></h2>
-
-        <h1>Работы проведены c XX.XX.XX по XX.XX.XX ул. Зои и Александры Космодемьянских, 12 строение 2</h1>
-        <h2>«Спасибо за отличный ремонт!»</h2>
-        <h1 class="signature">Ольга павловна</h1>
-
-        <h2><span>+</span></h2>
-
-        <h2><a class="link" href="#">Все отзывы</a> о ремонтной компании</h2>
-
-    </div>
-
-    <div class="ignore_2" data-work="all"></div>
-
-    <div class="repair_company_rasporka"></div>
 
     </div>
 
@@ -360,172 +780,479 @@
         <div id="materials_summ">
 
             <p>Общая сумма:</p>
-            <h1>0 р.</h1>
+            <h1>ХХХ ХХХ р.</h1>
 
         </div>
 
         <div id="materials_header">
+
             <p class="text_header">Материалы для ремонта</p>
+
         </div>
-        <div class="ignore_2 on-off-all-materials"></div>
+
+        <div class="ignore_2"></div>
 
         <div class="materials_room">
-            <div class="room-mat">
-                <!--                 <div class="materials_room_header" data-type="' + _this.type + '" data-id="' + _this.id + '">
-                                        <p class="arrow_up" id="toggle_room">Комната</p>
-                                        <div class="ignore_4 on-off-categories"  data-type="1" data-id="1"></div>
-                                </div>-->
-                <?php // тут материалы рисуются js ?>
-            </div>
+
             <div class="materials_room_header">
-                <a href="#"  class="details_arrow send_form">+ материалы остальных помещений</a>
+
+                <p class="arrow_up" id="toggle_room">комната</p>
+                <div class="ignore_4"></div>
+
             </div>
+
+            <div class="materials_room_for_options">
+
+                <div class="materials_room_option">
+
+                    <div class="materials_room_option_header">
+
+                        <p>стены</p>
+                        <div class="ignore_4"></div>
+
+                    </div>
+
+                    <select class="selectbox">
+
+                        <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
+                        <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
+                        <option id="val3" value="консалтинг">Обои</option>
+                        <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
+                        <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
+                        <option id="val6" value="консалтинг">Обои</option>
+
+                    </select>
+
+                    <div class="materials_room_option_slider"></div>
+
+                    <div class="close"></div>
+                    <h1>18 рулонов =</h1>
+                    <h2>ХХХ ХХХ р.</h2>
+
+
+                </div>
+
+                <div class="materials_room_option">
+
+                    <div class="materials_room_option_header">
+
+                        <p>стены</p>
+                        <div class="ignore_4"></div>
+
+                    </div>
+
+                    <div class="materials_room_option_menu"></div>
+
+
+
+                    <div class="materials_room_option_slider"></div>
+
+                    <div class="close"></div>
+                    <h1>18 рулонов =</h1>
+                    <h2>ХХХ ХХХ р.</h2>
+
+
+                </div>
+
+                <div class="materials_room_option">
+
+                    <div class="materials_room_option_header">
+
+                        <p>стены</p>
+                        <div class="ignore_4"></div>
+
+                    </div>
+
+                    <select class="selectbox">
+
+                        <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
+                        <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
+                        <option id="val13" value="консалтинг">Обои</option>
+                        <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
+                        <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
+                        <option id="val16" value="консалтинг">Обои</option>
+
+                    </select>
+
+                    <div class="materials_room_option_slider"></div>
+
+                    <div class="close"></div>
+                    <h1>18 рулонов =</h1>
+                    <h2>ХХХ ХХХ р.</h2>
+
+
+                </div>
+
+                <div class="materials_room_option">
+
+                    <div class="materials_room_option_header">
+
+                        <p>стены</p>
+                        <div class="ignore_4"></div>
+
+                    </div>
+
+                    <select class="selectbox">
+
+                        <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
+                        <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
+                        <option id="val3" value="консалтинг">Обои</option>
+                        <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
+                        <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
+                        <option id="val6" value="консалтинг">Обои</option>
+
+                    </select>
+
+                    <div class="materials_room_option_slider"></div>
+
+                    <div class="close"></div>
+                    <h1>18 рулонов =</h1>
+                    <h2>ХХХ ХХХ р.</h2>
+
+
+                </div>
+
+                <div class="materials_room_option">
+
+                    <div class="materials_room_option_header">
+
+                        <p>стены</p>
+                        <div class="ignore_4"></div>
+
+                    </div>
+
+                    <div class="materials_room_option_menu"></div>
+
+                    <div class="materials_room_option_slider"></div>
+
+                    <div class="x"></div>
+                    <h1>18 рулонов =</h1>
+                    <h2>ХХХ ХХХ р.</h2>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="materials_room_header">
+
+                <a href="#"  class="details_arrow">+ материалы остальных помещений</a>
+
+            </div>
+
+
         </div>
+
+
         <div class="repair_company_rasporka"></div>
+
+
     </div>
 
 
     <div id="examples_works">
+
         <div id="examples_works_slider">
+
             <div id="examples_works_slider_econom" class="anythingSlider">
+
                 <div class="wrapper">
+
                     <ul>
-                        <?php $i = true;
-foreach ($photos[1] as $val): ?>
+
                         <li>
-                            <div class="slide_plashka-top"><p class="slider_text"><?= $val->name_p ?></p></div>
-                            <div class="slide" style="background: url('media/img/examples_works/par/<?= $val->img ?>')<?php if ($i === true): $i = false; ?> 50% 50%; background-size: cover<?php endif; ?>"></div>
-                            <div class="slide_plashka"><p class="slider_text"><?= $val->text ?></p></div>
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
+                            <div class="slide_plashka"></div>
                         </li>
-                        <?php endforeach; ?>
+                        <li>
+
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
+                            <div class="slide_plashka"></div>
+
+                        </li>
+
                     </ul>
+
                 </div>
+
             </div>
             <div id="examples_works_slider_standart" class="anythingSlider">
+
                 <div class="wrapper">
+
                     <ul>
-                        <?php $i = true;
-foreach ($photos[2] as $val): ?>
+
                         <li>
-                            <div class="slide_plashka-top"><p class="slider_text"><?= $val->name_p ?></p></div>
-                            <div class="slide" style="background: url('media/img/examples_works/par/<?= $val->img ?>') <?php if ($i === true): $i = false; ?> 50% 50%; background-size: cover;<?php endif; ?>;"></div>
-                            <div class="slide_plashka"><p class="slider_text"><?= $val->text ?></p></div>
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
+                            <div class="slide_plashka"><p class="slider_text">Бла бла бла бла бла бла бла</p> </div>
                         </li>
-                        <?php endforeach; ?>
+                        <li>
+
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
+                            <div class="slide_plashka"></div>
+
+                        </li>
+
                     </ul>
+
                 </div>
+
             </div>
             <div id="examples_works_slider_premium" class="anythingSlider">
+
                 <div class="wrapper">
+
                     <ul>
-                        <?php $i = true;
-                        foreach ($photos[3] as $val): ?>
+
                         <li>
-                            <div class="slide_plashka-top"><p class="slider_text"><?= $val->name_p ?></p></div>
-                            <div class="slide" style="background: url('media/img/examples_works/par/<?= $val->img ?>') <?php if ($i === true): $i = false; ?> 50% 50%; background-size: cover;<?php endif; ?>;"></div>
-                            <div class="slide_plashka"><p class="slider_text"><?= $val->text ?></p></div>
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
+                            <div class="slide_plashka"><p class="slider_text">Бла бла бла бла бла бла бла</p> </div>
+
                         </li>
-                        <?php endforeach; ?>
+                        <li>
+
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
+                            <div class="slide_plashka"></div>
+
+                        </li>
+
                     </ul>
+
                 </div>
+
+
             </div>
+
         </div>
+
         <ul id="choose_rate">
+
             <h2>тариф:</h2>
-            <?php $i = 0;
-foreach ($repait_options as $val): ?>
-            <?php if ($val->type == 1): ++$i; ?>
-            <li id="choose_rate_<?= $val->alias ?>" data-type="<?= $val->alias ?>"<?if($i == 2):?> class="choose_rate_selected"<?  endif;?>><?= mb_strtolower($val->name) ?></li>
-            <?php endif; ?>
-            <?php endforeach; ?>
+
+            <li id="choose_rate_econom">эконом</li>
+
+            <li id="choose_rate_standart" class="choose_rate_selected">стандарт</li>
+
+            <li id="choose_rate_premium">премиум</li>
+
         </ul>
+
         <h1>Примеры работ в&nbsp;выбранном тарифе</h1>
         <p>Все <a href="#">ремонтные компании</a> работают<br>по договору на ремонтно-строительные работы.</p>
         <p><span>+</span></p>
         <p>Предоставляют гарантию на ремонт<br>от 2-х лет.</p>
+
     </div>
 
+
     <div id="last_calculations">
+
         <h1>Недавно расчитанные сметы</h1>
         <a href="#">АРХИВ СМЕТ</a>
+
         <div id="last_calculations_for_forms">
-            <?php foreach ($smets as $val): ?>
-            <div class="last_calculations_pop-up" data-id="<?= $val->id ?>">
+
+            <div id="last_calculations_pop-up">
+
                 <div class="last_calculations_pop-up_form">
-                    <p class="last_calculations_form_time"><?= Date::fuzzy_span(strtotime($val->create_date)) ?> назад</p>
-                    <p class="last_calculations_form_town"><?= $val->name_geo ?></p>
+
+                    <p class="last_calculations_form_time">24 секунды назад</p>
+                    <p class="last_calculations_form_town">Москва</p>
+
                     <div class="last_calculations_pop-up_second_line">
+
                         <ul>
-                            <li class="number_rooms"><?= $val->room_name ?></li>
-                            <li class="area"><?= number_format($val->size, 2, ',', ' ') ?> м?</li>
+
+                            <li class="number_rooms">Четырехкомнатная квартира</li>
+                            <li class="area">ХХХ,ХХ м²</li>
+
                         </ul>
+
                         <ul class="last_calculations_form_options">
-                            <li><?= $val->name_ebp ?></li>
-                            <li><?= $val->name_cc ?></li>
-                            <li><?= $val->name_nv ?></li>
+
+                            <li>стандарт</li>
+                            <li>капитальный</li>
+                            <li>вторичка</li>
+
                         </ul>
+
+
                     </div>
+
                     <div class="last_calculations_pop-up_area">
-                        <?php foreach (json_decode($val->rooms_short) as $r_n): ?>
+
                         <dl>
-                            <dt><?= $r_n->name ?></dt>
-                            <dd><?= $r_n->size ?> м?</dd>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
                         </dl>
-                        <?php endforeach; ?>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
                     </div>
+
                     <div class="last_calculations_pop-up_third_line">
+
                         <ul>
+
                             <li>Стоимость материалов:</li>
-                            <li><?= number_format($val->price_materials, 0, '.', ' ') ?> р.</li>
+                            <li>XXX XXX р.</li>
+
                         </ul>
+
                         <ul>
+
                             <li>Стоимость работ:</li>
-                            <li><?= number_format($val->price_work, 0, '.', ' ') ?> р.</li>
+                            <li>XXX XXX р.</li>
+
                         </ul>
+
                     </div>
+
+
                 </div>
+
                 <div class="last_calculations_pop-up_close"></div>
+
+
+
+
+
             </div>
-            <div class="last_calculations_form"  data-id="<?= $val->id ?>">
-                <p class="last_calculations_form_time"><?= Date::fuzzy_span(strtotime($val->create_date)) ?> назад</p>
-                <p class="last_calculations_form_town"><?= $val->name_geo ?></p>
+
+            <div class="last_calculations_form">
+
+                <p class="last_calculations_form_time">24 секунды назад</p>
+                <p class="last_calculations_form_town">Москва</p>
+
                 <div class="second_line">
+
                     <ul>
-                        <li class="number_rooms"><?= $val->room_name ?></li>
-                        <li class="area"><?= number_format($val->size, 2, ',', ' ') ?> м?</li>
+
+                        <li class="number_rooms">Четырехкомнатная квартира</li>
+                        <li class="area">ХХХ,ХХ м²</li>
+
                     </ul>
+
                     <ul class="last_calculations_form_options">
-                        <li><?= $val->name_ebp ?></li>
-                        <li><?= $val->name_cc ?></li>
-                        <li><?= $val->name_nv ?></li>
+
+                        <li>стандарт</li>
+                        <li>капитальный</li>
+                        <li>вторичка</li>
+
                     </ul>
+
+
                 </div>
+
                 <div class="third_line">
+
                     <ul>
+
                         <li>Стоимость материалов:</li>
-                        <li><?= number_format($val->price_materials, 0, '.', ' ') ?> р.</li>
+                        <li>XXX XXX р.</li>
+
                     </ul>
+
                     <ul>
+
                         <li>Стоимость работ:</li>
-                        <li><?= number_format($val->price_work, 0, '.', ' ') ?> р.</li>
+                        <li>XXX XXX р.</li>
+
                     </ul>
+
                 </div>
+
             </div>
-            <?php endforeach; ?>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+
         </div>
+
     </div>
+
     <h4>Mastersmeta – ваш помощник при ремонте квартир</h4>
+
     <div id="content_publicity">
+
         <div id="content_publicity_left">
+
             <div class="content_video">
+
                 <div class="youtube" id="c4XskGvAM4k" style="width:100%; height:100%;"></div>
+
             </div>
+
             <div class="content_video">
+
                 <div class="youtube" id="_tz_MDFBj20" style="width:100%; height:100%;"></div>
+
             </div>
+
+
             <script src="media/js/youtube.js" type="text/javascript"></script>
+
         </div>
+
+
         <div id="content_publicity_right">
+
             <h5>Мы создали уникальную смету — наша гордость!</h5>
             <p>Полностью автоматический расчёт объёма работ.<br>Вам нужно лишь указать размеры квартиры и ваша смета готова!<br>Возможность подбора оптимального варианта стоимости ремонта.<br>Цены и работы только надёжных и проверенных фирм.</p>
             <p>Нашим сервисом уже воспользовались <span>8185</span> раза.</p>
@@ -621,49 +1348,60 @@ foreach ($repait_options as $val): ?>
             <div></div>
         </div>
     </div>
+
     <div class="repair_company_rasporka"></div>
+
     </div>
+
     <div id="content_bottom">
 
         <div id="reviews_left_corner">
 
             <div class="widget"id="ok_group_widget"></div>
             <script>
-                !function(d, id, did, st) {
+                !function (d, id, did, st) {
                     var js = d.createElement("script");
                     js.src = "http://connect.ok.ru/connect.js";
-                    js.onload = js.onreadystatechange = function() {
+                    js.onload = js.onreadystatechange = function () {
                         if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
                             if (!this.executed) {
                                 this.executed = true;
-                                setTimeout(function() {
-                                    OK.CONNECT.insertGroupWidget(id, did, st);
+                                setTimeout(function () {
+                                    OK.CONNECT.insertGroupWidget(id,did,st);
                                 }, 0);
                             }
-                        }
-                    }
+                        }}
                     d.documentElement.appendChild(js);
-                }(document, "ok_group_widget", "56869893636150", "{width:320,height:240}");
+                }(document,"ok_group_widget","56869893636150","{width:320,height:240}");
             </script>
             <div id="reviews">
+
                 <h1>Отзывы о проекте</h1>
                 <a href="#" id="reviews_arrow_left"></a>
+
                 <p>Быстро построила смету - очень удобно! Заказала ремонт и теперь всем рекомендую:)</p>
+
                 <a href="#" id="reviews_arrow_right"></a>
                 <h2>Ирина</h2>
                 <h3>г. Москва</h3>
+
                 <div id="add_review"></div>
+
             </div>
+
         </div>
+
+
         <div id="reviews_right_corner">
 
             <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
-            <h2>при заказе ремонта от 100 000 рублей </h2>
+            <h2>при заказав ремонта от 100 000 рублей </h2>
             <a href="#">Узнать подробности</a>
+
         </div>
+
+
+
     </div>
-    <form method="POST" id="save_smeta" action="/budget" target='_blank'  style="visibility: hidden;"></form>
-
-
 
 {% endblock content %}
