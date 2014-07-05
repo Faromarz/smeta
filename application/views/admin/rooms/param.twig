@@ -76,7 +76,19 @@
                                                 Ширина
                                             </th>
                                             <th width="10%">
+                                                Мин. ширина
+                                            </th>
+                                            <th width="10%">
+                                                Макс. ширина
+                                            </th>
+                                            <th width="10%">
                                                 Высота
+                                            </th>
+                                            <th width="10%">
+                                                Мин. высота
+                                            </th>
+                                            <th width="10%">
+                                                Макс. высота
                                             </th>
                                             <th width="10%">
                                                 Действия
@@ -88,8 +100,12 @@
                                             <tr>
                                                 <td>{{ param.id }}</td>
                                                 <td><a href="#" data-type="text" id="name" data-pk="{{ param.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ param.name }}</a></td>
-                                                <td><a href="#" data-type="text" id="width" data-pk="{{ param.id }}" data-title="Введите название комнаты" class="editable editable-click admin-editable">{{ param.width }}</a></td>
-                                                <td><a href="#" data-type="text" id="height" data-pk="{{ param.id }}" data-title="Введите название комнаты" class="editable editable-click admin-editable">{{ param.height }}</a></td>
+                                                <td><a href="#" data-type="text" id="width" data-pk="{{ param.id }}" data-title="Введите ширину" class="editable editable-click admin-editable">{{ param.width }}</a></td>
+                                                <td><a href="#" data-type="text" id="width_min" data-pk="{{ param.id }}" data-title="Введите минимальную ширину" class="editable editable-click admin-editable">{{ param.width_min }}</a></td>
+                                                <td><a href="#" data-type="text" id="width_max" data-pk="{{ param.id }}" data-title="Введите максимальную ширину" class="editable editable-click admin-editable">{{ param.width_max }}</a></td>
+                                                <td><a href="#" data-type="text" id="height" data-pk="{{ param.id }}" data-title="Введите высоту" class="editable editable-click admin-editable">{{ param.height }}</a></td>
+                                                <td><a href="#" data-type="text" id="height_min" data-pk="{{ param.id }}" data-title="Введите минимальную высоту" class="editable editable-click admin-editable">{{ param.height_min }}</a></td>
+                                                <td><a href="#" data-type="text" id="height_max" data-pk="{{ param.id }}" data-title="Введите максимальную высоту" class="editable editable-click admin-editable">{{ param.height_max }}</a></td>
                                                 <td>
                                                     <a href="{{ Url.site('/admin/rooms/paramdelete/' ~ param.id) }}"
                                                        class="btn default btn-xs black admin-delete"
