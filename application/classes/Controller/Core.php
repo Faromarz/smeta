@@ -17,6 +17,7 @@ class Controller_Core extends Controller_Kotwig {
         $this->set('_description', '');
         $this->set('_keywords', '');
         $this->set('_controller', $this->request->controller());
+        $this->set('_action', $this->request->action());
     }
 
 }

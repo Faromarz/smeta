@@ -30,10 +30,24 @@
                 </a>
             </li>
             <li{% if _controller == 'Rooms' %} class="active"{% endif %}>
-                <a href="{{ Url.site('/admin/rooms') }}">
+                <a href="javascript:;">
                     <i class="fa fa-sitemap"></i>
                     <span class="title">Комнаты</span>
                 </a>
+                <ul class="sub-menu">
+                    <li{% if _action == 'index' %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/rooms') }}">
+                            <i class="fa fa-bullhorn"></i>
+                            Комнаты
+                        </a>
+                    </li>
+                    <li{% if _action == 'param' %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/rooms/param') }}">
+                            <i class="fa fa-bullhorn"></i>
+                            Параметры
+                        </a>
+                    </li>
+                </ul>
             </li>
             {#<li>
                 <a href="javascript:;">

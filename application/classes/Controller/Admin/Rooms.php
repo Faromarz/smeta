@@ -16,9 +16,14 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
         $objects = ORM::factory('Room')->find_all();
         $this->set('_rooms', $objects);
     }
+    public function action_param()
+    {
+        $objects = ORM::factory('Roomparamsdef')->find_all();
+        $this->set('_params', $objects);
+    }
 
     /**
-     * Новая категория
+     * Новая комната
      */
     public function action_create()
     {
@@ -32,18 +37,26 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
             HTTP::redirect('/admin/rooms');
         }
 
-//        if ($_POST) {
-//            try {
-////                // Создаём запись
-////                $object = $object->create_article($_POST);
-////
-////                HTTP::redirect("/admin/category/");
-//            } catch (ORM_Validation_Exception $e) {
-//                $errors = Arr::flatten($e->errors(""));
-//            }
-//        }
         $objects = ORM::factory('Room')->find_all();
         $this->set('_room', $objects);
+        $this->set('_errors', $errors);
+    }
+    /**
+     * Новые парамтеры
+     */
+    public function action_paramcreate()
+    {
+        $errors = array();
+        if($this->request->post()){
+            $post = $this->request->post();
+            $room = ORM::factory('Roomparamsdef');
+            $room->name = $post['name'];
+            $room->width = $post['width'];
+            $room->height = $post['height'];
+            $room->create();
+            HTTP::redirect('/admin/rooms/param');
+        }
+
         $this->set('_errors', $errors);
     }
 
@@ -59,6 +72,36 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
                 $object = ORM::factory('Room', $id);
                 if ($object->loaded()) {
                     if (in_array($name, array('type', 'name'))) {
+                        $object->$name = $value;
+                        $object->save();
+                        $array = array('save' => 'ok');
+                    } else {
+                        $array = array('error' => 'atribut ' . $name . ' not found');
+                    }
+                } else {
+                    $array = array('error' => 'room not found');
+                }
+            } else {
+                $array = array('error' => 'data');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+    
+    public function action_paramsave()
+    {
+        $array = array();
+        if ($this->request->post()) {
+            $name = (string) Arr::get($_POST, 'name', false);
+            $id = (int) Arr::get($_POST, 'pk', false);
+            $value = trim(Arr::get($_POST, 'value', false));
+
+            if ($name && $id) {
+                $object = ORM::factory('Roomparamsdef', $id);
+                if ($object->loaded()) {
+                    if (in_array($name, array('width', 'name', 'height'))) {
                         $object->$name = $value;
                         $object->save();
                         $array = array('save' => 'ok');

@@ -32,7 +32,7 @@
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="{{ Url.site('/admin/rooms') }}">Комнаты</a>
+                            <a href="{{ Url.site('/admin/room/param') }}">Параметры комнат по умолчанию</a>
                         </li>
                     </ul>
                 </div>
@@ -45,15 +45,15 @@
                         <div class="portlet-body">
                             <div class="table-container">
                                 <div class="btn-group" style="margin-bottom: 10px;">
-                                    <a href="{{ Url.site('/admin/rooms/create') }}" id="sample_editable_1_new" class="btn green">
+                                    <a href="{{ Url.site('/admin/rooms/paramcreate') }}" id="sample_editable_1_new" class="btn green">
                                         Добавить <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                                 <script>
                                     $(document).ready(function(){
                                         $('.admin-editable').editable({
-                                            url: '/admin/rooms/save',
-                                            source: '/admin/rooms/save',
+                                            url: '/admin/rooms/paramsave',
+                                            source: '/admin/rooms/paramsave',
                                             emptytext: 'Введите значение',
                                             select2: {
                                                 placeholder: 'Введите значение',
@@ -69,11 +69,14 @@
                                             <th width="5%">
                                                 ID
                                             </th>
-                                            <th width="15%">
-                                                Тип
-                                            </th>
                                             <th width="10%">
                                                 Название
+                                            </th>
+                                            <th width="10%">
+                                                Ширина
+                                            </th>
+                                            <th width="10%">
+                                                Высота
                                             </th>
                                             <th width="10%">
                                                 Действия
@@ -81,13 +84,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for room in _rooms %}
+                                        {% for param in _params %}
                                             <tr>
-                                                <td>{{ room.id }}</td>
-                                                <td><a href="#" data-type="text" id="type" data-pk="{{ room.id }}" data-title="Введите тип" class="editable editable-click admin-editable">{{ room.type }}</a></td>
-                                                <td><a href="#" data-type="text" id="name" data-pk="{{ room.id }}" data-title="Введите название комнаты" class="editable editable-click admin-editable">{{ room.name }}</a></td>
+                                                <td>{{ param.id }}</td>
+                                                <td><a href="#" data-type="text" id="name" data-pk="{{ param.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ param.name }}</a></td>
+                                                <td><a href="#" data-type="text" id="width" data-pk="{{ param.id }}" data-title="Введите название комнаты" class="editable editable-click admin-editable">{{ param.width }}</a></td>
+                                                <td><a href="#" data-type="text" id="height" data-pk="{{ param.id }}" data-title="Введите название комнаты" class="editable editable-click admin-editable">{{ param.height }}</a></td>
                                                 <td>
-                                                    <a href="{{ Url.site('/admin/rooms/delete/' ~ room.id) }}"
+                                                    <a href="{{ Url.site('/admin/rooms/paramdelete/' ~ param.id) }}"
                                                        class="btn default btn-xs black admin-delete"
                                                        data-question="Удалить?"
                                                        >
