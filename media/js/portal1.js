@@ -7,7 +7,15 @@ $(document).ready(function () {
     $(".combine").on("click", combine);
     $(".uncombine").on("click", uncombine);
 
-
+    // кнопка плюс
+    $("#order_options_plus").on("click", come_dop_option);
+    $("#order_options_right h5").on("click", come_dop_option);
+    // открытие и скрытие дополнительных параметров
+    function come_dop_option() {
+        $("#dop_options").slideToggle();
+        $("#order_options_plus").toggleClass("minus plus");
+    }
+    // ---------------
 
 
     $("#add_door").on("click", function() {$(this).parent().children('.smeta_door').eq(0).clone(true).insertBefore(this);

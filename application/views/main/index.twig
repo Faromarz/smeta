@@ -1,196 +1,6 @@
 {% extends "layout/html.twig" %}
 {% block content %}
-<script>
-    function Smeta(){
-        this.types = new Array();
-        this.count_rooms = 0;
-        this.height_ceiling = 2.75;
-
-        this.init = function(){
-            this.setAllTypes(2,2,2);
-        }
-        this.setAllTypes = function(rate, repair, apartment) {
-            if (rate!=0) this.types[0] = rate;
-            if (repair!=0) this.types[1] = repair;
-            if (apartment!=0) this.types[2] = apartment;
-        }
-        this.add_Rooms = function(numb) {
-            this.count_rooms = numb;
-        }
-        this.set_Ceiling = function(numb) {
-            this.height_ceiling = numb;
-        }
-    }
-    $(document).ready(function () {
-        var smeta = new Smeta();
-        smeta.init;
-
-        //-------выбор тарифа, ремонта и типа квартиры
-        $("#order_options_rate").on("click", 'li',select_rate);
-        $("#order_options_repairs").on("click", 'li', select_repairs);
-        $("#order_options_type").on("click", 'li', select_type);
-
-        //-------выбор комнат у квартиры
-        $("#rooms div").hover( function() { $("#rooms").css("background-position", "0 -" + numb_bg(this) + "px"); },
-                               function() { $("#rooms").css("background-position", '0px -' + (128 * smeta.count_rooms) + 'px'); }).on("click", before_on_smeta);
-        $("#top_right_stiker_rooms div").hover(
-                function() {
-                    $("#top_right_stiker_rooms").css("background-position", "35px -" + (numb_bg(this) - 20) + "px");
-                },
-                function() {
-                    $("#top_right_stiker_rooms").css("background-position", '35px -' + (128 * smeta.count_rooms - 20) + 'px');
-                 }
-        ).on("click", before_on_smeta);
-        $("#top_right_stiker p").hover(function(){ $("#top_right_stiker_rooms").show(); }, function() {$("#top_right_stiker_rooms").hide();} )
-        $("#top_right_stiker_rooms").hover(function(){ $("#top_right_stiker_rooms").show(); }, function() {$("#top_right_stiker_rooms").hide();} )
-
-        //кнопка добавления комнат
-        $("#add_room").on("click", add_room);
-
-        // увеличение/уменьшение высоты потолока
-        $("#plus_ceiling").on("click", function() { select_ceiling(0) });
-        $("#minus_ceiling").on("click", function() { select_ceiling(1) });
-        $('#input_ceiling').on('change', function() { change_ceiling($(this).val()) });
-
-        function select_ceiling(type){
-            if(type==0) var height = parseFloat($('#input_ceiling').val()) + 0.1 > 4 ? 4 : parseFloat($('#input_ceiling').val()) + 0.1;
-            else var height = parseFloat($('#input_ceiling').val()) - 0.1 < 1.5 ? 1.5 : parseFloat($('#input_ceiling').val()) - 0.1;
-            $('#input_ceiling').val(height.toFixed(2));
-            smeta.set_Ceiling(height.toFixed(2));
-        }
-        function change_ceiling(val){
-            var height = 0;
-            height = parseFloat(val) > 4 ? 4 : parseFloat(val);
-            height = height < 1.5 ? 1.5 : height;
-            $('#input_ceiling').val(parseFloat(height).toFixed(2));
-            smeta.set_Ceiling(parseFloat(height).toFixed(2));
-        }
-
-
-        // кнопка добавления окна
-        $("#add_window").on("click", function() { add_window() } );
-
-        function add_window(){
-            $('#add_window').parent().children('.smeta_window').eq(0).clone(true).insertBefore('#add_window').attr('data-room', $('.smeta_window[data-window]').length);
-
-        }
-
-        // Выбор в меню тарифов, типа ремонта, типа квартиры
-        function select_rate () {
-            $("#order_options_rate li").removeClass("selected");
-            $(this).addClass("selected");
-            smeta.setAllTypes($(this).index(),0,0);
-            var id = $(this).attr("id");
-            $("#choose_rate li").removeClass("choose_rate_selected");
-            if (id == 'order_options_rate_econom') {
-                $("#choose_rate_econom").addClass('choose_rate_selected');
-                $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
-                $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
-                setTimeout(function(){ $("#examples_works_slider_econom").show(function() {$("#examples_works_slider_econom").children('div').fadeIn(); }); }, 500);
-            }
-            if (id == 'order_options_rate_standart') {
-                $("#choose_rate_standart").addClass('choose_rate_selected');
-                $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
-                $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
-                setTimeout(function(){ $("#examples_works_slider_standart").show(function() {$("#examples_works_slider_standart").children('div').fadeIn(); }); }, 500);
-
-            }
-            if (id == 'order_options_rate_premium') {
-                $("#choose_rate_premium").addClass('choose_rate_selected');
-                $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
-                $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
-                setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
-            }
-
-        }
-
-        // кнопка плюс
-        $("#order_options_plus").on("click", come_dop_option);
-        $("#order_options_right h5").on("click", come_dop_option);
-        // открытие и скрытие дополнительных параметров
-                function come_dop_option() {
-                    $("#dop_options").slideToggle();
-                    $("#order_options_plus").toggleClass("minus plus");
-                }
-        // ---------------
-
-        function select_repairs () {
-            $("#order_options_repairs li").removeClass("selected");
-            $(this).addClass("selected");
-            smeta.setAllTypes(0,$(this).index(),0);
-        }
-
-        function select_type () {
-            $("#order_options_type li").removeClass("selected");
-            $(this).addClass("selected");
-            smeta.setAllTypes(0,0,$(this).index());
-        }
-        // --------------
-
-        function before_on_smeta(){
-            $("#rooms").css("background-position", '0px -' + numb_bg(this) + 'px');
-            smeta.add_Rooms(numb_room(this));
-            console.log($('.smeta_room[data-room]').length+' '+smeta.count_rooms);
-            var length = $('.smeta_room[data-room]').length;
-            if(smeta.count_rooms>length)
-            for (var i=1; i<=smeta.count_rooms-length; i++){
-                $("#add_room").parent().children('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length);
-            }
-            console.log($('.smeta_room[data-room]').length+' '+smeta.count_rooms);
-            if(smeta.count_rooms<length)
-                for (var i=length; i>smeta.count_rooms; i--){
-                    $("#add_room").parent().children('.smeta_room[data-room='+i+']').remove();
-                }
-            assign_numb();
-            on_smeta();
-        }
-        // Дествие что происходит после выбора количества комнат
-        function on_smeta() {
-            smeta.set_Ceiling(parseFloat($('#input_ceiling').val()).toFixed(2));
-            $("#top_right_stiker_rooms").hide();
-            $("#top_right_stiker p").hide();
-            $("#top_right_stiker").css("width", "155px");
-            $("#top_right_stiker a").css("display", "block");
-            $("#partners").hide();
-            $("#be_partners").hide();
-            $("#your_smeta").show();
-            $("#your_price").show();
-            $("#examples_works").slideUp();
-            $("#last_calculations").slideUp("400", function () {
-                $("#materials").slideDown();
-                $("#repair_company").slideDown();
-            });
-            setInterval( function(){$("#your_price_without_discount").fadeToggle(); }, 4000);
-        }
-        // --------------
-        function numb_room(object){
-            var name = $(object).attr("class");
-            var ar = name.split('_');
-            return ar[1];
-        }
-        function numb_bg(object){
-            var name = $(object).attr("class");
-            var ar = name.split('_');
-            var bp = 128 * ar[1];
-            return bp;
-        }
-        function add_room(){
-            smeta.add_Rooms($('.smeta_room[data-room]').length+1);
-            $(this).parent().children('.smeta_room').eq(0).clone(true).insertBefore(this).attr('data-room', $('.smeta_room[data-room]').length);
-            $("#rooms").css("background-position", '0px -' + (128 * smeta.count_rooms) + 'px');
-            assign_numb();
-            on_smeta();
-        }
-        function assign_numb(){
-            if (smeta.count_rooms>0){
-                $(".smeta_room[data-room]").children('.smeta_room_text').children('.smeta_text_header').each(function(i) {
-                   $(this).html('комната №'+(i+1));
-                });
-            }
-        }
-
-    });
-</script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
     <div id="content">
     <div id="order_options">
 
@@ -238,11 +48,11 @@
 
             <div id="rooms">
 
-                <div class="room_1"></div>
-                <div class="room_2"></div>
-                <div class="room_3"></div>
-                <div class="room_4"></div>
-                <div class="room_5"></div>
+                <div class="one_room" data-numb="1"></div>
+                <div class="two_room" data-numb="2"></div>
+                <div class="three_room" data-numb="3"></div>
+                <div class="four_room" data-numb="4"></div>
+                <div class="five_room" data-numb="5"></div>
 
             </div>
 
@@ -545,11 +355,7 @@
 
         </div>
 
-        <div class="smeta_block smeta_window">
-
-
-            <div class="smeta_wind" data-window="1">
-
+        <div class="smeta_block smeta_window" data-window="1">
                 <h1 class="smeta_text_header">окно на кухне</h1>
 
                         <!---     <div class="choose_type_window">
@@ -581,7 +387,6 @@
                 </div>
 
                 <div class="ignore ignore_window"></div>
-            </div>
         </div>
 
         <div id="add_window" class="add_room">Добавить окно</div>
