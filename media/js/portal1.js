@@ -18,14 +18,14 @@ $(document).ready(function () {
     // ---------------
 
 
-    $("#add_door").on("click", function() {$(this).parent().children('.smeta_door').eq(0).clone(true).insertBefore(this);
+  /*  $("#add_door").on("click", function() {$(this).parent().children('.smeta_door').eq(0).clone(true).insertBefore(this);
                                             var count = $('.smeta_door').length;
                                             $(this).parent().children('.smeta_door').eq(count-1).children('.smeta_count_interior_door_right').hide();
                                             $(this).parent().children('.smeta_door').eq(count-1).children('.smeta_count_interior_door_left').hide();
                                             $(this).parent().children('.smeta_door').eq(count-1).children('.ignore_door').hide();
                                             $(this).parent().children('.smeta_door').eq(count-1).children('.smeta_text_header').remove();
                                             $(this).parent().children('.smeta_door').eq(count-1).children('.choose_type_door').show();
-    } );
+    } );*/
 
 
 
@@ -38,8 +38,8 @@ $(document).ready(function () {
     $(".smeta_count_window_two").on("click", window_choose);
     $(".smeta_count_window_three").on("click", window_choose);*/
 
-    $(".smeta_count_interior_door_one").on("click", door_choose);
-    $(".smeta_count_interior_door_two").on("click", door_choose);
+   /* $(".smeta_count_interior_door_one").on("click", door_choose);
+    $(".smeta_count_interior_door_two").on("click", door_choose);*/
 
 
     $(".selectbox2").selectbox({
@@ -151,7 +151,7 @@ function window_choose() {
 
 
 // выбор типа двери
-function door_choose() {
+/*function door_choose() {
     var cl_d = $(this).attr('class');
 
     $(this).parent().hide();
@@ -167,7 +167,7 @@ function door_choose() {
         $(this).parent().parent().children('.smeta_count_interior_door_left').children('.smeta_count_interior_door_chosen').css({"width" : "120px", "background-position" : "-86px 25px"});
     }
 
-}
+}*/
 //----------------------
 
 

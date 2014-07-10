@@ -23,23 +23,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `materials`
+-- Структура таблицы `material_species`
 --
 
-CREATE TABLE IF NOT EXISTS `materials` (
+CREATE TABLE IF NOT EXISTS `material_species` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `species_id` int(11) NOT NULL COMMENT 'material_species ID',
+  `type_id` int(11) NOT NULL COMMENT 'material_types ID',
   `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `img` varchar(255) NOT NULL,
-  `price` float(12,2) NOT NULL,
-  `count_text` varchar(255) NOT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `country_id` int(11) NOT NULL COMMENT 'country ID',
   PRIMARY KEY (`id`),
-  KEY `species_id` (`species_id`),
-  KEY `country_id` (`country_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Таблица материалов' AUTO_INCREMENT=1 ;
+  KEY `type_id` (`type_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Виды материалов' AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

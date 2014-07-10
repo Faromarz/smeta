@@ -109,20 +109,20 @@
             <div class="smeta_room_square_summ">
 
                 <h2>площадь</h2>
-                <h3>XXX,XX</h3>
+                <h3 id="square-room">19.25</h3>
                 <h5>м²</h5>
 
             </div>
 
             <div class="smeta_room_square_height">
 
-                <input value="00,00" class="smeta_room_square_height_input"/>
+                <input value="5.5" class="smeta_room_square_height_input"/>
 
             </div>
 
             <div class="smeta_room_square_width">
 
-                <input value="00,00" class="smeta_room_square_width_input"/>
+                <input value="3.5" class="smeta_room_square_width_input"/>
 
             </div>
 
@@ -151,20 +151,20 @@
             <div class="smeta_room_square_summ">
 
                 <h2>площадь</h2>
-                <h3>XXX,XX</h3>
+                <h3 id="square-room">9.00</h3>
                 <h5>м²</h5>
 
             </div>
 
             <div class="smeta_room_square_height">
 
-                <input value="00,00" class="smeta_room_square_height_input"/>
+                <input value="3.00" class="smeta_room_square_height_input"/>
 
             </div>
 
             <div class="smeta_room_square_width">
 
-                <input value="00,00" class="smeta_room_square_width_input"/>
+                <input value="3.00" class="smeta_room_square_width_input"/>
 
             </div>
 
@@ -190,20 +190,20 @@
             <div class="smeta_room_square_summ">
 
                 <h2>площадь</h2>
-                <h3>XXX,XX</h3>
+                <h3 id="square-room">6.00</h3>
                 <h5>м²</h5>
 
             </div>
 
             <div class="smeta_room_square_height">
 
-                <input value="00,00" class="smeta_room_square_height_input"/>
+                <input value="3.00" class="smeta_room_square_height_input"/>
 
             </div>
 
             <div class="smeta_room_square_width">
 
-                <input value="00,00" class="smeta_room_square_width_input"/>
+                <input value="2.00" class="smeta_room_square_width_input"/>
 
             </div>
 
@@ -228,20 +228,20 @@
             <div class="smeta_room_square_summ">
 
                 <h2>площадь</h2>
-                <h3>XXX,XX</h3>
+                <h3 id="square-room">3.06</h3>
                 <h5>м²</h5>
 
             </div>
 
             <div class="smeta_room_square_height">
 
-                <input value="00,00" class="smeta_room_square_height_input"/>
+                <input value="1.8" class="smeta_room_square_height_input"/>
 
             </div>
 
             <div class="smeta_room_square_width">
 
-                <input value="00,00" class="smeta_room_square_width_input"/>
+                <input value="1.7" class="smeta_room_square_width_input"/>
 
             </div>
 
@@ -267,20 +267,20 @@
             <div class="smeta_room_square_summ">
 
                 <h2>площадь</h2>
-                <h3>XXX,XX</h3>
+                <h3 id="square-room">3.06</h3>
                 <h5>м²</h5>
 
             </div>
 
             <div class="smeta_room_square_height">
 
-                <input value="00,00" class="smeta_room_square_height_input"/>
+                <input value="1.8" class="smeta_room_square_height_input"/>
 
             </div>
 
             <div class="smeta_room_square_width">
 
-                <input value="00,00" class="smeta_room_square_width_input"/>
+                <input value="1.7" class="smeta_room_square_width_input"/>
 
             </div>
 
@@ -308,20 +308,20 @@
             <div class="smeta_room_square_summ">
 
                 <h2>площадь</h2>
-                <h3>XXX,XX</h3>
+                <h3 id="square-room">1.36</h3>
                 <h5>м²</h5>
 
             </div>
 
             <div class="smeta_room_square_height">
 
-                <input value="00,00" class="smeta_room_square_height_input"/>
+                <input value="1.7" class="smeta_room_square_height_input"/>
 
             </div>
 
             <div class="smeta_room_square_width">
 
-                <input value="00,00" class="smeta_room_square_width_input"/>
+                <input value="0.8" class="smeta_room_square_width_input"/>
 
             </div>
 
@@ -355,10 +355,9 @@
 
         </div>
 
-        <div class="smeta_block smeta_window" data-window="1">
+        <div class="smeta_block smeta_window" data-window="1" data-room="0">
                 <h1 class="smeta_text_header">окно на кухне</h1>
-
-                        <!---     <div class="choose_type_window">
+                {#<div class="choose_type_window">
 
                     <p>Выберите тип окна:</p>
 
@@ -366,13 +365,11 @@
                     <div class="smeta_count_window_two"></div>
                     <div class="smeta_count_window_three"></div>
 
-                        </div> --->
-
-
+                        </div>#}
                 <div class="smeta_count_window_right">
-                    <input value="0,00"/>
+                    <input class="window_width" value="1.30"/>
                     <div class="smeta_characteristics_x"></div>
-                    <input value="0,00">
+                    <input class="window_height" value="1.40">
                     <p class="smeta_characteristics_width">ширина</p>
                     <p class="smeta_characteristics_height">высота</p>
                     <h6>Габариты в метрах</h6>
@@ -380,9 +377,9 @@
 
                 <div class="smeta_count_window_left">
                     <div class="smeta_count_window_chosen" style="width:80px;background-position:-79px 25px"></div>
-                    <div class="button_minus"></div>
-                    <input class="smeta_count_input" value="0" />
-                    <div class="button_plus"></div>
+                    <div class="button_minus minus_window"></div>
+                    <input class="smeta_count_input input_window" value="0" maxlength="1"/>
+                    <div class="button_plus plus_window"></div>
                     <h6>шт.</h6>
                 </div>
 
@@ -397,9 +394,9 @@
 
             <div class="smeta_characteristics">
 
-                <input value="0,00"/>
+                <input class="door_width" value="0.90"/>
                 <div class="smeta_characteristics_x"></div>
-                <input value="0,00">
+                <input class="door_height" value="2.00">
                 <p class="smeta_characteristics_width">ширина</p>
                 <p class="smeta_characteristics_height">высота</p>
                 <h6>Габариты в метрах</h6>
@@ -414,11 +411,9 @@
 
         </div>
 
-
-        <div class="smeta_block smeta_door">
-
+        <div class="smeta_block smeta_door" data-door="1">
             <h1 class="smeta_text_header">межкомнатные двери</h1>
-
+            {#
             <div class="choose_type_door">
 
                 <p>Выберите тип двери:</p>
@@ -427,31 +422,24 @@
                 <div class="smeta_count_interior_door_two"></div>
 
             </div>
-
+            #}
             <div class="smeta_count_interior_door_right">
-
-                <input value="0,00"/>
+                <input class="door_width"  value="0.80"/>
                 <div class="smeta_characteristics_x"></div>
-                <input value="0,00">
+                <input class="door_height"  value="2.00">
                 <p class="smeta_characteristics_width">ширина</p>
                 <p class="smeta_characteristics_height">высота</p>
                 <h6>Габариты в метрах</h6>
-
             </div>
-
             <div class="smeta_count_interior_door_left">
-
-                <div class="smeta_count_interior_door_chosen"></div>
-                <div class="button_minus"></div>
-                <input class="smeta_count_input" value="0" />
-                <div class="button_plus"></div>
+                <div class="smeta_count_interior_door_chosen" style="width:70px; background-position:0 25px"></div>
+                <div class="button_minus minus_door"></div>
+                <input class="smeta_count_input input_door" value="0" />
+                <div class="button_plus plus_door"></div>
                 <h6>шт.</h6>
-
             </div>
             <div class="ignore ignore_door"></div>
-
         </div>
-
         <div id="add_door" class="add_room">Добавить дверь</div>
 
     </div>
