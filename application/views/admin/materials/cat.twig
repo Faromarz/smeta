@@ -1,0 +1,120 @@
+{% extends "admin/index.twig" %}
+{% block boody %}
+            <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            Widget settings form goes here
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn blue">Save changes</button>
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="page-title">
+                        Категории <small>список категорий</small>
+                    </h3>
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="{{ Url.site('/admin') }}">Рабочий стол</a>
+                            <i class="fa fa-angle-right"></i>
+                        </li>
+                        <li>
+                            <a href="{{ Url.site('/admin/category') }}">Категории</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet">
+                        <div class="portlet-body">
+                            <div class="table-container">
+                                <div class="btn-group" style="margin-bottom: 10px;">
+                                    <a href="{{ Url.site('/admin/category/create') }}" id="sample_editable_1_new" class="btn green">
+                                        Добавить <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                                <script>
+                                    $(document).ready(function(){
+                                        $('.admin-editable').editable({
+                                            url: '/admin/category/save',
+                                            source: '/admin/category/save',
+                                            emptytext: 'Введите значение',
+                                            select2: {
+                                                placeholder: 'Введите значение',
+                                                minimumInputLength: 2,
+                                                width: 250
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <table class="table table-striped table-bordered table-hover" id='ajaxBlock'>
+                                    <thead>
+                                        <tr role="row" class="heading">
+                                            <th width="5%">
+                                                Картинка
+                                            </th>
+                                            <th width="15%">
+                                                Название
+                                            </th>
+                                            <th width="10%">
+                                                Title картинки
+                                            </th>
+                                            <th width="10%">
+                                                Alt картинки
+                                            </th>
+                                            <th width="10%">
+                                                Действия
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for cat in _categories %}
+                                            <tr>
+                                                <td>
+                                                    {#<form action="/admin/category" class="dropzone dz-clickable" id="my-dropzone">#}
+                                                    <div class="dropzone-previews">{% if cat.img is not empty %}<img src="{{ Url.media('/media/img/cat/' ~ cat.img) }}" width="30px;" alt="{{ cat.img_alt }}"  title="{{ cat.img_title }}" class="admin-img-hover">{% endif %}</div>
+                                                        <input type="hidden" name="id" value="{{ cat.id }}">
+                                                        {#<div class="dz-default dz-message"><span>Изменить</span></div>
+                                                    {#</form>#}
+                                                </td>
+                                                <td>{{ cat.getEmptyLvl() }}<a href="#" data-type="text" id="name" data-pk="{{ cat.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ cat.name }}</a></td>
+                                                <td><a href="#" data-type="text" id="img_title" data-pk="{{ cat.id }}" data-title="Введите альтернативное название картинки" class="editable editable-click admin-editable">{{ cat.img_title }}</a></td>
+                                                <td><a href="#" data-type="text" id="img_alt" data-pk="{{ cat.id }}" data-title="Введите название картинки" class="editable editable-click admin-editable">{{ cat.img_alt }}</a></td>
+                                                <td>
+                                                    <a href="{{ Url.site('/admin/category/delete/' ~ cat.id) }}"
+                                                       class="btn default btn-xs black admin-delete"
+                                                       data-question="Удалить?"
+                                                       >
+                                                        <i class="fa fa-trash-o"></i>
+                                                        Удалить
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: life time stats -->
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+
+{% endblock boody %}

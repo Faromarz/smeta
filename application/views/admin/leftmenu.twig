@@ -24,15 +24,25 @@
                 </a>
             </li>
             <li{% if _controller == 'Category' %} class="active"{% endif %}>
-                <a href="{{ Url.site('/admin/category') }}">
+                <a href="">
                     <i class="fa fa-sitemap"></i>
-                    <span class="title">Категории статей</span>
+                    <span class="title">Статьи</span>
+                    <span class="arrow "></span>
                 </a>
+                <ul class="sub-menu">
+                    <li{% if _controller == 'Category' %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/category') }}">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Категории</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li{% if _controller == 'Rooms' %} class="active"{% endif %}>
                 <a href="javascript:;">
                     <i class="fa fa-sitemap"></i>
                     <span class="title">Комнаты</span>
+                    <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
                     <li{% if _action == 'index' %} class="active"{% endif %}>
@@ -50,10 +60,25 @@
                 </ul>
             </li>
              <li{% if _controller == 'Materials' %} class="active"{% endif %}>
-                <a href="{{ Url.site('/admin/materials') }}">
+                <a href="javascript:;">
                     <i class="fa fa-sitemap"></i>
                     <span class="title">Материалы</span>
+                    <span class="arrow "></span>
                 </a>
+                <ul class="sub-menu">
+                    <li{% if _action == 'cat' %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/materials/cat') }}">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Категории</span>
+                        </a>
+                    </li>
+                    <li{% if _controller == 'Materials' %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/materials') }}">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Список материалов</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             {#<li>
                 <a href="javascript:;">

@@ -14,19 +14,17 @@ class Controller_Admin_Materials extends Controller_Admin_Index
     public function action_index()
     {
         $object = ORM::factory('Material');
-        
-        
+
         $total_items =  $object->count_all();
         $pagination = Pagination::factory(array('total_items' => $total_items))->route_params(array(
                 'controller' => strtolower($this->request->controller()),
                 'action' => $this->request->action()
               ));
         $objects = $object
-                         ->limit($pagination->items_per_page)
-                         ->offset($pagination->offset)
-                         ->find_all();
-        
-        
+                ->limit($pagination->items_per_page)
+                ->offset($pagination->offset)
+                ->find_all();
+
         $this->set('_materials', $objects);
         $this->set('_pagination', $pagination);
     }
@@ -205,6 +203,11 @@ class Controller_Admin_Materials extends Controller_Admin_Index
             throw new Kohana_HTTP_Exception_404("Страница не найдена");
         }
     }
+    public function action_cat (){
+        $object = ORM::factory('Material_Categories')->fulltree();
+        $this->set('_categories', $object);
+    }
+    
 
     public function after()
     {
@@ -284,4 +287,6 @@ class Controller_Admin_Materials extends Controller_Admin_Index
 
         return $filename . '.' . $ext;
     }
+    
+    
 }

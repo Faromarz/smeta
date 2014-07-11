@@ -1,6 +1,6 @@
 <?php
 
-class Model_ArticleCategory extends ORM_MPTT
+class Model_Article_Categories extends ORM_MPTT
 {
 
     protected $_table_name = 'article_categories';
