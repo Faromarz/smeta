@@ -144,6 +144,7 @@ function Smeta(){
 
     // Дествие что происходит после выбора количества комнат
     _this.on_smeta = function() {
+        _this.load_materials();
         _this.set_Ceiling(parseFloat($('#input_ceiling').val()).toFixed(2));
         $("#top_right_stiker_rooms").hide();
         $("#top_right_stiker p").hide();
@@ -303,6 +304,18 @@ function Smeta(){
         val = val > 3 ? 3 : val;
         val = val < 0.4 ? 0.4 : val;
         $(object).val(parseFloat(val).toFixed(2));
+    }
+
+    //загрузка материалов
+    _this.load_materials = function(){
+        $.ajax({
+            type: "POST",
+            url: "ajax/materials/load",
+            data: {"rate" : _this.types[0], "repair" : _this.types[1], "type" : _this.types[2] },
+            success: function(data){
+
+            }
+        }, 'json');
     }
 
 }
