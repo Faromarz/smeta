@@ -207,6 +207,79 @@ class Controller_Admin_Materials extends Controller_Admin_Index
         $object = ORM::factory('Material_Categories')->fulltree();
         $this->set('_categories', $object);
     }
+    public function action_catcreate()
+    {
+        $errors = array();
+        if($this->request->post()){
+            $post = $this->request->post();
+            $cat = ORM::factory('Material_Categories');
+            $cat->name = $post['name'];
+            if(empty($post['parent_id'])){
+                if(ORM::factory('Material_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', 0)->find()->loaded()){
+                    $errors['name'] = array('Категория <b>"'.$post['name'].'"</b> уже добавлена');
+                }else{
+                    $cat->make_root();
+                    HTTP::redirect("/admin/materials/cat");
+                }
+            }else{
+                $cld = ORM::factory('Material_Categories',(int)$post['parent_id'])->children();
+                if(count($cld) > 0 && ORM::factory('Material_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', $cld[0]->parent_id)->find()->loaded()){
+                    $errors['name'] = array('Подкатегория <b>"'.$post['name'].'"</b> уже добавлена');
+                }else{
+                    $cat->insert_as_last_child((int)$post['parent_id']);
+                    HTTP::redirect("/admin/materials/cat");
+                }
+            }
+            
+        }
+        $objects = ORM::factory('Material_Categories')->fulltree();
+        $this->set('_categories', $objects);
+        $this->set('_errors', $errors);
+    }
+     public function action_catsave()
+    {
+        $array = array();
+        if ($this->request->post()) {
+            $post = $this->request->post();
+            $name = (string) Arr::get($post, 'name', false);
+            $id = (int) Arr::get($post, 'pk', false);
+            $value = trim(Arr::get($post, 'value', false));
+
+            if ($name && $id  && $value != '') {
+                $object = ORM::factory('Material_Categories', $id);
+                if ($object->loaded()) {
+                    if (in_array($name, array('name'))) {
+                        $object->$name = $value;
+                        $object->save();
+                        $array = array('save' => 'ok');
+                    } else {
+                        $array = array('error' => 'atribut ' . $name . ' not found');
+                    }
+                } else {
+                    $array = array('error' => 'category not found');
+                }
+            } else {
+                $array = array('error' => 'data');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+     public function action_catdelete()
+    {
+        $object = ORM::factory('Material_Categories', $this->request->param('id'));
+
+        if ($object->loaded()) {
+            foreach ($object->children() as $chaild) {
+                $chaild->delete();
+            }
+            $object->delete();
+            HTTP::redirect('/admin/materials/cat');
+        } else {
+            throw new Kohana_HTTP_Exception_404("Страница не найдена");
+        }
+    }
     
 
     public function after()
