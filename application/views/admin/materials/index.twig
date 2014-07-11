@@ -1,0 +1,181 @@
+{% extends "admin/index.twig" %}
+{% block boody %}
+            <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            Widget settings form goes here
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn blue">Save changes</button>
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="page-title">
+                        Материалы <small>список материалов</small>
+                    </h3>
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="{{ Url.site('/admin') }}">Рабочий стол</a>
+                            <i class="fa fa-angle-right"></i>
+                        </li>
+                        <li>
+                            <a href="{{ Url.site('/admin/materials') }}">Материалы</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <script>
+                $(document).ready(function(){
+                     $('#nameId').editable({
+                            url: '{{ Url.site('/admin/materials/findname') }}',
+                            source: '{{ Url.site('/admin/materials/findname') }}',
+                            select2: {
+                                placeholder: 'Укажите название',
+                                minimumInputLength: 2,
+                                width: 250,
+                                allowClear: true
+                            }
+                        });
+                });
+            </script>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="portlet purple box">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Фильтры
+                            </div>
+                        </div>
+
+                        <div class="portlet-body">
+                            {#% if form.vars.valid is sameas(false) %}
+                                <div class="alert alert-danger">
+                                    <button class="close" data-close="alert"></button>
+                                    {% trans from 'messages' %}You have some form errors. Please check below.{% endtrans %}
+                                    {{ form_errors(form) }}
+                                </div>
+                            {% endif %#}
+                            <form method="POST" class="ajax-filter-form" novalidate="novalidate" action="{{ Url.site('/admin/materials')}}">
+
+                                <div class="form-group">
+                                {#% for child in form %}
+                                    {% if child.vars.block_prefixes.1 != 'submit' %}
+                                        {{ form_row(child) }}
+                                    {% endif %}
+                                {% endfor %#}
+                                    <input id="nameId" class="form-control"  placeholder="Введите название" data-type="select2" data-pk="" data-value="" data-placement="right" data-original-title="Введите название">
+                                </div>
+                                <div class="clear" style="clear: both"></div>
+                                <div>
+                                    <div class="form-actions">
+                                        <input type="submit" name="formAlias" value="Фильтр" class="btn blue">
+                                        <input type="submit" name="formAlias" value="Очистить" class="btn default itdoors-filter-cancel-btn">
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="formAlias" value="{#{ form.vars.name }#}">
+                                <input type="hidden" name="reset" value="0" class="ajax-form-reset-field">
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet">
+                        <div class="portlet-body">
+                            <div class="table-container">
+                                <div class="btn-group" style="margin-bottom: 10px;">
+                                    <a href="{{ Url.site('/admin/materials/create') }}" id="sample_editable_1_new" class="btn green">
+                                        Добавить <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                                <script>
+                                    $(document).ready(function(){
+                                        $('.admin-editable').editable({
+                                            url: '/admin/materials/save',
+                                            source: '/admin/materials/save',
+                                            emptytext: 'Введите значение',
+                                            select2: {
+                                                placeholder: 'Введите значение',
+                                                minimumInputLength: 2,
+                                                width: 250
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <table class="table table-striped table-bordered table-hover" id='ajaxBlock'>
+                                    <thead>
+                                        <tr role="row" class="heading">
+                                            <th width="5%">
+                                                ID
+                                            </th>
+                                            <th width="5%">
+                                                Картинка
+                                            </th>
+                                            <th width="15%">
+                                                Название
+                                            </th>
+                                            <th width="10%">
+                                                Цена
+                                            </th>
+                                            <th width="10%">
+                                                Категория
+                                            </th>
+                                            <th width="10%">
+                                                Действия
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in _materials %}
+                                            <tr>
+                                                <td>{{ item.id }}</td>
+                                                <td>
+                                                    {#<form action="/admin/category" class="dropzone dz-clickable" id="my-dropzone">#}
+                                                    <div class="dropzone-previews">{% if item.img is not empty %}<img src="{{ Url.media('/media/img/material/' ~ item.img) }}" width="30px;" alt="{{ item.img_alt }}"  title="{{ item.img_title }}" class="admin-img-hover">{% endif %}</div>
+                                                        <input type="hidden" name="id" value="{{ item.id }}">
+                                                        {#<div class="dz-default dz-message"><span>Изменить</span></div>
+                                                    {#</form>#}
+                                                </td>
+                                                <td><a href="#" data-type="text" id="name" data-pk="{{ item.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ item.name }}</a></td>
+                                                <td><a href="#" data-type="text" id="price" data-pk="{{ item.id }}" data-title="Введите цену" class="editable editable-click admin-editable">{{ item.price |number_format(2, '.', ' ')}}</a></td>
+                                                <td><a href="#" data-type="text" id="category_id" data-pk="{{ item.id }}" data-title="Выберите категорию" class="editable editable-click admin-editable">{{ item.category_id }}</a></td>
+                                                <td>
+                                                    <a href="{{ Url.site('/admin/materials/delete/' ~ item.id) }}"
+                                                       class="btn default btn-xs black admin-delete"
+                                                       data-question="Удалить?"
+                                                       >
+                                                        <i class="fa fa-trash-o"></i>
+                                                        Удалить
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: life time stats -->
+                </div>
+            </div>
+            {{ _pagination |raw('html')}}
+
+{% endblock boody %}
