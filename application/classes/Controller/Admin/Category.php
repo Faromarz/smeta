@@ -13,7 +13,7 @@ class Controller_Admin_Category extends Controller_Admin_Index
 
     public function action_index()
     {
-        $object = ORM::factory('Category')->fulltree();
+        $object = ORM::factory('ArticleCategory')->fulltree();
         $this->set('_categories', $object);
     }
 
@@ -25,10 +25,10 @@ class Controller_Admin_Category extends Controller_Admin_Index
         $errors = array();
         if($this->request->post()){
             $post = $this->request->post();
-            $cat = ORM::factory('Category');
+            $cat = ORM::factory('ArticleCategory');
             $cat->name = $post['name'];
             if(empty($post['parent_id'])){
-                if(ORM::factory('Category')->where('name', '=', $post['name'])->where('parent_id', '=', 0)->find()->loaded()){
+                if(ORM::factory('ArticleCategory')->where('name', '=', $post['name'])->where('parent_id', '=', 0)->find()->loaded()){
                     $errors['name'] = array('Категория <b>"'.$post['name'].'"</b> уже добавлена');
                 }else{
                     if($_FILES['img']['tmp_name']){
@@ -41,8 +41,8 @@ class Controller_Admin_Category extends Controller_Admin_Index
                     HTTP::redirect("/admin/category/");
                 }
             }else{
-                $cld = ORM::factory('Category',(int)$post['parent_id'])->children();
-                if(count($cld) > 0 && ORM::factory('Category')->where('name', '=', $post['name'])->where('parent_id', '=', $cld[0]->parent_id)->find()->loaded()){
+                $cld = ORM::factory('ArticleCategory',(int)$post['parent_id'])->children();
+                if(count($cld) > 0 && ORM::factory('ArticleCategory')->where('name', '=', $post['name'])->where('parent_id', '=', $cld[0]->parent_id)->find()->loaded()){
                     $errors['name'] = array('Подкатегория <b>"'.$post['name'].'"</b> уже добавлена');
                 }else{
                     if($_FILES['img']['tmp_name']){
@@ -68,7 +68,7 @@ class Controller_Admin_Category extends Controller_Admin_Index
 //                $errors = Arr::flatten($e->errors(""));
 //            }
 //        }
-        $objects = ORM::factory('Category')->fulltree();
+        $objects = ORM::factory('ArticleCategory')->fulltree();
         $this->set('_categories', $objects);
         $this->set('_errors', $errors);
     }
@@ -82,7 +82,7 @@ class Controller_Admin_Category extends Controller_Admin_Index
             $value = trim(Arr::get($_POST, 'value', false));
 
             if ($name && $id && ($name == 'name' && $value != '' || in_array($name, array('img_title', 'img_alt')))) {
-                $object = ORM::factory('Category', $id);
+                $object = ORM::factory('ArticleCategory', $id);
                 if ($object->loaded()) {
                     if (in_array($name, array('img_title', 'img_alt', 'name'))) {
                         $object->$name = $value;
@@ -142,7 +142,7 @@ class Controller_Admin_Category extends Controller_Admin_Index
      */
     public function action_delete()
     {
-        $object = ORM::factory('Category', $this->request->param('id'));
+        $object = ORM::factory('ArticleCategory', $this->request->param('id'));
 
         if ($object->loaded()) {
             $directory = 'media/img/cat/';

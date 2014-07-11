@@ -1,9 +1,9 @@
 <?php
 
-class Model_Category extends ORM_MPTT
+class Model_ArticleCategory extends ORM_MPTT
 {
 
-    protected $_table_name = 'categories';
+    protected $_table_name = 'article_categories';
     protected $_primary_key = 'id';
 
     public function getEmptyLvl()
