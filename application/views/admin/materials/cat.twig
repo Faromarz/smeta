@@ -52,8 +52,8 @@
                                 <script>
                                     $(document).ready(function(){
                                         $('.admin-editable').editable({
-                                            url: '/admin/materials/catsave',
-                                            source: '/admin/materials/catsave',
+                                            url: '{{ Url.site('/admin/materials/catsave') }}',
+                                            source: '{{ Url.site('/admin/materials/catsave') }}',
                                             emptytext: 'Введите значение',
                                             select2: {
                                                 placeholder: 'Введите значение',
@@ -61,29 +61,58 @@
                                                 width: 250
                                             }
                                         });
+                                        $(".repair-pate").select2({
+                                            placeholder: "Укажите тип ремонта",
+                                            allowClear: true,
+                                            multiple: true,
+                                            tokenSeparators: [",", " "],
+                                            tags: ['1_1', 0],
+                                            data: [
+                                                {id: '1_1', text: 'Косметический-эконом'},
+                                                {id: '1_2', text: 'Косметический-стандарт'},
+                                                {id: '1_3', text: 'Косметический-премиум'},
+                                                {id: '2_1', text: 'Капитальный-эконом'},
+                                                {id: '2_2', text: 'Капитальный-стандарт'},
+                                                {id: '2_3', text: 'Капитальный-премиум'}
+                                            ],
+                                            change: function(){
+                                               ;
+                                            }
+                                        }).on("change", function(e) { 
+                                            var val = $(this).val();
+                                            var pk = $(this).data('pk');
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '{{ Url.site('/admin/materials/catsave') }}',
+                                                data: 'value='+val+'&pk='+pk+'&name=repair_id_rate_id',
+                                                beforeSend: function() {
+                                                    //selfClass.blockUI(target);
+                                                },
+                                                success: function(response) {
+                                                    response = jQuery.parseJSON(response);
+                                                   
+                                                    //target.html(response);
+                                                    //selfClass.unblockUI(target);
+                                                }
+                                            });
+                                        });
                                     });
                                 </script>
                                 <table class="table table-striped table-bordered table-hover" id='ajaxBlock'>
                                     <thead>
                                         <tr role="row" class="heading">
-                                            <th width="5%">
-                                                ID
-                                            </th>
-                                            <th width="15%">
-                                                Название
-                                            </th>
-                                            <th width="10%">
-                                                Действия
-                                            </th>
+                                            <th width="5%"> ID</th>
+                                            <th width="15%">Название</th>
+                                            <th width="15%">Тип ремонта</th>
+                                            <th width="10%">Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for cat in _categories %}
                                             <tr>
-                                                <td>
-                                                    {{ cat.id }}
-                                                </td>
+                                                <td>{{ cat.id }}</td>
                                                 <td>{{ cat.getEmptyLvl() }}<a href="#" data-type="text" id="name" data-pk="{{ cat.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ cat.name }}</a></td>
+                                                <td><input style="width: 200px;" data-pk="{{ cat.id }}" value="{{ cat.repair_id_rate_id }}" class="repair-pate"></td>
                                                 <td>
                                                     <a href="{{ Url.site('/admin/materials/catdelete/' ~ cat.id) }}"
                                                        class="btn default btn-xs black admin-delete"

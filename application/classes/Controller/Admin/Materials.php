@@ -214,6 +214,7 @@ class Controller_Admin_Materials extends Controller_Admin_Index
             $post = $this->request->post();
             $cat = ORM::factory('Material_Categories');
             $cat->name = $post['name'];
+            $cat->repair_id_rate_id = $post['repair_id_rate_id'];
             if(empty($post['parent_id'])){
                 if(ORM::factory('Material_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', 0)->find()->loaded()){
                     $errors['name'] = array('Категория <b>"'.$post['name'].'"</b> уже добавлена');
@@ -245,10 +246,10 @@ class Controller_Admin_Materials extends Controller_Admin_Index
             $id = (int) Arr::get($post, 'pk', false);
             $value = trim(Arr::get($post, 'value', false));
 
-            if ($name && $id  && $value != '') {
+            if ($name && $id  && ($value != '' || $name == 'repair_id_rate_id' )) {
                 $object = ORM::factory('Material_Categories', $id);
                 if ($object->loaded()) {
-                    if (in_array($name, array('name'))) {
+                    if (in_array($name, array('name', 'repair_id_rate_id'))) {
                         $object->$name = $value;
                         $object->save();
                         $array = array('save' => 'ok');
