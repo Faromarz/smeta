@@ -1,6 +1,8 @@
 function Smeta(){
     var _this = this;
     _this.types = new Array();
+    _this.categories = new Array();
+    _this.materials = new Array();
     _this.count_rooms = 0;
     _this.height_ceiling = 2.75;
 
@@ -63,7 +65,8 @@ function Smeta(){
 
         _this.setAllTypes(2,2,2);
         _this.add_window();
-       // console.log(_this);
+
+        _this.load_categories();
     }
 
     // Выбор в меню тарифов, типа ремонта, типа квартиры
@@ -131,12 +134,12 @@ function Smeta(){
         if(_this.count_rooms>length)
             for (var i=1; i<=_this.count_rooms-length; i++){
                 _this.add_window($('.smeta_room[data-room]').length+1);
-                $("#add_room").parent().children('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length);
+                $("#add_room").siblings('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length);
             }
         if(_this.count_rooms<length)
             for (var i=length; i>_this.count_rooms; i--){
-                $("#add_room").parent().children('.smeta_room[data-room='+i+']').remove();
-                $("#add_window").parent().children('.smeta_window[data-room='+i+']').remove();
+                $("#add_room").siblings('.smeta_room[data-room='+i+']').remove();
+                $("#add_window").siblings('.smeta_window[data-room='+i+']').remove();
             }
         _this.assign_numb();
         _this.on_smeta();
@@ -144,7 +147,6 @@ function Smeta(){
 
     // Дествие что происходит после выбора количества комнат
     _this.on_smeta = function() {
-        _this.load_materials();
         _this.set_Ceiling(parseFloat($('#input_ceiling').val()).toFixed(2));
         $("#top_right_stiker_rooms").hide();
         $("#top_right_stiker p").hide();
@@ -172,7 +174,7 @@ function Smeta(){
     _this.add_room = function(){
         if(parseInt(_this.count_rooms)+1<=5){
             _this.add_Rooms($('.smeta_room[data-room]').length+1);
-            $(this).parent().children('.smeta_room').eq(0).clone(true).insertBefore(this).attr('data-room', $('.smeta_room[data-room]').length);
+            $(this).siblings('.smeta_room').eq(0).clone(true).insertBefore(this).attr('data-room', $('.smeta_room[data-room]').length);
             $("#rooms").css("background-position", '0px -' + (128 * _this.count_rooms) + 'px');
             _this.assign_numb();
             _this.add_window();
@@ -216,7 +218,7 @@ function Smeta(){
                 var k = _this.count_rooms > all_windows-1 ? _this.count_rooms : 1;
             }
             else var k = parseInt(n);
-            $('#add_window').parent().children('.smeta_window').eq(0).clone(true).insertBefore('#add_window').attr('data-window', $('.smeta_window[data-window]').length).attr('data-room', k);
+            $('#add_window').siblings('.smeta_window').eq(0).clone(true).insertBefore('#add_window').attr('data-window', $('.smeta_window[data-window]').length).attr('data-room', k);
             $('.smeta_window[data-room='+k+']').children('.smeta_text_header').html('комната № ' + k);
         }
     }
@@ -246,23 +248,23 @@ function Smeta(){
     //добавить межкомнатную дверь
     _this.add_door = function(){
         var count = $('.smeta_door[data-door]').length;
-        if(count<3) $('#add_door').parent().children('.smeta_door').eq(0).clone('#add_door').insertBefore('#add_door').attr('data-door', $('.smeta_door[data-door]').length);
+        if(count<3) $('#add_door').siblings('.smeta_door').eq(0).clone('#add_door').insertBefore('#add_door').attr('data-door', $('.smeta_door[data-door]').length);
     }
 
     //изменение площади комнаты при изменении высоты
     _this.change_square_height = function(object){
         var val = isNaN(parseFloat($(object).val())) ? 0 : parseFloat($(object).val()), square = 0;
         $(object).val(parseFloat(val).toFixed(2));
-        square = val * parseFloat($(object).parent().parent().children('.smeta_room_square_width').children('.smeta_room_square_width_input').val());
-        $(object).parent().parent().children('.smeta_room_square_summ').children('#square-room').html(parseFloat(square).toFixed(2));
+        square = val * parseFloat($(object).parent().siblings('.smeta_room_square_width').children('.smeta_room_square_width_input').val());
+        $(object).parent().siblings('.smeta_room_square_summ').children('#square-room').html(parseFloat(square).toFixed(2));
     }
 
     //изменение площади комнаты при изменении ширины
     _this.change_square_width = function(object){
         var val = isNaN(parseFloat($(object).val())) ? 0 : parseFloat($(object).val()), square = 0;
         $(object).val(parseFloat(val).toFixed(2));
-        square = val * parseFloat($(object).parent().parent().children('.smeta_room_square_height').children('.smeta_room_square_height_input').val());
-        $(object).parent().parent().children('.smeta_room_square_summ').children('#square-room').html(parseFloat(square).toFixed(2));
+        square = val * parseFloat($(object).parent().siblings('.smeta_room_square_height').children('.smeta_room_square_height_input').val());
+        $(object).parent().siblings('.smeta_room_square_summ').children('#square-room').html(parseFloat(square).toFixed(2));
     }
 
     //изменение ширины окна
@@ -270,14 +272,15 @@ function Smeta(){
         var val = isNaN(parseFloat($(object).val())) ? 0 : parseFloat($(object).val());
         val = val > 2.7 ? 2.7 : val;
         val = val < 0.4 ? 0.4 : val;
+        var self = $(object).parent().siblings('.smeta_count_window_left').children('.smeta_count_window_chosen');
         if (val <= 1) {
-            $(object).parent().parent().children('.smeta_count_window_left').children('.smeta_count_window_chosen').css({"width" : "70px", "background-position" : "0 25px"});
+            self.css({"width" : "70px", "background-position" : "0 25px"});
         }
         if (val > 1 && val <1.8) {
-            $(object).parent().parent().children('.smeta_count_window_left').children('.smeta_count_window_chosen').css({"width" : "80px", "background-position" : "-79px 25px"});
+            self.css({"width" : "80px", "background-position" : "-79px 25px"});
         }
         if (val >= 1.8) {
-            $(object).parent().parent().children('.smeta_count_window_left').children('.smeta_count_window_chosen').css({"width" : "120px", "background-position" : "-195px 25px"});
+            self.css({"width" : "120px", "background-position" : "-195px 25px"});
         }
         $(object).val(parseFloat(val).toFixed(2));
     }
@@ -306,20 +309,208 @@ function Smeta(){
         $(object).val(parseFloat(val).toFixed(2));
     }
 
-    //загрузка материалов
-    _this.load_materials = function(){
+    //загрузка категорий материалов
+    _this.load_categories = function(){
+        _this.preloader(true);
         $.ajax({
             type: "POST",
-            url: "ajax/materials/load",
+            url: "ajax/materials/load_categories",
             data: {"rate" : _this.types[0], "repair" : _this.types[1], "type" : _this.types[2] },
             success: function(data){
-
+                var result = JSON.parse( data );
+                _this.categories = $.extend(true, [], result);
+                _this.load_materials();
             }
         }, 'json');
     }
 
+    //загрузка материалов для категории
+    _this.load_materials = function(){
+        $.ajax({
+            type: "POST",
+            url: "ajax/materials/load_materials",
+            success: function(data){
+                var result=JSON.parse( data );
+                _this.materials = $.extend(true, [], result);
+                _this.paint_materials();
+            }
+        }, 'json');
+    }
+
+    //выбранный материал
+    _this.get_selected_material = function(cat_id){
+        var result= new Array();
+        $.each(_this.materials, function(key, val) {
+            if(val.category_id==cat_id && val.selected)
+                result = $.extend(true, [], _this.materials[key]);
+        });
+        return result;
+    }
+
+    //ключ выбранного материала
+    _this.get_key_material = function(id){
+        var result = 0;
+        $.each(_this.materials, function(key, val) {
+            if(val.id==id)
+                result = key;
+        });
+        return result;
+    }
+
+    //количество материала у категории
+    _this.get_min_material = function(cat_id){
+        var result = 10000;
+        $.each(_this.materials, function(key, val) {
+            if(val.category_id==cat_id)
+             if (result>key) result = key;
+        });
+        return result;
+    }
+
+    //количество материала у категории
+    _this.get_max_material = function(cat_id){
+        var result = 0;
+        $.each(_this.materials, function(key, val) {
+            if(val.category_id==cat_id)
+            if (result<key) result = key;
+        });
+        return result;
+    }
+
+    //количество материала у категории
+    _this.get_materials_slider = function(k){
+        var result= new Array();
+        $.each(_this.materials, function(key, val) {
+            if(key==k)
+                result = $.extend(true, [], _this.materials[key]);
+        });
+        return result;
+    }
+
+    //отрисовка материалов всех - по категориям
+    _this.paint_materials = function(){
+        var text = '';
+            $.each(_this.categories, function(k, v) {
+            var ide = 0;
+            text += '<div class="materials_room_option" id="category-'+ide+'">' +
+                '<div class="materials_room_option_header">' +
+                '<p>'+ v.name+'</p>' +
+                '<div class="ignore_4"></div>' +
+                '</div>';
+            ide = v.id;
+            if (v.under.length >0){
+                text += '<select class="selectbox" id="val-'+v.id+'" >';
+                $.each(v.under, function(key, val) {
+                    var select_option = '';
+                    if(val.selected==1) {
+                        select_option = 'selected = "selected"';
+                        ide = val.id;
+                    }
+                    text += '<option value="'+val.id+'" '+select_option+'>'+val.name+'</option>';
+                });
+                text += '</select>';
+            } else text += '<div class="materials_room_option_menu"></div>';
+            var selected = _this.get_selected_material(ide),
+                selected_key = _this.get_key_material(selected.id),
+                min_material = _this.get_min_material(ide),
+                max_material = _this.get_max_material(ide);
+            text += '<div class="materials_room_option_slider" id="material-slider-'+ide+'">' +
+                '       <div class="slider-materials-' + ide + '" style="position: relative">'+
+                '           <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + ide + '">' + selected.price + ' р</h6></div>'+
+                '       </div>'+
+                '     <div class="slider_img" style="background-image: url(/media/img/material/' + selected.img + ')"' + '>'+
+                '    <div class="slider_about">'+
+                '        <a href="#" class="mat-name-' + ide + '">' + selected.name + '</a>'+
+                '          <h6 class="city-name-' + ide + '">' + selected.country + '</h6>'+
+                '    </div>'+
+                '    </div>'+
+                '</div>' +
+                '<div class="x"></div>' +
+                '<h1>18 рулонов =</h1>' +
+                '<h2 class="mat-price-all-' + ide + '">ХХХ ХХХ р.</h2>' +
+
+                '<script>'+
+                "$('.slider-materials-" + ide + "').slider({"+
+                "min: " + min_material + ","+
+                "orientation : 'vertical',"+
+                "value: " + selected_key + ","+
+                'max: '+ max_material +','+
+                "step: 1,"+
+                "create: function () {"+
+                "},"+
+                "slide: function (e, ul) { "+
+                '   $(".price-materials-' + ide + '").text(smeta.get_materials_slider(ul.value).price+" р");'+
+                '   $(".mat-price-all-' + ide + '").text((smeta.get_materials_slider(ul.value).price+" р"));'+
+                '   $(".mat-name-' + ide + '").text(smeta.get_materials_slider(ul.value).name);'+
+                '   $(".city-name-' + ide + '").text(smeta.get_materials_slider(ul.value).country);'+
+                '   $("#materials-' + ide + '").find(".slider_img").css( "background-image","url(/media/img/material/"+smeta.get_materials_slider(ul.value).img+")");'+
+                "},"+
+                "stop : function (e, ul) {"+
+                "   smeta.select_material(ul.value);"+
+                "},"+
+                "});"+
+                '</script>'
+                +'</div>';
+        });
+        $('.materials_room_for_options').empty();
+        $('.materials_room_for_options').html(text);
+        $(".selectbox").selectbox({
+            onChange: function (val, inst) {
+                _this.select_new_category(this, val);
+            }
+        });
+        $(".slider_img")
+            .mouseenter(function() {
+                $(this).children(".slider_about").show();
+            })
+            .mouseleave(function() {
+                $(this).children(".slider_about").hide();
+            });
+
+        $(".ignore_4").on("click", function() {$(this).toggleClass("ignore_4 ignored_4"); });
+        _this.preloader(false);
+    }
+
+    //выбор из селекта типов материалов
+    _this.select_new_category = function(object, value){
+        var id_select = $( object ).attr('id'),
+            a = id_select.split('-'),
+            ide = a[1];
+        $.each(_this.categories, function(k, v) {
+            if (v.id==ide)
+            if (v.under.length >0){
+                $.each(v.under, function(key, val) {
+                    if(val.selected==1) _this.categories[k]['under'][key]['selected']=0;
+                    if(value==val.id) _this.categories[k]['under'][key]['selected']=1;
+                });
+            }
+        });
+        _this.paint_materials();
+    }
+
+    //выбор материала в ползунке
+    _this.select_material = function(value){
+        var cat_id = _this.materials[value]['category_id'];
+        $.each(_this.materials, function(key, val) {
+            if(val.category_id==cat_id)
+            {
+                if(val.selected==1) _this.materials[key]['selected']=0;
+                if(value==key) _this.materials[key]['selected']=1;
+            }
+        });
+    }
+
+    _this.preloader = function(status){
+        if(status){
+            $('body').append('<img src="/media/img/ajax-loader.gif" id="ajaxLoad" style="top: 50%;position: fixed;left: 50%;width: 180px;margin-left: -90px;height: 50px;margin-top: -25px;">');
+        }else{
+            $('body #ajaxLoad').remove();
+        }
+    };
+
 }
+
+var smeta = new Smeta();
 $(document).ready(function () {
-    var smeta = new Smeta();
     smeta.init();
 });

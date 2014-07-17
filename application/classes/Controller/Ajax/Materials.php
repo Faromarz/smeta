@@ -22,15 +22,40 @@ class Controller_Ajax_Materials extends Controller
         throw new HTTP_Exception_404;
     }
 
-    public function action_load()
+    public function action_load_categories()
     {
-        $rate = (int) Arr::get($_POST, 'rate', 0);
-        $repair = (int) Arr::get($_POST, 'repair', 0);
-        $type = (int) Arr::get($_POST, 'type', 0);
+        $result = array();
+        $materials_categories = ORM::factory('Material_Categories')->where('parent_id','=','0')->find_all();
+        foreach ($materials_categories as $materials_category){
+            if ($materials_category->count_categories()==0 && $materials_category->count_materials()>0 || $materials_category->count_categories()>0){
+                $a = array();
+                $materials_under = ORM::factory('Material_Categories')->where('parent_id','=',$materials_category->id)->find_all();
+                $i=0;
+                foreach ($materials_under as $material_under){
+                    if ($material_under->count_materials()>0)
+                        $a[] = array('id'=>$material_under->id, 'name'=>$material_under->name, 'selected'=> ($i==0? 1: 0));
+                    $i++;
+                }
+                $result[] = array('id'=>$materials_category->id, 'name'=>$materials_category->name, 'under' => $a);
+            }
+        }
+        die(json_encode($result));
+    }
 
-        $material_type = ORM::factory('Material_Type')->find_all();
-
-
-
+    public function action_load_materials()
+    {
+        $result = array();
+        $materials_categories = ORM::factory('Material_Categories')->find_all();
+        foreach ($materials_categories as $materials_category){
+            if ($materials_category->count_materials()>0){
+                $materials = ORM::factory('Material')->where('category_id','=',$materials_category->id)->limit(10)->find_all();
+                $i=0;
+                foreach ($materials as $material){
+                    $result[] = array('category_id'=>$material->category_id, 'id'=>$material->id, 'name'=>$material->name, 'price'=>$material->price,'img'=>$material->img, 'country'=>$material->country->name, 'selected'=> ($i==0? 1: 0));
+                    $i++;
+                }
+            }
+        }
+        die(json_encode($result));
     }
 }

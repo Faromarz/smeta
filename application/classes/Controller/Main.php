@@ -13,7 +13,6 @@ class Controller_Main extends Controller_Core {
         $this->set('types_repair',$types_repair);
         $this->set('types_apartment',$types_apartment);
 
-
       /*  $materials_old = ORM::factory('Matoldtypes')->where('parent_id','=','0')->find_all();
 
         foreach ($materials_old as $types_p){
