@@ -53,10 +53,8 @@ $(document).ready(function () {
     $("#rus_flag").on("click", function() { $("#uk_select").hide(); $("#rus_select").show();});
     $("#uk_flag").on("click", function() { $("#rus_select").hide(); $("#uk_select").show();});
 
-    $(".ignore").on("click", function() {$(this).toggleClass("ignore ignored"); });
     $(".ignore_2").on("click", function() {$(this).toggleClass("ignore_2 ignored_2"); });
     $(".ignore_3").on("click", function() {$(this).toggleClass("ignore_3 ignored_3"); });
-    $(".ignore_4").on("click", function() {$(this).toggleClass("ignore_4 ignored_4"); });
 
 
     $("#page_up").on("click", function(){ $.scrollTo(0, 0); });

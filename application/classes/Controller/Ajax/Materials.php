@@ -33,10 +33,10 @@ class Controller_Ajax_Materials extends Controller
                 $i=0;
                 foreach ($materials_under as $material_under){
                     if ($material_under->count_materials()>0)
-                        $a[] = array('id'=>$material_under->id, 'name'=>$material_under->name, 'selected'=> ($i==0? 1: 0));
+                        $a[] = array('id'=>$material_under->id, 'name'=>$material_under->name, 'repair_id_rate_id'=>$materials_category->repair_id_rate_id, 'rooms_type'=>$materials_category->rooms_type, 'selected'=> ($i==0? 1: 0));
                     $i++;
                 }
-                $result[] = array('id'=>$materials_category->id, 'name'=>$materials_category->name, 'under' => $a);
+                $result[] = array('id'=>$materials_category->id, 'name'=>$materials_category->name, 'repair_id_rate_id'=>$materials_category->repair_id_rate_id, 'rooms_type'=>$materials_category->rooms_type, 'under' => $a);
             }
         }
         die(json_encode($result));
