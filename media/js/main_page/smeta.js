@@ -80,7 +80,7 @@ function Smeta(){
         if (flag===undefined){
             $(object).toggleClass("ignore ignored");
             var id = $(object).parent().attr("data-room-id");
-            if (id==1) $(".ignore_4[data-room-id='1']").toggleClass("ignore_4 ignored_4");
+            if (id==1) $(".ignore_4[data-room-id='1'], .ignored_4[data-room-id='1']").toggleClass("ignore_4 ignored_4");
         }else {
             var id=1;
             $(".smeta_room[data-room-id='"+id+"']").find('div.ignore, div.ignored').toggleClass("ignore ignored");
@@ -289,6 +289,14 @@ function Smeta(){
         $(object).val(parseFloat(val).toFixed(2));
         square = val * parseFloat($(object).parent().siblings('.smeta_room_square_width').children('.smeta_room_square_width_input').val());
         $(object).parent().siblings('.smeta_room_square_summ').children('#square-room').html(parseFloat(square).toFixed(2));
+
+        var id = $(object).parent().parent().parent().attr("data-room-id");
+        $.each(_this.rooms, function(room_key, room_val) {
+            if(room_val.id == id) {
+                _this.rooms[room_key]['length'] = val;
+                _this.rooms[room_key]['square'] = square;
+            }
+        });
     }
 
     //изменение площади комнаты при изменении ширины
@@ -297,6 +305,14 @@ function Smeta(){
         $(object).val(parseFloat(val).toFixed(2));
         square = val * parseFloat($(object).parent().siblings('.smeta_room_square_height').children('.smeta_room_square_height_input').val());
         $(object).parent().siblings('.smeta_room_square_summ').children('#square-room').html(parseFloat(square).toFixed(2));
+
+        var id = $(object).parent().parent().parent().attr("data-room-id");
+        $.each(_this.rooms, function(room_key, room_val) {
+            if(room_val.id == id) {
+                _this.rooms[room_key]['width'] = val;
+                _this.rooms[room_key]['square'] = square;
+            }
+        });
     }
 
     //изменение ширины окна
@@ -517,11 +533,11 @@ function Smeta(){
         var text = '';
             $.each(_this.categories, function(k, v) {
                 if ($.inArray(v.id,rooms_cat_parents)!= -1){
-                    var ide = v.id;
+                    var ide = v.id, calc = v.calculation;
                     var selected = _this.get_selected_material_room(v.id,numb),
                         selected_key = _this.get_key_material(selected.id),
                         ignored = _this.get_show_material(selected.id,numb) ? 'ignore_4' : 'ignored_4';
-                    text = '<div class="materials_room_option" id="category-'+ide+'">' +
+                    text += '<div class="materials_room_option" id="category-'+ide+'">' +
                         '<div class="materials_room_option_header">' +
                         '<p>'+ v.name+'</p>' +
                         '<div class="'+ignored+'" data-mat="'+selected.id+'"></div>' +
@@ -533,6 +549,7 @@ function Smeta(){
                             if($.inArray(val.id,rooms_cat_under)!= -1) {
                                 select_option = 'selected = "selected"';
                                 ide = val.id;
+                                calc = val.calculation;
                             }
                             text += '<option value="'+val.id+'" '+select_option+'>'+val.name+'</option>';
                         });
@@ -540,8 +557,9 @@ function Smeta(){
                     } else text += '<div class="materials_room_option_menu"></div>';
 
                     var min_material = _this.get_min_material(ide),
-                        max_material = _this.get_max_material(ide);
-
+                        max_material = _this.get_max_material(ide),
+                        count_material = _this.count_material(calc,numb),
+                        words = selected.count_text.split(',');
 
                     text += '<div class="materials_room_option_slider" id="material-slider-'+ide+'">' +
                         '       <div class="slider-materials-' + ide + '" style="position: relative">'+
@@ -555,8 +573,8 @@ function Smeta(){
                         '    </div>'+
                         '</div>' +
                         '<div class="x"></div>' +
-                        '<h1>18 рулонов =</h1>' +
-                        '<h2 class="mat-price-all-' + ide + '">ХХХ ХХХ р.</h2>' +
+                        '<h1>'+count_material+' '+_this.declination(words[2], words[0], words[1], count_material)+' =</h1>' +
+                        '<h2 class="mat-price-all-' + ide + '">'+(parseFloat(count_material)*parseFloat(selected.price))+' р.</h2>' +
 
                         '<script>'+
                         "$('.slider-materials-" + ide + "').slider({"+
@@ -635,6 +653,53 @@ function Smeta(){
             $('body #ajaxLoad').remove();
         }
     };
+
+    //склонение слов
+    _this.declination = function(a, b, c, s) {
+        var words = [a, b, c];
+        var index = s % 100;
+
+        if (index >=11 && index <= 14) { index = 0; }
+        else { index = (index %= 10) < 5 ? (index > 2 ? 2 : index): 0; }
+
+        return(words[index]);
+    }
+
+    //расчет количества материала
+    _this.count_material = function(calc,numb){
+        var calculation = '{';
+        $.each(_this.rooms, function(room_key, room_val) {
+            if (room_key==numb){
+                for (var i=0; i<calc.length; i++){
+                    switch (calc[i]) {
+                        case '-':
+                            calculation += '-';
+                            break;
+                        case '+':
+                            calculation += '+';
+                            break;
+                        case '*':
+                            calculation += '*';
+                            break;
+                        case '/':
+                            calculation += '/';
+                            break;
+                        case 'S':
+                            calculation += parseFloat(room_val.length)*parseFloat(room_val.width);
+                            break;
+                        case 'P':
+                            calculation += (parseFloat(room_val.length)+parseFloat(room_val.width))*2;
+                            break;
+                        case '':
+                            calculation += 0;
+                            break;
+                    }
+                }
+            }
+        });
+        calculation +='}';
+        return eval(calculation);
+    }
 
 }
 

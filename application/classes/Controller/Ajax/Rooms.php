@@ -27,7 +27,7 @@ class Controller_Ajax_Rooms extends Controller
         $result = array();
         $rooms = ORM::factory('Room')->find_all();
         foreach ($rooms as $room){
-                $result[] = array('id'=>$room->id, 'name'=>$room->name, 'type' => $room->type, 'show' => 1);
+                $result[] = array('id'=>$room->id, 'name'=>$room->name, 'type' => $room->type, 'length' => $room->length, 'width' => $room->width, 'square' => ($room->length*$room->width), 'show' => 1);
         }
         die(json_encode($result));
     }
