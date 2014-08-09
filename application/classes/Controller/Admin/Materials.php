@@ -24,6 +24,8 @@ class Controller_Admin_Materials extends Controller_Admin_Index
         }
         $object = ORM::factory('Material')
                 ->select(array('material_categories.name', 'catName'))
+                ->select('material.name')
+                ->select('material.id')
                 ->join('material_categories', 'left')
                 ->on('material.category_id', '=', 'material_categories.id');
         $namesFilter = $this->session->get('filter_material_admin', false);
@@ -33,7 +35,7 @@ class Controller_Admin_Materials extends Controller_Admin_Index
                 $filter['material']['name'] = $namesFilter;
                 $namesFilter = explode(',', $namesFilter);
             }
-            $object->where('name', 'in', $namesFilter);
+            $object->where('material.name', 'in', $namesFilter);
         }
 
         $objectCount = clone $object;
