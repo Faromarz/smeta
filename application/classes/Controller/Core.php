@@ -6,11 +6,13 @@ class Controller_Core extends Controller_Kotwig {
 
     protected $user = false;
     protected $auth = false;
+    protected $session = false;
 
     public function before() {
         parent::before();
         $this->auth = Auth::instance();
         $this->user = $this->auth->get_user();
+        $this->session = Session::instance();
         $this->set('_user', $this->user);
         $this->set('_token', Security::token());
         $this->set('_title', '');

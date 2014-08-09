@@ -40,17 +40,52 @@
             <!-- BEGIN PAGE CONTENT-->
             <script>
                 $(document).ready(function(){
-                     $('#nameId').editable({
-                            url: '{{ Url.site('/admin/materials/findname') }}',
-                            source: '{{ Url.site('/admin/materials/findname') }}',
-                            select2: {
-                                placeholder: 'Укажите название',
-                                minimumInputLength: 2,
-                                width: 250,
-                                allowClear: true
+
+                    $('#nameId').select2({
+                        initSelection: function(element, callback) {
+                            var arr = explode(',', '{{ _filter.material.name|raw }}');
+                            var deff = [];
+                            for (n in arr) {
+                                deff.push({id:arr[n],name:arr[n] });
                             }
-                        });
-                });
+                            callback(deff);
+                        },
+                        minimumInputLength: 2,
+                        placeholder: 'Введите название',
+                        multiple: true,
+                        tags: ['id','sdf'],
+                        ajax: {
+                            url: "{{ Url.site('/admin/materials/findname') }}",
+                            dataType: 'json',
+                            quietMillis: 100,
+                            data: function(term, page) {
+                                return {
+                                    query: term
+                                };
+                            },
+                            results: function(data, page) {
+                                console.log(data);
+                                    return {
+                                        results: data
+                                    };
+                                }
+                        },
+                        formatResult: function(exercise) { 
+                            console.log(exercise);
+                            return "<div class='select2-user-result'>" + exercise.name + "</div>"; 
+                        },
+                        formatSelection: function(exercise) { 
+                            console.log(exercise);
+                            return exercise.name; 
+                        }/*,
+                        initSelection : function (element, callback) {
+                            console.log(element);
+                            var elementText = explode(',', $(element).attr('data-init-text'));
+                            console.log(elementText);
+                            callback({"term":elementText});
+                        }*/
+                    });
+                    });
             </script>
             <div class="row">
                 <div class="col-md-12 col-sm-12">
@@ -62,22 +97,9 @@
                         </div>
 
                         <div class="portlet-body">
-                            {#% if form.vars.valid is sameas(false) %}
-                                <div class="alert alert-danger">
-                                    <button class="close" data-close="alert"></button>
-                                    {% trans from 'messages' %}You have some form errors. Please check below.{% endtrans %}
-                                    {{ form_errors(form) }}
-                                </div>
-                            {% endif %#}
                             <form method="POST" class="ajax-filter-form" novalidate="novalidate" action="{{ Url.site('/admin/materials')}}">
-
                                 <div class="form-group">
-                                {#% for child in form %}
-                                    {% if child.vars.block_prefixes.1 != 'submit' %}
-                                        {{ form_row(child) }}
-                                    {% endif %}
-                                {% endfor %#}
-                                    <input id="nameId" class="form-control"  placeholder="Введите название" data-type="select2" data-pk="" data-value="" data-placement="right" data-original-title="Введите название">
+                                <input id="nameId" name="name" value="{% if _filter.material.name is defined %}{{ _filter.material.name }}{% endif %}" type="hidden" class="form-control  can-be-reseted submit-field">
                                 </div>
                                 <div class="clear" style="clear: both"></div>
                                 <div>
@@ -86,10 +108,6 @@
                                         <input type="submit" name="formAlias" value="Очистить" class="btn default itdoors-filter-cancel-btn">
                                     </div>
                                 </div>
-
-                                <input type="hidden" name="formAlias" value="{#{ form.vars.name }#}">
-                                <input type="hidden" name="reset" value="0" class="ajax-form-reset-field">
-
                             </form>
                         </div>
                     </div>
@@ -100,11 +118,11 @@
                     <div class="portlet">
                         <div class="portlet-body">
                             <div class="table-container">
-                                <div class="btn-group" style="margin-bottom: 10px;">
+                                {#<div class="btn-group" style="margin-bottom: 10px;">
                                     <a href="{{ Url.site('/admin/materials/create') }}" id="sample_editable_1_new" class="btn green">
                                         Добавить <i class="fa fa-plus"></i>
                                     </a>
-                                </div>
+                                </div>#}
                                 <script>
                                     $(document).ready(function(){
                                         $('.admin-editable').editable({
@@ -155,7 +173,7 @@
                                                 </td>
                                                 <td><a href="#" data-type="text" id="name" data-pk="{{ item.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ item.name }}</a></td>
                                                 <td><a href="#" data-type="text" id="price" data-pk="{{ item.id }}" data-title="Введите цену" class="editable editable-click admin-editable">{{ item.price |number_format(2, '.', ' ')}}</a></td>
-                                                <td><a href="#" data-type="text" id="category_id" data-pk="{{ item.id }}" data-title="Выберите категорию" class="editable editable-click admin-editable">{{ item.category_id }}</a></td>
+                                                <td>{{ item.catName }}</td>
                                                 <td>
                                                     <a href="{{ Url.site('/admin/materials/delete/' ~ item.id) }}"
                                                        class="btn default btn-xs black admin-delete"

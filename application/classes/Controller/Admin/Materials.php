@@ -13,9 +13,31 @@ class Controller_Admin_Materials extends Controller_Admin_Index
 
     public function action_index()
     {
-        $object = ORM::factory('Material');
+        $filter = array();
+        $filter['material'] = array();
+        if ($this->request->post()) {
+            if ($this->request->post('formAlias') == 'Фильтр') {
+                $this->session->set('filter_material_admin', $this->request->post('name'));
+            }else{
+                $this->session->set('filter_material_admin', false);
+            }
+        }
+        $object = ORM::factory('Material')
+                ->select(array('material_categories.name', 'catName'))
+                ->join('material_categories', 'left')
+                ->on('material.category_id', '=', 'material_categories.id');
+        $namesFilter = $this->session->get('filter_material_admin', false);
 
-        $total_items =  $object->count_all();
+        if ($namesFilter && !empty($namesFilter)) {
+            if (!is_array($namesFilter)) {
+                $filter['material']['name'] = $namesFilter;
+                $namesFilter = explode(',', $namesFilter);
+            }
+            $object->where('name', 'in', $namesFilter);
+        }
+
+        $objectCount = clone $object;
+                $total_items =  $objectCount->count_all();
         $pagination = Pagination::factory(array('total_items' => $total_items))->route_params(array(
                 'controller' => strtolower($this->request->controller()),
                 'action' => $this->request->action()
@@ -25,6 +47,7 @@ class Controller_Admin_Materials extends Controller_Admin_Index
                 ->offset($pagination->offset)
                 ->find_all();
 
+        $this->set('_filter', $filter);
         $this->set('_materials', $objects);
         $this->set('_pagination', $pagination);
     }
@@ -156,23 +179,23 @@ class Controller_Admin_Materials extends Controller_Admin_Index
      */
     public function action_findname()
     {
-        $reuslt = array();
-        if (isset($_GET['query'])) {
-            $get = $_GET;
+        $result = array();
+        $query = $this->request->query('query');
+        if (isset($query)) {
             $objects = ORM::factory('Material')
-                    ->where('name', 'LIKE', $get['query'].'%')
+                    ->where('name', 'LIKE', $query.'%')
+                    ->group_by('name')
                     ->find_all();
             
             foreach ($objects as $object) {
-                $reuslt[] =  array(
-                    'id' => $object->id,
-                    'value' => $object->id,
+                $result[] =  array(
+                    'id' => $object->name,
                     'name' => $object->name,
-                    'text' => $object->name
+                    'value' => $object->name
                 );
             }
         }
-        $this->set('_result', json_encode($reuslt));
+        $this->set('_result', json_encode($result));
     }
     /**
      * 
