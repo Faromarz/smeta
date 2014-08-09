@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Авг 09 2014 г., 10:40
+-- Время создания: Авг 09 2014 г., 21:09
 -- Версия сервера: 5.5.37-MariaDB-wsrep
 -- Версия PHP: 5.5.15
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `works` (
   `repair_ids` varchar(64) DEFAULT NULL,
   `cat_arr` varchar(255) DEFAULT NULL,
   `podceteg_arr` varchar(64) DEFAULT NULL,
-  `work_cat` int(11) DEFAULT NULL COMMENT 'категории 2',
+  `category_id` int(11) DEFAULT NULL COMMENT 'Категории работ',
   `watch` double(3,1) NOT NULL DEFAULT '1.0',
   `nv_vt` tinyint(1) DEFAULT NULL COMMENT '0  - новострой 1 - вторичка',
   `room_type` varchar(64) DEFAULT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `works` (
 -- Дамп данных таблицы `works`
 --
 
-INSERT INTO `works` (`id`, `count`, `unit`, `name`, `repair_ids`, `cat_arr`, `podceteg_arr`, `work_cat`, `watch`, `nv_vt`, `room_type`, `type`, `price`) VALUES
+INSERT INTO `works` (`id`, `count`, `unit`, `name`, `repair_ids`, `cat_arr`, `podceteg_arr`, `category_id`, `watch`, `nv_vt`, `room_type`, `type`, `price`) VALUES
 (4, '1', 'шт.', 'Окна', '2_1,2_2,2_3', '46,47,48', NULL, NULL, 0.5, 7, '1,2', 0, 1000.00),
 (8, 'CD', 'шт.', 'Дверь входная', '2_1,2_2,2_3', '3', NULL, NULL, 1.0, 7, '1', 0, 500.00),
 (10, 'S', 'м<sup>2</sup>', 'Снятие линолеума,ковролина, ламината (без сохранения)', '2_1,2_2,2_3', '39,40', NULL, NULL, 0.1, 7, '3', 0, 200.00),
