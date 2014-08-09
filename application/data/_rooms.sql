@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.7deb7
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost
--- Время создания: Июл 05 2014 г., 15:25
--- Версия сервера: 5.1.73
--- Версия PHP: 5.3.3
+-- Хост: 127.0.0.1
+-- Время создания: Авг 09 2014 г., 23:19
+-- Версия сервера: 5.5.25
+-- Версия PHP: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,6 +30,8 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
+  `length` decimal(4,2) NOT NULL,
+  `width` decimal(4,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
@@ -36,13 +39,17 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 -- Дамп данных таблицы `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `type`, `name`) VALUES
-(1, 1, 'Комната №1'),
-(2, 1, 'Комната №2'),
-(3, 1, 'Комната №3'),
-(4, 1, 'Комната №4'),
-(5, 1, 'Комната №5'),
-(6, 2, 'Кухня'),
-(7, 3, 'Коридор'),
-(8, 4, 'Ванна'),
-(9, 5, 'Туалет');
+INSERT INTO `rooms` (`id`, `type`, `name`, `length`, `width`) VALUES
+(1, 1, 'Комната №1', '5.50', '3.50'),
+(2, 1, 'Комната №2', '5.50', '3.50'),
+(3, 1, 'Комната №3', '5.50', '3.50'),
+(4, 1, 'Комната №4', '5.50', '3.50'),
+(5, 1, 'Комната №5', '5.50', '3.50'),
+(6, 2, 'Кухня', '3.00', '3.00'),
+(7, 3, 'Коридор', '3.00', '2.00'),
+(8, 4, 'Ванна', '1.80', '1.70'),
+(9, 5, 'Туалет', '1.70', '0.80');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
