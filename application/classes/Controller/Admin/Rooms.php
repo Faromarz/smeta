@@ -33,6 +33,8 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
             $room = ORM::factory('Room');
             $room->name = $post['name'];
             $room->type = $post['type'];
+            $room->width = $post['width'];
+            $room->length = $post['length'];
             $room->create();
             HTTP::redirect('/admin/rooms');
         }
@@ -75,7 +77,7 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
             if ($name && $id &&  $value != '') {
                 $object = ORM::factory('Room', $id);
                 if ($object->loaded()) {
-                    if (in_array($name, array('type', 'name'))) {
+                    if (in_array($name, array('type', 'name', 'length', 'width'))) {
                         $object->$name = $value;
                         $object->save();
                         $array = array('save' => 'ok');

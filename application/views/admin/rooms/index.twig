@@ -76,6 +76,12 @@
                                                 Название
                                             </th>
                                             <th width="10%">
+                                                Ширина
+                                            </th>
+                                            <th width="10%">
+                                                Длина
+                                            </th>
+                                            <th width="10%">
                                                 Действия
                                             </th>
                                         </tr>
@@ -86,6 +92,8 @@
                                                 <td>{{ room.id }}</td>
                                                 <td><a href="#" data-type="text" id="type" data-pk="{{ room.id }}" data-title="Введите тип" class="editable editable-click admin-editable">{{ room.type }}</a></td>
                                                 <td><a href="#" data-type="text" id="name" data-pk="{{ room.id }}" data-title="Введите название комнаты" class="editable editable-click admin-editable">{{ room.name }}</a></td>
+                                                <td><a href="#" data-type="text" id="width" data-pk="{{ room.id }}" data-title="Введите ширину комнаты" class="editable editable-click admin-editable">{{ room.width }}</a></td>
+                                                <td><a href="#" data-type="text" id="length" data-pk="{{ room.id }}" data-title="Введите длину комнаты" class="editable editable-click admin-editable">{{ room.length }}</a></td>
                                                 <td>
                                                     <a href="{{ Url.site('/admin/rooms/delete/' ~ room.id) }}"
                                                        class="btn default btn-xs black admin-delete"
