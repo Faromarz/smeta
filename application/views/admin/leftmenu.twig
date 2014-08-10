@@ -59,7 +59,7 @@
                     </li>
                 </ul>
             </li>
-             <li{% if _controller == 'Materials' %} class="active"{% endif %}>
+            <li{% if _controller == 'Materials' %} class="active"{% endif %}>
                 <a href="javascript:;">
                     <i class="fa fa-sitemap"></i>
                     <span class="title">Материалы</span>
@@ -76,6 +76,21 @@
                         <a href="{{ Url.site('/admin/materials') }}">
                             <i class="fa fa-sitemap"></i>
                             <span class="title">Список материалов</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li{% if _controller == 'Works' %} class="active"{% endif %}>
+                <a href="javascript:;">
+                    <i class="fa fa-sitemap"></i>
+                    <span class="title">Работы</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li{% if _action in {0:'works'} %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/works') }}">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Список работы</span>
                         </a>
                     </li>
                 </ul>
