@@ -590,7 +590,7 @@ function Smeta(){
                         '   $(".mat-price-all-' + ide + '").text((smeta.get_materials_slider(ul.value).price+" р"));'+
                         '   $(".mat-name-' + ide + '").text(smeta.get_materials_slider(ul.value).name);'+
                         '   $(".city-name-' + ide + '").text(smeta.get_materials_slider(ul.value).country);'+
-                        '   $("#materials-' + ide + '").find(".slider_img").css( "background-image","url(/media/img/material/"+smeta.get_materials_slider(ul.value).img+")");'+
+                        '   $("#material-slider-' + ide + '").find(".slider_img").css( "background-image","url(/media/img/material/"+smeta.get_materials_slider(ul.value).img+")");'+
                         "},"+
                         "stop : function (e, ul) {"+
                         "   smeta.select_material(ul.value, "+ v.id+", "+numb+");"+
