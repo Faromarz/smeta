@@ -128,13 +128,22 @@ class Controller_Admin_Works extends Controller_Admin_Index
         if ($this->request->post()) {
             $name = (string) Arr::get($this->request->post(), 'name', false);
             $id = (int) Arr::get($this->request->post(), 'pk', false);
-            $value = trim(Arr::get($this->request->post(), 'value', false));
+            $value = Arr::get($this->request->post(), 'value', false);
 
             if ($name && $id && $value != '') {
                 $object = ORM::factory('Work', $id);
                 if ($object->loaded()) {
-                    if (in_array($name, array('name', 'price', 'watch')) || ($name == 'type' && in_array($value, array(0,1)))) {
-                        $object->$name = $value;
+                    if($name == 'types_apartment_ids') {
+                        $value = implode(',', $value);
+                    }
+                    if (
+                            in_array($name, array('name', 'price', 'watch'))
+                            ||
+                            ($name == 'type' && in_array($value, array(0,1)))
+                            ||
+                            ($name == 'types_apartment_ids' && in_array($value, array('1','2', '1,2')))
+                        ) {
+                        $object->$name = trim($value);
                         $object->save();
                         $array = array('save' => 'ok');
                     } else {

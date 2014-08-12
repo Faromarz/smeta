@@ -89,18 +89,16 @@
                             callback(deff);
                         },*/
                         minimumInputLength: 0,
-                        placeholder: 'Выберите тип',
+                        placeholder: 'Выберите тариф',
                         allowClear: true,
                         data: [
                             {id: 0, name: 'Демонтажные'},
                             {id: 1, name: 'Монтажные'}
                         ],
                         formatResult: function(exercise) { 
-                            console.log(exercise);
                             return "<div class='select2-user-result'>" + exercise.name + "</div>"; 
                         },
-                        formatSelection: function(exercise) { 
-                            console.log(exercise);
+                        formatSelection: function(exercise) {
                             return exercise.name; 
                         }
                     });
@@ -159,10 +157,18 @@
                                         });
                                         $('.admin-editable-work-type').editable({
                                             url: '/admin/works/save',
-                                            emptytext: 'Введите значение',
+                                            emptytext: 'Выберите значение',
                                             source: [
                                                 {value: 0, text: 'Демонтажные'},
                                                 {value: 1, text: 'Монтажные'}
+                                            ]
+                                        });
+                                        $('.admin-editable-work-types_apartment_ids').editable({
+                                            url: '/admin/works/save',
+                                            emptytext: 'Выберите тип',
+                                            source: [
+                                                {value: 1, text: 'Новострой'},
+                                                {value: 2, text: 'Вторичка'}
                                             ]
                                         });
                                     });
@@ -174,6 +180,7 @@
                                             <th width="15%">Название</th>
                                             <th width="10%">Цена</th>
                                             <th width="10%">Часы</th>                                            
+                                            <th width="10%">Тариф</th>
                                             <th width="10%">Тип</th>
                                             <th width="10%">Группа работ</th>
                                             <th width="10%">Действия</th>
@@ -186,7 +193,8 @@
                                                 <td><a href="#" data-type="text" id="name" data-pk="{{ item.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ item.name }}</a></td>
                                                 <td><a href="#" data-type="text" id="price" data-pk="{{ item.id }}" data-title="Введите цену" class="editable editable-click admin-editable">{{ item.price |number_format(2, '.', ' ')}}</a></td>
                                                 <td><a href="#" data-type="text" id="watch" data-pk="{{ item.id }}" data-value="{{ item.watch }}" data-title="Введите часы" class="editable editable-click admin-editable">{{ item.watch }}</a></td>
-                                                <td><a href="#" data-type="select" id="type" data-pk="{{ item.id }}" data-value="{{ item.type }}" data-title="Выберите тип" class="editable editable-click admin-editable-work-type"></a></td>
+                                                <td><a href="#" data-type="select" id="type" data-pk="{{ item.id }}" data-value="{{ item.type }}" data-title="Выберите тип ремонта" class="editable editable-click admin-editable-work-type"></a></td>
+                                                <td><a href="#" data-type="checklist" id="types_apartment_ids" data-pk="{{ item.id }}" data-value="{{ item.types_apartment_ids }}" data-title="Выберите тип" class="editable editable-click admin-editable-work-types_apartment_ids"></a></td>
                                                 <td>{{ item.catName }}</td>
                                                 <td>
                                                     <a href="{{ Url.site('/admin/works/delete/' ~ item.id) }}"
