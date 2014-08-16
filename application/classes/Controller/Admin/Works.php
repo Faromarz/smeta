@@ -49,20 +49,20 @@ class Controller_Admin_Works extends Controller_Admin_Index
             $object->where('work.type', 'in', $typeFilter);
         }
 
-        $objectCount = clone $object;
-        $total_items =  $objectCount->count_all();
-        $pagination = Pagination::factory(array('total_items' => $total_items))->route_params(array(
-                'controller' => strtolower($this->request->controller()),
-                'action' => $this->request->action()
-              ));
+//        $objectCount = clone $object;
+       // $total_items =  $objectCount->count_all();
+        //$pagination = Pagination::factory(array('total_items' => $total_items))->route_params(array(
+//                'controller' => strtolower($this->request->controller()),
+//                'action' => $this->request->action()
+//              ));
         $objects = $object
-                ->limit($pagination->items_per_page)
-                ->offset($pagination->offset)
+//                ->limit($pagination->items_per_page)
+//                ->offset($pagination->offset)
                 ->find_all();
 
         $this->set('_filter', $filter);
         $this->set('_works', $objects);
-        $this->set('_pagination', $pagination);
+        //$this->set('_pagination', $pagination);
     }
 
     /**
