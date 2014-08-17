@@ -133,11 +133,14 @@ class Controller_Admin_Works extends Controller_Admin_Index
             if ($name && $id && $value != '') {
                 $object = ORM::factory('Work', $id);
                 if ($object->loaded()) {
-                    if($name == 'types_apartment_ids') {
+                    if(in_array($name, array('types_apartment_ids', 'room_type'))) {
                         $value = implode(',', $value);
                     }
+                    if($name == 'unit' && $value == 'м2') {
+                        $value = str_replace('м2', 'м<sup>2</sup>', $value);
+                    }
                     if (
-                            in_array($name, array('name', 'price', 'watch'))
+                            in_array($name, array('name', 'price', 'watch', 'repair_ids', 'cat_arr', 'unit', 'room_type'))
                             ||
                             ($name == 'type' && in_array($value, array(0,1)))
                             ||

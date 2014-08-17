@@ -306,6 +306,17 @@ class Controller_Admin_Materials extends Controller_Admin_Index
             throw new Kohana_HTTP_Exception_404("Страница не найдена");
         }
     }
+     public function action_getcatjson()
+    {
+        $objects = ORM::factory('Material_Categories')->fulltree();
+        foreach ($objects as $object) {
+            $result[] =  array(
+                'id' => $object->id,
+                'text' => $object->name
+            );
+        }
+        $this->set('_result', json_encode($result));
+    }
     
 
     public function after()
