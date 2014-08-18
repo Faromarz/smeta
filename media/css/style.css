@@ -389,7 +389,7 @@ a {
     margin-top: 20px;
 }
 
-.one_room {
+#one_room {
     width: 59px;
     height: 60px;
     margin: 10px 0 0 1px;
@@ -397,7 +397,7 @@ a {
     cursor: pointer;
 }
 
-.two_room {
+#two_room {
     width: 57px;
     height: 60px;
     margin: 10px 0 0 0;
@@ -405,7 +405,7 @@ a {
     cursor: pointer;
 }
 
-.three_room {
+#three_room {
     width: 57px;
     height: 60px;
     margin: 10px 0 0 0;
@@ -413,7 +413,7 @@ a {
     cursor: pointer;
 }
 
-.four_room {
+#four_room {
     width: 57px;
     height: 60px;
     margin: 10px 0 0 0;
@@ -421,7 +421,7 @@ a {
     cursor: pointer;
 }
 
-.five_room {
+#five_room {
     width: 57px;
     height: 60px;
     margin: 10px 0 0 0;
