@@ -73,7 +73,7 @@
                 <div id="privat">
                     <p>
                     {% if _user %}
-                        {{ _user.username }}
+                        <a href="{{ Url.site('/admin') }}">{{ _user.username }}</a>
                         <a href="{{ Url.site('auth/logout') }}">Выйти</a>
                     {% else %}
                         личный кабинет
