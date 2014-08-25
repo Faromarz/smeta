@@ -174,15 +174,6 @@
                         }
                     });
                     $('#type').select2({
-                        /*initSelection: function(element, callback) {
-                            var arr = explode(',', '{{ _filter.work.type|raw }}');
-                            var deff = [];
-                            for (n in arr) {
-                                deff.push({id:arr[n],name:arr[n] });
-                            }
-                            console.log(deff);
-                            callback(deff);
-                        },*/
                         minimumInputLength: 0,
                         placeholder: 'Выберите тариф',
                         allowClear: true,
@@ -289,6 +280,14 @@
                                                 {value: 1, text: 'Монтажные'}
                                             ]
                                         });
+                                        $('.admin-editable-work-is_show').editable({
+                                            url: '/admin/works/save',
+                                            emptytext: 'Выберите значение',
+                                            source: [
+                                                {value: 0, text: 'Не отображается'},
+                                                {value: 1, text: 'Отображается'}
+                                            ]
+                                        });
                                          $(".admin-editable-work-type_repair").select2({
                                             placeholder: "Укажите тип ремонта",
                                             allowClear: true,
@@ -351,6 +350,7 @@
                     <th>ID</th>
                     <th>Название</th>                           
                     <th>Тип работы</th>
+                    <th>Формула</th>
                     <th>Тип квартиры</th>
                     <th>Тип комнаты</th>
                     <th>Категория</th>
@@ -358,25 +358,26 @@
                     <th>Группа работ</th>
                     <th>Ед. изм.</th>
                     <th class="sorting_disabled">Цена</th>
-                    <th>Часы</th> 
+                    <th>Часы</th>
+                    <th>Статус</th>
                     <th>Действия</th>
                 </tr>
                 </thead>
                 {% for item in _works %}
                     <tr {% if loop.index is odd %}class="color"{% endif %}>
                         <td>{{ item.id }}</td>
-                        <td><a href="#" data-type="text" id="name" data-pk="{{ item.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ item.name }}</a></td>
+                        <td><a href="#" data-type="textarea" id="name" data-pk="{{ item.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ item.name }}</a></td>
                         <td><a href="#" data-type="select" id="type" data-pk="{{ item.id }}" data-value="{{ item.type }}" data-title="Выберите тип работы" class="editable editable-click admin-editable-work-type"></a></td>
+                        <td><a href="#" data-type="text" id="count" data-pk="{{ item.id }}" data-value="{{ item.count }}" data-title="Укажите формулу" class="editable editable-click admin-editable">{{ item.count }}</a></td>
                         <td><a href="#" data-type="checklist" id="types_apartment_ids" data-pk="{{ item.id }}" data-value="{{ item.types_apartment_ids }}" data-title="Выберите тип квартиры" class="editable editable-click admin-editable-work-types_apartment_ids"></a></td>
                         <td><a href="#" data-type="checklist" id="room_type" data-pk="{{ item.id }}" data-value="{{ item.room_type }}" data-title="Выберите тип комнаты" class="editable editable-click admin-editable-work-room_type"></a></td>
-                        <td>
-                            <input type="hidden" style="min-width: 200px;" data-pk="{{ item.id }}" value="{{ item.cat_arr }}" class="admin-editable-work-cat_arr">
-                        </td>
+                        <td><input type="hidden" style="min-width: 200px;" data-pk="{{ item.id }}" value="{{ item.cat_arr }}" class="admin-editable-work-cat_arr"></td>
                         <td><input type="hidden" style="min-width: 200px;" data-pk="{{ item.id }}" value="{{ item.repair_ids }}" class="admin-editable-work-type_repair"></td>
                         <td>{{ item.catName }}</td>
                         <td><a href="#" data-type="text" id="unit" data-pk="{{ item.id }}" data-title="Введите единицу измерения" class="editable editable-click admin-editable">{{ item.unit |raw}}</a></td>
                         <td><a href="#" data-type="text" id="price" data-pk="{{ item.id }}" data-title="Введите цену" class="editable editable-click admin-editable">{{ item.price |number_format(2, '.', '')}}</a></td>
                         <td><a href="#" data-type="text" id="watch" data-pk="{{ item.id }}" data-value="{{ item.watch }}" data-title="Введите часы" class="editable editable-click admin-editable">{{ item.watch }}</a></td>
+                        <td><a href="#" data-type="select" id="is_show" data-pk="{{ item.id }}" data-value="{{ item.is_show }}" data-title="Выберите статус" class="editable editable-click admin-editable-work-is_show"></a></td>
                         <td>
                             <a href="{{ Url.site('/admin/works/delete/' ~ item.id) }}"
                                class="btn default btn-xs black admin-delete"

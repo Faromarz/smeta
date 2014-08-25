@@ -103,6 +103,36 @@ class Controller_Admin_Category extends Controller_Admin_Index
         }
         $this->set('_result', json_encode($array));
     }
+    public function action_saveimg()
+    {
+        $array = array();
+        if ($this->request->param('id')) {
+            $object = ORM::factory('Article_Categories', $this->request->param('id'));
+            if ($object->loaded()) {
+                 if($_FILES['img']['tmp_name']){
+                    $file = $_FILES['img']['tmp_name'];
+                    $name = $_FILES['img']['name'];
+                    $type = strtolower(substr($name, 1 + strrpos($name, ".")));
+                    $directory = '/media/img/cat/';
+                     if (is_file($directory . $object->img)) {
+                        if (unlink($directory . $object->img)) {
+
+                        }
+                    }
+                    $object->img = $this->_upload_img($file, $type, $object->pk());
+                    $object->save();
+                    $array['file'] = $object->img;
+                } else {
+                    $array = array('error' => 'File empty');
+                }
+            } else {
+                $array = array('error' => 'category not found');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
 
     /**
      * Редактирование основних параметров работи в портфолио

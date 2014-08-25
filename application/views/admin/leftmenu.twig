@@ -87,6 +87,12 @@
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
+                    <li{% if _action in {0:'cat'} %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/works/cat') }}">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Категории</span>
+                        </a>
+                    </li>
                     <li{% if _action in {0:'works'} %} class="active"{% endif %}>
                         <a href="{{ Url.site('/admin/works') }}">
                             <i class="fa fa-sitemap"></i>

@@ -144,6 +144,8 @@ class Controller_Admin_Works extends Controller_Admin_Index
                             ||
                             ($name == 'type' && in_array($value, array(0,1)))
                             ||
+                            ($name == 'is_show' && in_array($value, array(0,1)))
+                            ||
                             ($name == 'types_apartment_ids' && in_array($value, array('1','2', '1,2')))
                         ) {
                         $object->$name = trim($value);
@@ -316,7 +318,108 @@ class Controller_Admin_Works extends Controller_Admin_Index
         }
     }
     */
+    public function action_cat(){
+        $object = ORM::factory('Work_Categories')->find_all();
+        $this->set('_categories', $object);
+    }
+    public function action_catcreate()
+    {
+        $errors = array();
+        if($this->request->post()){
+            $post = $this->request->post();
+            $cat = ORM::factory('Work_Categories');
+            $cat->name = $post['name'];
+             if($_FILES['img']['tmp_name']){
+                $file = $_FILES['img']['tmp_name'];
+                $name = $_FILES['img']['name'];
+                $type = strtolower(substr($name, 1 + strrpos($name, ".")));
+                $cat->img = $this->_upload_img($file, $type, $cat->pk());
+            }
+            $cat->save();
+            HTTP::redirect("/admin/works/cat");
+             
+            
+        }
+        $this->set('_errors', $errors);
+    }
+     public function action_catsave()
+    {
+        $array = array();
+        if ($this->request->post()) {
+            $post = $this->request->post();
+            $name = (string) Arr::get($post, 'name', false);
+            $id = (int) Arr::get($post, 'pk', false);
+            $value = trim(Arr::get($post, 'value', false));
 
+            if ($name && $id) {
+                $object = ORM::factory('Work_Categories', $id);
+                if ($object->loaded()) {
+                    if (in_array($name, array('name',))) {
+                        $object->$name = $value;
+                        $object->save();
+                        $array = array('save' => 'ok');
+                    } else {
+                        $array = array('error' => 'atribut ' . $name . ' not found');
+                    }
+                } else {
+                    $array = array('error' => 'category not found');
+                }
+            } else {
+                $array = array('error' => 'data');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+     public function action_catdelete()
+    {
+        $object = ORM::factory('Work_Categories', $this->request->param('id'));
+
+        if ($object->loaded()) {
+            $directory = '/media/img/cat/work/';
+            if (is_file($directory . $object->img)) {
+                if (unlink($directory . $object->img)) {
+
+                }
+            }
+            $object->delete();
+            HTTP::redirect('/admin/works/cat');
+        } else {
+            throw new Kohana_HTTP_Exception_404("Страница не найдена");
+        }
+    }
+    public function action_saveimg()
+    {
+        $array = array();
+        if ($this->request->param('id')) {
+            $object = ORM::factory('Work_Categories', $this->request->param('id'));
+            if ($object->loaded()) {
+                 if($_FILES['img']['tmp_name']){
+                    $file = $_FILES['img']['tmp_name'];
+                    $name = $_FILES['img']['name'];
+                    $type = strtolower(substr($name, 1 + strrpos($name, ".")));
+                    $directory = '/media/img/cat/work/';
+                     if (is_file($directory . $object->img)) {
+                        if (unlink($directory . $object->img)) {
+
+                        }
+                    }
+                    $object->img = $this->_upload_img($file, $type, $object->pk());
+                    $object->save();
+                    $array['file'] = $object->img;
+                } else {
+                    $array = array('error' => 'File empty');
+                }
+            } else {
+                $array = array('error' => 'category not found');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+    
     public function after()
     {
 //		if(empty($this->template->left_menu->links))
@@ -396,5 +499,38 @@ class Controller_Admin_Works extends Controller_Admin_Index
         return $filename . '.' . $ext;
     }
     */
+    public function _upload_img($file, $ext, $filename)
+    {
+        if ($ext == NULL) {
+            $ext = 'jpg';
+        }
+        if ($filename == NULL) {
+            $symbols = '0123456789qwertyuiopasdfghjklzxcvbnm';
+            $filename = '';
+
+            for ($i = 0; $i < 10; $i++) {
+                $key = rand(0, strlen($symbols) - 1);
+                $filename .= $symbols[$key];
+            }
+        }
+
+        $directory = 'media/img/cat/work/';
+        // генерируем название
+
+        $image = Image::factory($file);
+//            $image->save("$directory/logo/$filename.$ext");// сохряняем оригинал
+        $watermark = Image::factory("media/img/logo.png");
+        $ratio = $image->width / $image->height;
+        $ratio_2 = $watermark->width / $watermark->height;
+        if ($ratio < $ratio_2) {
+            $watermark->resize($image->width, $image->height, Image::WIDTH);
+        } else {
+            $watermark->resize($image->width, $image->height, Image::HEIGHT);
+        }
+        $image->watermark($watermark, NULL, NULL, 20);
+        $image->save("$directory/$filename.$ext");
+
+        return $filename . '.' . $ext;
+    }
     
 }

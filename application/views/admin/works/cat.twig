@@ -32,7 +32,7 @@
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="{{ Url.site('/admin/category') }}">Категории</a>
+                            <a href="{{ Url.site('/admin/works/cat') }}">Категории</a>
                         </li>
                     </ul>
                 </div>
@@ -45,15 +45,15 @@
                         <div class="portlet-body">
                             <div class="table-container">
                                 <div class="btn-group" style="margin-bottom: 10px;">
-                                    <a href="{{ Url.site('/admin/category/create') }}" id="sample_editable_1_new" class="btn green">
+                                    <a href="{{ Url.site('/admin/works/catcreate') }}" id="sample_editable_1_new" class="btn green">
                                         Добавить <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                                 <script>
                                     $(document).ready(function(){
                                         $('.admin-editable').editable({
-                                            url: '/admin/category/save',
-                                            source: '/admin/category/save',
+                                            url: '{{ Url.site('/admin/works/catsave') }}',
+                                            source: '{{ Url.site('/admin/works/catsave') }}',
                                             emptytext: 'Введите значение',
                                             select2: {
                                                 placeholder: 'Введите значение',
@@ -66,29 +66,19 @@
                                 <table class="table table-striped table-bordered table-hover" id='ajaxBlock'>
                                     <thead>
                                         <tr role="row" class="heading">
-                                            <th width="5%">
-                                                Картинка
-                                            </th>
-                                            <th width="15%">
-                                                Название
-                                            </th>
-                                            <th width="10%">
-                                                Title картинки
-                                            </th>
-                                            <th width="10%">
-                                                Alt картинки
-                                            </th>
-                                            <th width="10%">
-                                                Действия
-                                            </th>
+                                            <th width="5%"> ID</th>
+                                            <th width="15%">Изображение</th>
+                                            <th width="15%">Название</th>
+                                            <th width="10%">Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for cat in _categories %}
                                             <tr>
+                                                <td>{{ cat.id }}</td>
                                                 <td>
                                                     {% if cat.img %}
-                                                        <img style="max-width:114px;" src="{{ Url.media('/media/img/cat/' ~ cat.img) }}">
+                                                        <img style="max-width:114px;" src="/media/img/cat/work/{{ cat.img }}">
                                                     {% endif %}
                                                     <script>
                                                         $(document).ready(function(){
@@ -101,12 +91,12 @@
                                                                 },
                                                                 done: function (e, data) {
                                                                     $(this).parents('td').find('img').remove();
-                                                                    $(this).parents('td').prepend('<img style="max-width:114px;" src="/media/img/cat/'+data.result.file+'?v='+ Math.random()+'" />');
+                                                                    $(this).parents('td').prepend('<img style="max-width:114px;" src="/media/img/cat/work/'+data.result.file+'?v='+ Math.random()+'" />');
                                                                     alert('Изобржаение загружено');
-                                                                    //$.each(data.result.files, function (index, file) {
+                                                                   /*$.each(data.result.files, function (index, file) {
                                                                        // $('<p/>').text(file.name).appendTo('#files');
 
-                                                                   // });
+                                                                    });*/
                                                                 },
                                                                 add: function (e, data) {
                                                                     if(confirm('Загрузить новое изображение? Старое будет удалено.')){data.submit();}
@@ -119,14 +109,12 @@
                                                     <span class="btn btn-success fileinput-button">
                                                         <i class="glyphicon glyphicon-plus"></i>
                                                         <span>{% if cat.img is not empty %}Изменить{% else %}Загрузить{% endif %}</span>
-                                                        <input id="fileupload{{cat.id}}" type="file" name="img" data-url="/admin/category/saveimg/{{ cat.id }}">
+                                                        <input id="fileupload{{cat.id}}" type="file" name="img" data-url="/admin/works/saveimg/{{ cat.id }}">
                                                     </span>
                                                 </td>
-                                                <td{% if cat.lvl == 1 %} style="font-weight:bold"{% endif %}>{{ cat.getEmptyLvl() }}<a href="#" data-type="text" id="name" data-pk="{{ cat.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ cat.name }}</a></td>
-                                                <td><a href="#" data-type="text" id="img_title" data-pk="{{ cat.id }}" data-title="Введите альтернативное название картинки" class="editable editable-click admin-editable">{{ cat.img_title }}</a></td>
-                                                <td><a href="#" data-type="text" id="img_alt" data-pk="{{ cat.id }}" data-title="Введите название картинки" class="editable editable-click admin-editable">{{ cat.img_alt }}</a></td>
+                                                <td><a href="#" data-type="text" id="name" data-pk="{{ cat.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ cat.name }}</a></td>
                                                 <td>
-                                                    <a href="{{ Url.site('/admin/category/delete/' ~ cat.id) }}"
+                                                    <a href="{{ Url.site('/admin/works/catdelete/' ~ cat.id) }}"
                                                        class="btn default btn-xs black admin-delete"
                                                        data-question="Удалить?"
                                                        >

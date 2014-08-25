@@ -95,17 +95,6 @@ class Controller_Admin_Materials extends Controller_Admin_Index
             }
             
         }
-
-//        if ($_POST) {
-//            try {
-////                // Создаём запись
-////                $object = $object->create_article($_POST);
-////
-////                HTTP::redirect("/admin/category/");
-//            } catch (ORM_Validation_Exception $e) {
-//                $errors = Arr::flatten($e->errors(""));
-//            }
-//        }
         $objects = ORM::factory('Category')->fulltree();
         $this->set('_categories', $objects);
         $this->set('_errors', $errors);
@@ -116,9 +105,10 @@ class Controller_Admin_Materials extends Controller_Admin_Index
          die('В разработке');
         $array = array();
         if ($this->request->post()) {
-            $name = (string) Arr::get($_POST, 'name', false);
-            $id = (int) Arr::get($_POST, 'pk', false);
-            $value = trim(Arr::get($_POST, 'value', false));
+            $post = $this->request->post();
+            $name = (string) Arr::get($post, 'name', false);
+            $id = (int) Arr::get($post, 'pk', false);
+            $value = trim(Arr::get($post, 'value', false));
 
             if ($name && $id && ($name == 'name' && $value != '' || in_array($name, array('img_title', 'img_alt')))) {
                 $object = ORM::factory('Category', $id);
