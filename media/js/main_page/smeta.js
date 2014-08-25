@@ -8,6 +8,13 @@ function Smeta(){
     _this.works = new Array();
     _this.count_rooms = 0;
     _this.height_ceiling = 2.75;
+    _this.size = 0;
+    _this.price_materials = 0;
+    _this.price_works_dem = 0;
+    _this.price_works_mon = 0;
+    _this.time_works_dem = 0;
+    _this.time_works_mon = 0;
+    _this.room_name = '';
 
     _this.init = function(){
 
@@ -85,6 +92,26 @@ function Smeta(){
         // вкл/выкл учитывания комнаты
         $(".ignore").on("click", function() { _this.on_off_room(this); });
         $(".ignore_4[data-room-id='1']").on("click", function() { _this.on_off_room(this, 1); });
+
+        //кнопка перехода на смету клиента
+        $("#your_smeta").on("click", function() { _this.add_smeta() });
+    }
+
+    //добавление сметы в бд
+    _this.add_smeta=function(){
+        _this.preloader(true);
+        $.ajax({
+            type: "POST",
+            url: "ajax/smeta/add",
+            data: { "rooms" : JSON.stringify(_this.rooms), "types" : _this.types, "square" : _this.size, "height" : _this.height_ceiling,
+                    "price_materials" : _this.price_materials, "price_works_dem": _this.price_works_dem, "price_works_mon": _this.price_works_mon,
+                    "time_works_dem": _this.time_works_dem, "time_works_mon": _this.time_works_mon, "room_name" : _this.room_name, "count_rooms" : _this.count_rooms},
+            success: function(data){
+                var result = JSON.parse( data );
+
+            }
+        }, 'json');
+        _this.preloader(false);
     }
 
     // вкл/выкл учитывания комнаты
@@ -207,6 +234,31 @@ function Smeta(){
         });
         setInterval( function(){$("#your_price_without_discount").fadeToggle(); }, 4000);
         _this.calculation_works();
+        var text_room = '';
+        if (_this.count_rooms==1) text_room = 'однокомнатная квартира';
+        else
+        if (_this.count_rooms==2) text_room = 'двухкомнатная квартира';
+        else
+        if (_this.count_rooms==3) text_room = 'трехкомнатная квартира';
+        else
+        if (_this.count_rooms==4) text_room = 'четырехкомнатная квартира';
+        else
+        if (_this.count_rooms==5) text_room = 'пятикомнатная квартира';
+        $('#dop_options_footer_rezult').find('h1:eq(0)').text(text_room);
+        _this.room_name = text_room;
+        _this.calculation_square();
+    }
+
+    //расчитать площадь квартиры
+    _this.calculation_square = function(){
+        var square = 0;
+        $.each(_this.rooms, function(room_key, room_val) {
+            if(room_val.show == 1) {
+                square += _this.rooms[room_key]['square'];
+            }
+        });
+        _this.size = square;
+        $('#dop_options_footer_rezult').find('h3:eq(0)').text(square);
     }
 
     //background выбранных комнат
@@ -310,6 +362,7 @@ function Smeta(){
                 _this.rooms[room_key]['square'] = square;
             }
         });
+        _this.calculation_square();
     }
 
     //изменение площади комнаты при изменении ширины
@@ -326,6 +379,7 @@ function Smeta(){
                 _this.rooms[room_key]['square'] = square;
             }
         });
+        _this.calculation_square();
     }
 
     //изменение ширины окна
@@ -437,7 +491,7 @@ function Smeta(){
 
     //расчет работ
     _this.calculation_works = function(){
-        var summa = 0, dem_sum = 0, dem_time = 0, mont_sum = 0, mont_time = 0, select_repair = _this.types[1]+'_'+_this.types[0], for_repair=[],for_types=[],mat_cat_ids=[],count_material='';
+        var summa = 0, dem_sum = 0, dem_time = 0, mont_sum = 0, mont_time = 0, select_repair = _this.types[1]+'_'+_this.types[0], for_repair=[],for_types=[],mat_cat_ids=[],all_works=new Array();
         $.each(_this.works, function(work_key, work_val) {
             if(work_val.types_apartment_ids==_this.types[2])
             {
@@ -481,10 +535,10 @@ function Smeta(){
                                                 dem_sum+=parseFloat(work_val.price) * parseFloat(_this.count);
                                                 dem_time+=parseFloat(work_val.watch);
                                             }else{
-                                                console.log(mont_sum);
                                                 mont_sum+=parseFloat(work_val.price) * parseFloat(_this.count);
                                                 mont_time+=parseFloat(work_val.watch);
                                             }
+                                            all_works.push({ 'work_id' : work_val.id, 'room_id' : room_val.id, 'room_type' : room_val.type });
                                     }
                                 }
                             });
@@ -493,11 +547,30 @@ function Smeta(){
                 });
             }
         });
+        _this.add_to_works(all_works);
         $('#your_price_without_discount').find('h2:eq(1)').text(parseFloat(summa).toFixed(2) + '  р');
         $('#demont_works').find('h1:eq(0)').text(parseFloat(dem_time).toFixed(2) + '  часов');
         $('#demont_works').find('h1:eq(1)').text(parseFloat(dem_sum).toFixed(2) + '  р');
         $('#mont_works').find('h1:eq(0)').text(parseFloat(mont_time).toFixed(2) + '  часов');
         $('#mont_works').find('h1:eq(1)').text(parseFloat(mont_sum).toFixed(2) + '  р');
+        _this.price_works_dem = parseFloat(dem_sum).toFixed(2);
+        _this.price_works_mon = parseFloat(mont_sum).toFixed(2);
+        _this.time_works_dem = parseFloat(dem_time).toFixed(2);
+        _this.time_works_mon = parseFloat(mont_time).toFixed(2);
+    }
+
+    //добавление работ в комнаты
+    _this.add_to_works = function(masive){
+        var works = new Array();
+        $.each(_this.rooms, function(room_key, room_val) {
+            _this.rooms[room_key]['works'] = {};
+            works.length = 0;
+            $.each(masive, function(key, val) {
+                if(val.room_id==room_val.id)
+                works.push({ 'work_id' : val.work_id });
+            });
+            $.extend(_this.rooms[room_key]['works'], works);
+        });
     }
 
     //добавление материалов в комнаты
@@ -536,6 +609,7 @@ function Smeta(){
         });
         $('#your_price_without_discount').find('h2:eq(0)').text(parseFloat(summ_materials).toFixed(2) + '  р');
         $('#materials_summ').find('h1:eq(0)').text(parseFloat(summ_materials).toFixed(2) + '  р');
+        _this.price_materials = parseFloat(summ_materials).toFixed(2);
         _this.get_rooms_paint(1);
     }
 
