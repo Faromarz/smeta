@@ -399,7 +399,7 @@ class Controller_Admin_Works extends Controller_Admin_Index
                     $file = $_FILES['img']['tmp_name'];
                     $name = $_FILES['img']['name'];
                     $type = strtolower(substr($name, 1 + strrpos($name, ".")));
-                    $directory = '/media/img/cat/work/';
+                    $directory = '/media/img/cat/work';
                      if (is_file($directory . $object->img)) {
                         if (unlink($directory . $object->img)) {
 
