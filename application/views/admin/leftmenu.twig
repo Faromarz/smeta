@@ -101,6 +101,12 @@
                     </li>
                 </ul>
             </li>
+            <li{% if _controller == 'User' %} class="active"{% endif %}>
+                <a href="{{ Url.site('/admin/user') }}">
+                    <i class="fa fa-sitemap"></i>
+                    <span class="title">Все пользователи</span>
+                </a>
+            </li>
             {#<li>
                 <a href="javascript:;">
                     <i class="fa fa-shopping-cart"></i>

@@ -1,0 +1,104 @@
+{% extends "admin/index.twig" %}
+{% block boody %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-title">
+                Добавление <small>нового пользователя</small>
+            </h3>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a href="{{ Url.site('/admin') }}">Рабочий стол</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="{{ Url.site('/admin/user') }}">Пользователи</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="">Новый пользователь</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <div class="table-container">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gift"></i>Новый пользователь
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <!-- BEGIN FORM-->
+                                <form action="{{ Url.site('/admin/user/create') }}" class="form-horizontal form-row-seperated" method="post" enctype="multipart/form-data">
+                                    <div class="form-body">
+                                        
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Логин</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="username" value="{{ _post.username }}" placeholder="Введите логин" class="form-control">
+                                                <span class="help-block">Введите логин</span>
+                                                {% if _errors.username is defined %}{{ _errors.username | raw('html') }}{% endif %}
+                                            </div>
+                                            
+                                            <label class="control-label col-md-3">Email</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="email" value="{{ _post.email }}" placeholder="Введите email" class="form-control">
+                                                <span class="help-block">Введите email</span>
+                                                {% if _errors.email is defined %}{{ _errors.email | raw('html') }}{% endif %}
+                                            </div>
+                                            
+                                            <label class="control-label col-md-3">Телефон</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="phone"  value="{{ _post.phone }}" placeholder="Введите телефон" class="form-control">
+                                                <span class="help-block">Введите телефон</span>
+                                                {% if _errors.phone is defined %}{{ _errors.phone | raw('html') }}{% endif %}
+                                            </div>
+                                            
+                                            <label class="control-label col-md-3">Пароль</label>
+                                            <div class="col-md-9">
+                                                <input type="password" name="password" placeholder="Введите пароль" class="form-control">
+                                                <span class="help-block">Введите пароль</span>
+                                                {% if _errors._external.password is defined %}{{ _errors._external.password | raw('html') }}{% endif %}
+                                            </div>
+                                            
+                                            <label class="control-label col-md-3">Повторите пароль</label>
+                                            <div class="col-md-9">
+                                                <input type="password" name="password_confirm" placeholder="Повторите пароль" class="form-control">
+                                                <span class="help-block">Повторите пароль пароль</span>
+                                                {% if _errors._external.password_confirm is defined %}{{ _errors._external.password_confirm | raw('html') }}{% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions fluid">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    <button type="submit" class="btn green"><i class="fa fa-pencil"></i> Добавить</button>
+                                                    <a href="{{ Url.site('/admin/user') }}" class="btn default">Отмена</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: life time stats -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+
+{% endblock boody %}

@@ -1,0 +1,282 @@
+{% extends "admin/index.twig" %}
+{% block boody %}
+            <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            Widget settings form goes here
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn blue">Save changes</button>
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+            </div>
+            <!-- /.modal -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="page-title">
+                        Пользователи <small>список пользователей</small>
+                    </h3>
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="{{ Url.site('/admin') }}">Рабочий стол</a>
+                            <i class="fa fa-angle-right"></i>
+                        </li>
+                        <li>
+                            <a href="{{ Url.site('/admin/user') }}">Пользователи</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <script>
+                $(document).ready(function(){
+                 /*   $('#nameId').select2({
+                        initSelection: function(element, callback) {
+                            var arr = explode(',', '{{ _filter.work.name|raw }}');
+                            var deff = [];
+                            for (n in arr) {
+                                deff.push({id:arr[n],name:arr[n] });
+                            }
+                            callback(deff);
+                        },
+                        minimumInputLength: 2,
+                        placeholder: 'Введите название',
+                        multiple: true,
+                        ajax: {
+                            url: "{{ Url.site('/admin/works/findname') }}",
+                            dataType: 'json',
+                            quietMillis: 100,
+                            data: function(term, page) {
+                                return {
+                                    query: term
+                                };
+                            },
+                            results: function(data, page) {
+                                return {
+                                    results: data
+                                };
+                            }
+                        },
+                        formatResult: function(exercise) { 
+                            console.log(exercise);
+                            return "<div class='select2-user-result'>" + exercise.name + "</div>"; 
+                        },
+                        formatSelection: function(exercise) { 
+                            console.log(exercise);
+                            return exercise.name; 
+                        }
+                    });
+                    $('#type').select2({
+                        minimumInputLength: 0,
+                        placeholder: 'Выберите тариф',
+                        allowClear: true,
+                        data: [
+                            {id: 0, name: 'Демонтажные'},
+                            {id: 1, name: 'Монтажные'}
+                        ],
+                        formatResult: function(exercise) { 
+                            return "<div class='select2-user-result'>" + exercise.name + "</div>"; 
+                        },
+                        formatSelection: function(exercise) {
+                            return exercise.name; 
+                        }
+                    });*/
+                    });
+            </script>
+            {#<div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="portlet purple box">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Фильтры
+                            </div>
+                        </div>
+
+                        <div class="portlet-body">
+                            <form method="POST" class="ajax-filter-form" novalidate="novalidate" action="{{ Url.site('/admin/works')}}">
+                                <div class="form-group col-sm-6">
+                                    <input id="nameId" name="name" value="{% if _filter.work.name is defined %}{{ _filter.work.name }}{% endif %}" type="hidden" class="form-control  can-be-reseted submit-field">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <input id="type" name="type" value="{% if _filter.work.type is defined %}{{ _filter.work.type }}{% endif %}" type="hidden" class="form-control  can-be-reseted submit-field">
+                                </div>
+                                <div class="clear" style="clear: both"></div>
+                                <div>
+                                    <div class="form-actions">
+                                        <input type="submit" name="formAlias" value="Фильтр" class="btn blue">
+                                        <input type="submit" name="formAlias" value="Очистить" class="btn default itdoors-filter-cancel-btn">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>#}
+             <div class="portlet-body">
+                <div class="btn-group" style="margin-bottom: 10px;">
+                    <a href="{{ Url.site('/admin/user/create') }}" class="btn green">
+                        Добавить <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+        {% if _users|length %}
+            <script>
+                                    $(document).ready(function(){
+                                       /*  $.ajax({
+                                                type: 'GET',
+                                                url: "{{ Url.site('/admin/materials/getcatjson') }}",
+                                                beforeSend: function() {
+                                                    //selfClass.blockUI(target);
+                                                },
+                                                success: function(response) {
+                                                    response = jQuery.parseJSON(response);
+                                                     $(".admin-editable-work-cat_arr").select2({
+                                                        placeholder: "Укажите категорию",
+                                                        allowClear: true,
+                                                        multiple: true,
+                                                        tokenSeparators: [",", " "],
+                                                        data: response,
+                                                        change: function(){}
+                                                    }).on("change", function(e) { 
+                                                        var val = $(this).val();
+                                                        var pk = $(this).data('pk');
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: '{{ Url.site('/admin/works/save') }}',
+                                                            data: 'value='+val+'&pk='+pk+'&name=cat_arr',
+                                                            beforeSend: function() {
+                                                                //selfClass.blockUI(target);
+                                                            },
+                                                            success: function(response) {
+                                                                response = jQuery.parseJSON(response);
+
+                                                                //target.html(response);
+                                                                //selfClass.unblockUI(target);
+                                                            }
+                                                        });
+                                                    });
+                                                    //target.html(response);
+                                                    //selfClass.unblockUI(target);
+                                                }
+                                            });
+                                        
+                                        */
+                                        $('.admin-editable').editable({
+                                            url: '/admin/user/save',
+                                            source: '/admin/user/save',
+                                            emptytext: 'Введите значение',
+                                            select2: {
+                                                placeholder: 'Введите значение',
+                                                minimumInputLength: 2,
+                                                width: 250,
+                                                allowClear: false
+                                            }
+                                        });/*
+                                        $('.admin-editable-work-type').editable({
+                                            url: '/admin/works/save',
+                                            emptytext: 'Выберите значение',
+                                            source: [
+                                                {value: 0, text: 'Демонтажные'},
+                                                {value: 1, text: 'Монтажные'}
+                                            ]
+                                        });
+                                        $('.admin-editable-work-is_show').editable({
+                                            url: '/admin/works/save',
+                                            emptytext: 'Выберите значение',
+                                            source: [
+                                                {value: 0, text: 'Не отображается'},
+                                                {value: 1, text: 'Отображается'}
+                                            ]
+                                        });
+                                         $(".admin-editable-work-type_repair").select2({
+                                            placeholder: "Укажите тип ремонта",
+                                            allowClear: true,
+                                            multiple: true,
+                                            tokenSeparators: [",", " "],
+                                            tags: ['1_1', 0],
+                                            data: [
+                                                {id: '1_1', text: 'Косметический-эконом'},
+                                                {id: '1_2', text: 'Косметический-стандарт'},
+                                                {id: '1_3', text: 'Косметический-премиум'},
+                                                {id: '2_1', text: 'Капитальный-эконом'},
+                                                {id: '2_2', text: 'Капитальный-стандарт'},
+                                                {id: '2_3', text: 'Капитальный-премиум'}
+                                            ],
+                                            change: function(){
+                                               ;
+                                            }
+                                        }).on("change", function(e) { 
+                                            var val = $(this).val();
+                                            var pk = $(this).data('pk');
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '{{ Url.site('/admin/works/save') }}',
+                                                data: 'value='+val+'&pk='+pk+'&name=repair_ids',
+                                                beforeSend: function() {
+                                                    //selfClass.blockUI(target);
+                                                },
+                                                success: function(response) {
+                                                    response = jQuery.parseJSON(response);
+                                                   
+                                                    //target.html(response);
+                                                    //selfClass.unblockUI(target);
+                                                }
+                                            });
+                                        });*/
+                                        $('.admin-editable-user-role_ids').editable({
+                                            url: '/admin/user/save',
+                                            emptytext: 'Выберите роль',
+                                            source: [
+                                                {value: 2, text: 'Админ'},
+                                                {value: 3, text: 'Партнер'}
+                                            ]
+                                        });
+                                        /*$('.admin-editable-work-room_type').editable({
+                                            url: '/admin/works/save',
+                                            emptytext: 'Выберите тип',
+                                            source: [
+                                                {value: 1, text: 'Комната'},
+                                                {value: 2, text: 'Кухня'},
+                                                {value: 3, text: 'Коридор'},
+                                                {value: 4, text: 'Ванна'},
+                                                {value: 5, text: 'Туалет'}
+                                            ]
+                                        });*/
+                                    });
+                                </script>
+            <table class="table table-striped table-bordered table-advance table-hover" id="dashboard-handling">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Логин</th>                           
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Последняя авторизация</th>
+                    <th>Кол-во авторизаций</th>
+                    <th>Роль</th>
+                </tr>
+                </thead>
+                {% for item in _users %}
+                    <tr {% if loop.index is odd %}class="color"{% endif %}>
+                        <td>{{ item.id }}</td>
+                        <td><a href="#" data-type="text" id="username" data-pk="{{ item.id }}" data-value="{{ item.username }}" data-title="Введите логин" class="editable editable-click admin-editable"></a></td>
+                        <td><a href="#" data-type="text" id="email" data-pk="{{ item.id }}" data-value="{{ item.email }}" data-title="Введите email" class="editable editable-click admin-editable"></a></td>
+                        <td><a href="#" data-type="text" id="phone" data-pk="{{ item.id }}" data-value="{{ item.phone }}" data-title="Введите телефон" class="editable editable-click admin-editable"></a></td>
+                        <td>{{ item.last_login |date('Y.m.d H:i')}}</td>
+                        <td>{{ item.logins }}</td>
+                        <td><a href="#" data-type="checklist" id="role_ids" data-pk="{{ item.id }}" data-value="{{ item.roles.find_all() |join(',') }}" data-title="Укажите роль" class="editable editable-click admin-editable-user-role_ids"></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock boody %}
