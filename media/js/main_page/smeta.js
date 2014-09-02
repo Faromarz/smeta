@@ -103,12 +103,13 @@ function Smeta(){
         $.ajax({
             type: "POST",
             url: "ajax/smeta/add",
-            data: { "rooms" : JSON.stringify(_this.rooms), "types" : _this.types, "square" : _this.size, "height" : _this.height_ceiling,
-                    "price_materials" : _this.price_materials, "price_works_dem": _this.price_works_dem, "price_works_mon": _this.price_works_mon,
-                    "time_works_dem": _this.time_works_dem, "time_works_mon": _this.time_works_mon, "room_name" : _this.room_name, "count_rooms" : _this.count_rooms},
+            data: { "rooms" : JSON.stringify(_this.rooms), "types" : _this.types, "size" : _this.size, "height" : _this.height_ceiling,
+                    "price_materials" : _this.price_materials, "price_work_dem": _this.price_works_dem, "price_work_mon": _this.price_works_mon,
+                    "time_work_dem": _this.time_works_dem, "time_work_mon": _this.time_works_mon, "room_name" : _this.room_name, "count_rooms" : _this.count_rooms},
             success: function(data){
                 var result = JSON.parse( data );
-
+                //window.open("budget/"+result[0]['smeta_name'],'_blank');
+                window.location.href = "budget/"+result[0]['smeta_name'];
             }
         }, 'json');
         _this.preloader(false);
@@ -538,7 +539,8 @@ function Smeta(){
                                                 mont_sum+=parseFloat(work_val.price) * parseFloat(_this.count);
                                                 mont_time+=parseFloat(work_val.watch);
                                             }
-                                            all_works.push({ 'work_id' : work_val.id, 'room_id' : room_val.id, 'room_type' : room_val.type });
+                                            all_works.push({ 'work_id' : work_val.id, 'room_id' : room_val.id, 'room_type' : room_val.type,
+                                                'price' : parseFloat(work_val.price) * parseFloat(_this.count), 'count' : parseFloat(_this.count)});
                                     }
                                 }
                             });
@@ -561,13 +563,16 @@ function Smeta(){
 
     //добавление работ в комнаты
     _this.add_to_works = function(masive){
-        var works = new Array();
+        var works = new Array(), in_array = new Array();
         $.each(_this.rooms, function(room_key, room_val) {
             _this.rooms[room_key]['works'] = {};
             works.length = 0;
+            in_array.length = 0;
             $.each(masive, function(key, val) {
-                if(val.room_id==room_val.id)
-                works.push({ 'work_id' : val.work_id });
+                if(val.room_id==room_val.id && $.inArray(val.work_id,in_array) === -1){
+                    in_array.push(val.work_id);
+                    works.push({ 'work_id' : val.work_id, 'price': val.price, 'count' : val.count});
+                }
             });
             $.extend(_this.rooms[room_key]['works'], works);
         });

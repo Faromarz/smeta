@@ -23,7 +23,8 @@ class Controller_Ajax_Smeta extends Controller
     }
 
     public function action_add(){
-        $rooms = json_decode($_POST['rooms']);
+        $result = array();
+        $rooms = json_decode($_POST['rooms'], true);
         $smeta = ORM::factory('Smeta');
         $smeta->name = uniqid();
         $smeta->geo_id = 0;
@@ -43,12 +44,12 @@ class Controller_Ajax_Smeta extends Controller
         $smeta->save();
         $count_rooms=1;
         $order = 1;
-        foreach($rooms as $room){var_dump($room); echo '<br>';
-         /*   if($room['show']==1){
+        foreach($rooms as $room){
+            if($room['show']==1){
                 if(($room['type']=='1' && $count_rooms<=(int)Arr::get($_POST, 'count_rooms', 0)) || $room['type']!='1'){
                     $smeta_room = ORM::factory('Smeta_Room');
                     $smeta_room->smeta_id = $smeta->id;
-                    $smeta_room->room_type_id = (int) $room['type'];
+                    $smeta_room->room_id = (int) $room['id'];
                     $smeta_room->order = $order++;
                     $smeta_room->length = $room['length'];
                     $smeta_room->width = $room['width'];
@@ -70,11 +71,15 @@ class Controller_Ajax_Smeta extends Controller
                         $smeta_work->smeta_id = $smeta->id;
                         $smeta_work->room_id =  $room['id'];
                         $smeta_work->work_id = $work['work_id'];
+                        $smeta_work->price =  $work['price'];
+                        $smeta_work->count = $work['count'];
                         $smeta_work->save();
                     }
                 }
-            }*/
+            }
         }
+        $result[] = array('smeta_name'=>$smeta->name);
+        die(json_encode($result));
 
     }
 }

@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS `smeta_works` (
   `smeta_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
   `work_id` int(11) NOT NULL,
+  `price` double(10,2) NOT NULL,
+  `count` double(10,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
