@@ -154,6 +154,11 @@ Route::set('ajax', 'ajax(/<controller>(/<action>(/<id>)))')
         'controller'    => 'materials',
         'action'        => 'index',
     ));
+Route::set('budget', 'budget/<name>', array('name'=>'[0-9a-zA-Z]+'))
+    ->defaults(array(
+        'controller' => 'budget',
+        'action'     => 'index',
+    ));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'main',
