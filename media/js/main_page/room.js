@@ -9,7 +9,7 @@
  */
 function Room($parent, $params)
 {
-    // 1. Нужна реализация класса окон и класса дверей
+    // 1. Нужна реализация класов окон, дверей, работ, материалов
     var _this = this;
     var _parent = $parent;
     var _params = $params;

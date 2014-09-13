@@ -501,26 +501,23 @@ function Smeta(){
                 _this.works = $.extend(true, [], result);
             }
         }, 'json');
-    }
+    };
 
     //расчет работ
     _this.calculation_works = function(){
         var summa = 0, dem_sum = 0, dem_time = 0, mont_sum = 0, mont_time = 0, select_repair = _this.types[1]+'_'+_this.types[0], for_repair=[],for_types=[],mat_cat_ids=[],all_works=new Array();
-        $.each(_this.works, function(work_key, work_val) {
-            if(work_val.types_apartment_ids==_this.types[2])
-            {
-                for_repair = work_val.repair_ids.split(',');
-                mat_cat_ids = work_val.cat_arr===null?1:work_val.cat_arr.split(',');
+        $.each(_this.works, function(work_key, work) {
+            if (Number(work.types_apartment_ids) === _this.types[2]) {
+                for_repair = work.repair_ids.split(',');
+                mat_cat_ids = work.cat_arr===null?1:work.cat_arr.split(',');
                 $.each(_this.rooms, function(room_key, room) {
                     if(room.getShow()){
-                        for_types = work_val.room_type===null?1:work_val.room_type.split(',');
-                        if(($.inArray(select_repair,for_repair)!= -1 || work_val.repair_ids==null) && ($.inArray(room.getType(),for_types)!= -1 || work_val.room_type==null))
-                        {
-                            $.each(_this.rooms[room_key]['materials'], function(material_key, material_val) {
-                                if(material_val.show){
-                                    if($.inArray(material_val.under_id==0?material_val.cat_id:material_val.under_id,mat_cat_ids)!= -1 || work_val.cat_arr==null){
-
-                                            var count = work_val.count;
+                        for_types = work.room_type === null ? 1 : work.room_type.split(',');
+                        if(($.inArray(select_repair,  for_repair) !== -1 || work.repair_ids === null) && ($.inArray(''+room.getType(), for_types) !== -1 || work.room_type === null)) {
+                            $.each(room.materials, function(material_key, material) {
+                                if(material.show){
+                                    if($.inArray(material.under_id === 0 ? material.cat_id : material.under_id, mat_cat_ids) !== -1 || work.cat_arr === null){
+                                            var count = work.count;
                                             var new_count = '';
                                             if (count.indexOf('S') + 1) {
                                                 new_count = count.replace("S", "Number(room.getSize())");
@@ -531,29 +528,28 @@ function Smeta(){
                                             } else if (count.indexOf('C') + 1) {
                                                 new_count = count.replace("C", "Number(_this.count_rooms)");
                                             } else if (count.indexOf('PW') + 1) {
-                                                new_count = count.replace("PW", "Number((Number(room.getLength())+Number(_this.height_ceiling))*2+(Number(room.getWidth())+Number(_this.height_ceiling))*2)");
+                                                new_count = count.replace("PW", "Number(room.getSizeWall())");
                                             } else if (count.indexOf('P') + 1) {
-                                                new_count = count.replace("P", "Number(Number(room.getLength())+Number(room.getWidth()))");
+                                                new_count = count.replace("P", "Number(room.getPerimeter())");
                                             } else {
                                                 new_count = count;
                                             }
                                             _this.getCount = eval("(function(){return " + new_count + ";})");
                                             _this.count = _this.getCount();
                                             if (_this.count === undefined) {
-                                               // alert('ERROR 404 workId:' + _room.id);
                                                 _this.count = 1;
-                                            } else if ( work_val.price === undefined) {
+                                            } else if ( work.price === undefined) {
                                             }
-                                            summa += parseFloat(work_val.price) * parseFloat(_this.count);
-                                            if(work_val.type==0){
-                                                dem_sum+=parseFloat(work_val.price) * parseFloat(_this.count);
-                                                dem_time+=parseFloat(work_val.watch);
+                                            summa += parseFloat(work.price) * parseFloat(_this.count);
+                                            if(work.type === 0){
+                                                dem_sum+=parseFloat(work.price) * parseFloat(_this.count);
+                                                dem_time+=parseFloat(work.watch);
                                             }else{
-                                                mont_sum+=parseFloat(work_val.price) * parseFloat(_this.count);
-                                                mont_time+=parseFloat(work_val.watch);
+                                                mont_sum+=parseFloat(work.price) * parseFloat(_this.count);
+                                                mont_time+=parseFloat(work.watch);
                                             }
-                                            all_works.push({ 'work_id' : work_val.id, 'room_id' : room_val.id, 'room_type' : room_val.type,
-                                                'price' : parseFloat(work_val.price) * parseFloat(_this.count), 'count' : parseFloat(_this.count)});
+                                            all_works.push({ 'work_id' : work.id, 'room_id' : room.getId(), 'room_type' : room.getType(),
+                                                'price' : parseFloat(work.price) * parseFloat(_this.count), 'count' : parseFloat(_this.count)});
                                     }
                                 }
                             });
@@ -572,24 +568,22 @@ function Smeta(){
         _this.price_works_mon = parseFloat(mont_sum).toFixed(2);
         _this.time_works_dem = parseFloat(dem_time).toFixed(2);
         _this.time_works_mon = parseFloat(mont_time).toFixed(2);
-    }
+    };
 
     //добавление работ в комнаты
     _this.add_to_works = function(masive){
-        var works = new Array(), in_array = new Array();
+        var in_array = new Array();
         $.each(_this.rooms, function(key, room) {
-            _this.rooms[key]['works'] = {};
-            works.length = 0;
+            room.works = new Array();
             in_array.length = 0;
             $.each(masive, function(key, val) {
                 if(val.room_id === room.getId() && $.inArray(val.work_id,in_array) === -1){
                     in_array.push(val.work_id);
-                    works.push({ 'work_id' : val.work_id, 'price': val.price, 'count' : val.count});
+                    room.works.push({ 'work_id' : val.work_id, 'price': val.price, 'count' : val.count});
                 }
             });
-            $.extend(_this.rooms[key]['works'], works);
         });
-    }
+    };
 
     //добавление материалов в комнаты
     _this.add_to_rooms = function(){
@@ -620,8 +614,6 @@ function Smeta(){
                     room.materials.push({ 'cat_id' : v.id, 'under_id' : under_id, 'mat_id' : _this.get_selected_material(ide).id, 'show' : true, 'calc' : v.calculation });
                 }
             });
-            console.log(room);
-            console.log(room.materials);
         });
         $('#your_price_without_discount').find('h2:eq(0)').text(parseFloat(summ_materials).toFixed(2) + '  р');
         $('#materials_summ').find('h1:eq(0)').text(parseFloat(summ_materials).toFixed(2) + '  р');
@@ -667,15 +659,15 @@ function Smeta(){
     };
 
     //show материала
-    _this.get_show_material = function(id,numb){
+    _this.get_show_material = function(id,room){
         var result = 0;
-        $.each(_this.rooms[numb]['materials'], function(key, material) {
+        $.each(_this.rooms[room]['materials'], function(key, material) {
             if (material.mat_id===id) {
                 result = material.show;
             }
         });
         return result;
-    }
+    };
 
     //количество материала у категории
     _this.get_min_material = function(cat_id){
@@ -811,7 +803,7 @@ function Smeta(){
                 $(this).children(".slider_about").hide();
             });
         _this.preloader(false);
-    }
+    };
 
     //выбор из селекта типов материалов
     _this.select_new_category = function(object, value, numb){
@@ -839,7 +831,7 @@ function Smeta(){
         $.each(_this.rooms[numb]['materials'], function(key, material) {
             if(material.cat_id===cat_id) _this.rooms[numb]['materials'][key]['mat_id']=mat_id;
         });
-    }
+    };
 
     //гифка прелоадера
     _this.preloader = function(status){
@@ -877,7 +869,7 @@ function Smeta(){
         else { index = (index %= 10) < 5 ? (index > 2 ? 2 : index): 0; }
 
         return(words[index]);
-    }
+    };
 
     //расчет количества материала
     _this.count_material = function(calc, numb){
@@ -893,7 +885,6 @@ function Smeta(){
                 calculation = eval('room.'+method+'()');
             }
         });
-        console.log('количество материала: '+calculation);
         return calculation;
     };
     
