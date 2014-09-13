@@ -14,15 +14,15 @@ function Room($parent, $params)
     var _parent = $parent;
     var _params = $params;
 
-    _this.id = Number(_params.id);
-    _this.type = Number(_params.type);
-    _this.title = _params.title;
-    _this.width = Number(_params.width);
-    _this.length = Number(_params.length);
-    _this.enable = _params.enable || false;
-    _this.show = Number(_params.show) || false;
+    var roomId = Number(_params.id);
+    var roomType = Number(_params.type);
+    var roomTitle = _params.title;
+    var roomWidth = Number(_params.width);
+    var roomLength = Number(_params.length);
+    var roomEnable = _params.enable || false;
+    var roomShow = Number(_params.show) || false;
     _this.materials = new Array();
-    _this.windows = {};
+    _this.works = new Array();
     _this.doors = {};
     _this.door = {};
     _this.door.count = 1;
@@ -35,47 +35,47 @@ function Room($parent, $params)
     }
     // ID комнаты
     _this.getId = function() {
-        return _this.id;
+        return roomId;
     };
     // тип комнаты
     _this.getType = function() {
-        return _this.type;
+        return roomType;
     };
     // изменить тип комнаты
     _this.setType = function($type) {
-        return _this.type = $type;
+        return roomType = $type;
     };
     // название комнаты
     _this.getTitle = function() {
-        return _this.title;
+        return roomTitle;
     };
     // изменить название комнаты
-    _this.setTitle = function(title) {
-        _this.title = title;
+    _this.setTitle = function($title) {
+        roomTitle = $title;
     };
     // ширина комнаты
     _this.getWidth = function() {
-        return  _this.width;
+        return  roomWidth;
     };
     // изменить ширину комнаты
     _this.setWidth = function($width) {
-        _this.width = $width;
+        roomWidth = $width;
     };
     //  длинна комнаты
     _this.getLength = function() {
-        return _this.length;
+        return roomLength;
     };
     // изменить длинну комнаты
     _this.setLength = function($length) {
-        _this.length = $length;
+        roomLength = $length;
     };
     // площадь комнаты
     _this.getSize = function() {
-        return Number(_this.width * _params.length);
+        return Number(_this.getWidth() * _this.getLength());
     };
     // периметр комнаты
     _this.getPerimeter = function() {
-        return Number((_this.width + _this.length) * 2);
+        return Number(_this.getWidth() + _this.getLength()) * 2;
     };
     // площадь окон
     _this.getSizeWindows = function() {
@@ -100,22 +100,22 @@ function Room($parent, $params)
      * @return {Boolean}
      */
     _this.getShow = function() {
-        return _this.show;
+        return roomShow;
     };
     /**
      * 
      * @param {Boolean} show
      */
-    _this.setShow = function(show) {
-        _this.show = show;
+    _this.setShow = function($show) {
+        roomShow = $show;
     };
     // наличие галочки в комнате
     _this.getEnable = function() {
-        return _this.enable;
+        return roomEnable;
     };
     // установка|снятие галочки в комнате
     _this.setEnable = function($enable) {
-        _this.enable = $enable;
+        roomEnable = $enable;
     };
     // статус балкона
     _this.getBalcon = function() {

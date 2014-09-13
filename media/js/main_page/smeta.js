@@ -322,7 +322,7 @@ function Smeta(){
     //добавить окно
     _this.add_window = function(n){
         var all_windows = $('.smeta_window[data-window]').length,
-            max_windows = _this.count_rooms==0 ? 4: _this.count_rooms*1 + 3;
+            max_windows = _this.count_rooms===0 ? 4: _this.count_rooms*1 + 3;
         if (all_windows<max_windows){
             if (typeof n === 'undefined')
             {
