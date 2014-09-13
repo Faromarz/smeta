@@ -1,17 +1,15 @@
 /*
- * smeta калькулятор
+ * загрузка данных
  *
- * @author 	senj
+ * @author senj
  * @version 1.1
  */
-function LoadModific($parent) {
+function Load($parent) {
     var _parent = $parent;
-    var _this = _parent.load;
+    var _this = this;
 
-    _this.finishLoad = function() {
-        _this.ajaxLoad(false);
-        _this.status = true;
-        _parent.setInitCategory(true);
+    _this.init = function() {
    
     };
+    _this.init();
 }
