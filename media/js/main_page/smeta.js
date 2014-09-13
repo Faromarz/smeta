@@ -108,7 +108,6 @@ function Smeta(){
                     "time_work_dem": _this.time_works_dem, "time_work_mon": _this.time_works_mon, "room_name" : _this.room_name, "count_rooms" : _this.count_rooms},
             success: function(data){
                 var result = JSON.parse( data );
-                //window.open("budget/"+result[0]['smeta_name'],'_blank');
                 window.location.href = "budget/"+result[0]['smeta_name'];
             }
         }, 'json');
@@ -213,6 +212,17 @@ function Smeta(){
                 $("#add_room").siblings('.smeta_room[data-room='+i+']').remove();
                 $("#add_window").siblings('.smeta_window[data-room='+i+']').remove();
             }
+        var count_r=1;
+        $.each(_this.rooms, function(room_key, room_val) {
+            if(room_val.type == '1'){
+                if( _this.count_rooms<count_r ) {
+                    _this.rooms[room_key]['show'] = 0;
+                }else {
+                    _this.rooms[room_key]['show'] = 1;
+                }
+                count_r++;
+            }
+        });
         _this.assign_numb();
         _this.on_smeta();
     }
@@ -444,7 +454,6 @@ function Smeta(){
         $.ajax({
             type: "POST",
             url: "ajax/materials/load_categories",
-            data: {"rate" : _this.types[0], "repair" : _this.types[1], "type" : _this.types[2] },
             success: function(data){
                 var result = JSON.parse( data );
                 _this.categories_materials = $.extend(true, [], result);
@@ -833,8 +842,26 @@ function Smeta(){
     //гифка прелоадера
     _this.preloader = function(status){
         if(status){
-            $('body').append('<img src="/media/img/ajax-loader.gif" id="ajaxLoad" style="top: 50%;position: fixed;left: 50%;width: 180px;margin-left: -90px;height: 50px;margin-top: -25px;">');
+            $('body').append('<img src="/media/img/ajax-loader.gif" id="ajaxLoad">');
+            $.fancybox.open({
+                href: '#ajaxLoad',
+                padding:0,
+                maxWidth: 180,
+                maxHeight: 50,
+                minWidth: 180,
+                minHeight: 50,
+                scrolling: 'no',
+                closeBtn: false,
+                helpers   : {
+                    overlay:
+                    {
+                        css: { 'background': 'rgba(255 , 255 , 250, 0.5)' },
+                        closeClick: false
+                    }
+                }
+            });
         }else{
+            $.fancybox.close();
             $('body #ajaxLoad').remove();
         }
     };

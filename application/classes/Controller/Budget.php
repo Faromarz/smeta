@@ -12,8 +12,7 @@ class Controller_Budget extends Controller_Core {
             if (!$smeta->loaded()) {
                 throw new HTTP_Exception_404;
             }
-            $cat_works = ORM::factory('Work_Categories')->find_all();
-            $this->set('smeta',$smeta)->set('cat_works', $cat_works);
+            $this->set('smeta',$smeta);
         }
     }
 
