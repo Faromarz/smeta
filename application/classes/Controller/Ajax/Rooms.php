@@ -32,4 +32,27 @@ class Controller_Ajax_Rooms extends Controller
         die(json_encode($result));
     }
 
+    public function action_load_rooms_smeta()
+    {
+        $result = array();
+        $id = (int) Arr::get($_POST, 'id', 0);
+        $rooms_smeta = ORM::factory('Smeta_Room')->where('smeta_id','=',$id)->find_all();
+        foreach ($rooms_smeta as $room){
+            $materials=array();
+            $smeta_materials = ORM::factory('Smeta_Material')->where('smeta_id','=',$id)->where('room_id','=',$room->room_id)->find_all();
+            foreach ($smeta_materials as $smeta_material){
+                $cat = $smeta_material->materials->category->category_parent;
+                $under_cat = $smeta_material->materials->category;
+                $materials[] = array(
+                    'calc'=> $cat->loaded()?$cat->calculation:$under_cat->calculation,
+                    'cat_id'=> $cat->loaded()?$cat->id:$under_cat->id,
+                    'mat_id' => $smeta_material->material_id,
+                    'show' => 1,
+                    'under_id' => $cat->loaded()?$under_cat->id:0);
+            }
+            $result[] = array('id'=>$room->room_id, 'name'=>$room->rooms->name, 'type' => $room->rooms->type, 'length' => $room->length, 'width' => $room->width, 'square' => ($room->length*$room->width), 'show' => $room->show, 'balcony' => 0, 'materials'=>$materials);
+        }
+        die(json_encode($result));
+    }
+
 }

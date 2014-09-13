@@ -1,8 +1,15 @@
 {% extends "layout/html.twig" %}
 {% block content %}
+    <script type="text/javascript" src="{{ Url.media('media/js/main_page/portal.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('media/js/main_page/budget.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('media/js/jquery.mCustomScrollbar.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}">
+    <script>
+        var smeta = new Smeta();
+        $(document).ready(function () {
+            smeta.init('{{ smeta.name }}');
+        });
+    </script>
     <div id="content">
 
     <p id="budget_dop_options-hide">скрыть параметры</p>
@@ -667,27 +674,29 @@
                 <h1>{{ room.rooms.name }}</h1>
             </div>
             <div class="ignore_4"></div>
-            {% for cat_work in cat_works %}
-                <ul class="budget_basic_options_list-{{ cat_work.id }}">
-                    <li></li>
-                    {% for work in smeta.works.find_all() %}
-                        {% if work.works.category_id==cat_work.id and work.works.type==1 and room.rooms.id==work.room_id %}
-                            <li>
-                                <p>{{ work.price }} р.</p>
-                                <p>{{ work.works.watch }}</p>
-                                <div class="budget_basic_options_job">
-                                    <h3>{{ work.count }}</h3>
-                                    <h6>{{ work.works.unit|raw }}</h6>
+            {% if smeta.works.works.where('type','=',1).count_all()>0 %}
+                {% for cat_work in cat_works %}
+                    <ul class="budget_basic_options_list-{{ cat_work.id }}">
+                        <li></li>
+                        {% for work in smeta.works.find_all() %}
+                            {% if work.works.category_id==cat_work.id and work.works.type==1 and room.rooms.id==work.room_id %}
+                                <li>
+                                    <p>{{ work.price }} р.</p>
+                                    <p>{{ work.works.watch }}</p>
+                                    <div class="budget_basic_options_job">
+                                        <h3>{{ work.count }}</h3>
+                                        <h6>{{ work.works.unit|raw }}</h6>
 
-                                    <input  value="0" />
-                                </div>
-                                <h5>{{ work.works.name }}</h5>
-                                <div class="ignore_5"></div>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-             {% endfor %}
+                                        <input  value="0" />
+                                    </div>
+                                    <h5>{{ work.works.name }}</h5>
+                                    <div class="ignore_5"></div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            {% endif %}
         </div>
     {% endfor %}
 
@@ -699,1044 +708,77 @@
 
     <div class="budget_basic_options_header">
         <dl>
-            <dt>Общая сумма:</dt>
-            <dd>{{ smeta.price_materials }} р.</dd>
+            <dt>{{ smeta.price_materials }} р.</dt>
+            <dd>Общая сумма:</dd>
         </dl>
         <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>
         <div class="ignore_2 ignore_for_basic_options_header"></div>
     </div>
 
-    <div class="budget_basic_options_name_materials style1">
-        <div class="slide1 budget_basic_options_name_style1_down">
+    {% for room in smeta.rooms.find_all() %}
+        <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
+            <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
 
-            <p class="budget_basic_options_name_materials_header">комната<p>
+                <p class="budget_basic_options_name_materials_header">{{ room.rooms.name }}<p>
+
+            </div>
+            <div class="ignore_4"></div>
+
+            <ul class="materials_room_for_options budget_basic_options_name_materials_block">
+
+                {% if smeta.materials.count_all()>0 %}
+                    {% for material in smeta.materials.find_all() %}
+                        {% if room.rooms.id==material.room_id %}
+                            <li class="materials_room_option">
+                                <div class="materials_room_option_header">
+                                    <p>{{ material.materials.category.name }}</p>
+                                    <div class="ignore_4"></div>
+                                </div>
+
+                                <select class="selectbox">
+
+                                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
+                                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
+                                    <option id="val3" value="консалтинг">Обои</option>
+                                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
+                                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
+                                    <option id="val6" value="консалтинг">Обои</option>
+
+                                </select>
+
+                                <div class="materials_room_option_slider">
+
+                                    <div class="slider_materials">
+
+                                        <a><h6 class="slider_price">ХХХ ХХХ р</h6></a>
+
+                                    </div>
+
+                                    <div class="slider_img">
+                                        <div class="slider_about">
+
+                                            <a href="#">Обои Esta Home 326115 Bloomingdale</a>
+
+                                            <h6>Нидерланды</h6>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="x"></div>
+                                <h1>18 рулонов =</h1>
+                                <h2>ХХХ ХХХ р.</h2>
+
+
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
 
         </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider">
-
-                    <div class="slider_materials">
-
-                        <a><h6 class="slider_price">ХХХ ХХХ р</h6></a>
-
-                    </div>
-
-                    <div class="slider_img">
-
-                        <div class="slider_about">
-
-                            <a href="#">Обои Esta Home 326115 Bloomingdale</a>
-
-                            <h6>Нидерланды</h6>
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-    </div>
-
-    <div class="budget_basic_options_name_materials style2">
-        <div class="slide2 budget_basic_options_name_style2_down">
-
-            <p class="budget_basic_options_name_materials_header">комната №2<p>
-
-        </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-
-    </div>
-
-    <div class="budget_basic_options_name_materials style1">
-        <div class="slide1 budget_basic_options_name_style1_down">
-
-            <p class="budget_basic_options_name_materials_header">кухня<p>
-
-        </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-    </div>
-
-    <div class="budget_basic_options_name_materials style2">
-        <div class="slide2 budget_basic_options_name_style2_down">
-
-            <p class="budget_basic_options_name_materials_header">коридор<p>
-
-        </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-
-    </div>
-
-    <div class="budget_basic_options_name_materials style1">
-        <div class="slide1 budget_basic_options_name_style1_down">
-
-            <p class="budget_basic_options_name_materials_header">ванна<p>
-
-        </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-    </div>
-
-    <div class="budget_basic_options_name_materials style2">
-        <div class="slide2 budget_basic_options_name_style2_down">
-
-            <p class="budget_basic_options_name_materials_header">туалет<p>
-
-        </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-    </div>
-
-    <div class="budget_basic_options_name_materials style1">
-        <div class="slide1 budget_basic_options_name_style1_down">
-
-            <p class="budget_basic_options_name_materials_header">материалы общие<p>
-
-        </div>
-        <div class="ignore_4"></div>
-
-        <ul class="materials_room_for_options budget_basic_options_name_materials_block">
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val11" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val12" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val13" value="консалтинг">Обои</option>
-                    <option id="val14" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val15" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val16" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <select class="selectbox">
-
-                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val3" value="консалтинг">Обои</option>
-                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                    <option id="val6" value="консалтинг">Обои</option>
-
-                </select>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-            <li class="materials_room_option">
-
-                <div class="materials_room_option_header">
-
-                    <p>стены</p>
-                    <div class="ignore_4"></div>
-
-                </div>
-
-                <div class="materials_room_option_menu"></div>
-
-                <div class="materials_room_option_slider"></div>
-
-                <div class="x"></div>
-                <h1>18 рулонов =</h1>
-                <h2>ХХХ ХХХ р.</h2>
-
-
-            </li>
-
-
-        </ul>
-
-    </div>
+    {% endfor %}
 
     <div class="budget_basic_options_rasporka"></div>
 

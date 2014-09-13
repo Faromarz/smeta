@@ -43,17 +43,16 @@ class Controller_Ajax_Smeta extends Controller
         $smeta->create_date = date('Y-m-d H:i:s');
         $smeta->save();
         $count_rooms=1;
-        $order = 1;
         foreach($rooms as $room){
             if($room['show']==1){
                 if(($room['type']=='1' && $count_rooms<=(int)Arr::get($_POST, 'count_rooms', 0)) || $room['type']!='1'){
                     $smeta_room = ORM::factory('Smeta_Room');
                     $smeta_room->smeta_id = $smeta->id;
                     $smeta_room->room_id = (int) $room['id'];
-                    $smeta_room->order = $order++;
                     $smeta_room->length = $room['length'];
                     $smeta_room->width = $room['width'];
                     $smeta_room->balcony = $room['balcony'];
+                    $smeta_room->show = 1;
                     $smeta_room->save();
                     if($room['type']=='1') $count_rooms++;
                     foreach($room['materials'] as $material){
@@ -65,7 +64,6 @@ class Controller_Ajax_Smeta extends Controller
                             $smeta_material->save();
                         }
                     }
-
                     foreach($room['works'] as $work){
                         $smeta_work = ORM::factory('Smeta_Work');
                         $smeta_work->smeta_id = $smeta->id;
@@ -76,10 +74,29 @@ class Controller_Ajax_Smeta extends Controller
                         $smeta_work->save();
                     }
                 }
+            } else{
+                $smeta_room = ORM::factory('Smeta_Room');
+                $smeta_room->smeta_id = $smeta->id;
+                $smeta_room->room_id = (int) $room['id'];
+                $smeta_room->length = $room['length'];
+                $smeta_room->width = $room['width'];
+                $smeta_room->balcony = $room['balcony'];
+                $smeta_room->show = 0;
+                $smeta_room->save();
             }
         }
         $result[] = array('smeta_name'=>$smeta->name);
         die(json_encode($result));
+    }
 
+
+    public function action_load(){
+        $result = array();
+        $smeta_name = Arr::get($_POST, 'smeta', '');
+        $smeta = ORM::factory('Smeta')->where('name','=',$smeta_name)->find();
+        $result[] = array('id'=>$smeta->id, 'geo_id'=>$smeta->geo_id, 'size'=> $smeta->size, 'height'=> $smeta->height, 'price_materials'=> $smeta->price_materials, 'price_work_dem'=> $smeta->price_work_dem
+        , 'price_work_mon'=> $smeta->price_work_mon, 'time_work_dem'=> $smeta->time_work_dem, 'time_work_mon'=> $smeta->time_work_mon, 'room_name'=> $smeta->room_name
+        , 'partner_id'=> $smeta->partner_id, 'repair_id'=> $smeta->repair_id, 'rate_id'=> $smeta->rate_id, 'apartment_id'=> $smeta->apartment_id);
+        die(json_encode($result));
     }
 }

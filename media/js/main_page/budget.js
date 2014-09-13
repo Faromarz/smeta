@@ -1,130 +1,222 @@
-var interval = null;
-var scroll = 0;
-var count_firm;
-var mail_top;
+function Smeta(){
+    var _this = this;
+    _this.name = false;
+    _this.smeta_values = new Array();
+    _this.rooms = new Array();
+    _this.categories_materials = new Array();
+    _this.materials = new Array();
+    _this.categories_works = new Array();
+    _this.works = new Array();
 
-$(document).ready(function () {
+    _this.init = function(name){
+        _this.name = name;
+        _this.load_smeta();
+    };
 
-    $("#budget-content_bottom-center").on("click", "a", authorization);
+    //загрузка категорий материалов
+    _this.load_smeta = function(){
+        _this.preloader(true);
+        $.ajax({
+            type: "POST",
+            url: "../ajax/smeta/load",
+            data: {"smeta" : _this.name },
+            success: function(data){
+                var result = JSON.parse( data );
+                _this.smeta_values = $.extend(true, [], result);
+                _this.load_rooms();
+            }
+        }, 'json');
+    };
 
-    mail_top = $("#mail").offset().top;
-    $("#add_room").on("click", function(){ mail_top = $("#mail").offset().top;} );
-    $("#add_window").on("click", function() {mail_top = $("#mail").offset().top; });
-    $("#add_door").on("click", function() {mail_top = $("#mail").offset().top;});
-
-
-
-    $("#change_budget").on("click", function(){$("#budget_dop_options").slideDown(350); $("#budget_dop_options-hide").fadeIn(400, function() {  mail_top = $("#mail").offset().top;}); });
-    $("#budget_dop_options-hide").on("click", function(){$("#budget_dop_options").slideUp(350); $("#budget_dop_options-hide").fadeOut(400, function() {mail_top = $("#mail").offset().top;});} )
-
-    $(".budget_basic_options").on("click",".budget_basic_options_job", on_input).on("blur", "input", off_input).on("keyup", "input", function (event){ if (event.keyCode == 13) { off_input.call(this); } } );
-    $(".slide1").on("click", function() { $(this).parent().children('ul').slideToggle(); $(this).toggleClass('budget_basic_options_name_style1_down budget_basic_options_name_style1_up'); });
-    $(".slide2").on("click", function() { $(this).parent().children('ul').slideToggle(); $(this).toggleClass('budget_basic_options_name_style2_down budget_basic_options_name_style2_up'); });
-
-    $("#budget_repair_estimate-bottom").on("click", "p", slide_menu );
-
-    var firm = $(".firm");
-    count_firm = firm.length;
-
-    if (count_firm <4) {
-        $("#budget_repair_estimate-scrolling-left_arrow").hide();
-        $("#budget_repair_estimate-scrolling-right_arrow").hide();
-        $(".budget_repair_estimate-scrolling-external_unit").css("margin-left", '95px');
+    //загрузка комнат
+    _this.load_rooms = function(){
+        $.ajax({
+            type: "POST",
+            url: "../ajax/rooms/load_rooms_smeta",
+            data: {"id" : _this.smeta_values[0]['id'] },
+            success: function(data){
+                var result=JSON.parse( data );
+                _this.rooms = $.extend(true, [], result);
+                console.log(_this.rooms);
+                _this.load_categories();
+            }
+        }, 'json');
     }
 
-    $(".budget_repair_estimate-scrolling-inner_unit").css("width", (count_firm * 322)-2 );
+    //загрузка категорий материалов
+    _this.load_categories = function(){
+        $.ajax({
+            type: "POST",
+            url: "../ajax/materials/load_categories",
+            success: function(data){
+                var result = JSON.parse( data );
+                _this.categories_materials = $.extend(true, [], result);
+                _this.load_materials();
+            }
+        }, 'json');
+    };
 
+    //загрузка материалов для категории
+    _this.load_materials = function(){
+        $.ajax({
+            type: "POST",
+            url: "../ajax/materials/load_materials",
+            data: {"id" : _this.smeta_values[0]['id'] },
+            success: function(data){
+                var result=JSON.parse( data );
+                _this.materials = $.extend(true, [], result);
+                _this.load_categories_works();
+            }
+        }, 'json');
+    };
 
-    $(".budget_repair_estimate-scrolling-external_unit").mCustomScrollbar({
-        horizontalScroll:true
+    //загрузка категорий работ
+    _this.load_categories_works = function(){
+        $.ajax({
+            type: "POST",
+            url: "../ajax/works/load_categories_works",
+            success: function(data){
+                var result=JSON.parse( data );
+                _this.categories_works = $.extend(true, [], result);
+                _this.load_works();
+            }
+        }, 'json');
+    };
 
-    });
+    //загрузка работ
+    _this.load_works = function(){
+        $.ajax({
+            type: "POST",
+            url: "../ajax/works/load_works",
+            success: function(data){
+                var result=JSON.parse( data );
+                _this.works = $.extend(true, [], result);
+                _this.preloader(false);
+            }
+        }, 'json');
+    };
 
-    $(".budget_repair_estimate-scrolling-external_unit").mCustomScrollbar("scrollTo", 0);
+    //отрисовка материалов всех - по категориям
+    _this.paint_materials = function(numb){
+        var rooms_cat_parents = new Array(),
+            rooms_cat_under = new Array(),
+            rooms_material = new Array();
+        $.each(_this.rooms[numb]['materials'], function(room_key, room_val) {
+            rooms_cat_parents.push(room_val.cat_id);
+            rooms_cat_under.push(room_val.under_id);
+            rooms_material.push(room_val.mat_id);
+        });
+        var text = '';
+        $.each(_this.categories_materials, function(k, v) {
+            if ($.inArray(v.id,rooms_cat_parents)!= -1){
+                var ide = v.id, calc = v.calculation;
+                var selected = _this.get_selected_material_room(v.id,numb),
+                    selected_key = _this.get_key_material(selected.id),
+                    ignored = _this.get_show_material(selected.id,numb) ? 'ignore_4' : 'ignored_4';
+                text += '<div class="materials_room_option" id="category-'+ide+'">' +
+                    '<div class="materials_room_option_header">' +
+                    '<p>'+ v.name+'</p>' +
+                    '<div class="'+ignored+'" data-mat="'+selected.id+'"></div>' +
+                    '</div>';
+                if (v.under.length >0){
+                    text += '<select class="selectbox" id="val-'+v.id+'" >';
+                    $.each(v.under, function(key, val) {
+                        var select_option = '';
+                        if($.inArray(val.id,rooms_cat_under)!= -1) {
+                            select_option = 'selected = "selected"';
+                            ide = val.id;
+                            calc = val.calculation;
+                        }
+                        text += '<option value="'+val.id+'" '+select_option+'>'+val.name+'</option>';
+                    });
+                    text += '</select>';
+                } else text += '<div class="materials_room_option_menu"></div>';
 
-    $("#budget_repair_estimate-scrolling-right_arrow").click(function(right){
+                var min_material = _this.get_min_material(ide),
+                    max_material = _this.get_max_material(ide),
+                    count_material = _this.count_material(calc,numb),
+                    words = selected.count_text.split(',');
 
-        scroll = mcs.left - 300;
-        $(".budget_repair_estimate-scrolling-external_unit").mCustomScrollbar("scrollTo", -scroll);
+                text += '<div class="materials_room_option_slider" id="material-slider-'+ide+'">' +
+                    '       <div class="slider-materials-' + ide + '" style="position: relative">'+
+                    '           <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + ide + '">' + selected.price + ' р</h6></div>'+
+                    '       </div>'+
+                    '     <div class="slider_img" style="background-image: url(/media/img/material/' + selected.img + ')"' + '>'+
+                    '    <div class="slider_about">'+
+                    '        <a href="#" class="mat-name-' + ide + '">' + selected.name + '</a>'+
+                    '          <h6 class="city-name-' + ide + '">' + selected.country + '</h6>'+
+                    '    </div>'+
+                    '    </div>'+
+                    '</div>' +
+                    '<div class="x"></div>' +
+                    '<h1>'+count_material+' '+_this.declination(words[2], words[0], words[1], count_material)+' =</h1>' +
+                    '<h2 class="mat-price-all-' + ide + '">'+(parseFloat(count_material)*parseFloat(selected.price))+' р.</h2>' +
 
-    });
+                    '<script>'+
+                    "$('.slider-materials-" + ide + "').slider({"+
+                    "min: " + min_material + ","+
+                    "orientation : 'vertical',"+
+                    "value: " + selected_key + ","+
+                    'max: '+ max_material +','+
+                    "step: 1,"+
+                    "create: function () {"+
+                    "},"+
+                    "slide: function (e, ul) { "+
+                    '   $(".price-materials-' + ide + '").text(smeta.get_materials_slider(ul.value).price+" р");'+
+                    '   $(".mat-price-all-' + ide + '").text((smeta.get_materials_slider(ul.value).price+" р"));'+
+                    '   $(".mat-name-' + ide + '").text(smeta.get_materials_slider(ul.value).name);'+
+                    '   $(".city-name-' + ide + '").text(smeta.get_materials_slider(ul.value).country);'+
+                    '   $("#material-slider-' + ide + '").find(".slider_img").css( "background-image","url(/media/img/material/"+smeta.get_materials_slider(ul.value).img+")");'+
+                    "},"+
+                    "stop : function (e, ul) {"+
+                    "   smeta.select_material(ul.value, "+ v.id+", "+numb+");"+
+                    "},"+
+                    "});"+
+                    '</script>'
+                    +'</div>';
+            }
+        });
+        $('.materials_room_for_options').empty();
+        $('.materials_room_for_options').html(text);
+        $(".selectbox").selectbox({
+            onChange: function (val, inst) {
+                _this.select_new_category(this, val, numb);
+            }
+        });
+        $(".slider_img")
+            .mouseenter(function() {
+                $(this).children(".slider_about").show();
+            })
+            .mouseleave(function() {
+                $(this).children(".slider_about").hide();
+            });
+        _this.preloader(false);
+    };
 
-    $("#budget_repair_estimate-scrolling-left_arrow").click(function(left){
-        scroll = mcs.left + 300;
-        $(".budget_repair_estimate-scrolling-external_unit").mCustomScrollbar("scrollTo", -scroll);
-    });
-
-
-    firm.hover(function() { $(this).children(".firm_conteyner").css("margin-top", "-170px"); }, function(){ $(this).children(".firm_conteyner").css("margin-top", "0"); }).on("click", function() { firm.removeClass('firm_selected'); $(this).addClass("firm_selected"); });
-
-}).on("scroll", fixed);
-
-function on_input() {
-    var val = $(this).children('h3').text();
-    $(this).children('h3').hide();
-    $(this).children('h6').hide();
-    $(this).children('input').val(val).show().focus();
-
-}
-
-function off_input() {
-
-    var val = $(this).val();
-    $(this).hide();
-    var check_val = +val;
-
-    if (isNaN(check_val)) {
-        $(this).parent().children('h3').show();
-        $(this).parent().children('h6').show();
-    }
-    else {
-    $(this).parent().children('h3').text(val).show();
-    $(this).parent().children('h6').show();
-    }
-
-}
-
-function slide_menu() {
-
-    var count = 1;
-    $(this).toggleClass("budget_repair_estimate-bottom-arrow_down budget_repair_estimate-bottom-arrow_up");
-    var slide_menu = $("#budget_repair_estimate-slide_menu");
-    slide_menu.slideToggle(400, function(){
-
-
-    if (slide_menu.is(':visible')) {
-
-     interval = setInterval( function(){
-                                            switch (count) {
-                                                case 1:  $(".budget_repair_estimate-slide_menu-slide1").fadeOut(400, function () {$(".budget_repair_estimate-slide_menu-slide2").fadeIn(); } );
-                                                        count = 2;
-                                                        break;
-                                                case 2: $(".budget_repair_estimate-slide_menu-slide2").fadeOut(400, function () {$(".budget_repair_estimate-slide_menu-slide3").fadeIn(); } );
-                                                    count = 3;
-                                                    break;
-                                                case 3: $(".budget_repair_estimate-slide_menu-slide3").fadeOut(400, function () {$(".budget_repair_estimate-slide_menu-slide1").fadeIn(); } );
-                                                    count =1;
-                                                    break;
-                                            }  }, 3000);
-
-    }
-
-    else{
-        clearInterval(interval);
-        $(".budget_repair_estimate-slide_menu-slide3").hide();
-        $(".budget_repair_estimate-slide_menu-slide2").hide();
-        $(".budget_repair_estimate-slide_menu-slide1").show();
-    }
-    });
-}
-
-function fixed(){
-
-    var scroll_window = $(this).scrollTop();
-    if (scroll_window - mail_top < 0) {
-        $("#mail").css({"position": "static", "margin-left": "232px"});
-    }
-    else {
-        $("#mail").css({"position": "fixed", "top": "0", "left": "50%", "margin-left": "117px"});
-    }
-}
+    //гифка прелоадера
+    _this.preloader = function(status){
+        if(status){
+            $('body').append('<img src="/media/img/ajax-loader.gif" id="ajaxLoad">');
+            $.fancybox.open({
+                href: '#ajaxLoad',
+                padding:0,
+                maxWidth: 180,
+                maxHeight: 50,
+                minWidth: 180,
+                minHeight: 50,
+                scrolling: 'no',
+                closeBtn: false,
+                helpers   : {
+                    overlay:
+                    {
+                        css: { 'background': 'rgba(255 , 255 , 250, 0.5)' },
+                        closeClick: false
+                    }
+                }
+            });
+        }else{
+            $.fancybox.close();
+            $('body #ajaxLoad').remove();
+        }
+    };
+};
