@@ -1,0 +1,81 @@
+Smeta:
+    name: string
+    height: number
+    rate: number
+    repair: number
+    type: number
+    roomsList : array
+    materialCateroriesList : array
+    materialsList : array
+    workCategoriesList : array
+    worksList : array
+    rooms :
+        0: class room
+    categories :
+        0: class category            
+    works :
+        demont:
+            0: work            
+        mont:
+            categories:
+                works:
+                    0: class work
+    
+    Room:
+        id: number
+        show: boolean
+        enable: boolean
+        type: number
+        width: number
+        heigth: number
+        window: class window
+        door: class door
+        balcon: boolean
+        categories:
+            enable: boolean
+            summa: number
+            materials:
+                0: class material
+        workMon:
+            enable: boolean
+            summa: number
+            works:
+                0: class work
+        workDem:
+            enable: boolean
+            summa: number
+            works:
+                0: class work
+        
+    Window:
+        id: number
+        width: number
+        length: number
+        enable: boolean
+        
+    Door:
+        id: number
+        type: 
+        width: number
+        length: number
+        enable: boolean
+        
+    Category:
+        material: class
+        enable: boolean
+        
+    Material:
+        id: number
+        price: number
+        enable: boolean
+        
+    Work:
+        id: number
+        price: number
+        type: 0 || 1
+        enable: boolean
+        
+        
+    1: пересчет размеров комнат
+    2: пересчет материалов
+    3: пересчет работ
