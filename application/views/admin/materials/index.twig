@@ -139,24 +139,14 @@
                                 <table class="table table-striped table-bordered table-hover" id='ajaxBlock'>
                                     <thead>
                                         <tr role="row" class="heading">
-                                            <th width="5%">
-                                                ID
-                                            </th>
-                                            <th width="5%">
-                                                Картинка
-                                            </th>
-                                            <th width="15%">
-                                                Название
-                                            </th>
-                                            <th width="10%">
-                                                Цена
-                                            </th>
-                                            <th width="10%">
-                                                Категория
-                                            </th>
-                                            <th width="10%">
-                                                Действия
-                                            </th>
+                                            <th width="5%">ID</th>
+                                            <th width="5%">Картинка</th>
+                                            <th width="15%">Название</th>
+                                            <th width="10%">Цена</th>
+                                            <th width="10%">Категория</th>
+                                            <th width="10%">Ед. изм.</th>
+                                            <th width="10%">Кол-во (площадь)</th>
+                                            <th width="10%">Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,6 +163,8 @@
                                                 <td><a href="#" data-type="text" id="name" data-pk="{{ item.id }}" data-title="Введите название" class="editable editable-click admin-editable">{{ item.name }}</a></td>
                                                 <td><a href="#" data-type="text" id="price" data-pk="{{ item.id }}" data-title="Введите цену" class="editable editable-click admin-editable">{{ item.price |number_format(2, '.', ' ')}}</a></td>
                                                 <td>{{ item.catName }}</td>
+                                                <td>{{ item.count_text|raw }}</td>
+                                                <td>{{ item.size }}</td>
                                                 <td>
                                                     <a href="{{ Url.site('/admin/materials/delete/' ~ item.id) }}"
                                                        class="btn default btn-xs black admin-delete"
