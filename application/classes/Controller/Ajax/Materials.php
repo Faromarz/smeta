@@ -61,6 +61,7 @@ class Controller_Ajax_Materials extends Controller
                         'img'=>$material->img,
                         'country'=>$material->country->name,
                         'count_text'=>$material->count_text,
+                        'size'=>$material->size,
                         'selected'=> 0
                     );
                 }

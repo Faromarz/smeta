@@ -610,7 +610,7 @@ function Smeta(){
                             }
                         });
                     }
-                    summ_materials += parseFloat(_this.count_material(v.calculation,room_key))*parseFloat(_this.get_selected_material(ide).price);
+                    summ_materials += parseFloat(_this.count_material(v.calculation,room_key,parseFloat(_this.get_selected_material(ide).size)))*parseFloat(_this.get_selected_material(ide).price);
                     room.materials.push({ 'cat_id' : v.id, 'under_id' : under_id, 'mat_id' : _this.get_selected_material(ide).id, 'show' : true, 'calc' : v.calculation });
                 }
             });
@@ -746,7 +746,7 @@ function Smeta(){
 
                     var min_material = _this.get_min_material(ide),
                         max_material = _this.get_max_material(ide),
-                        count_material = _this.count_material(calc,numb),
+                        count_material = _this.count_material(calc,numb,_this.get_selected_material(ide).size),
                         words = selected.count_text.split(',');
 
                     text += '<div class="materials_room_option_slider" id="material-slider-'+ide+'">' +
@@ -872,7 +872,7 @@ function Smeta(){
     };
 
     //расчет количества материала
-    _this.count_material = function(calc, numb){
+    _this.count_material = function(calc, numb, $size){
         if (calc === 0) {
             return 0;
         } else if (calc === 1) {
@@ -885,7 +885,7 @@ function Smeta(){
                 calculation = eval('room.'+method+'()');
             }
         });
-        return calculation;
+        return Math.ceil(calculation/$size);
     };
     
 
