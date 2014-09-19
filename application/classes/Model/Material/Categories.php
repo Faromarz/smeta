@@ -25,7 +25,7 @@ class Model_Material_Categories extends ORM_MPTT
 
     public function count_materials()
     {
-        return $this->materials->where('country_id','>',0)->count_all();
+        return $this->materials->count_all();
     }
 
     public function count_categories()

@@ -610,7 +610,7 @@
 
     </div>
 
-    {% for room in smeta.rooms.find_all() %}
+    {% for room in smeta.rooms.where('show','=',1).find_all() %}
         <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
             <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
                 <h2>Стоимость</h2>
@@ -665,7 +665,7 @@
 
     </div>
 
-    {% for room in smeta.rooms.find_all() %}
+    {% for room in smeta.rooms.where('show','=',1).find_all() %}
         <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
             <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
                 <h2>Стоимость</h2>
@@ -715,7 +715,7 @@
         <div class="ignore_2 ignore_for_basic_options_header"></div>
     </div>
 
-    {% for room in smeta.rooms.find_all() %}
+    {% for room in smeta.rooms.where('show','=',1).find_all() %}
         <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
             <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
 
@@ -724,9 +724,9 @@
             </div>
             <div class="ignore_4"></div>
 
-            <ul class="materials_room_for_options budget_basic_options_name_materials_block">
+            <ul class="materials_room_for_options-{{ room.room_id }} budget_basic_options_name_materials_block">
 
-                {% if smeta.materials.count_all()>0 %}
+                {#{% if smeta.materials.count_all()>0 %}
                     {% for material in smeta.materials.find_all() %}
                         {% if room.rooms.id==material.room_id %}
                             <li class="materials_room_option">
@@ -774,6 +774,7 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
+#}
 
             </ul>
 
