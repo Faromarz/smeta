@@ -6,7 +6,7 @@
 var Smeta = (function() {
 
     var defaults = {
-        paramRooms: new Array()
+        rooms: new Array()
     };
     function Smeta() {
         this.rooms = new Array();
@@ -17,7 +17,7 @@ var Smeta = (function() {
         var _this = this;
         var params = $.extend(defaults, options);
         // иницилизация комнат
-        $.each(params.paramRooms, function(key, room) {
+        $.each(params.rooms, function(key, room) {
             _this.rooms[key] = new Room(_this, room);
         });
 
