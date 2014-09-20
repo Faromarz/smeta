@@ -6,17 +6,19 @@
  * 
  * @param {object} $parent
  * @param {array} $params
+ * @param {integer} $key
  */
-function Room($parent, $params)
+function Room($parent, $params, $key)
 {
     // 1. Нужна реализация класов окон, дверей, работ, материалов
     var _this = this;
     var _parent = $parent;
     var _params = $params;
+    var _key = $key;
 
     var roomId = Number(_params.id);
     var roomType = Number(_params.type);
-    var roomTitle = _params.title;
+    var roomTitle = _params.name;
     var roomWidth = Number(_params.width);
     var roomLength = Number(_params.length);
     var roomEnable = _params.enable || false;
@@ -108,6 +110,17 @@ function Room($parent, $params)
      */
     _this.setShow = function($show) {
         roomShow = $show;
+        _this.setEnable($show);
+        if (roomShow) {
+            //_this.add_window($('.smeta_room[data-room]').length+1);
+            var length = $('.smeta_room[data-room]').length;
+            if(_this.getId()>length){
+                $("#add_room").siblings('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length).attr('data-room-id', $('.smeta_room[data-room]').length);
+                $("#add_room").siblings('.smeta_room').eq(_key).find('p.smeta_text_header').eq(0).text(_this.getTitle());
+            }
+        } else {
+            _this.removeRoom();
+        }
     };
     // наличие галочки в комнате
     _this.getEnable = function() {
@@ -116,6 +129,7 @@ function Room($parent, $params)
     // установка|снятие галочки в комнате
     _this.setEnable = function($enable) {
         roomEnable = $enable;
+        $('.smeta_room[data-room-id="'+_this.getId()+'"]').find('div:eq(3)').attr('class', 'ignore'+($enable?'d':''));
     };
     // статус балкона
     _this.getBalcon = function() {
@@ -176,6 +190,15 @@ function Room($parent, $params)
             params['balcon'] = _this.getBalcon();
         }
         return params;
+    };
+    // удаление комнаты
+    _this.removeRoom = function() {
+        if (_this.getId() === 1){
+            return true;
+        }
+        $("#add_room").siblings('.smeta_room[data-room='+_this.getId()+']').remove();
+        // удаление окон вынести в окна
+        $("#add_window").siblings('.smeta_window[data-room='+_this.getId()+']').remove();
     };
     // иницилизация комнаты
     _this.init = function() {

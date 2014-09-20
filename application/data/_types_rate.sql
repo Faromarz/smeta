@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.2.8
 -- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1
--- Время создания: Июн 30 2014 г., 15:48
--- Версия сервера: 5.5.25
--- Версия PHP: 5.3.13
+-- Хост: localhost
+-- Время создания: Сен 20 2014 г., 19:34
+-- Версия сервера: 5.5.38-MariaDB-wsrep
+-- Версия PHP: 5.5.16
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -27,20 +27,39 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `types_rate` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Тарифы ремонта' AUTO_INCREMENT=4 ;
+  `alias` varchar(64) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Тарифы ремонта';
 
 --
 -- Дамп данных таблицы `types_rate`
 --
 
-INSERT INTO `types_rate` (`id`, `name`) VALUES
-(1, 'Эконом'),
-(2, 'Стандарт'),
-(3, 'Премиум');
+INSERT INTO `types_rate` (`id`, `name`, `alias`) VALUES
+(1, 'Эконом', 'econom'),
+(2, 'Стандарт', 'standart'),
+(3, 'Премиум', 'premium');
 
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `types_rate`
+--
+ALTER TABLE `types_rate`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `types_rate`
+--
+ALTER TABLE `types_rate`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
