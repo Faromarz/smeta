@@ -1,361 +1,161 @@
 {% extends "layout/html.twig" %}
 {% block content %}
-    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/room.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
+    
+    {#<script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>#}
+    <script>
+        $(document).ready(function(){
+            Smeta.init({
+                paramRooms: {{ _rooms | json_encode()|raw }}
+            });
+        });
+    </script>
     <div id="content">
     <div id="order_options">
-
         <div id="order_options_left">
-
             <div id="slider"></div>
-
             <ul id="order_options_rate">
                 <p>тариф</p>
                 {% for item in types_rate %}
                     <li id="order_options_rate_{% if loop.index==1 %}econom{% elseif loop.index==2 %}standart{% else %}premium{% endif %}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
                 {% endfor %}
             </ul>
-
             <ul id="order_options_repairs">
                 <p>ремонт</p>
                 {% for item in types_repair %}
                     <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
                 {% endfor %}
             </ul>
-
             <ul id="order_options_type">
                 <p>тип квартиры</p>
                 {% for item in types_apartment %}
                     <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
                 {% endfor %}
             </ul>
-
             <div id="design_project">
                 <h2>Ремонт по дизайн-проекту</h2>
                 <h3>Мы готовим для вас индивидуальный дизайн-проект и подбираем эксклюзивные материалы.</h3>
             </div>
-
             <div id="order_options_plus" class="plus"></div>
-
             <div id="tube"></div>
-
             <a href="#" id="show_me_more">ПОДРОБНЕЕ</a>
-
         </div>
-
         <div id="order_options_right">
-
             <h1>Cколько комнат<br>в вашей квартире?</h1>
-
             <div id="rooms">
-
                 <div id="one_room" data-numb="1"></div>
                 <div id="two_room" data-numb="2"></div>
                 <div id="three_room" data-numb="3"></div>
                 <div id="four_room" data-numb="4"></div>
                 <div id="five_room" data-numb="5"></div>
-
             </div>
 
             <div id="partners">
-
                 <h2>ХХХ ХХХ</h2>
                 <a href="#">ремонтных компаний</a>
                 <h3>в нашей базе.</h3>
-
             </div>
 
             <div id="your_smeta">
-
                 <a href="javascript:void(0);">Ваша смета</a>
-
             </div>
 
             <div id="your_price">
-
                 <div id="your_price_without_discount">
                     <p>Стоимость материалов:</p>
                     <h2>XXX XXX р.</h2>
                     <p>Стоимость работ:</p>
                     <h2>XXX XXX р.</h2>
-
                 </div>
 
                 <div id="your_price_with_discount">
                     <p>СКИДКА</p>
-
                 </div>
 
             </div>
 
             <div id="be_partners"></div>
-
             <h5>Дополнительные параметры вашей&nbsp;квартиры.</h5>
-
             <h6>Развернуть список.</h6>
-
         </div>
-
-
     </div>
 
     <div id="dop_options">
-
-    <div id="dop_options_left">
-
-    <div class="smeta_room" data-room="1" data-room-id="1">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3 id="square-room">19.25</h3>
-                <h5>м²</h5>
-
+        <div id="dop_options_left">
+        {% for room in _rooms %}
+            {% if room.type == 1 and room.show %}
+            <div class="smeta_room" data-room="1" data-room-id="{{ room.id }}">
+                <div class="smeta_room_square">
+                    <div class="smeta_room_square_summ">
+                        <h2>площадь</h2>
+                        <h3 id="square-room">{{ (room.width*room.length) |number_format(2, ',', ' ') }}</h3>
+                        <h5>м²</h5>
+                    </div>
+                    <div class="smeta_room_square_height">
+                        <input value="{{ room.length|number_format(2, ',', ' ') }}" class="smeta_room_square_height_input"/>
+                    </div>
+                    <div class="smeta_room_square_width">
+                        <input value="{{ room.width|number_format(2, ',', ' ') }}" class="smeta_room_square_width_input"/>
+                    </div>
+                </div>
+                <div class="smeta_room_text">
+                    <p class="smeta_text_header">{{ room.name }}<p>
+                    <h6>Габариты в метрах</h6>
+                    <h5>Балкон</h5>
+                    <div class="check_box_{{ room.balcony ? 'in' : 'out'}}"></div>
+                </div>
+                <div class="ignore{{ room.enable ? '' : 'd'}}"></div>
             </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="5.5" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="3.5" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">комната<p>
-            <h6>Габариты в метрах</h6>
-            <h5>Балкон</h5>
-            <div class="check_box_out"></div>
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-
-    <div id="add_room" class="add_room">добавить комнату</div>
-
-    <div class="smeta_room" data-room-id="6">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3 id="square-room">9.00</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="3.00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="3.00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">кухня</p>
-            <h6>Габариты в метрах</h6>
-            <h5>Балкон</h5>
-            <div class="check_box_out"></div>
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-    <div class="smeta_room" data-room-id="7">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3 id="square-room">6.00</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="3.00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="2.00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">корридор</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-    <div id="bath_and_toilet" class="smeta_room" data-room-id="10">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3 id="square-room">3.06</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="1.8" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="1.7" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">ванна и&nbsp;туалет</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-
-    <div id="bath" class="smeta_room" data-room-id="8">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3 id="square-room">3.06</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="1.8" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="1.7" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">ванна</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-    <div class="combine"></div>
-    <div class="uncombine"></div>
-
-    <div id="toilet" class="smeta_room" data-room-id="9">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3 id="square-room">1.36</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="1.7" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="0.8" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">туалет</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-
-
+            {% endif %}
+        {% endfor %}
+
+        <div id="add_room" class="add_room">добавить комнату</div>
+        {% for room in _rooms %}
+            {% if room.type != 1 %}
+                <div{% if room.alias %} id="{{room.alias}}"{% endif %}{% if room.id == 8 and room.show %} style="display:block;"{% endif %} class="smeta_room" data-room-id="{{ room.id }}">
+                    <div class="smeta_room_square">
+                        <div class="smeta_room_square_summ">
+                            <h2>площадь</h2>
+                            <h3 id="square-room">{{ (room.width*room.length) |number_format(2, ',', ' ') }}</h3>
+                            <h5>м²</h5>
+                        </div>
+                        <div class="smeta_room_square_height">
+                            <input value="{{ room.length|number_format(2, ',', ' ') }}" class="smeta_room_square_height_input"/>
+                        </div>
+                        <div class="smeta_room_square_width">
+                            <input value="{{ room.width|number_format(2, ',', ' ') }}" class="smeta_room_square_width_input"/>
+                        </div>
+                    </div>
+                    <div class="smeta_room_text">
+                        <p class="smeta_text_header">{{ room.name }}</p>
+                        <h6>Габариты в метрах</h6>
+                        {% if room.balcony is not null %}
+                        <h5>Балкон</h5>
+                        <div class="check_box_{{ room.balcony ? 'in' : 'out'}}"></div>
+                        {% endif %}
+                    </div>
+                    <div class="ignore{{ room.enable ? '' : 'd'}}"></div>
+                </div>
+                {% if room.type == 4 and room.id == 9  %}
+                    <div class="combine"></div>
+                    <div class="uncombine"></div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div id="dop_options_right">
 
         <div id="smeta_ceiling">
-
             <p class="smeta_text_header">высота потолков</p>
             <div class="button_minus" id="minus_ceiling"></div>
-            <input id="input_ceiling" value="2.75" />
+            <input id="input_ceiling" value="{{ _params.0.height }}" />
             <div class="button_plus" id="plus_ceiling"></div>
             <h6>метров</h6>
-
         </div>
 
+            
         <div class="smeta_block smeta_window" data-window="1" data-room="0">
                 <h1 class="smeta_text_header">окно на кухне</h1>
                 {#<div class="choose_type_window">
@@ -383,33 +183,26 @@
                     <div class="button_plus plus_window"></div>
                     <h6>шт.</h6>
                 </div>
-
                 <div class="ignore ignore_window"></div>
         </div>
 
         <div id="add_window" class="add_room">Добавить окно</div>
-
+        
+        
+        
         <div class="smeta_block">
-
             <h1 class="smeta_text_header">Входная дверь</h1>
-
             <div class="smeta_characteristics">
-
                 <input class="door_width" value="0.90"/>
                 <div class="smeta_characteristics_x"></div>
                 <input class="door_height" value="2.00">
                 <p class="smeta_characteristics_width">ширина</p>
                 <p class="smeta_characteristics_height">высота</p>
                 <h6>Габариты в метрах</h6>
-
             </div>
 
-            <div class="smeta_count_entrance_door">
-
-
-            </div>
+            <div class="smeta_count_entrance_door"></div>
             <div class="ignore"></div>
-
         </div>
 
         <div class="smeta_block smeta_door" data-door="1">
@@ -448,26 +241,17 @@
     <div id="dop_options_footer">
 
         <div id="dop_options_footer_rezult">
-
             <h1>однокомнатная квартира</h1>
             <h2>Общая площадь:</h2>
             <h3>XXX,XX м²</h3>
-
         </div>
-
         <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
-
     </div>
-
-
     </div>
 
     <div id="repair_company">
-
         <div id="repair_company_summ">
-
             <div id="rus_flag"></div>
-
             <div id="rus_select">
                 <select  class="selectbox2">
                     <option  value="Санкт-Петербур">Санкт-Петербур</option>
@@ -477,7 +261,6 @@
             </div>
 
             <div class="repair_company_rasporka"></div>
-
             <div id="uk_flag"></div>
             <div id="uk_select">
                 <select   class="selectbox2">
@@ -525,17 +308,12 @@
                     <div class="repair_company_summ_table_name_rasporka"></div>
                     <p>монтажные</p>
                     <p>работы</p>
-
                 </div>
 
-
                 <div class="ignore_3"></div>
-
             </div>
 
-
             <a class="link" href="#">Выбрать другую компанию</a>
-
 
         </div>
 
@@ -572,16 +350,12 @@
     <div id="materials">
 
         <div id="materials_summ">
-
             <p>Общая сумма:</p>
             <h1>ХХХ ХХХ р.</h1>
-
         </div>
 
         <div id="materials_header">
-
             <p class="text_header">Материалы для ремонта</p>
-
         </div>
 
         <div class="ignore_2"></div>
@@ -589,29 +363,20 @@
         <div class="materials_room">
 
             <div class="materials_room_header">
-
                 <p class="arrow_up" id="toggle_room">Комната №1</p>
                 <div class="ignore_4" data-room-id="1"></div>
-
             </div>
 
             <div class="materials_room_for_options">
             {#МАТЕРИАЛЫ#}
             </div>
-
-
             <div class="materials_room_header">
-
                 <a href="#"  class="details_arrow">+ материалы остальных помещений</a>
-
             </div>
-
 
         </div>
 
-
         <div class="repair_company_rasporka"></div>
-
 
     </div>
 
@@ -621,9 +386,7 @@
         <div id="examples_works_slider">
 
             <div id="examples_works_slider_econom" class="anythingSlider">
-
                 <div class="wrapper">
-
                     <ul>
 
                         <li>
@@ -636,71 +399,45 @@
                             <div class="slide_plashka"></div>
 
                         </li>
-
                     </ul>
-
                 </div>
-
             </div>
             <div id="examples_works_slider_standart" class="anythingSlider">
-
                 <div class="wrapper">
-
                     <ul>
-
                         <li>
                             <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
                             <div class="slide_plashka"><p class="slider_text">Бла бла бла бла бла бла бла</p> </div>
                         </li>
                         <li>
-
                             <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
                             <div class="slide_plashka"></div>
-
                         </li>
-
                     </ul>
-
                 </div>
-
             </div>
             <div id="examples_works_slider_premium" class="anythingSlider">
-
                 <div class="wrapper">
-
                     <ul>
-
                         <li>
                             <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
                             <div class="slide_plashka"><p class="slider_text">Бла бла бла бла бла бла бла</p> </div>
 
                         </li>
                         <li>
-
                             <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
                             <div class="slide_plashka"></div>
-
                         </li>
-
                     </ul>
-
                 </div>
-
-
             </div>
-
         </div>
 
         <ul id="choose_rate">
-
             <h2>тариф:</h2>
-
             <li id="choose_rate_econom">эконом</li>
-
             <li id="choose_rate_standart" class="choose_rate_selected">стандарт</li>
-
             <li id="choose_rate_premium">премиум</li>
-
         </ul>
 
         <h1>Примеры работ в&nbsp;выбранном тарифе</h1>
@@ -712,80 +449,54 @@
 
 
     <div id="last_calculations">
-
         <h1>Недавно расчитанные сметы</h1>
         <a href="#">АРХИВ СМЕТ</a>
-
         <div id="last_calculations_for_forms">
-
             <div id="last_calculations_pop-up">
-
                 <div class="last_calculations_pop-up_form">
-
                     <p class="last_calculations_form_time">24 секунды назад</p>
                     <p class="last_calculations_form_town">Москва</p>
-
                     <div class="last_calculations_pop-up_second_line">
-
                         <ul>
-
                             <li class="number_rooms">Четырехкомнатная квартира</li>
                             <li class="area">ХХХ,ХХ м²</li>
-
                         </ul>
-
                         <ul class="last_calculations_form_options">
-
                             <li>стандарт</li>
                             <li>капитальный</li>
                             <li>вторичка</li>
-
                         </ul>
-
-
                     </div>
 
                     <div class="last_calculations_pop-up_area">
 
                         <dl>
-
                             <dt>Комната №1</dt>
                             <dd>19,25 м²</dd>
-
                         </dl>
 
                         <dl>
-
                             <dt>Комната №1</dt>
                             <dd>19,25 м²</dd>
-
                         </dl>
 
                         <dl>
-
                             <dt>Комната №1</dt>
                             <dd>19,25 м²</dd>
-
                         </dl>
 
                         <dl>
-
                             <dt>Комната №1</dt>
                             <dd>19,25 м²</dd>
-
                         </dl>
 
                         <dl>
-
                             <dt>Комната №1</dt>
                             <dd>19,25 м²</dd>
-
                         </dl>
                         <dl>
-
                             <dt>Комната №1</dt>
                             <dd>19,25 м²</dd>
-
                         </dl>
                         <dl>
 

@@ -1,0 +1,1071 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/room.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
+    <div id="content">
+    <div id="order_options">
+
+        <div id="order_options_left">
+
+            <div id="slider"></div>
+
+            <ul id="order_options_rate">
+                <p>тариф</p>
+                {% for item in types_rate %}
+                    <li id="order_options_rate_{% if loop.index==1 %}econom{% elseif loop.index==2 %}standart{% else %}premium{% endif %}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                {% endfor %}
+            </ul>
+
+            <ul id="order_options_repairs">
+                <p>ремонт</p>
+                {% for item in types_repair %}
+                    <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                {% endfor %}
+            </ul>
+
+            <ul id="order_options_type">
+                <p>тип квартиры</p>
+                {% for item in types_apartment %}
+                    <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                {% endfor %}
+            </ul>
+
+            <div id="design_project">
+                <h2>Ремонт по дизайн-проекту</h2>
+                <h3>Мы готовим для вас индивидуальный дизайн-проект и подбираем эксклюзивные материалы.</h3>
+            </div>
+
+            <div id="order_options_plus" class="plus"></div>
+
+            <div id="tube"></div>
+
+            <a href="#" id="show_me_more">ПОДРОБНЕЕ</a>
+
+        </div>
+
+        <div id="order_options_right">
+
+            <h1>Cколько комнат<br>в вашей квартире?</h1>
+
+            <div id="rooms">
+
+                <div id="one_room" data-numb="1"></div>
+                <div id="two_room" data-numb="2"></div>
+                <div id="three_room" data-numb="3"></div>
+                <div id="four_room" data-numb="4"></div>
+                <div id="five_room" data-numb="5"></div>
+
+            </div>
+
+            <div id="partners">
+
+                <h2>ХХХ ХХХ</h2>
+                <a href="#">ремонтных компаний</a>
+                <h3>в нашей базе.</h3>
+
+            </div>
+
+            <div id="your_smeta">
+
+                <a href="javascript:void(0);">Ваша смета</a>
+
+            </div>
+
+            <div id="your_price">
+
+                <div id="your_price_without_discount">
+                    <p>Стоимость материалов:</p>
+                    <h2>XXX XXX р.</h2>
+                    <p>Стоимость работ:</p>
+                    <h2>XXX XXX р.</h2>
+
+                </div>
+
+                <div id="your_price_with_discount">
+                    <p>СКИДКА</p>
+
+                </div>
+
+            </div>
+
+            <div id="be_partners"></div>
+
+            <h5>Дополнительные параметры вашей&nbsp;квартиры.</h5>
+
+            <h6>Развернуть список.</h6>
+
+        </div>
+
+
+    </div>
+
+    <div id="dop_options">
+
+    <div id="dop_options_left">
+
+    <div class="smeta_room" data-room="1" data-room-id="1">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3 id="square-room">19.25</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="5.5" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="3.5" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">комната<p>
+            <h6>Габариты в метрах</h6>
+            <h5>Балкон</h5>
+            <div class="check_box_out"></div>
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+
+    <div id="add_room" class="add_room">добавить комнату</div>
+
+    <div class="smeta_room" data-room-id="6">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3 id="square-room">9.00</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="3.00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="3.00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">кухня</p>
+            <h6>Габариты в метрах</h6>
+            <h5>Балкон</h5>
+            <div class="check_box_out"></div>
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+    <div class="smeta_room" data-room-id="7">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3 id="square-room">6.00</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="3.00" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="2.00" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">корридор</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+    <div id="bath_and_toilet" class="smeta_room" data-room-id="10">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3 id="square-room">3.06</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="1.8" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="1.7" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">ванна и&nbsp;туалет</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+
+    <div id="bath" class="smeta_room" data-room-id="8">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3 id="square-room">3.06</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="1.8" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="1.7" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">ванна</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+    <div class="combine"></div>
+    <div class="uncombine"></div>
+
+    <div id="toilet" class="smeta_room" data-room-id="9">
+
+        <div class="smeta_room_square">
+
+            <div class="smeta_room_square_summ">
+
+                <h2>площадь</h2>
+                <h3 id="square-room">1.36</h3>
+                <h5>м²</h5>
+
+            </div>
+
+            <div class="smeta_room_square_height">
+
+                <input value="1.7" class="smeta_room_square_height_input"/>
+
+            </div>
+
+            <div class="smeta_room_square_width">
+
+                <input value="0.8" class="smeta_room_square_width_input"/>
+
+            </div>
+
+        </div>
+
+        <div class="smeta_room_text">
+
+            <p class="smeta_text_header">туалет</p>
+            <h6>Габариты в метрах</h6>
+
+
+        </div>
+
+        <div class="ignore"></div>
+
+    </div>
+
+
+
+    </div>
+
+    <div id="dop_options_right">
+
+        <div id="smeta_ceiling">
+
+            <p class="smeta_text_header">высота потолков</p>
+            <div class="button_minus" id="minus_ceiling"></div>
+            <input id="input_ceiling" value="2.75" />
+            <div class="button_plus" id="plus_ceiling"></div>
+            <h6>метров</h6>
+
+        </div>
+
+        <div class="smeta_block smeta_window" data-window="1" data-room="0">
+                <h1 class="smeta_text_header">окно на кухне</h1>
+                {#<div class="choose_type_window">
+
+                    <p>Выберите тип окна:</p>
+
+                    <div class="smeta_count_window_one"></div>
+                    <div class="smeta_count_window_two"></div>
+                    <div class="smeta_count_window_three"></div>
+
+                        </div>#}
+                <div class="smeta_count_window_right">
+                    <input class="window_width" value="1.30"/>
+                    <div class="smeta_characteristics_x"></div>
+                    <input class="window_height" value="1.40">
+                    <p class="smeta_characteristics_width">ширина</p>
+                    <p class="smeta_characteristics_height">высота</p>
+                    <h6>Габариты в метрах</h6>
+                </div>
+
+                <div class="smeta_count_window_left">
+                    <div class="smeta_count_window_chosen" style="width:80px;background-position:-79px 25px"></div>
+                    <div class="button_minus minus_window"></div>
+                    <input class="smeta_count_input input_window" value="0" maxlength="1"/>
+                    <div class="button_plus plus_window"></div>
+                    <h6>шт.</h6>
+                </div>
+
+                <div class="ignore ignore_window"></div>
+        </div>
+
+        <div id="add_window" class="add_room">Добавить окно</div>
+
+        <div class="smeta_block">
+
+            <h1 class="smeta_text_header">Входная дверь</h1>
+
+            <div class="smeta_characteristics">
+
+                <input class="door_width" value="0.90"/>
+                <div class="smeta_characteristics_x"></div>
+                <input class="door_height" value="2.00">
+                <p class="smeta_characteristics_width">ширина</p>
+                <p class="smeta_characteristics_height">высота</p>
+                <h6>Габариты в метрах</h6>
+
+            </div>
+
+            <div class="smeta_count_entrance_door">
+
+
+            </div>
+            <div class="ignore"></div>
+
+        </div>
+
+        <div class="smeta_block smeta_door" data-door="1">
+            <h1 class="smeta_text_header">межкомнатные двери</h1>
+            {#
+            <div class="choose_type_door">
+
+                <p>Выберите тип двери:</p>
+
+                <div class="smeta_count_interior_door_one"></div>
+                <div class="smeta_count_interior_door_two"></div>
+
+            </div>
+            #}
+            <div class="smeta_count_interior_door_right">
+                <input class="door_width"  value="0.80"/>
+                <div class="smeta_characteristics_x"></div>
+                <input class="door_height"  value="2.00">
+                <p class="smeta_characteristics_width">ширина</p>
+                <p class="smeta_characteristics_height">высота</p>
+                <h6>Габариты в метрах</h6>
+            </div>
+            <div class="smeta_count_interior_door_left">
+                <div class="smeta_count_interior_door_chosen" style="width:70px; background-position:0 25px"></div>
+                <div class="button_minus minus_door"></div>
+                <input class="smeta_count_input input_door" value="0" />
+                <div class="button_plus plus_door"></div>
+                <h6>шт.</h6>
+            </div>
+            <div class="ignore ignore_door"></div>
+        </div>
+        <div id="add_door" class="add_room">Добавить дверь</div>
+
+    </div>
+
+    <div id="dop_options_footer">
+
+        <div id="dop_options_footer_rezult">
+
+            <h1>однокомнатная квартира</h1>
+            <h2>Общая площадь:</h2>
+            <h3>XXX,XX м²</h3>
+
+        </div>
+
+        <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
+
+    </div>
+
+
+    </div>
+
+    <div id="repair_company">
+
+        <div id="repair_company_summ">
+
+            <div id="rus_flag"></div>
+
+            <div id="rus_select">
+                <select  class="selectbox2">
+                    <option  value="Санкт-Петербур">Санкт-Петербур</option>
+                    <option  value="Москва">Москва</option>
+                    <option  value="Томск">Томск</option>
+                </select>
+            </div>
+
+            <div class="repair_company_rasporka"></div>
+
+            <div id="uk_flag"></div>
+            <div id="uk_select">
+                <select   class="selectbox2">
+                    <option  value="Санкт-Петербур">Киев</option>
+                    <option  value="Москва">Житомир</option>
+                    <option  value="Томск">Львов</option>
+                </select>
+            </div>
+
+            <div class="repair_company_rasporka"></div>
+
+            <div id="repair_company_summ_table">
+
+                <div class="repair_company_summ_table_summ" id="demont_works">
+
+                    <p>Общее время:</p>
+                    <h1>ХХХ,ХХ часов</h1>
+                    <p>Общая сумма:</p>
+                    <h1>ХХХ ХХХ р.</h1>
+                    <h2>подробнее</h2>
+
+                </div>
+                <div class="repair_company_summ_table_name">
+
+                    <div class="repair_company_summ_table_name_rasporka"></div>
+                    <p>демонтажные</p>
+                    <p>работы</p>
+
+                </div>
+                <div class="ignore_3"></div>
+
+                <div class="repair_company_summ_table_summ" id="mont_works">
+
+                    <p>Общее время:</p>
+                    <h1>ХХХ,ХХ часов</h1>
+                    <p>Общая сумма:</p>
+                    <h1>ХХХ ХХХ р.</h1>
+                    <h2>подробнее</h2>
+
+                </div>
+
+
+                <div class="repair_company_summ_table_name">
+
+                    <div class="repair_company_summ_table_name_rasporka"></div>
+                    <p>монтажные</p>
+                    <p>работы</p>
+
+                </div>
+
+
+                <div class="ignore_3"></div>
+
+            </div>
+
+
+            <a class="link" href="#">Выбрать другую компанию</a>
+
+
+        </div>
+
+
+        <div id="repair_company_reviews">
+
+            <p class="text_header">Цены и сметы от ремонтных компаний<p>
+
+            <div id="repair_company_reviews_rate" class="rate_4"></div>
+            <p id="repair_company_reviews_header">ООО «СтройРемонтСервис»</p>
+
+            <h1>Работы проведены c XX.XX.XX по XX.XX.XX ул. Мосфильмовская, 24</h1>
+            <h2>«Сделано, конечно, на 5 с плюсом...Почти все провода в квартире удалось спрятать.»</h2>
+            <h1 class="signature">Николай</h1>
+
+            <h2><span>+</span></h2>
+
+            <h1>Работы проведены c XX.XX.XX по XX.XX.XX ул. Зои и Александры Космодемьянских, 12 строение 2</h1>
+            <h2>«Спасибо за отличный ремонт!»</h2>
+            <h1 class="signature">Ольга павловна</h1>
+
+            <h2><span>+</span></h2>
+
+            <h2><a class="link" href="#">Все отзывы</a> о ремонтной компании</h2>
+
+        </div>
+
+        <div class="ignore_2"></div>
+
+        <div class="repair_company_rasporka"></div>
+
+    </div>
+
+    <div id="materials">
+
+        <div id="materials_summ">
+
+            <p>Общая сумма:</p>
+            <h1>ХХХ ХХХ р.</h1>
+
+        </div>
+
+        <div id="materials_header">
+
+            <p class="text_header">Материалы для ремонта</p>
+
+        </div>
+
+        <div class="ignore_2"></div>
+
+        <div class="materials_room">
+
+            <div class="materials_room_header">
+
+                <p class="arrow_up" id="toggle_room">Комната №1</p>
+                <div class="ignore_4" data-room-id="1"></div>
+
+            </div>
+
+            <div class="materials_room_for_options">
+            {#МАТЕРИАЛЫ#}
+            </div>
+
+
+            <div class="materials_room_header">
+
+                <a href="#"  class="details_arrow">+ материалы остальных помещений</a>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="repair_company_rasporka"></div>
+
+
+    </div>
+
+
+    <div id="examples_works">
+
+        <div id="examples_works_slider">
+
+            <div id="examples_works_slider_econom" class="anythingSlider">
+
+                <div class="wrapper">
+
+                    <ul>
+
+                        <li>
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
+                            <div class="slide_plashka"></div>
+                        </li>
+                        <li>
+
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
+                            <div class="slide_plashka"></div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+            <div id="examples_works_slider_standart" class="anythingSlider">
+
+                <div class="wrapper">
+
+                    <ul>
+
+                        <li>
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
+                            <div class="slide_plashka"><p class="slider_text">Бла бла бла бла бла бла бла</p> </div>
+                        </li>
+                        <li>
+
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
+                            <div class="slide_plashka"></div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+            <div id="examples_works_slider_premium" class="anythingSlider">
+
+                <div class="wrapper">
+
+                    <ul>
+
+                        <li>
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg') 50% 50%; background-size: cover;"></div>
+                            <div class="slide_plashka"><p class="slider_text">Бла бла бла бла бла бла бла</p> </div>
+
+                        </li>
+                        <li>
+
+                            <div class="slide" style="background: url('media/img/examples_works/images/slide-civil-1.jpg');"></div>
+                            <div class="slide_plashka"></div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <ul id="choose_rate">
+
+            <h2>тариф:</h2>
+
+            <li id="choose_rate_econom">эконом</li>
+
+            <li id="choose_rate_standart" class="choose_rate_selected">стандарт</li>
+
+            <li id="choose_rate_premium">премиум</li>
+
+        </ul>
+
+        <h1>Примеры работ в&nbsp;выбранном тарифе</h1>
+        <p>Все <a href="#">ремонтные компании</a> работают<br>по договору на ремонтно-строительные работы.</p>
+        <p><span>+</span></p>
+        <p>Предоставляют гарантию на ремонт<br>от 2-х лет.</p>
+
+    </div>
+
+
+    <div id="last_calculations">
+
+        <h1>Недавно расчитанные сметы</h1>
+        <a href="#">АРХИВ СМЕТ</a>
+
+        <div id="last_calculations_for_forms">
+
+            <div id="last_calculations_pop-up">
+
+                <div class="last_calculations_pop-up_form">
+
+                    <p class="last_calculations_form_time">24 секунды назад</p>
+                    <p class="last_calculations_form_town">Москва</p>
+
+                    <div class="last_calculations_pop-up_second_line">
+
+                        <ul>
+
+                            <li class="number_rooms">Четырехкомнатная квартира</li>
+                            <li class="area">ХХХ,ХХ м²</li>
+
+                        </ul>
+
+                        <ul class="last_calculations_form_options">
+
+                            <li>стандарт</li>
+                            <li>капитальный</li>
+                            <li>вторичка</li>
+
+                        </ul>
+
+
+                    </div>
+
+                    <div class="last_calculations_pop-up_area">
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+                        <dl>
+
+                            <dt>Комната №1</dt>
+                            <dd>19,25 м²</dd>
+
+                        </dl>
+
+                    </div>
+
+                    <div class="last_calculations_pop-up_third_line">
+
+                        <ul>
+
+                            <li>Стоимость материалов:</li>
+                            <li>XXX XXX р.</li>
+
+                        </ul>
+
+                        <ul>
+
+                            <li>Стоимость работ:</li>
+                            <li>XXX XXX р.</li>
+
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+                <div class="last_calculations_pop-up_close"></div>
+
+
+
+
+
+            </div>
+
+            <div class="last_calculations_form">
+
+                <p class="last_calculations_form_time">24 секунды назад</p>
+                <p class="last_calculations_form_town">Москва</p>
+
+                <div class="second_line">
+
+                    <ul>
+
+                        <li class="number_rooms">Четырехкомнатная квартира</li>
+                        <li class="area">ХХХ,ХХ м²</li>
+
+                    </ul>
+
+                    <ul class="last_calculations_form_options">
+
+                        <li>стандарт</li>
+                        <li>капитальный</li>
+                        <li>вторичка</li>
+
+                    </ul>
+
+
+                </div>
+
+                <div class="third_line">
+
+                    <ul>
+
+                        <li>Стоимость материалов:</li>
+                        <li>XXX XXX р.</li>
+
+                    </ul>
+
+                    <ul>
+
+                        <li>Стоимость работ:</li>
+                        <li>XXX XXX р.</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+            <div class="last_calculations_form"></div>
+
+        </div>
+
+    </div>
+
+    <h4>Mastersmeta – ваш помощник при ремонте квартир</h4>
+
+    <div id="content_publicity">
+
+        <div id="content_publicity_left">
+
+            <div class="content_video">
+
+                <div class="youtube" id="c4XskGvAM4k" style="width:100%; height:100%;"></div>
+
+            </div>
+
+            <div class="content_video">
+
+                <div class="youtube" id="_tz_MDFBj20" style="width:100%; height:100%;"></div>
+
+            </div>
+
+
+            <script src="media/js/youtube.js" type="text/javascript"></script>
+
+        </div>
+
+
+        <div id="content_publicity_right">
+
+            <h5>Мы создали уникальную смету — наша гордость!</h5>
+            <p>Полностью автоматический расчёт объёма работ.<br>Вам нужно лишь указать размеры квартиры и ваша смета готова!<br>Возможность подбора оптимального варианта стоимости ремонта.<br>Цены и работы только надёжных и проверенных фирм.</p>
+            <p>Нашим сервисом уже воспользовались <span>8185</span> раза.</p>
+            <h6>Наши цены без наценок</h6>
+            <p>Экономьте время — сравните цены<br>разных компаний не выходя из дома.</p>
+            <h6>Мы гарантируем:</h6>
+
+            <ul>
+                <li><span>+</span> качественный ремонт</li>
+                <li><span>+</span> работы по рыночным ценам — всё честно</li>
+                <li><span>+</span> ремонт в установленные сроки</li>
+                <li><span>+</span> заключение договора фирмы с заказчиком</li>
+            </ul>
+
+            <h6>Помогаем людям делать ремонт<br>с 2013 года.</h6>
+
+        </div>
+
+    </div>
+    <div id="our_face">
+
+        <h1>Партнеры, которым доверяем</h1>
+
+        <div id="our_face-for_scrolling">
+
+            <div id="our_face-for_scrolling-left_arrow"></div>
+
+            <div id="our_face-for_scrolling-external_unit">
+
+                <div id="our_face-for_scrolling-inner_unit">
+
+                    <div class="face_block_conteyner">
+
+                        <a href="#" class="face_block">
+
+                            <div class="face_block-photo"></div>
+                            <h2>Имя Фамилия</h2>
+                            <h3>должность</h3>
+                            <h5>Название компании</h5>
+                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
+
+                        </a>
+
+                    </div>
+
+                    <div class="face_block_conteyner">
+
+                        <a href="#" class="face_block">
+
+                            <div class="face_block-photo"></div>
+                            <h2>Имя Фамилия</h2>
+                            <h3>должность</h3>
+                            <h5>Название компании</h5>
+                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
+
+                        </a>
+
+                    </div>
+
+                    <div class="face_block_conteyner">
+
+                        <a href="#" class="face_block-without_info">
+
+                            <div class="face_block-photo"></div>
+                            <h2>Имя Фамилия</h2>
+                            <h3>должность</h3>
+                            <h5>Название компании</h5>
+                        </a>
+                    </div>
+                    <div class="face_block_conteyner">
+                        <a href="#" class="face_block">
+                            <div class="face_block-photo"></div>
+                            <h2>Имя Фамилия</h2>
+                            <h3>должность</h3>
+                            <h5>Название компании</h5>
+                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
+                        </a>
+                    </div>
+                    <div class="face_block_conteyner">
+                        <a href="#" class="face_block">
+                            <div class="face_block-photo"></div>
+                            <h2>Имя Фамилия</h2>
+                            <h3>должность</h3>
+                            <h5>Название компании</h5>
+                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="our_face-for_scrolling-right_arrow"></div>
+        </div>
+        <div id="our_face-team">
+            <div></div>
+        </div>
+    </div>
+
+    <div class="repair_company_rasporka"></div>
+
+    </div>
+
+    <div id="content_bottom">
+
+        <div id="reviews_left_corner">
+
+            <div class="widget"id="ok_group_widget"></div>
+            <script>
+                !function (d, id, did, st) {
+                    var js = d.createElement("script");
+                    js.src = "http://connect.ok.ru/connect.js";
+                    js.onload = js.onreadystatechange = function () {
+                        if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
+                            if (!this.executed) {
+                                this.executed = true;
+                                setTimeout(function () {
+                                    OK.CONNECT.insertGroupWidget(id,did,st);
+                                }, 0);
+                            }
+                        }}
+                    d.documentElement.appendChild(js);
+                }(document,"ok_group_widget","56869893636150","{width:320,height:240}");
+            </script>
+            <div id="reviews">
+
+                <h1>Отзывы о проекте</h1>
+                <a href="#" id="reviews_arrow_left"></a>
+
+                <p>Быстро построила смету - очень удобно! Заказала ремонт и теперь всем рекомендую:)</p>
+
+                <a href="#" id="reviews_arrow_right"></a>
+                <h2>Ирина</h2>
+                <h3>г. Москва</h3>
+
+                <div id="add_review"></div>
+
+            </div>
+
+        </div>
+
+
+        <div id="reviews_right_corner">
+
+            <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+            <h2>при заказав ремонта от 100 000 рублей </h2>
+            <a href="#">Узнать подробности</a>
+
+        </div>
+
+
+
+    </div>
+
+{% endblock content %}
