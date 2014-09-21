@@ -129,7 +129,7 @@ function Room($parent, $params, $key)
     // установка|снятие галочки в комнате
     _this.setEnable = function($enable) {
         roomEnable = $enable;
-        $('.smeta_room[data-room-id="'+_this.getId()+'"]').find('div:eq(3)').attr('class', 'ignore'+($enable?'d':''));
+        $('.smeta_room[data-room-id="'+_this.getId()+'"]').find('div:eq(6)').attr('class', 'ignore'+($enable?'':'d'));
     };
     // статус балкона
     _this.getBalcon = function() {
