@@ -1,31 +1,27 @@
 {% extends "layout/html.twig" %}
 {% block content %}
-    <script type="text/javascript" src="{{ Url.media('media/js/main_page/portal.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('media/js/main_page/budget.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('media/js/jquery.mCustomScrollbar.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}" />
+    
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('media/js/main_page/smeta_budget.js') }}"></script>
+    {#<script type="text/javascript" src="{{ Url.media('media/js/jquery.mCustomScrollbar.js') }}"></script>#}
+    
     <script>
-        var smeta = new Smeta();
-        $(document).ready(function () {
-            smeta.init('{{ smeta.name }}');
+        $(document).ready(function(){
+            Smeta.init({
+                rooms: {{ _rooms | json_encode()|raw }}
+            });
         });
     </script>
     <div id="content">
-
     <p id="budget_dop_options-hide">скрыть параметры</p>
     <div id="budget_dop_options">
-
+        
     <p id="budget_dop_options_header">Дополнительные параметры вашей квартиры</p>
-
-
     <div id="dop_options_left">
-
     <div class="smeta_room">
-
         <div class="smeta_room_square">
-
             <div class="smeta_room_square_summ">
-
                 <h2>площадь</h2>
                 <h3>XXX,XX</h3>
                 <h5>м²</h5>
