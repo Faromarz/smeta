@@ -51,11 +51,12 @@ class Controller_Ajax_Smeta extends Controller
                     $smeta_room->room_id = (int) $room['id'];
                     $smeta_room->length = $room['length'];
                     $smeta_room->width = $room['width'];
-                    $smeta_room->balcony = $room['balcony'];
+                    $smeta_room->balcony = isset($room['balcony'])?$room['balcony']:0;
+                    $smeta_room->enable = $room['enable'];
                     $smeta_room->show = 1;
                     $smeta_room->save();
                     if($room['type']=='1') $count_rooms++;
-                    foreach($room['materials'] as $material){
+               /*     foreach($room['materials'] as $material){
                         if($material['show']==1){
                             $smeta_material = ORM::factory('Smeta_Material');
                             $smeta_material->smeta_id = $smeta->id;
@@ -72,7 +73,7 @@ class Controller_Ajax_Smeta extends Controller
                         $smeta_work->price =  $work['price'];
                         $smeta_work->count = $work['count'];
                         $smeta_work->save();
-                    }
+                    }*/
                 }
             } else{
                 $smeta_room = ORM::factory('Smeta_Room');
@@ -80,7 +81,8 @@ class Controller_Ajax_Smeta extends Controller
                 $smeta_room->room_id = (int) $room['id'];
                 $smeta_room->length = $room['length'];
                 $smeta_room->width = $room['width'];
-                $smeta_room->balcony = $room['balcony'];
+                $smeta_room->balcony = isset($room['balcony'])?$room['balcony']:0;
+                $smeta_room->enable = $room['enable'];
                 $smeta_room->show = 0;
                 $smeta_room->save();
             }

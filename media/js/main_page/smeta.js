@@ -99,10 +99,25 @@ var Smeta = (function() {
     };
     //добавление сметы в бд
     Smeta.prototype.addSmeta=function(){
-        this.preloader(true);
-        var open_link = window.open('','_blank');
-        open_link.location="budget/name_smeta";
-        this.preloader(false);
+        var _this = this,
+            rooms = new Array(),
+            open_link = window.open('','_blank');
+        _this.preloader(true);
+        $.each(_this.rooms, function(key, room) {
+            rooms.push(room.getParams());
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax/smeta/add",
+            data: { "rooms" : JSON.stringify(rooms), "types" : [0,0,0], "size" : 0, "height" : 0,
+                "price_materials" : 0, "price_work_dem": 0, "price_work_mon": 0,
+                "time_work_dem": 0, "time_work_mon": 0, "room_name" : 0, "count_rooms" : 0},
+            success: function(data){
+                var result = JSON.parse(data);
+                open_link.location="budget/"+result[0]['smeta_name'];
+                _this.preloader(false);
+            }
+        }, 'json');
     };
     //гифка прелоадера
     Smeta.prototype.preloader = function(status){
