@@ -97,6 +97,39 @@ var Smeta = (function() {
         
         return param;
     };
+    //добавление сметы в бд
+    Smeta.prototype.addSmeta=function(){
+        this.preloader(true);
+        var open_link = window.open('','_blank');
+        open_link.location="budget/name_smeta";
+        this.preloader(false);
+    };
+    //гифка прелоадера
+    Smeta.prototype.preloader = function(status){
+        if(status){
+            $('body').append('<img src="/media/img/ajax-loader.gif" id="ajaxLoad">');
+            $.fancybox.open({
+                href: '#ajaxLoad',
+                padding:0,
+                maxWidth: 180,
+                maxHeight: 50,
+                minWidth: 180,
+                minHeight: 50,
+                scrolling: 'no',
+                closeBtn: false,
+                helpers   : {
+                    overlay:
+                    {
+                        css: { 'background': 'rgba(255 , 255 , 250, 0.5)' },
+                        closeClick: false
+                    }
+                }
+            });
+        }else{
+            $.fancybox.close();
+            $('body #ajaxLoad').remove();
+        }
+    };
     //------------- иницилизация сметы
     Smeta.prototype.init = function(options)
     {
@@ -163,6 +196,8 @@ var Smeta = (function() {
                 }
             });
 
+        //кнопка перехода на смету клиента
+        $("#your_smeta,.send_form").on("click", function() { _this.addSmeta() });
     };
 
     return new Smeta();
