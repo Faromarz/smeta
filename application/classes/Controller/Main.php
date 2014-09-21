@@ -17,20 +17,20 @@ class Controller_Main extends Controller_Core
         $this->set('types_apartment',$types_apartment);
 
         // камнаты
-        $rooms = ORM::factory('Room')->order_by('id', 'ASC')->find_all();
-        $_rooms = array();
-        foreach ($rooms as $key => $room) {
-            $_rooms[$key] = $room->as_array();
-        }
-        $this->set('_rooms', $_rooms);
+        $rooms = DB::select('*')
+                ->from('rooms')
+                ->order_by('id')
+                ->execute()
+                ->as_array();
+        $this->set('_rooms', $rooms);
 
         // параметры комнат
-        $params = ORM::factory('Roomparamsdef')->order_by('id', 'ASC')->find_all();
-        $_params = array();
-        foreach ($params as $key => $param) {
-            $_params[$key] = $param->as_array();
-        }
-        $this->set('_params', $_params);
+        $params = DB::select('*')
+                ->from('room_params_def')
+                ->order_by('id')
+                ->execute()
+                ->as_array();
+        $this->set('_params', $params);
 
         // количество партнерев
         $countPartners = ORM::factory('Partner')->count_all();

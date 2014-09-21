@@ -3,686 +3,213 @@
     <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}" />
     
     <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('media/js/main_page/smeta_budget.js') }}"></script>
-    {#<script type="text/javascript" src="{{ Url.media('media/js/jquery.mCustomScrollbar.js') }}"></script>#}
+    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('media/js/budget_page/budget.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('media/js/jquery.mCustomScrollbar.js') }}"></script>
     
     <script>
         $(document).ready(function(){
-            Smeta.init({
+            Budget.init({
                 rooms: {{ _rooms | json_encode()|raw }}
             });
         });
     </script>
     <div id="content">
-    <p id="budget_dop_options-hide">скрыть параметры</p>
-    <div id="budget_dop_options">
-        
-    <p id="budget_dop_options_header">Дополнительные параметры вашей квартиры</p>
-    <div id="dop_options_left">
-    <div class="smeta_room">
-        <div class="smeta_room_square">
-            <div class="smeta_room_square_summ">
-                <h2>площадь</h2>
-                <h3>XXX,XX</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="00,00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="00,00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">комната<p>
-            <h6>Габариты в метрах</h6>
-            <h5>Балкон</h5>
-            <div class="check_box_out"></div>
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-
-    <div id="add_room" class="add_room">добавить комнату</div>
-
-    <div class="smeta_room">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3>XXX,XX</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="00,00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="00,00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">кухня</p>
-            <h6>Габариты в метрах</h6>
-            <h5>Балкон</h5>
-            <div class="check_box_out"></div>
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-    <div class="smeta_room">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3>XXX,XX</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="00,00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="00,00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">коридор</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-    <div id="bath_and_toilet" class="smeta_room">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3>XXX,XX</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="00,00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="00,00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">ванна и&nbsp;туалет</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-
-    <div id="bath" class="smeta_room">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3>XXX,XX</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="00,00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="00,00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">ванна</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-    <div class="combine"></div>
-    <div class="uncombine"></div>
-
-    <div id="toilet" class="smeta_room">
-
-        <div class="smeta_room_square">
-
-            <div class="smeta_room_square_summ">
-
-                <h2>площадь</h2>
-                <h3>XXX,XX</h3>
-                <h5>м²</h5>
-
-            </div>
-
-            <div class="smeta_room_square_height">
-
-                <input value="00,00" class="smeta_room_square_height_input"/>
-
-            </div>
-
-            <div class="smeta_room_square_width">
-
-                <input value="00,00" class="smeta_room_square_width_input"/>
-
-            </div>
-
-        </div>
-
-        <div class="smeta_room_text">
-
-            <p class="smeta_text_header">туалет</p>
-            <h6>Габариты в метрах</h6>
-
-
-        </div>
-
-        <div class="ignore"></div>
-
-    </div>
-
-
-
-    </div>
-
-    <div id="dop_options_right">
-
-        <div id="smeta_ceiling">
-
-            <p class="smeta_text_header">высота потолков</p>
-            <div class="button_minus"></div>
-            <input id="input_ceiling" value="0,00" />
-            <div class="button_plus"></div>
-            <h6>метров</h6>
-
-        </div>
-
-        <div class="smeta_block smeta_window">
-
-            <h1 class="smeta_text_header">окна в квартире</h1>
-
-            <div class="choose_type_window">
-
-                <p>Выберите тип окна:</p>
-
-                <div class="smeta_count_window_one"></div>
-                <div class="smeta_count_window_two"></div>
-                <div class="smeta_count_window_three"></div>
-
-            </div>
-
-
-            <div class="smeta_count_window_right">
-
-                <input value="0,00"/>
-                <div class="smeta_characteristics_x"></div>
-                <input value="0,00">
-                <p class="smeta_characteristics_width">ширина</p>
-                <p class="smeta_characteristics_height">высота</p>
-                <h6>Габариты в метрах</h6>
-
-            </div>
-
-            <div class="smeta_count_window_left">
-
-                <div class="smeta_count_window_chosen"></div>
-                <div class="button_minus"></div>
-                <input class="smeta_count_input" value="0" />
-                <div class="button_plus"></div>
-                <h6>шт.</h6>
-
-            </div>
-            <div class="ignore ignore_window"></div>
-
-        </div>
-
-        <div id="add_window" class="add_room">Добавить окно</div>
-
-        <div class="smeta_block">
-
-            <h1 class="smeta_text_header">Входная дверь</h1>
-
-            <div class="smeta_characteristics">
-
-                <input value="0,00"/>
-                <div class="smeta_characteristics_x"></div>
-                <input value="0,00">
-                <p class="smeta_characteristics_width">ширина</p>
-                <p class="smeta_characteristics_height">высота</p>
-                <h6>Габариты в метрах</h6>
-
-            </div>
-
-            <div class="smeta_count_entrance_door">
-
-
-            </div>
-            <div class="ignore"></div>
-
-        </div>
-
-
-        <div class="smeta_block smeta_door">
-
-            <h1 class="smeta_text_header">межкомнатные двери</h1>
-
-            <div class="choose_type_door">
-
-                <p>Выберите тип двери:</p>
-
-                <div class="smeta_count_interior_door_one"></div>
-                <div class="smeta_count_interior_door_two"></div>
-
-            </div>
-
-            <div class="smeta_count_interior_door_right">
-
-                <input value="0,00"/>
-                <div class="smeta_characteristics_x"></div>
-                <input value="0,00">
-                <p class="smeta_characteristics_width">ширина</p>
-                <p class="smeta_characteristics_height">высота</p>
-                <h6>Габариты в метрах</h6>
-
-            </div>
-
-            <div class="smeta_count_interior_door_left">
-
-                <div class="smeta_count_interior_door_chosen"></div>
-                <div class="button_minus"></div>
-                <input class="smeta_count_input" value="0" />
-                <div class="button_plus"></div>
-                <h6>шт.</h6>
-
-            </div>
-            <div class="ignore ignore_door"></div>
-
-        </div>
-
-        <div id="add_door" class="add_room">Добавить дверь</div>
-
-    </div>
-
-
-    <div id="dop_options_footer">
-
-        <div id="dop_options_footer_rezult">
-
-            <h1>однокомнатная квартира</h1>
-            <h2>Общая площадь:</h2>
-            <h3>XXX,XX м²</h3>
-
-        </div>
-
-        <div id="dop_options_button_calculate"><p>пересчитать смету</p></div>
-
-    </div>
-
-
-    </div>
-
-    <div id="budget_repair_estimate">
-
-
-        <div id="budget_repair_estimate-type_and_rate">
-
-            <dl class="budget_repair_estimate-type">
-
-                <dt>{{ smeta.room_name }}:</dt>
-                <dd>{{ smeta.size }} м²</dd>
-
-                <dt>высота потолков:</dt>
-                <dd>{{ smeta.height }} м</dd>
-
-            </dl>
-
-
-            <dl class="budget_repair_estimate-rate">
-
-                <dt>Тариф:</dt>
-                <dd>{{ smeta.rate.name }}</dd>
-                <p class="dote">•</p>
-                <dt>Ремонт:</dt>
-                <dd>{{ smeta.repair.name }}</dd>
-                <p class="dote">•</p>
-                <dt>Тип квартиры:</dt>
-                <dd>{{ smeta.apartment.name }}</dd>
-
-            </dl>
-
-        </div>
-
-        <a id="change_budget">ИЗМЕНИТЬ ПАРАМЕТРЫ</a>
-
-        <div id="budget_repair_estimate-header">
-
-            <p id="your_budget">ваша</p>
-            <h1>Смета ремонта</h1>
-
-
-            <a href="#" class="xls"></a>
-            <a href="#" class="pdf"></a>
-
-            <h2>Цены и сметы от ремонтных компаний</h2>
-
-        </div>
-
-        <div id="budget_repair_estimate-scrolling">
-
-            <div id="budget_repair_estimate-scrolling-left_arrow"></div>
-
-            <div class="budget_repair_estimate-scrolling-external_unit">
-
-
-                <div class="budget_repair_estimate-scrolling-inner_unit">
-
-                    <div class="firm firm_selected">
-
-                        <div class="firm_conteyner">
-
-                            <h1>XXX XXX XXX р.</h1>
-                            <div class="stamp stamp_5stars"></div>
-                            <p class="firm_name">Стоимость материалов:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-                            <p class="firm_name">Стоимость работ:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-
-                            <div class="firm_rate rate_5"></div>
-                            <h2>ООО «СтройРемонтСервис»</h2>
-
-                            <div class="firm_logo"></div>
-                            <h3>Росссия</h3>
-                            <h5>Москва</h5>
-                            <h6>+7 (XXX) XXX-XX-XX</h6>
-                            <a href="#">сайт компании</a>
-
-                        </div>
-
-                    </div>
-
-                    <div class="firm">
-
-                        <div class="firm_conteyner">
-
-                            <h1>XXX XXX XXX р.</h1>
-                            <div class="stamp stamp_4stars"></div>
-                            <p class="firm_name">Стоимость материалов:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-                            <p class="firm_name">Стоимость работ:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-
-                            <div class="firm_rate rate_4"></div>
-                            <h2>ООО «СтройРемонтСервис»</h2>
-
-                            <div class="firm_logo"></div>
-                            <h3>Росссия</h3>
-                            <h5>Москва</h5>
-                            <h6>+7 (XXX) XXX-XX-XX</h6>
-                            <a href="#">сайт компании</a>
-
-                        </div>
-
-                    </div>
-
-                    <div class="firm">
-
-                        <div class="firm_conteyner">
-
-                            <h1>XXX XXX XXX р.</h1>
-                            <div class="stamp stamp_4stars"></div>
-                            <p class="firm_name">Стоимость материалов:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-                            <p class="firm_name">Стоимость работ:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-
-                            <div class="firm_rate rate_4"></div>
-                            <h2>ООО «СтройРемонтСервис»</h2>
-
-                            <div class="firm_logo"></div>
-                            <h3>Росссия</h3>
-                            <h5>Москва</h5>
-                            <h6>+7 (XXX) XXX-XX-XX</h6>
-                            <a href="#">сайт компании</a>
-
-                        </div>
-
-                    </div>
-
-                    <div class="firm">
-
-                        <div class="firm_conteyner">
-
-                            <h1>XXX XXX XXX р.</h1>
-                            <div class="stamp stamp_4stars"></div>
-                            <p class="firm_name">Стоимость материалов:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-                            <p class="firm_name">Стоимость работ:</p>
-                            <p class="firm_price">XXX XXX р.</p>
-
-                            <div class="firm_rate rate_4"></div>
-                            <h2>ООО «СтройРемонтСервис»</h2>
-
-                            <div class="firm_logo"></div>
-                            <h3>Росссия</h3>
-                            <h5>Москва</h5>
-                            <h6>+7 (XXX) XXX-XX-XX</h6>
-                            <a href="#">сайт компании</a>
-
-                        </div>
-
-                    </div>
-
-
-
-
-
+        <p id="budget_dop_options-hide">скрыть параметры</p>
+        <div id="budget_dop_options">
+            <p id="budget_dop_options_header">Дополнительные параметры вашей квартиры</p>
+            {% include 'block/room.twig' %}
+            <div id="dop_options_footer">
+                <div id="dop_options_footer_rezult">
+                    <h1>{{ smeta.room_name }}</h1>
+                    <h2>Общая площадь:</h2>
+                    <h3>{{ smeta.size |number_format(2, ',', ' ')}} м²</h3>
                 </div>
-
-
+                <div id="dop_options_button_calculate"><p>пересчитать смету</p></div>
             </div>
-
-            <div id="budget_repair_estimate-scrolling-right_arrow"></div>
-
-
         </div>
 
-        <div id="budget_repair_estimate-bottom">
+        <div id="budget_repair_estimate">
+            <div id="budget_repair_estimate-type_and_rate">
+                <dl class="budget_repair_estimate-type">
+                    <dt>{{ smeta.room_name }}:</dt>
+                    <dd>{{ smeta.size | number_format(2, ',', ' ') }} м²</dd>
+                    <dt>высота потолков:</dt>
+                    <dd>{{ smeta.height }} м</dd>
+                </dl>
 
-            <p class="budget_repair_estimate-bottom-arrow_down">Принцип формирования цены</p>
+                <dl class="budget_repair_estimate-rate">
+                    <dt>Тариф:</dt>
+                    <dd>{{ smeta.rate.name }}</dd>
+                    <p class="dote">•</p>
+                    <dt>Ремонт:</dt>
+                    <dd>{{ smeta.repair.name }}</dd>
+                    <p class="dote">•</p>
+                    <dt>Тип квартиры:</dt>
+                    <dd>{{ smeta.apartment.name }}</dd>
+                </dl>
+            </div>
 
-            <div id="mail">
+            <a id="change_budget">ИЗМЕНИТЬ ПАРАМЕТРЫ</a>
 
-                <input placeholder="Ваш номер телефона" />
-                <div id="mail_send">Оставить заявку</div>
+            <div id="budget_repair_estimate-header">
+
+                <p id="your_budget">ваша</p>
+                <h1>Смета ремонта</h1>
+
+
+                <a href="#" class="xls"></a>
+                <a href="#" class="pdf"></a>
+
+                <h2>Цены и сметы от ремонтных компаний</h2>
 
             </div>
 
-        </div>
+            <div id="budget_repair_estimate-scrolling">
 
+                <div id="budget_repair_estimate-scrolling-left_arrow"></div>
 
+                <div class="budget_repair_estimate-scrolling-external_unit">
+                    <div class="budget_repair_estimate-scrolling-inner_unit">
+                        <div class="firm firm_selected">
+                            <div class="firm_conteyner">
 
+                                <h1>XXX XXX XXX р.</h1>
+                                <div class="stamp stamp_5stars"></div>
+                                <p class="firm_name">Стоимость материалов:</p>
+                                <p class="firm_price">XXX XXX р.</p>
+                                <p class="firm_name">Стоимость работ:</p>
+                                <p class="firm_price">XXX XXX р.</p>
 
-    </div>
+                                <div class="firm_rate rate_5"></div>
+                                <h2>ООО «СтройРемонтСервис»</h2>
 
-    <div id="budget_repair_estimate-slide_menu">
+                                <div class="firm_logo"></div>
+                                <h3>Росссия</h3>
+                                <h5>Москва</h5>
+                                <h6>+7 (XXX) XXX-XX-XX</h6>
+                                <a href="#">сайт компании</a>
 
-        <div class="budget_repair_estimate-slide_menu-slide1"></div>
-        <div class="budget_repair_estimate-slide_menu-slide2"></div>
-        <div class="budget_repair_estimate-slide_menu-slide3"></div>
-
-    </div>
-
-    <div id="steel_roll_down"></div>
-
-    <div class="budget_basic_options">
-
-    <div class="budget_basic_options_header">
-
-        <dl>
-            <dt>{{ smeta.price_work_dem }} р.</dt>
-            <dd>Общая сумма:</dd>
-        </dl>
-
-        <dl>
-            <dt>{{ smeta.time_work_dem }} дней</dt>
-            <dd>Общее время:</dd>
-        </dl>
-
-        <h1>демонтажные работы</h1>
-
-        <div class="ignore_2 ignore_for_basic_options_header"></div>
-
-    </div>
-
-    {% for room in smeta.rooms.where('show','=',1).find_all() %}
-        <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
-            <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-                <h2>Стоимость</h2>
-                <h2>Трудочасы</h2>
-                <h2>Объем работ</h2>
-                <h1>{{ room.rooms.name }}</h1>
-            </div>
-            <div class="ignore_4"></div>
-            <ul>
-                {% for work in smeta.works.find_all() %}
-                    {% if work.works.type==0 and room.rooms.id==work.room_id %}
-                        <li>
-                            <p>{{ work.price }} р.</p>
-                            <p>{{ work.works.watch }}</p>
-                             <div class="budget_basic_options_job">
-                                <h3>{{ work.count }}</h3>
-                                <h6>{{ work.works.unit|raw }}</h6>
-                                <input  value="0" />
                             </div>
-                            <h5>{{ work.works.name }}</h5>
-                            <div class="ignore_5"></div>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+                        </div>
+                        <div class="firm">
+                            <div class="firm_conteyner">
 
+                                <h1>XXX XXX XXX р.</h1>
+                                <div class="stamp stamp_4stars"></div>
+                                <p class="firm_name">Стоимость материалов:</p>
+                                <p class="firm_price">XXX XXX р.</p>
+                                <p class="firm_name">Стоимость работ:</p>
+                                <p class="firm_price">XXX XXX р.</p>
 
+                                <div class="firm_rate rate_4"></div>
+                                <h2>ООО «СтройРемонтСервис»</h2>
 
-    <div class="budget_basic_options_rasporka"></div>
+                                <div class="firm_logo"></div>
+                                <h3>Росссия</h3>
+                                <h5>Москва</h5>
+                                <h6>+7 (XXX) XXX-XX-XX</h6>
+                                <a href="#">сайт компании</a>
 
-    </div>
+                            </div>
+                        </div>
+                        <div class="firm">
 
-    <div class="budget_basic_options">
+                            <div class="firm_conteyner">
 
-    <div class="budget_basic_options_header">
+                                <h1>XXX XXX XXX р.</h1>
+                                <div class="stamp stamp_4stars"></div>
+                                <p class="firm_name">Стоимость материалов:</p>
+                                <p class="firm_price">XXX XXX р.</p>
+                                <p class="firm_name">Стоимость работ:</p>
+                                <p class="firm_price">XXX XXX р.</p>
 
-        <dl>
-            <dt>{{ smeta.price_work_mon }} р.</dt>
-            <dd>Общая сумма:</dd>
-        </dl>
+                                <div class="firm_rate rate_4"></div>
+                                <h2>ООО «СтройРемонтСервис»</h2>
 
-        <dl>
-            <dt>{{ smeta.time_work_mon }} дней</dt>
-            <dd>Общее время:</dd>
-        </dl>
+                                <div class="firm_logo"></div>
+                                <h3>Росссия</h3>
+                                <h5>Москва</h5>
+                                <h6>+7 (XXX) XXX-XX-XX</h6>
+                                <a href="#">сайт компании</a>
 
-        <h1>монтажные работы</h1>
+                            </div>
+                        </div>
+                        <div class="firm">
+                            <div class="firm_conteyner">
 
-        <div class="ignore_2 ignore_for_basic_options_header"></div>
+                                <h1>XXX XXX XXX р.</h1>
+                                <div class="stamp stamp_4stars"></div>
+                                <p class="firm_name">Стоимость материалов:</p>
+                                <p class="firm_price">XXX XXX р.</p>
+                                <p class="firm_name">Стоимость работ:</p>
+                                <p class="firm_price">XXX XXX р.</p>
 
-    </div>
+                                <div class="firm_rate rate_4"></div>
+                                <h2>ООО «СтройРемонтСервис»</h2>
 
-    {% for room in smeta.rooms.where('show','=',1).find_all() %}
-        <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
-            <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-                <h2>Стоимость</h2>
-                <h2>Трудочасы</h2>
-                <h2>Объем работ</h2>
-                <h1>{{ room.rooms.name }}</h1>
+                                <div class="firm_logo"></div>
+                                <h3>Росссия</h3>
+                                <h5>Москва</h5>
+                                <h6>+7 (XXX) XXX-XX-XX</h6>
+                                <a href="#">сайт компании</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="budget_repair_estimate-scrolling-right_arrow"></div>
             </div>
-            <div class="ignore_4"></div>
-            {% if smeta.works.works.where('type','=',1).count_all()>0 %}
-                {% for cat_work in cat_works %}
-                    <ul class="budget_basic_options_list-{{ cat_work.id }}">
-                        <li></li>
+
+            <div id="budget_repair_estimate-bottom">
+                <p class="budget_repair_estimate-bottom-arrow_down">Принцип формирования цены</p>
+                <div id="mail">
+                    <input placeholder="Ваш номер телефона" />
+                    <div id="mail_send">Оставить заявку</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="budget_repair_estimate-slide_menu">
+            <div class="budget_repair_estimate-slide_menu-slide1"></div>
+            <div class="budget_repair_estimate-slide_menu-slide2"></div>
+            <div class="budget_repair_estimate-slide_menu-slide3"></div>
+        </div>
+
+        <div id="steel_roll_down"></div>
+        <div class="budget_basic_options">
+            <div class="budget_basic_options_header">
+                <dl>
+                    <dt>{{ smeta.price_work_dem }} р.</dt>
+                    <dd>Общая сумма:</dd>
+                </dl>
+                <dl>
+                    <dt>{{ smeta.time_work_dem }} дней</dt>
+                    <dd>Общее время:</dd>
+                </dl>
+                <h1>демонтажные работы</h1>
+                <div class="ignore_2 ignore_for_basic_options_header"></div>
+
+            </div>
+
+            {% for room in smeta.rooms.where('show','=',1).find_all() %}
+                <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
+                    <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
+                        <h2>Стоимость</h2>
+                        <h2>Трудочасы</h2>
+                        <h2>Объем работ</h2>
+                        <h1>{{ room.rooms.name }}</h1>
+                    </div>
+                    <div class="ignore_4"></div>
+                    <ul>
                         {% for work in smeta.works.find_all() %}
-                            {% if work.works.category_id==cat_work.id and work.works.type==1 and room.rooms.id==work.room_id %}
+                            {% if work.works.type==0 and room.rooms.id==work.room_id %}
                                 <li>
                                     <p>{{ work.price }} р.</p>
                                     <p>{{ work.works.watch }}</p>
-                                    <div class="budget_basic_options_job">
+                                     <div class="budget_basic_options_job">
                                         <h3>{{ work.count }}</h3>
                                         <h6>{{ work.works.unit|raw }}</h6>
-
                                         <input  value="0" />
                                     </div>
                                     <h5>{{ work.works.name }}</h5>
@@ -691,101 +218,143 @@
                             {% endif %}
                         {% endfor %}
                     </ul>
-                {% endfor %}
-            {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="budget_basic_options_rasporka"></div>
+
         </div>
-    {% endfor %}
 
-    <div class="budget_basic_options_rasporka"></div>
-
-    </div>
-
-    <div class="budget_basic_options">
-
-    <div class="budget_basic_options_header">
-        <dl>
-            <dt>{{ smeta.price_materials }} р.</dt>
-            <dd>Общая сумма:</dd>
-        </dl>
-        <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>
-        <div class="ignore_2 ignore_for_basic_options_header"></div>
-    </div>
-
-    {% for room in smeta.rooms.where('show','=',1).find_all() %}
-        <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
-            <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-
-                <p class="budget_basic_options_name_materials_header">{{ room.rooms.name }}<p>
-
+        <div class="budget_basic_options">
+            <div class="budget_basic_options_header">
+                <dl>
+                    <dt>{{ smeta.price_work_mon }} р.</dt>
+                    <dd>Общая сумма:</dd>
+                </dl>
+                <dl>
+                    <dt>{{ smeta.time_work_mon }} дней</dt>
+                    <dd>Общее время:</dd>
+                </dl>
+                <h1>монтажные работы</h1>
+                <div class="ignore_2 ignore_for_basic_options_header"></div>
             </div>
-            <div class="ignore_4"></div>
 
-            <ul class="materials_room_for_options-{{ room.room_id }} budget_basic_options_name_materials_block">
+            {% for room in smeta.rooms.where('show','=',1).find_all() %}
+                <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
+                    <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
+                        <h2>Стоимость</h2>
+                        <h2>Трудочасы</h2>
+                        <h2>Объем работ</h2>
+                        <h1>{{ room.rooms.name }}</h1>
+                    </div>
+                    <div class="ignore_4"></div>
+                    {% if smeta.works.works.where('type','=',1).count_all()>0 %}
+                        {% for cat_work in cat_works %}
+                            <ul class="budget_basic_options_list-{{ cat_work.id }}">
+                                <li></li>
+                                {% for work in smeta.works.find_all() %}
+                                    {% if work.works.category_id==cat_work.id and work.works.type==1 and room.rooms.id==work.room_id %}
+                                        <li>
+                                            <p>{{ work.price }} р.</p>
+                                            <p>{{ work.works.watch }}</p>
+                                            <div class="budget_basic_options_job">
+                                                <h3>{{ work.count }}</h3>
+                                                <h6>{{ work.works.unit|raw }}</h6>
 
-                {#{% if smeta.materials.count_all()>0 %}
-                    {% for material in smeta.materials.find_all() %}
-                        {% if room.rooms.id==material.room_id %}
-                            <li class="materials_room_option">
-                                <div class="materials_room_option_header">
-                                    <p>{{ material.materials.category.name }}</p>
-                                    <div class="ignore_4"></div>
-                                </div>
-
-                                <select class="selectbox">
-
-                                    <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                                    <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                                    <option id="val3" value="консалтинг">Обои</option>
-                                    <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                                    <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                                    <option id="val6" value="консалтинг">Обои</option>
-
-                                </select>
-
-                                <div class="materials_room_option_slider">
-
-                                    <div class="slider_materials">
-
-                                        <a><h6 class="slider_price">ХХХ ХХХ р</h6></a>
-
-                                    </div>
-
-                                    <div class="slider_img">
-                                        <div class="slider_about">
-
-                                            <a href="#">Обои Esta Home 326115 Bloomingdale</a>
-
-                                            <h6>Нидерланды</h6>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="x"></div>
-                                <h1>18 рулонов =</h1>
-                                <h2>ХХХ ХХХ р.</h2>
-
-
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-#}
-
-            </ul>
-
+                                                <input  value="0" />
+                                            </div>
+                                            <h5>{{ work.works.name }}</h5>
+                                            <div class="ignore_5"></div>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="budget_basic_options_rasporka"></div>
         </div>
-    {% endfor %}
 
-    <div class="budget_basic_options_rasporka"></div>
+        <div class="budget_basic_options">
+
+            <div class="budget_basic_options_header">
+                <dl>
+                    <dt>{{ smeta.price_materials }} р.</dt>
+                    <dd>Общая сумма:</dd>
+                </dl>
+                <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>
+                <div class="ignore_2 ignore_for_basic_options_header"></div>
+            </div>
+
+            {% for room in smeta.rooms.where('show','=',1).find_all() %}
+                <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
+                    <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
+                        <p class="budget_basic_options_name_materials_header">{{ room.rooms.name }}<p>
+                    </div>
+                    <div class="ignore_4"></div>
+
+                    <ul class="materials_room_for_options-{{ room.room_id }} budget_basic_options_name_materials_block">
+
+                        {#{% if smeta.materials.count_all()>0 %}
+                            {% for material in smeta.materials.find_all() %}
+                                {% if room.rooms.id==material.room_id %}
+                                    <li class="materials_room_option">
+                                        <div class="materials_room_option_header">
+                                            <p>{{ material.materials.category.name }}</p>
+                                            <div class="ignore_4"></div>
+                                        </div>
+
+                                        <select class="selectbox">
+
+                                            <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
+                                            <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
+                                            <option id="val3" value="консалтинг">Обои</option>
+                                            <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
+                                            <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
+                                            <option id="val6" value="консалтинг">Обои</option>
+
+                                        </select>
+
+                                        <div class="materials_room_option_slider">
+
+                                            <div class="slider_materials">
+
+                                                <a><h6 class="slider_price">ХХХ ХХХ р</h6></a>
+
+                                            </div>
+
+                                            <div class="slider_img">
+                                                <div class="slider_about">
+
+                                                    <a href="#">Обои Esta Home 326115 Bloomingdale</a>
+
+                                                    <h6>Нидерланды</h6>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="x"></div>
+                                        <h1>18 рулонов =</h1>
+                                        <h2>ХХХ ХХХ р.</h2>
+
+
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                #}
+
+                    </ul>
+                </div>
+            {% endfor %}
+
+            <div class="budget_basic_options_rasporka"></div>
+        </div>
+        <div class="budget_basic_options_rasporka2"></div>
 
     </div>
-
-    <div class="budget_basic_options_rasporka2"></div>
-
-    </div>
-
-
 
     <div id="content_bottom">
 
@@ -797,37 +366,26 @@
                 <h1>Общая стоимость ремонта вашей квартиры:</h1>
                 <h2>XXX XXX XXX р.</h2>
                 <div id="budget-content_bottom-left-sale"><h3>- XX XXX Р.</h3></div>
-
                 <dl>
                     <dt>Стоимость материалов:</dt>
                     <dd>XXX XXX р.</dd>
                 </dl>
-
                 <dl>
                     <dt>Стоимость работ:</dt>
                     <dd>XXX XXX р.</dd>
                 </dl>
-
                 <p>Скачать смету <a href="#">в pdf-формате</a> / <a href="#">в xls-формате</a></p>
-
             </div>
 
             <div id="budget-content_bottom-center">
-
                 <p>В личном кабинете вы можете:</p>
                 <p>— заказать ремонт в вашей квартире</p>
                 <p>— контролировать стадии ремонта</p>
                 <h1>какие работы уже произведены из списка</h1>
                 <h1>сметы, видеть фото-отчёты</h1>
-
                 <a>перейти в личный кабинет</a>
-
             </div>
-
         </div>
-
-
-
 
         <div id="reviews_right_corner">
 
@@ -836,10 +394,5 @@
             <a href="#">Узнать подробности</a>
 
         </div>
-
-
-
     </div>
-
-
 {% endblock content %}

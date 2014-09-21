@@ -14,10 +14,20 @@ var Smeta = (function() {
         this.size = 0;
         this.rooms = new Array();
     };
+    // ---------------- возвращает название квартиры
+    Smeta.prototype.getNameRoom = function()
+    {
+        return this.roomName;
+    };
     // ---------------- возвращает количество комнат
     Smeta.prototype.getCountRooms = function()
     {
         return this.countRooms;
+    };
+    // ---------------- возвращает площадь квартиры
+    Smeta.prototype.getSize = function()
+    {
+        return this.size;
     };
     //------------- название квартиры
     Smeta.prototype.setCountRooms = function($count)
@@ -30,13 +40,15 @@ var Smeta = (function() {
         else if (this.countRooms===4) text_room = 'четырехкомнатная квартира';
         else if (this.countRooms===5) text_room = 'пятикомнатная квартира';
         $('#dop_options_footer_rezult').find('h1:eq(0)').text(text_room);
+        $('#budget_repair_estimate-type_and_rate').find('dt:eq(0)').text(text_room);
         this.roomName = text_room;
     };
     //----------------- фиксация площади
     Smeta.prototype.setSize = function($size)
     {
         this.size = $size;
-        $('#dop_options_footer_rezult').find('h3:eq(0)').text($size+' м²');
+        $('#dop_options_footer_rezult').find('h3:eq(0)').text(number_format($size, 2, ',', ' ')+' м²');
+        $('#budget_repair_estimate-type_and_rate').find('dd:eq(0)').text(number_format($size, 2, ',', ' ')+' м²');
     };
     //-------------------- фон для комнат
     Smeta.prototype.getNumbBg = function($obj)
@@ -82,9 +94,28 @@ var Smeta = (function() {
         _this.setCountRooms(parseInt($($obj).attr("data-numb")));
         $.each(_this.rooms, function(key, room) {
             if(room.getType() === 1){
-                room.setShow(_this.countRooms > key);
+                room.setShow(_this.getCountRooms() > key);
             }
         });
+        this.selectRoom();
+    };
+    //--------- добавление комнаты
+    Smeta.prototype.addRooms = function()
+    {
+         var _this = this;
+         var count = _this.getCountRooms();
+         if (count >= 5) {
+             return alert('Вы не можете добавить больше 5 комнат');
+         } else if(count === 0) {
+             count = 1;
+         }
+        _this.setCountRooms(++count);
+        $.each(_this.rooms, function(key, room) {
+            if(room.getType() === 1){
+                room.setShow(_this.getCountRooms() > key);
+            }
+        });
+        $("#rooms").css("background-position", '0px -' + (128 * _this.countRooms) + 'px');
         this.selectRoom();
     };
     // возвращает параметры сметы
@@ -109,9 +140,19 @@ var Smeta = (function() {
         $.ajax({
             type: "POST",
             url: "ajax/smeta/add",
-            data: { "rooms" : JSON.stringify(rooms), "types" : [0,0,0], "size" : 0, "height" : 0,
-                "price_materials" : 0, "price_work_dem": 0, "price_work_mon": 0,
-                "time_work_dem": 0, "time_work_mon": 0, "room_name" : 0, "count_rooms" : 0},
+            data: {
+                "rooms" : JSON.stringify(rooms),
+                "types" : [0,0,0],
+                "size" : _this.getSize(),
+                "height" : 0,
+                "price_materials" : 0,
+                "price_work_dem": 0,
+                "price_work_mon": 0,
+                "time_work_dem": 0,
+                "time_work_mon": 0,
+                "room_name" : _this.getNameRoom(),
+                "count_rooms" : _this.getCountRooms()
+            },
             success: function(data){
                 var result = JSON.parse(data);
                 open_link.location="budget/"+result[0]['smeta_name'];
@@ -152,18 +193,21 @@ var Smeta = (function() {
         var params = $.extend(defaults, options);
         // иницилизация комнат
         $.each(params.rooms, function(key, room) {
-            _this.rooms[key] = new Room(_this, room, key);
+            _this.rooms[key] = new Room(_this, room);
+            if (room.enable == 1) {
+                _this.countRooms++;
+            }
         });
         //изменение длины комнаты
         $('.smeta_room_square_height_input').on('change', function() {
-            var key = $(this).parents('div.smeta_room').data('room-key');
-            _this.rooms[key].changeLength(this);
+            var id = $(this).parents('div.smeta_room').data('room-id');
+            _this.rooms[id-1].changeLength(this);
             _this.changeSize();
         });
         // изменение ширины комнаты
         $('.smeta_room_square_width_input').on('change', function() {
-            var key = $(this).parents('div.smeta_room').data('room-key');
-            _this.rooms[key].changeWidth(this);
+            var id = $(this).parents('div.smeta_room').data('room-id');
+            _this.rooms[id-1].changeWidth(this);
             _this.changeSize();
         });
         
@@ -180,6 +224,10 @@ var Smeta = (function() {
             ).on("click",function(){_this.setRooms(this);});
         $("#top_right_stiker p").hover(function(){ $("#top_right_stiker_rooms").show(); },function() {$("#top_right_stiker_rooms").hide();});
         $("#top_right_stiker_rooms").hover(function(){ $("#top_right_stiker_rooms").show(); },function() {$("#top_right_stiker_rooms").hide();});
+        
+        // добавлене комнаты
+        $('#add_room').die("click");
+        $('#add_room').on("click", function(){_this.addRooms();});
         
         // формат чисел min = 0 max = 99.99
         $(".input_filter_number")

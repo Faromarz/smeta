@@ -8,13 +8,12 @@
  * @param {array} $params
  * @param {integer} $key
  */
-function Room($parent, $params, $key)
+function Room($parent, $params)
 {
     // 1. Нужна реализация класов окон, дверей, работ, материалов
     var _this = this;
     var _parent = $parent;
     var _params = $params;
-    var _key = $key;
 
     var roomId = Number(_params.id);
     var roomType = Number(_params.type);
@@ -23,7 +22,7 @@ function Room($parent, $params, $key)
     var roomLength = Number(_params.length);
     var roomEnable = _params.enable || false;
     var roomShow = Number(_params.show) || false;
-    var htmlBlock = '.smeta_room[data-room-id="'+roomId+'"]';
+    var htmlBlock = '.smeta_room';
     _this.materials = new Array();
     _this.works = new Array();
     _this.doors = {};
@@ -34,7 +33,15 @@ function Room($parent, $params, $key)
     _this.door.getWidth = function(){return _this.door.width; };
 
     if (_params.balcony) {
-        _this.balcony = Number(_params.balcony);
+        var balcony = Number(_params.balcony);
+        // статус балкона
+        _this.getBalcon = function() {
+            return balcony;
+        };
+        // изменить статус балкона
+        _this.setBalcon = function($type) {
+            balcony = $type;
+        };
     }
     // ID комнаты
     _this.getId = function() {
@@ -88,7 +95,7 @@ function Room($parent, $params, $key)
     };
     // пересчет комнаты
     _this.updateSize = function() {
-        $(htmlBlock+' h3#square-room').text(number_format(_this.getSize(), 2, ',', ' '));
+        $(htmlBlock+'[data-room-id="'+_this.getId()+'"] h3#square-room').text(number_format(_this.getSize(), 2, ',', ' '));
     };
     // периметр комнаты
     _this.getPerimeter = function() {
@@ -131,7 +138,7 @@ function Room($parent, $params, $key)
             var length = $('.smeta_room[data-room]').length;
             if(_this.getId()>length){
                 $("#add_room").siblings('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length).attr('data-room-id', $('.smeta_room[data-room]').length);
-                $("#add_room").siblings('.smeta_room').eq(_key).find('p.smeta_text_header').eq(0).text(_this.getTitle());
+                $("#add_room").siblings('.smeta_room').eq(_this.getId()-1).find('p.smeta_text_header').eq(0).text(_this.getTitle());
             }
         } else {
             _this.removeRoom();
@@ -146,14 +153,6 @@ function Room($parent, $params, $key)
         roomEnable = $enable;
         $('.smeta_room[data-room-id="'+_this.getId()+'"]').find('div:eq(6)').attr('class', 'ignore'+($enable?'':'d'));
         _parent.changeSize();
-    };
-    // статус балкона
-    _this.getBalcon = function() {
-        return _this.balcon;
-    };
-    // изменить статус балкона
-    _this.setBalcon = function($type) {
-        _this.balcon = $type;
     };
     // общее количество окон в комнате
     _this.getCountWindows = function() {
@@ -202,7 +201,7 @@ function Room($parent, $params, $key)
             enable: _this.getEnable(),
             show: _this.getShow()
         };
-        if (_this.getBalcon() !== undefined) {
+        if (balcony !== undefined) {
             params['balcony'] = _this.getBalcon();
         }
         return params;
