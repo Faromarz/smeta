@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `smeta_rooms` (
   `length` double(10,2) NOT NULL,
   `width` double(10,2) NOT NULL,
   `balcony` int(1) NOT NULL,
+  `show` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
