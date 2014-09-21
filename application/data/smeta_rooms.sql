@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `smeta_rooms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `smeta_id` int(11) NOT NULL,
-  `order` int(1) NOT NULL,
+  `enable` int(1) NOT NULL,
   `room_id` int(11) NOT NULL,
   `length` double(10,2) NOT NULL,
   `width` double(10,2) NOT NULL,

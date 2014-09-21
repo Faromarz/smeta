@@ -203,7 +203,7 @@ function Room($parent, $params, $key)
             show: _this.getShow()
         };
         if (_this.getBalcon() !== undefined) {
-            params['balcon'] = _this.getBalcon();
+            params['balcony'] = _this.getBalcon();
         }
         return params;
     };
