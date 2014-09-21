@@ -23,6 +23,7 @@ function Room($parent, $params, $key)
     var roomLength = Number(_params.length);
     var roomEnable = _params.enable || false;
     var roomShow = Number(_params.show) || false;
+    var htmlBlock = '.smeta_room[data-room-id="'+roomId+'"]';
     _this.materials = new Array();
     _this.works = new Array();
     _this.doors = {};
@@ -63,17 +64,31 @@ function Room($parent, $params, $key)
     _this.setWidth = function($width) {
         roomWidth = $width;
     };
+    // изменить ширину комнаты
+    _this.changeWidth = function($obj) {
+        _this.setWidth($($obj).val().replace(/\,/, "."));
+        _this.updateSize();
+    };
     //  длинна комнаты
     _this.getLength = function() {
         return roomLength;
     };
-    // изменить длинну комнаты
+    // установить длинну комнаты
     _this.setLength = function($length) {
         roomLength = $length;
+    };
+    // изменение длины комнаты
+    _this.changeLength = function($obj) {
+        _this.setLength($($obj).val().replace(/\,/, "."));
+        _this.updateSize();
     };
     // площадь комнаты
     _this.getSize = function() {
         return Number(_this.getWidth() * _this.getLength());
+    };
+    // пересчет комнаты
+    _this.updateSize = function() {
+        $(htmlBlock+' h3#square-room').text(number_format(_this.getSize(), 2, ',', ' '));
     };
     // периметр комнаты
     _this.getPerimeter = function() {
@@ -130,6 +145,7 @@ function Room($parent, $params, $key)
     _this.setEnable = function($enable) {
         roomEnable = $enable;
         $('.smeta_room[data-room-id="'+_this.getId()+'"]').find('div:eq(6)').attr('class', 'ignore'+($enable?'':'d'));
+        _parent.changeSize();
     };
     // статус балкона
     _this.getBalcon = function() {
@@ -137,7 +153,7 @@ function Room($parent, $params, $key)
     };
     // изменить статус балкона
     _this.setBalcon = function($type) {
-        return _this.balcon = $type;
+        _this.balcon = $type;
     };
     // общее количество окон в комнате
     _this.getCountWindows = function() {

@@ -14,7 +14,12 @@ var Smeta = (function() {
         this.size = 0;
         this.rooms = new Array();
     };
-    //------------- установка количество комнат
+    // ---------------- возвращает количество комнат
+    Smeta.prototype.getCountRooms = function()
+    {
+        return this.countRooms;
+    };
+    //------------- название квартиры
     Smeta.prototype.setCountRooms = function($count)
     {
         this.countRooms = $count;
@@ -38,7 +43,7 @@ var Smeta = (function() {
     {
         return  128 * parseInt($($obj).attr("data-numb"));
     };
-    //------------- изменение площади квартиры
+    //------------- пересчет площади квартиры
     Smeta.prototype.changeSize = function()
     {
         var size = 0;
@@ -69,7 +74,7 @@ var Smeta = (function() {
        // _this.calculation_works();
         this.changeSize();
     };
-    //--------- установка количества комнат
+    //--------- изменение количества комнат
     Smeta.prototype.setRooms = function($obj)
     {
          var _this = this;
@@ -101,6 +106,18 @@ var Smeta = (function() {
         $.each(params.rooms, function(key, room) {
             _this.rooms[key] = new Room(_this, room, key);
         });
+        //изменение длины комнаты
+        $('.smeta_room_square_height_input').on('change', function() {
+            var key = $(this).parents('div.smeta_room').data('room-key');
+            _this.rooms[key].changeLength(this);
+            _this.changeSize();
+        });
+        // изменение ширины комнаты
+        $('.smeta_room_square_width_input').on('change', function() {
+            var key = $(this).parents('div.smeta_room').data('room-key');
+            _this.rooms[key].changeWidth(this);
+            _this.changeSize();
+        });
         
         //выбор комнат у квартиры
         $("#rooms div")
@@ -115,8 +132,67 @@ var Smeta = (function() {
             ).on("click",function(){_this.setRooms(this);});
         $("#top_right_stiker p").hover(function(){ $("#top_right_stiker_rooms").show(); },function() {$("#top_right_stiker_rooms").hide();});
         $("#top_right_stiker_rooms").hover(function(){ $("#top_right_stiker_rooms").show(); },function() {$("#top_right_stiker_rooms").hide();});
+        
+        // формат чисел min = 0 max = 99.99
+        $(".input_filter_number")
+            .keydown(function(e) {
+                if (e.which > 37 || e.which > 40) {
+                    var minValue = 0.00;
+                    var maxValue = 99.99;
+                    var x = Number($(this).val().replace(/\,/, "."));
+                    if (parseFloat(x) > maxValue) {
+                        $(this).val(maxValue.toFixed(2).replace(/\./, ","));
+                    }
+                    if (parseFloat(x) < minValue) {
+                        $(this).val(minValue.toFixed(2).replace(/\./, ","));
+                    }
+                }
+            })
+            .dblclick(function() {
+                temp = this.value;
+                this.value = '';
+            })
+            .blur(function() {
+                if (this.value === '')
+                    this.value = temp;
+                if (Number(this.value.replace(/\,/, ".")).toFixed(2).replace(/\./, ",") !== NaN) {
+                    this.value = Number(this.value.replace(/\,/, ".")).toFixed(2).replace(/\./, ",");
+                }
+                else {
+                    this.value = temp;
+                }
+            });
 
     };
 
     return new Smeta();
 })();
+
+// ================= формат чисел
+function number_format(number, decimals, dec_point, thousands_sep) {
+    number = (number + '')
+      .replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+      dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+      s = '',
+      toFixedFix = function(n, prec) {
+        var k = Math.pow(10, prec);
+        return '' + (Math.round(n * k) / k)
+          .toFixed(prec);
+      };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n))
+      .split('.');
+    if (s[0].length > 3) {
+      s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '')
+      .length < prec) {
+      s[1] = s[1] || '';
+      s[1] += new Array(prec - s[1].length + 1)
+        .join('0');
+    }
+    return s.join(dec);
+}

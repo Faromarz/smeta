@@ -81,9 +81,9 @@
 
     <div id="dop_options">
         <div id="dop_options_left">
-        {% for room in _rooms %}
+        {% for key,room in _rooms %}
             {% if room.type == 1 and room.show %}
-            <div class="smeta_room" data-room="1" data-room-id="{{ room.id }}">
+            <div class="smeta_room" data-room="1" data-room-id="{{ room.id }}" data-room-key="{{ key }}">
                 <div class="smeta_room_square">
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
@@ -91,10 +91,10 @@
                         <h5>м²</h5>
                     </div>
                     <div class="smeta_room_square_height">
-                        <input value="{{ room.length|number_format(2, ',', ' ') }}" class="smeta_room_square_height_input"/>
+                        <input value="{{ room.length|number_format(2, ',', ' ') }}" class="smeta_room_square_height_input input_filter_number"/>
                     </div>
                     <div class="smeta_room_square_width">
-                        <input value="{{ room.width|number_format(2, ',', ' ') }}" class="smeta_room_square_width_input"/>
+                        <input value="{{ room.width|number_format(2, ',', ' ') }}" class="smeta_room_square_width_input input_filter_number"/>
                     </div>
                 </div>
                 <div class="smeta_room_text">
@@ -109,9 +109,9 @@
         {% endfor %}
 
         <div id="add_room" class="add_room">добавить комнату</div>
-        {% for room in _rooms %}
+        {% for key,room in _rooms %}
             {% if room.type != 1 %}
-                <div{% if room.alias %} id="{{room.alias}}"{% endif %}{% if room.id == 8 and room.show %} style="display:block;"{% endif %} class="smeta_room" data-room-id="{{ room.id }}">
+                <div{% if room.alias %} id="{{room.alias}}"{% endif %}{% if room.id == 8 and room.show %} style="display:block;"{% endif %} class="smeta_room" data-room-id="{{ room.id }}" data-room-key="{{ key }}">
                     <div class="smeta_room_square">
                         <div class="smeta_room_square_summ">
                             <h2>площадь</h2>
@@ -119,10 +119,10 @@
                             <h5>м²</h5>
                         </div>
                         <div class="smeta_room_square_height">
-                            <input value="{{ room.length|number_format(2, ',', ' ') }}" class="smeta_room_square_height_input"/>
+                            <input value="{{ room.length|number_format(2, ',', ' ') }}" class="smeta_room_square_height_input input_filter_number"/>
                         </div>
                         <div class="smeta_room_square_width">
-                            <input value="{{ room.width|number_format(2, ',', ' ') }}" class="smeta_room_square_width_input"/>
+                            <input value="{{ room.width|number_format(2, ',', ' ') }}" class="smeta_room_square_width_input input_filter_number"/>
                         </div>
                     </div>
                     <div class="smeta_room_text">
