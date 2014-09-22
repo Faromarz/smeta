@@ -6,13 +6,15 @@
 var Smeta = (function() {
 
     var defaults = {
-        rooms: new Array()
+        rooms: new Array(),
+        types: new Array()
     };
     function Smeta() {
         this.countRooms = 0;
         this.roomName = '';
         this.size = 0;
         this.rooms = new Array();
+        this.types = new Array();
     };
     // ---------------- возвращает название квартиры
     Smeta.prototype.getNameRoom = function()
@@ -142,7 +144,7 @@ var Smeta = (function() {
             url: "ajax/smeta/add",
             data: {
                 "rooms" : JSON.stringify(rooms),
-                "types" : [0,0,0],
+                "types" : _this.types,
                 "size" : _this.getSize(),
                 "height" : 0,
                 "price_materials" : 0,
@@ -186,6 +188,54 @@ var Smeta = (function() {
             $('body #ajaxLoad').remove();
         }
     };
+    // Выбор в меню тарифов, типа ремонта, типа квартиры
+    Smeta.prototype.select_rate = function($obj) {
+        var _this = this;
+        $("#order_options_rate li").removeClass("selected");
+        $($obj).addClass("selected");
+        _this.setAllTypes($($obj).index(),0,0);
+        var id = $($obj).attr("id");
+        $("#choose_rate li").removeClass("choose_rate_selected");
+        if (id == 'order_options_rate_econom') {
+            $("#choose_rate_econom").addClass('choose_rate_selected');
+            $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
+            $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
+            setTimeout(function(){ $("#examples_works_slider_econom").show(function() {$("#examples_works_slider_econom").children('div').fadeIn(); }); }, 500);
+        }
+        if (id == 'order_options_rate_standart') {
+            $("#choose_rate_standart").addClass('choose_rate_selected');
+            $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
+            $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
+            setTimeout(function(){ $("#examples_works_slider_standart").show(function() {$("#examples_works_slider_standart").children('div').fadeIn(); }); }, 500);
+
+        }
+        if (id == 'order_options_rate_premium') {
+            $("#choose_rate_premium").addClass('choose_rate_selected');
+            $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
+            $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
+            setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
+        }
+    };
+
+    Smeta.prototype.select_repairs = function($obj) {
+        var _this = this;
+        $("#order_options_repairs li").removeClass("selected");
+        $($obj).addClass("selected");
+        _this.setAllTypes(0,$($obj).index(),0);
+    };
+
+    Smeta.prototype.select_type = function($obj) {
+        var _this = this;
+        $("#order_options_type li").removeClass("selected");
+        $($obj).addClass("selected");
+        _this.setAllTypes(0,0,$($obj).index());
+    };
+
+    Smeta.prototype.setAllTypes = function(rate, repair, apartment) {
+        if (rate!=0) this.types[0] = rate;
+        if (repair!=0) this.types[1] = repair;
+        if (apartment!=0) this.types[2] = apartment;
+    };
     //------------- иницилизация сметы
     Smeta.prototype.init = function(options)
     {
@@ -198,6 +248,14 @@ var Smeta = (function() {
                 _this.countRooms++;
             }
         });
+        //типы ремонта
+        $.each(params.types, function(key, type) {
+            _this.types[key] = type;
+        });
+        //-------выбор тарифа, ремонта и типа квартиры
+        $("#order_options_rate").on("click", 'li', function(){_this.select_rate(this);});
+        $("#order_options_repairs").on("click", 'li', function(){_this.select_repairs(this)});
+        $("#order_options_type").on("click", 'li', function(){_this.select_type(this);});
         //изменение длины комнаты
         $('.smeta_room_square_height_input').on('change', function() {
             var id = $(this).parents('div.smeta_room').data('room-id');
