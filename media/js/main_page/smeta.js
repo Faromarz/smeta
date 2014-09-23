@@ -320,7 +320,6 @@ var Smeta = (function() {
 
         //кнопка перехода на смету клиента
         $("#your_smeta,.send_form").on("click", function() { _this.addSmeta(); });
-        _this.preloader(true);
     };
 
     return new Smeta();
