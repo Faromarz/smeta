@@ -4,58 +4,20 @@
  * @type Function
  */
 var Budget = (function() {
-    
 
     var defaults = {
-        rooms: new Array()
+        rooms: new Array(),
+        types: new Array()
     };
 
     function Budget() {};
     Budget.prototype = Smeta;
+
     Budget.prototype.init = function(options){
-        var _this = this;
-        var params = $.extend(defaults, options);
-        // иницилизация комнат
-        $.each(params.rooms, function(key, room) {
-            _this.rooms[key] = new Room(_this, room, key);
-            if (room.enable == 1) {
-                _this.countRooms++;
-            }
-        });
-        //изменение длины комнаты
-        $('.smeta_room_square_height_input').on('change', function() {
-            var key = $(this).parents('div.smeta_room').data('room-key');
-            _this.rooms[key].changeLength(this);
-            _this.changeSize();
-        });
-        // изменение ширины комнаты
-        $('.smeta_room_square_width_input').on('change', function() {
-            var key = $(this).parents('div.smeta_room').data('room-key');
-            _this.rooms[key].changeWidth(this);
-            _this.changeSize();
-        });
-        
-        //выбор комнат у квартиры
-        $("#rooms div")
-            .hover(
-                function() { $("#rooms").css("background-position", "0px -" + _this.getNumbBg(this) + "px"); },
-                function() { $("#rooms").css("background-position", '0px -' + (128 * _this.countRooms) + 'px');}
-            ).on("click",function(){_this.setRooms(this);});
-        $("#top_right_stiker_rooms div")
-            .hover(
-                function() { $("#top_right_stiker_rooms").css("background-position", "35px -" + (_this.getNumbBg(this) - 20) + "px"); },
-                function() { $("#top_right_stiker_rooms").css("background-position", '35px -' + (128 * _this.countRooms - 20) + 'px'); }
-            ).on("click",function(){_this.setRooms(this);});
-        $("#top_right_stiker p").hover(function(){ $("#top_right_stiker_rooms").show(); },function() {$("#top_right_stiker_rooms").hide();});
-        $("#top_right_stiker_rooms").hover(function(){ $("#top_right_stiker_rooms").show(); },function() {$("#top_right_stiker_rooms").hide();});
-        
-        // добавлене комнаты
-        $('#add_room').die("click");
-        $('#add_room').on("click", function(){_this.addRooms();});
-        
+        Smeta.constructor.prototype.init.call(this, options);
     };
-    
-     return new Budget();
+
+    return new Budget();
 })();
 
 
