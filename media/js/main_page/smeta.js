@@ -165,14 +165,15 @@ var Smeta = (function() {
     //гифка прелоадера
     Smeta.prototype.preloader = function(status){
         if(status){
-            $('body').append('<img src="/media/img/ajax-loader.gif" id="ajaxLoad">');
+            var width = $(window).width()-50;
+            $('body').append('<div id="ajaxLoad" style="background:url(/media/img/block-window.gif) center center no-repeat; height: 56px; width:'+width+'px"></div>');
             $.fancybox.open({
                 href: '#ajaxLoad',
                 padding:0,
-                maxWidth: 180,
-                maxHeight: 50,
-                minWidth: 180,
-                minHeight: 50,
+                maxWidth: 2048,
+                maxHeight: 56,
+                minWidth: width,
+                minHeight: 56,
                 scrolling: 'no',
                 closeBtn: false,
                 helpers   : {
@@ -319,6 +320,7 @@ var Smeta = (function() {
 
         //кнопка перехода на смету клиента
         $("#your_smeta,.send_form").on("click", function() { _this.addSmeta(); });
+        _this.preloader(true);
     };
 
     return new Smeta();
