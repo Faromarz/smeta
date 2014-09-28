@@ -2,6 +2,7 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}" />
     
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/door.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/height.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/type.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
@@ -16,6 +17,7 @@
                 types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}],
                 params: {{ _params| json_encode()|raw }},
                 smeta: {{ smeta| json_encode()|raw }},
+                doors: {{ _doors | json_encode()|raw }},
             });
         });
     </script>

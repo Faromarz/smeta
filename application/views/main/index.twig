@@ -1,5 +1,6 @@
 {% extends "layout/html.twig" %}
 {% block content %}
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/door.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/height.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/type.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
@@ -11,7 +12,8 @@
             Smeta.init({
                 rooms: {{ _rooms | json_encode()|raw }},
                 types: {rate:2,repair:2,apartment:2},
-                params: {{_params| json_encode()|raw}}
+                params: {{_params| json_encode()|raw}},
+                doors: {{ doors | json_encode()|raw }}
             });
         });
     </script>
@@ -150,21 +152,16 @@
 
                 </div>
 
-
                 <div class="repair_company_summ_table_name">
 
                     <div class="repair_company_summ_table_name_rasporka"></div>
                     <p>монтажные</p>
                     <p>работы</p>
                 </div>
-
                 <div class="ignore_3"></div>
             </div>
-
             <a class="link" href="#">Выбрать другую компанию</a>
-
         </div>
-
 
         <div id="repair_company_reviews" style="display:none">
 
@@ -184,7 +181,6 @@
             <h1 class="signature">Ольга павловна</h1>
 
             <h2><span>+</span></h2>
-
             <h2><a class="link" href="#">Все отзывы</a> о ремонтной компании</h2>
 
         </div>

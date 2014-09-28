@@ -21,7 +21,36 @@ class Controller_Main extends Controller_Core
                 ->order_by('id')
                 ->execute()
                 ->as_array();
+        foreach ($rooms as $key => $room) {
+            // дверь
+            $doors = ORM::factory('Roomparamsdef')
+                    ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
+                    ->where('rooms_doors.room_id', '=', $room['id'])
+                    ->find()->as_array();
+            $doors['enable'] = false;
+            $doors['show'] = $room['show'];
+            $doors['count'] = 1;
+            $door['id'] = null;
+            $rooms[$key]['door'] = $doors;
+        }
         $this->set('_rooms', $rooms);
+   
+        // дверь
+        $door = ORM::factory('Roomparamsdef')
+                ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
+                ->where('rooms_doors.room_id', '=', 1)
+                ->find()->as_array();
+        $door['enable'] = false;
+        $door['show'] = false;
+        $door['count'] = 1;
+        $door['id'] = null;
+        $doors = array(
+            0 => $door,
+            1 => $door,
+            2 => $door
+        );
+
+        $this->set('doors', $doors);
 
         // параметры комнат
         $params = DB::select('*')

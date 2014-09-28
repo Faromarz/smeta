@@ -21,14 +21,17 @@ function Room($parent, $params)
     var roomEnable = Number(_params.enable) || false;
     var roomShow = Number(_params.show) || false;
     var htmlBlock = '.smeta_room';
+    // двери
+    _this.door = null;
+    
     _this.materials = new Array();
     _this.works = new Array();
-    _this.doors = {};
-    _this.door = {};
-    _this.door.count = 1;
-    _this.door.width = 0.90;
-    _this.door.getCount = function(){return _this.door.count; };
-    _this.door.getWidth = function(){return _this.door.width; };
+//    _this.doors = null;
+//    _this.door = {};
+//    _this.door.count = 1;
+//    _this.door.width = 0.90;
+//    _this.door.getCount = function(){return _this.door.count; };
+//    _this.door.getWidth = function(){return _this.door.width; };
 
     if (_params.balcony) {
         var balcony = Number(_params.balcony);
@@ -170,10 +173,6 @@ function Room($parent, $params)
     };
     // общее количество дверей в комнате
     _this.getCountDoors = function() {
-        var count = 0;
-        $.each(_this.doors, function(key, door) {
-            count += door.getCount();
-        });
         return count;
     };
     // количество петлей на дверь
@@ -182,11 +181,7 @@ function Room($parent, $params)
     };
     // ширина проемов дверей
     _this.getWidthDoors = function() {
-        var width = 0;
-        $.each(_this.doors, function(key, door) {
-            width += door.getWidth() * door.getCount();
-        });
-        return width;
+        return door.getWidth();
     };
     // периметр комнаты с вычетом промежутков дверей
     _this.getCountPlinth = function() {
@@ -224,7 +219,9 @@ function Room($parent, $params)
     };
     // иницилизация комнаты
     _this.init = function() {
-        var _this = this;
+        // двери
+        _this.door = new Door(_parent, _this, 0, _params.door);
+    
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {
             $(this).toggleClass("ignore ignored");

@@ -16,6 +16,7 @@ var Smeta = (function() {
         this.roomName = '';
         this.size = 0;
         this.rooms = new Array();
+        this.doors = new Array(); // !!! внимание это дополнительные двери.
         this.types = null;
         this.height = 0;
     };
@@ -33,6 +34,18 @@ var Smeta = (function() {
     Smeta.prototype.getCountRooms = function()
     {
         return this.countRooms;
+    };
+    // ---------------- возвращает количество дополнительных дверей
+    Smeta.prototype.getCountDoors = function()
+    {
+        var _this = this;
+        var countDoor = 0;
+        $.each(_this.doors, function(key, door) {
+            if(door.getShow()){
+                countDoor++;
+            }
+        });
+        return countDoor;
     };
     // ---------------- возвращает площадь квартиры
     Smeta.prototype.getSize = function()
@@ -73,7 +86,7 @@ var Smeta = (function() {
         _this.roomName = text_room;
     };
     //------------- изменение количества комнат
-    //вызывается при:
+    // вызывается при:
     // добавлении комнаты
     // указании сколько комнат
     Smeta.prototype.setCountRooms = function($count)
@@ -162,6 +175,29 @@ var Smeta = (function() {
          }
         _this.setCountRooms(++count);
     };
+    //--------- обновление названий дверей
+    Smeta.prototype.doorUpdateName = function()
+    {
+        var _this = this;
+        var count = _this.getCountDoors();
+        if (count > 1) {
+            $('.smeta_door[data-room-id="0"][data-door-key="0"] h1.smeta_text_header').text('Дверь межкомнатная1');
+        } else {
+            $('.smeta_door[data-room-id="0"][data-door-key="0"] h1.smeta_text_header').text('Дверь межкомнатная');
+        }
+    };
+    //--------- добавление двери
+    Smeta.prototype.addDoor = function()
+    {
+         var _this = this;
+         var count = _this.getCountDoors();
+         if (count >= 3) {
+             return alert('Вы не можете добавить больше 3 дверей');
+         }
+        _this.doors[count].setShow(true);
+        _this.doorUpdateName();
+    };
+    
     // возвращает параметры сметы
     Smeta.prototype.getSmeta = function(options)
     {
@@ -258,17 +294,26 @@ var Smeta = (function() {
         _this.types = Type;
         _this.height = Height;
         var params = $.extend(defaults, options);
+        
         // иницилизация комнат
         $.each(params.rooms, function(key, room) {
             _this.rooms[key] = new Room(_this, room);
         });
-        //типы ремонта
+        
+        // иницилизация дополнительных дверей
+        $.each(params.doors, function(key, door) {
+            _this.doors[key] = new Door(_this, null, key, door);
+        });
+        _this.doorUpdateName();
+        
+        // типы ремонта
         _this.types.init(params.types);
+        
         // высота потолка
         params.params[0]['parent'] = _this;
          _this.height.init(params.params[0]);
         
-        //изменение длины комнаты
+        // изменение длины комнаты
         $('.smeta_room_square_height_input').on('change', function() {
             var id = $(this).parents('div.smeta_room').data('room-id');
             _this.rooms[id-1].changeLength(this);
@@ -298,6 +343,11 @@ var Smeta = (function() {
         // добавлене комнаты
         $('#add_room').die("click");
         $('#add_room').on("click", function(){_this.addRooms();});
+        
+        // добавление двери
+        $("#add_door").on("click", function() {
+            _this.addDoor(); 
+        });
         
         // формат чисел min = 0 max = 99.99
         $(".input_filter_number")

@@ -70,9 +70,10 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
     {
         $array = array();
         if ($this->request->post()) {
-            $name = (string) Arr::get($_POST, 'name', false);
-            $id = (int) Arr::get($_POST, 'pk', false);
-            $value = trim(Arr::get($_POST, 'value', false));
+            $post = $this->request->post();
+            $name = (string) Arr::get($post, 'name', false);
+            $id = (int) Arr::get($post, 'pk', false);
+            $value = trim(Arr::get($post, 'value', false));
 
             if ($name && $id &&  $value != '') {
                 $object = ORM::factory('Room', $id);
@@ -100,9 +101,10 @@ class Controller_Admin_Rooms extends Controller_Admin_Index
     {
         $array = array();
         if ($this->request->post()) {
-            $name = (string) Arr::get($_POST, 'name', false);
-            $id = (int) Arr::get($_POST, 'pk', false);
-            $value = trim(Arr::get($_POST, 'value', false));
+            $post = $this->request->post();
+            $name = (string) Arr::get($post, 'name', false);
+            $id = (int) Arr::get($post, 'pk', false);
+            $value = trim(Arr::get($post, 'value', false));
 
             if ($name && $id) {
                 $object = ORM::factory('Roomparamsdef', $id);
