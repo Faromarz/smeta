@@ -17,7 +17,7 @@ var Budget = (function() {
         var _this = this;
         Smeta.constructor.prototype.init.call(this, options);
         var params = $.extend(defaults, options);
-        _this.countRooms = params.smeta.count_rooms;
+        _this.countRooms = Number(params.smeta.count_rooms);
         
          //кнопка открытия комнат       
     $("#change_budget").on("click", function(){$("#budget_dop_options").slideDown(350); $("#budget_dop_options-hide").fadeIn(400, function() {  mail_top = $("#mail").offset().top;}); });
