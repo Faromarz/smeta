@@ -12,8 +12,8 @@ var Height = (function() {
         height_max: 0,
         name: '',
         block: '#input_ceiling',
-        down: '.button_minus',
-        up: '.button_plus',
+        down: '.button_minus.height',
+        up: '.button_plus.height',
         parent: null
     };
     function Height() {

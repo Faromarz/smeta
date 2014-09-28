@@ -24,6 +24,7 @@ class Controller_Main extends Controller_Core
         foreach ($rooms as $key => $room) {
             // дверь
             $doors = ORM::factory('Roomparamsdef')
+                    ->select(array('roomparamsdef.id', 'type'))
                     ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
                     ->where('rooms_doors.room_id', '=', $room['id'])
                     ->find()->as_array();
@@ -37,6 +38,7 @@ class Controller_Main extends Controller_Core
    
         // дверь
         $door = ORM::factory('Roomparamsdef')
+                ->select(array('roomparamsdef.id', 'type'))
                 ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
                 ->where('rooms_doors.room_id', '=', 1)
                 ->find()->as_array();

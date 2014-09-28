@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 28 2014 г., 15:10
+-- Время создания: Сен 28 2014 г., 22:10
 -- Версия сервера: 5.5.38-MariaDB-wsrep
 -- Версия PHP: 5.5.16
 
@@ -34,8 +34,9 @@ CREATE TABLE IF NOT EXISTS `smeta_doors` (
   `height` double(3,2) NOT NULL,
   `width` double(3,2) NOT NULL,
   `show` tinyint(1) NOT NULL,
-  `count` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `count` int(11) NOT NULL,
+  `smeta_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
 -- Индексы сохранённых таблиц
@@ -45,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `smeta_doors` (
 -- Индексы таблицы `smeta_doors`
 --
 ALTER TABLE `smeta_doors`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `smeta_doors_smeta_id_idx` (`smeta_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -55,7 +56,7 @@ ALTER TABLE `smeta_doors`
 -- AUTO_INCREMENT для таблицы `smeta_doors`
 --
 ALTER TABLE `smeta_doors`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

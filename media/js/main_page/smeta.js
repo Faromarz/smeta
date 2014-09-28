@@ -199,7 +199,7 @@ var Smeta = (function() {
     };
     
     // возвращает параметры сметы
-    Smeta.prototype.getSmeta = function(options)
+    Smeta.prototype.getSmeta = function()
     {
         var param = {};
         $.each(this, function(key, param) {
@@ -207,6 +207,16 @@ var Smeta = (function() {
         });
         
         return param;
+    };
+    // возвращает параметры дополнительных дверей
+    Smeta.prototype.getDoorsParams = function()
+    {
+        var doors = {};
+        $.each(this.doors, function(key, door) {
+               doors[key] = door.getParams();
+        });
+        
+        return doors;
     };
     //добавление сметы в бд
     Smeta.prototype.addSmeta=function(){
@@ -233,7 +243,8 @@ var Smeta = (function() {
                 "time_work_dem": 0,
                 "time_work_mon": 0,
                 "room_name" : _this.getNameRoom(),
-                "count_rooms" : _this.getCountRooms()
+                "count_rooms" : _this.getCountRooms(),
+                "doors" : JSON.stringify(_this.getDoorsParams())
             },
             success: function(data){
                 var result = JSON.parse(data);

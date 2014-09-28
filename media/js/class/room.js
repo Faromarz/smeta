@@ -128,6 +128,7 @@ function Room($parent, $params)
                 }
             }
         }
+        _this.door.setShow(roomShow);
     };
     // периметр комнаты
     _this.getPerimeter = function() {
@@ -160,6 +161,7 @@ function Room($parent, $params)
     // установка|снятие галочки в комнате
     _this.setEnable = function($enable) {
         roomEnable = $enable;
+        _this.door.setEnable($enable);
         $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
         _parent.changeSize();
     };
@@ -200,7 +202,8 @@ function Room($parent, $params)
             width: _this.getWidth(),
             length: _this.getLength(),
             enable: _this.getEnable(),
-            show: _this.getShow()
+            show: _this.getShow(),
+            door: _this.door.getParams()
         };
         if (balcony !== undefined) {
             params['balcony'] = _this.getBalcon();

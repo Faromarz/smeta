@@ -17,7 +17,7 @@
                 types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}],
                 params: {{ _params| json_encode()|raw }},
                 smeta: {{ smeta| json_encode()|raw }},
-                doors: {{ _doors | json_encode()|raw }},
+                doors: {{ doors | json_encode()|raw }},
             });
         });
     </script>

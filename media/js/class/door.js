@@ -17,6 +17,8 @@ function Door($parent, $room, $key, $params)
     var _key = $key;
     var _params = $params;
     
+    var id = Number(_params.id);
+    var type = Number(_params.type);
     var width = Number(_params.width);
     var width_min = Number(_params.width_min);
     var width_max = Number(_params.width_max);
@@ -27,6 +29,38 @@ function Door($parent, $room, $key, $params)
     var show = Number(_params.show) || false;
     var count = Number(_params.count) || 1;
 
+    // ID двери
+    _this.getId = function() {
+        return  id;
+    };
+    // type двери
+    _this.getType = function() {
+        return type;
+    };
+    // количество дверей
+    _this.getCount = function() {
+        return  count;
+    };
+    // количество дверей
+    _this.setCount = function($count) {
+        var _this = this;
+        if ($count < 0) {
+            $count = 0;
+        }
+        if ($count > 8) {
+            $count = 8;
+        }
+        count = $count;
+        $('#room0-door'+_key+'-count').val(number_format(count, 0, ',', ' '));
+    };
+    // увеличить количество
+    _this.upCount = function() {
+        _this.setCount((_this.getCount() + 1) <= 8 ? _this.getCount() + 1: 8);
+    };
+    // уменьшить количество
+    _this.downCount = function() {
+        _this.setCount((_this.getCount() - 1) >= 0 ? _this.getCount() - 1 : 0);
+    };
     // ширина двери
     _this.getWidth = function() {
         return  width;
@@ -70,6 +104,16 @@ function Door($parent, $room, $key, $params)
     // установка|снятие галочки в двери
     _this.setEnable = function($enable) {
         enable = $enable;
+        var className = 'ignore_door ignore'; 
+        if (!enable) {
+            className += 'd';
+        }
+        if (_room === null) {
+            $('.smeta_door[data-door-key="'+_key+'"] div.ignore_door').attr('class', className);
+        } else {
+            $('.smeta_door[data-room-id="'+_room.getId()+'"] div.ignore_door').attr('class', className);
+        }
+        
 //        $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
     console.log('пересчитать материалы, работы');
     };
@@ -84,6 +128,13 @@ function Door($parent, $room, $key, $params)
         _this.setEnable($show);
         if (_room === null) {
             $('.smeta_door[data-door-key="'+_key+'"]').show();
+        } else if (_room.getId() !== 1) {
+            if ($show) {
+                $('.smeta_door[data-room-id="'+_room.getId()+'"]').show();
+            } else {
+                $('.smeta_door[data-room-id="'+_room.getId()+'"]').hide();
+            }
+            
         }
 
         // отображение/скрытие двери (type == 1)
@@ -108,7 +159,10 @@ function Door($parent, $room, $key, $params)
             width: _this.getWidth(),
             height: _this.getHeight(),
             enable: _this.getEnable(),
-            show: _this.getShow()
+            show: _this.getShow(),
+            id: _this.getId(),
+            count: _this.getCount(),
+            type: _this.getType()
         };
         return params;
     };
@@ -163,6 +217,44 @@ function Door($parent, $room, $key, $params)
                     this.value = temp;
                 }
             });
+        $('#room'+roomId+'-door'+_key+'-enable').on('click', function(){
+            $(this).toggleClass("ignore ignored");
+            if (_room !== null){
+                if ($(this).hasClass('ignore')) {
+                    _room.setEnable($(this).hasClass('ignore'));
+                     // пересчет комнат
+                    if (_parent.getCountRooms() === 0) {
+                        var count = 0;
+                        if (_room.getType() === 1) {
+                            count = 1;
+                        }
+                        _parent.setCountRooms(count);
+                    }
+                } else {
+                    _this.setEnable( $(this).hasClass('ignore'));
+                }
+                
+            }
+        });
+        if (_room === null){
+            $('#room'+roomId+'-door'+_key+'-up').on('click', function(){_this.upCount();});
+            $('#room'+roomId+'-door'+_key+'-down').on('click', function(){_this.downCount();});
+            $('#room'+roomId+'-door'+_key+'-count')
+                .dblclick(function() {
+                    temp = this.value;
+                    this.value = '';
+                })
+                .blur(function() {
+                    if (this.value === ''){
+                        this.value = temp;
+                    }
+                    if (Number(this.value.replace(/\,/, ".")).toFixed(0) !== NaN) {
+                        _this.setCount(Number(this.value.replace(/\,/, ".")));
+                    } else {
+                        this.value = temp;
+                    }
+                });
+        }
 //        
 //        // click enable room
 //        $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {

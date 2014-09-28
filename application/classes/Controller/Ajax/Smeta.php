@@ -20,7 +20,9 @@ class Controller_Ajax_Smeta extends Controller_Core
     public function action_add(){
         $post = $this->request->post();
         $result = array();
+        $doors = json_decode($post['doors'], true);
         $rooms = json_decode($post['rooms'], true);
+        
         $smeta = ORM::factory('Smeta');
         $smeta->name = uniqid();
         $smeta->geo_id = 0;
@@ -49,6 +51,30 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_room->enable = $room['enable'];
             $smeta_room->show = $room['show'];
             $smeta_room->save();
+            
+            $door = $room['door'];
+            $smeta_door = ORM::factory('Smeta_Door');
+            $smeta_door->smeta_rooms_id = $smeta_room->pk();
+            $smeta_door->smeta_id = $smeta->id;
+            $smeta_door->room_params_def = $door['type'];
+            $smeta_door->enable = $door['enable'];
+            $smeta_door->height = $door['height'];
+            $smeta_door->width = $door['width'];
+            $smeta_door->show = $door['show'];
+            $smeta_door->count = $door['count'];
+            $smeta_door->create();
+        }
+        foreach($doors as $door){
+            $smeta_door = ORM::factory('Smeta_Door');
+            $smeta_door->smeta_rooms_id = null;
+            $smeta_door->smeta_id = $smeta->id;
+            $smeta_door->room_params_def = $door['type'];
+            $smeta_door->enable = $door['enable'];
+            $smeta_door->height = $door['height'];
+            $smeta_door->width = $door['width'];
+            $smeta_door->show = $door['show'];
+            $smeta_door->count = $door['count'];
+            $smeta_door->create();
         }
         $result[] = array('smeta_name'=>$smeta->name);
         $this->set('_result', json_encode($result));
