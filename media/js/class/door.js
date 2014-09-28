@@ -43,7 +43,6 @@ function Door($parent, $room, $key, $params)
     };
     // количество дверей
     _this.setCount = function($count) {
-        var _this = this;
         if ($count < 0) {
             $count = 0;
         }
@@ -74,6 +73,11 @@ function Door($parent, $room, $key, $params)
             $width = Number(width_max);
         }
         width = $width;
+        var roomId = 0;
+        if(_room !== null){
+            roomId = _room.getId();
+        }
+        $('#room'+roomId+'-door'+_key+'-type').attr('data-type', (width >= 1.3 ? 2 : 1));
     };
     //  Высота двери
     _this.getHeight = function() {
@@ -88,10 +92,6 @@ function Door($parent, $room, $key, $params)
             $height = Number(height_max);
         }
         height = $height;
-    };
-    // изменение высоты двери
-    _this.changeHeight = function($obj) {
-        _this.setHeight($($obj).val().replace(/\,/, "."));
     };
     // площадь двери
     _this.getSize = function() {
@@ -136,21 +136,6 @@ function Door($parent, $room, $key, $params)
             }
             
         }
-
-        // отображение/скрытие двери (type == 1)
-//        if(_room.getType() === 1) {
-//            if (show) {
-//                var length = $('.smeta_room[data-room]').length;
-//                if(_this.getId()>length){
-//                    $("#add_room").siblings('.smeta_room').eq(0).clone(true).insertBefore('#add_room').attr('data-room', $('.smeta_room[data-room]').length).attr('data-room-id', $('.smeta_room[data-room]').length);
-//                    $("#add_room").siblings('.smeta_room').eq(_this.getId()-1).find('p.smeta_text_header').eq(0).text(_this.getTitle());
-//                }
-//            } else {
-//                if (_this.getId() !== 1) {
-//                    _this.removeRoom();
-//                }
-//            }
-//        }
     };
 
     // параметры для сметы
@@ -171,10 +156,6 @@ function Door($parent, $room, $key, $params)
         if (_room !== null && _room.getId() === 1){
             return true;
         }
-//        // удаление комнаты
-//        $("#add_room").siblings('.smeta_room[data-room='+_this.getId()+']').remove();
-//        // удаление окон вынести в окна
-//        $("#add_window").siblings('.smeta_window[data-room='+_this.getId()+']').remove();
     };
     // иницилизация комнаты
     _this.init = function() {
@@ -255,25 +236,6 @@ function Door($parent, $room, $key, $params)
                     }
                 });
         }
-//        
-//        // click enable room
-//        $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {
-//            $(this).toggleClass("ignore ignored");
-//            _this.setEnable($(this).hasClass('ignore'));
-//            // пересчет комнат
-//            if (_parent.getCountRooms() === 0) {
-//                var count = 0;
-//                if (_this.getType() === 1) {
-//                    count = 1;
-//                }
-//                _parent.setCountRooms(count);
-//            }
-//         });
-//        // click balcon
-//        $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(5)').live("click", function() {
-//            $(this).toggleClass("check_box_out check_box_in");
-//            _this.setBalcon($(this).hasClass('check_box_in'));
-//         });
     };
     _this.init();
 }

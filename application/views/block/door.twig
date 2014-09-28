@@ -36,7 +36,7 @@
             </div>
 
             <div class="smeta_count_interior_door_left">
-                <div class="smeta_count_interior_door_chosen" data-type="{{ room.door.width >= 1.3 ? 2 : 1 }}"></div>
+                <div id="room{{ room.id }}-door0-type" class="smeta_count_interior_door_chosen" data-type="{{ room.door.width >= 1.3 ? 2 : 1 }}"></div>
             </div>
             <div id="room{{ room.id }}-door0-enable" class="ignore{{ room.door.enable ? '' : 'd'}} ignore_door"></div>
         </div>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="smeta_count_interior_door_left">
-            <div class="smeta_count_interior_door_chosen" data-type="{{ door.width >= 1.3 ? 2 : 1 }}"></div>
+            <div id="room0-door{{ key }}-type" class="smeta_count_interior_door_chosen" data-type="{{ door.width >= 1.3 ? 2 : 1 }}"></div>
             <div id="room0-door{{ key }}-down" class="button_minus"></div>
             <input id="room0-door{{ key }}-count" class="smeta_count_input" value="{{ door.count }}" />
             <div id="room0-door{{ key }}-up" class="button_plus"></div>
