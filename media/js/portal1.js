@@ -1,11 +1,11 @@
 $(document).ready(function () {
 
-    $("#choose_rate").on("click","li", select_slider);
+//    $("#choose_rate").on("click","li", select_slider);
 
-    $(".check_box_out").on("click", function() {$(this).toggleClass("check_box_out check_box_in"); });
+//    $(".check_box_out").on("click", function() {$(this).toggleClass("check_box_out check_box_in"); });
 
-    $(".combine").on("click", combine);
-    $(".uncombine").on("click", uncombine);
+//    $(".combine").on("click", combine);
+//    $(".uncombine").on("click", uncombine);
 
     // кнопка плюс
     $("#order_options_plus").on("click", come_dop_option);
@@ -67,49 +67,49 @@ $(document).ready(function () {
 
 
 
-function combine(){
-    $('.combine').hide();
-    $('#bath').slideUp();
-    $('#toilet').slideUp(400, function() { $('#bath_and_toilet').slideDown(400, function() {$('.uncombine').fadeIn(); }); });
-}
-
-function uncombine() {
-    $('.uncombine').hide();
-    $('#bath_and_toilet').slideUp(400, function() {
-        $('#toilet').slideDown();
-        $('#bath').slideDown(400, function() {$('.combine').fadeIn(); });
-
-    });
-}
-
-
+//function combine(){
+//    $('.combine').hide();
+//    $('#bath').slideUp();
+//    $('#toilet').slideUp(400, function() { $('#bath_and_toilet').slideDown(400, function() {$('.uncombine').fadeIn(); }); });
+//}
+//
+//function uncombine() {
+//    $('.uncombine').hide();
+//    $('#bath_and_toilet').slideUp(400, function() {
+//        $('#toilet').slideDown();
+//        $('#bath').slideDown(400, function() {$('.combine').fadeIn(); });
+//
+//    });
+//}
 
 
 
 
 
-function select_slider() {
-    $("#choose_rate li").removeClass("choose_rate_selected");
-    $(this).addClass("choose_rate_selected");
 
-    var id = $(this).attr("id");
-    if (id == 'choose_rate_econom') {
-        $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
-        $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
-        setTimeout(function(){ $("#examples_works_slider_econom").show(function() {$("#examples_works_slider_econom").children('div').fadeIn(); }); }, 500);
-    }
-    if (id == 'choose_rate_standart') {
-        $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
-        $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
-        setTimeout(function(){ $("#examples_works_slider_standart").show(function() {$("#examples_works_slider_standart").children('div').fadeIn(); }); }, 500);
-
-    }
-    if (id == 'choose_rate_premium') {
-        $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
-        $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
-        setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
-    }
-}
+//
+//function select_slider() {
+//    $("#choose_rate li").removeClass("choose_rate_selected");
+//    $(this).addClass("choose_rate_selected");
+//
+//    var id = $(this).attr("id");
+//    if (id == 'choose_rate_econom') {
+//        $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
+//        $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
+//        setTimeout(function(){ $("#examples_works_slider_econom").show(function() {$("#examples_works_slider_econom").children('div').fadeIn(); }); }, 500);
+//    }
+//    if (id == 'choose_rate_standart') {
+//        $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
+//        $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
+//        setTimeout(function(){ $("#examples_works_slider_standart").show(function() {$("#examples_works_slider_standart").children('div').fadeIn(); }); }, 500);
+//
+//    }
+//    if (id == 'choose_rate_premium') {
+//        $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
+//        $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
+//        setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
+//    }
+//}
 
 
 
@@ -170,17 +170,17 @@ function window_choose() {
 
 
 
-function authorization() {
-    $("#overlap").show();
-    $("#pop_up").show();
-    $("#close_pop_up").show();
-}
-
-function close_authorization() {
-    $("#overlap").hide();
-    $("#pop_up").hide();
-    $("#close_pop_up").hide();
-}
+//function authorization() {
+//    $("#overlap").show();
+//    $("#pop_up").show();
+//    $("#close_pop_up").show();
+//}
+//
+//function close_authorization() {
+//    $("#overlap").hide();
+//    $("#pop_up").hide();
+//    $("#close_pop_up").hide();
+//}
 
 function visible() {
     var scroll=$(document).scrollTop();

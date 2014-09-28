@@ -2,6 +2,8 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}" />
     
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/height.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/type.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('media/js/budget_page/budget.js') }}"></script>
@@ -11,7 +13,8 @@
         $(document).ready(function(){
             Budget.init({
                 rooms: {{ _rooms | json_encode()|raw }},
-                types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}]
+                types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}],
+                params: {{ _params| json_encode()|raw }}
             });
         });
     </script>
@@ -36,7 +39,7 @@
                     <dt>{{ smeta.room_name }}:</dt>
                     <dd>{{ smeta.size | number_format(2, ',', ' ') }} м²</dd>
                     <dt>высота потолков:</dt>
-                    <dd>{{ smeta.height }} м</dd>
+                    <dd>{{ smeta.height | number_format(2, ',', ' ') }} м</dd>
                 </dl>
 
                 <dl class="budget_repair_estimate-rate">

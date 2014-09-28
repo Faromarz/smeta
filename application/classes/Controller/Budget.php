@@ -32,6 +32,16 @@ class Controller_Budget extends Controller_Core {
             }
             $this->set('smeta', $smeta);
             $this->set('_rooms', $rooms);
+            
+            // параметры комнат
+            $params = DB::select('*')
+                    ->from('room_params_def')
+                    ->order_by('id')
+                    ->execute()
+                    ->as_array();
+            $params[0]['height'] = $smeta->height;
+            $this->set('_params', $params);
+        
         }
     }
 }

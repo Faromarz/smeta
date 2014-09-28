@@ -2,6 +2,8 @@
 /**
  * Smeta
  * @type Function
+ * 
+ * обязательные классы для подлючения room, type
  */
 var Smeta = (function() {
 
@@ -14,7 +16,13 @@ var Smeta = (function() {
         this.roomName = '';
         this.size = 0;
         this.rooms = new Array();
-        this.types = new Array();
+        this.types = null;
+        this.height = 0;
+    };
+    // ---------------- возвращает высоту потолка
+    Smeta.prototype.getHeight = function()
+    {
+        return this.height.getHeight();
     };
     // ---------------- возвращает название квартиры
     Smeta.prototype.getNameRoom = function()
@@ -31,19 +39,56 @@ var Smeta = (function() {
     {
         return this.size;
     };
-    //------------- название квартиры
-    Smeta.prototype.setCountRooms = function($count)
+    //------------- обновление название квартиры
+    //вызывается при:
+    // добавлении комнаты
+    // указании сколько комнат
+    // обединении/разединении ванны-туалет
+    Smeta.prototype.updateName = function()
     {
-        this.countRooms = $count;
+        var _this = this;
         var text_room = '';
-        if (this.countRooms===1) text_room = 'однокомнатная квартира';
-        else if (this.countRooms===2) text_room = 'двухкомнатная квартира';
-        else if (this.countRooms===3) text_room = 'трехкомнатная квартира';
-        else if (this.countRooms===4) text_room = 'четырехкомнатная квартира';
-        else if (this.countRooms===5) text_room = 'пятикомнатная квартира';
+        if (_this.getCountRooms()===1) text_room = 'однокомнатная квартира';
+        else if (_this.getCountRooms()===2) text_room = 'двухкомнатная квартира';
+        else if (_this.getCountRooms()===3) text_room = 'трехкомнатная квартира';
+        else if (_this.getCountRooms()===4) text_room = 'четырехкомнатная квартира';
+        else if (_this.getCountRooms()===5) text_room = 'пятикомнатная квартира';
+        else {
+            var count = 0;
+            $.each(_this.rooms, function(key, room) {
+                if(room.getEnable()) {
+                    if (count > 0){
+                        text_room += ', ';
+                    }
+                    text_room += room.getTitle();
+                    ++count;
+                }
+            });
+            if (text_room === ''){
+                text_room = 'УКАЖИТЕ КОЛИЧЕСТВО КОМНАТ';
+            }
+        }
         $('#dop_options_footer_rezult').find('h1:eq(0)').text(text_room);
         $('#budget_repair_estimate-type_and_rate').find('dt:eq(0)').text(text_room);
-        this.roomName = text_room;
+        _this.roomName = text_room;
+    };
+    //------------- изменение количества комнат
+    //вызывается при:
+    // добавлении комнаты
+    // указании сколько комнат
+    Smeta.prototype.setCountRooms = function($count)
+    {
+        var _this = this;
+        _this.countRooms = $count;
+        _this.updateName();
+        $.each(_this.rooms, function(key, room) {
+            if(room.getType() === 1){
+                room.setShow(_this.getCountRooms() > key);
+            }
+        });
+        _this.selectRoom();
+        $("#rooms").css("background-position", '0px -' + (128 * _this.getCountRooms()) + 'px');
+        _this.update();
     };
     //----------------- фиксация площади
     Smeta.prototype.setSize = function($size)
@@ -85,21 +130,25 @@ var Smeta = (function() {
             $("#repair_company").slideDown();
         });
         setInterval( function(){$("#your_price_without_discount").fadeToggle(); }, 4000);
-       // _this.calculation_works();
-        this.changeSize();
+        this.update();
     };
     //--------- изменение количества комнат
     Smeta.prototype.setRooms = function($obj)
     {
-         var _this = this;
-//        $("#rooms").css("background-position", '0px -' + _this.getNumbBg($obj) + 'px');
-        _this.setCountRooms(parseInt($($obj).attr("data-numb")));
+        var _this = this;
         $.each(_this.rooms, function(key, room) {
-            if(room.getType() === 1){
-                room.setShow(_this.getCountRooms() > key);
+            if(room.getType() !== 1){
+                var enable = true;
+                if ($('.combine').is(':visible') && room.getId() === 8){
+                    enable = false;
+                }
+                if ($('.uncombine').is(':visible') && $.inArray(room.getId(), [9,10]) !== -1){
+                    enable = false;
+                }
+                room.setEnable(enable);
             }
         });
-        this.selectRoom();
+        this.setCountRooms(parseInt($($obj).attr("data-numb")));
     };
     //--------- добавление комнаты
     Smeta.prototype.addRooms = function()
@@ -112,13 +161,6 @@ var Smeta = (function() {
              count = 1;
          }
         _this.setCountRooms(++count);
-        $.each(_this.rooms, function(key, room) {
-            if(room.getType() === 1){
-                room.setShow(_this.getCountRooms() > key);
-            }
-        });
-        $("#rooms").css("background-position", '0px -' + (128 * _this.countRooms) + 'px');
-        this.selectRoom();
     };
     // возвращает параметры сметы
     Smeta.prototype.getSmeta = function(options)
@@ -144,9 +186,9 @@ var Smeta = (function() {
             url: "ajax/smeta/add",
             data: {
                 "rooms" : JSON.stringify(rooms),
-                "types" : _this.types,
+                "types" : _this.types.getAllTypes(),
                 "size" : _this.getSize(),
-                "height" : 0,
+                "height" : _this.getHeight(),
                 "price_materials" : 0,
                 "price_work_dem": 0,
                 "price_work_mon": 0,
@@ -162,112 +204,79 @@ var Smeta = (function() {
             }
         }, 'json');
     };
-    //гифка прелоадера
-    Smeta.prototype.preloader = function(status){
-        if(status){
-            var width = $(window).width()-50;
-            $('body').append('<div id="ajaxLoad" style="background:url(/media/img/block-window.gif) center center no-repeat; height: 56px; width:'+width+'px"></div>');
-            $.fancybox.open({
-                href: '#ajaxLoad',
-                padding:0,
-                maxWidth: 2048,
-                maxHeight: 56,
-                minWidth: width,
-                minHeight: 56,
-                scrolling: 'no',
-                closeBtn: false,
-                helpers   : {
-                    overlay:
-                    {
-                        css: { 'background': 'rgba(255 , 255 , 250, 0.5)' },
-                        closeClick: false
-                    }
-                }
+    // обединение ванны+туалет
+    Smeta.prototype.changeCombine = function($this, $obj) {
+        var _this = $this;
+        $($obj).hide();
+        if ($($obj).hasClass('combine')) {
+            $('#bath').slideUp();
+            $('#toilet').slideUp(400, function() {
+                _this.rooms[7].setShow(true);
+                _this.rooms[7].setEnable((_this.rooms[8].getEnable() || _this.rooms[9].getEnable() )? true : false );
+                _this.rooms[8].setShow(false);
+                _this.rooms[9].setShow(false);
+                $('#bath_and_toilet').slideDown(400, function() {
+                    $('.uncombine').fadeIn();
+                });
+                _this.updateName();
+                _this.update();
             });
-        }else{
-            $.fancybox.close();
-            $('body #ajaxLoad').remove();
+        } else if ($($obj).hasClass('uncombine')) {
+            $('#bath_and_toilet').slideUp(400, function() {
+                _this.rooms[8].setShow(true);
+                _this.rooms[9].setShow(true);
+                _this.rooms[8].setEnable(_this.rooms[7].getEnable());
+                _this.rooms[9].setEnable(_this.rooms[7].getEnable());
+                _this.rooms[7].setShow(false);
+                $('#toilet').slideDown();
+                $('#bath').slideDown(400, function() {
+                    $('.combine').fadeIn();
+                });
+                _this.updateName();
+                _this.update();
+            });
         }
     };
-    // Выбор в меню тарифов, типа ремонта, типа квартиры
-    Smeta.prototype.select_rate = function($obj) {
-        var _this = this;
-        $("#order_options_rate li").removeClass("selected");
-        $($obj).addClass("selected");
-        _this.setAllTypes($($obj).index(),0,0);
-        var id = $($obj).attr("id");
-        $("#choose_rate li").removeClass("choose_rate_selected");
-        if (id == 'order_options_rate_econom') {
-            $("#choose_rate_econom").addClass('choose_rate_selected');
-            $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
-            $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
-            setTimeout(function(){ $("#examples_works_slider_econom").show(function() {$("#examples_works_slider_econom").children('div').fadeIn(); }); }, 500);
-        }
-        if (id == 'order_options_rate_standart') {
-            $("#choose_rate_standart").addClass('choose_rate_selected');
-            $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
-            $("#examples_works_slider_premium").children('div').fadeOut(400, function() { $("#examples_works_slider_premium").hide() });
-            setTimeout(function(){ $("#examples_works_slider_standart").show(function() {$("#examples_works_slider_standart").children('div').fadeIn(); }); }, 500);
-
-        }
-        if (id == 'order_options_rate_premium') {
-            $("#choose_rate_premium").addClass('choose_rate_selected');
-            $("#examples_works_slider_standart").children('div').fadeOut(400, function() { $("#examples_works_slider_standart").hide() });
-            $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
-            setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
-        }
+    // обновление сметы
+    Smeta.prototype.update = function()
+    {
+        // вызывается при
+        // 1 изменение ширины, длины комнаты
+        // 2 изменение количества комнат комнат
+        this.changeSize();
+        // !!! возможны зацикливания !!!
+        // перерасчет материалов, работ, общей цены
+        console.log('должен быть общий перерачет сметы (вызывать аккуратно после изменений чего либо)');
     };
 
-    Smeta.prototype.select_repairs = function($obj) {
-        var _this = this;
-        $("#order_options_repairs li").removeClass("selected");
-        $($obj).addClass("selected");
-        _this.setAllTypes(0,$($obj).index(),0);
-    };
-
-    Smeta.prototype.select_type = function($obj) {
-        var _this = this;
-        $("#order_options_type li").removeClass("selected");
-        $($obj).addClass("selected");
-        _this.setAllTypes(0,0,$($obj).index());
-    };
-
-    Smeta.prototype.setAllTypes = function(rate, repair, apartment) {
-        if (rate!=0) this.types[0] = rate;
-        if (repair!=0) this.types[1] = repair;
-        if (apartment!=0) this.types[2] = apartment;
-    };
     //------------- иницилизация сметы
     Smeta.prototype.init = function(options)
     {
         var _this = this;
+        _this.types = Type;
+        _this.height = Height;
         var params = $.extend(defaults, options);
         // иницилизация комнат
         $.each(params.rooms, function(key, room) {
             _this.rooms[key] = new Room(_this, room);
-            if (room.enable == 1) {
-                _this.countRooms++;
-            }
         });
         //типы ремонта
-        $.each(params.types, function(key, type) {
-            _this.types[key] = type;
-        });
-        //-------выбор тарифа, ремонта и типа квартиры
-        $("#order_options_rate").on("click", 'li', function(){_this.select_rate(this);});
-        $("#order_options_repairs").on("click", 'li', function(){_this.select_repairs(this)});
-        $("#order_options_type").on("click", 'li', function(){_this.select_type(this);});
+        _this.types.init(params.types);
+        // высота потолка
+        params.params[0]['parent'] = _this;
+         _this.height.init(params.params[0]);
+        
         //изменение длины комнаты
         $('.smeta_room_square_height_input').on('change', function() {
             var id = $(this).parents('div.smeta_room').data('room-id');
             _this.rooms[id-1].changeLength(this);
-            _this.changeSize();
+            _this.update();
         });
         // изменение ширины комнаты
         $('.smeta_room_square_width_input').on('change', function() {
             var id = $(this).parents('div.smeta_room').data('room-id');
             _this.rooms[id-1].changeWidth(this);
-            _this.changeSize();
+            _this.update();
         });
         
         //выбор комнат у квартиры
@@ -320,6 +329,35 @@ var Smeta = (function() {
 
         //кнопка перехода на смету клиента
         $("#your_smeta,.send_form").on("click", function() { _this.addSmeta(); });
+        // обединение туалет ванна
+        $('.combine, .uncombine').on('click', function(){_this.changeCombine(_this, this);});
+    };
+    //гифка прелоадера
+    Smeta.prototype.preloader = function(status){
+        if(status){
+            var width = $(window).width()-50;
+            $('body').append('<div id="ajaxLoad" style="background:url(/media/img/block-window.gif) center center no-repeat; height: 56px; width:'+width+'px"></div>');
+            $.fancybox.open({
+                href: '#ajaxLoad',
+                padding:0,
+                maxWidth: 2048,
+                maxHeight: 56,
+                minWidth: width,
+                minHeight: 56,
+                scrolling: 'no',
+                closeBtn: false,
+                helpers   : {
+                    overlay:
+                    {
+                        css: { 'background': 'rgba(255 , 255 , 250, 0.5)' },
+                        closeClick: false
+                    }
+                }
+            });
+        }else{
+            $.fancybox.close();
+            $('body #ajaxLoad').remove();
+        }
     };
 
     return new Smeta();

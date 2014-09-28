@@ -1,12 +1,17 @@
 {% extends "layout/html.twig" %}
 {% block content %}
-    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/height.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/type.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
+    
+    
     <script>
         $(document).ready(function(){
             Smeta.init({
                 rooms: {{ _rooms | json_encode()|raw }},
-                types: [2,2,2]
+                types: {rate:2,repair:2,apartment:2},
+                params: {{_params| json_encode()|raw}}
             });
         });
     </script>
@@ -82,7 +87,6 @@
 
     <div id="dop_options">
         {% include 'block/room.twig' %}
-
         <div id="dop_options_footer">
             <div id="dop_options_footer_rezult">
                 <h1>{{ smeta.room_name ? smeta.room_name : 'Укажите количество комнат' }}</h1>

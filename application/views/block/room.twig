@@ -21,7 +21,7 @@
                 <h5>Балкон</h5>
                 <div class="check_box_{{ room.balcony ? 'in' : 'out'}}"></div>
             </div>
-            <div class="ignore{{ room.enable ? '' : 'd'}}"></div>
+            <div class="ignore{{ room.enable ? '' : 'd'}} room-enable"></div>
         </div>
         {% endif %}
     {% endfor %}
@@ -30,7 +30,7 @@
 
     {% for key,room in _rooms %}
         {% if room.type != 1 %}
-            <div{% if room.alias %} id="{{room.alias}}"{% endif %}{% if room.id == 8 and room.show %} style="display:block;"{% endif %} class="smeta_room" data-room-id="{{ room.id }}" data-room-key="{{ key }}">
+            <div{% if room.alias %} id="{{room.alias}}"{% endif %}{% if room.id == 8 and room.show %} style="display:block;"{% endif %}{% if (room.id == 9 or room.id == 10 ) and room.show == false %} style="display:none;"{% endif %} class="smeta_room" data-room-id="{{ room.id }}" data-room-key="{{ key }}">
                 <div class="smeta_room_square">
                     <div class="smeta_room_square_summ">
                         <h2>площадь</h2>
@@ -50,13 +50,15 @@
                     {% if room.balcony is not null %}
                     <h5>Балкон</h5>
                     <div class="check_box_{{ room.balcony ? 'in' : 'out'}}"></div>
+                    {% else %}
+                        <div></div>
                     {% endif %}
                 </div>
-                <div class="ignore{{ room.enable ? '' : 'd'}}"></div>
+                <div class="ignore{{ room.enable ? '' : 'd'}} room-enable"></div>
             </div>
             {% if room.type == 4 and room.id == 9  %}
-                <div class="combine"></div>
-                <div class="uncombine"></div>
+                <div class="combine"{% if _rooms.7.show %} style="display:none;"{% endif %}></div>
+                <div class="uncombine"{% if _rooms.7.show %} style="display:block;"{% endif %}></div>
             {% endif %}
         {% endif %}
     {% endfor %}
