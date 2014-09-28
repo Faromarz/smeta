@@ -14,7 +14,8 @@
             Budget.init({
                 rooms: {{ _rooms | json_encode()|raw }},
                 types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}],
-                params: {{ _params| json_encode()|raw }}
+                params: {{ _params| json_encode()|raw }},
+                smeta: {{ smeta| json_encode()|raw }},
             });
         });
     </script>

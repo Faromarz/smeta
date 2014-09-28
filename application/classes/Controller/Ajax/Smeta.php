@@ -26,16 +26,17 @@ class Controller_Ajax_Smeta extends Controller_Core
         $smeta->geo_id = 0;
         $smeta->size = Arr::get($post, 'size', '');
         $smeta->height =  Arr::get($post, 'height', '');
-        $smeta->price_materials =  Arr::get($post, 'price_materials', '');
-        $smeta->price_work_dem =  Arr::get($post, 'price_work_dem', '');
-        $smeta->price_work_mon =  Arr::get($post, 'price_work_mon', '');
-        $smeta->time_work_dem =  Arr::get($post, 'time_work_dem', '');
-        $smeta->time_work_mon =  Arr::get($post, 'time_work_mon', '');
+        $smeta->price_materials =  Arr::get($post, 'price_materials', 0);
+        $smeta->price_work_dem =  Arr::get($post, 'price_work_dem', 0);
+        $smeta->price_work_mon =  Arr::get($post, 'price_work_mon', 0);
+        $smeta->time_work_dem =  Arr::get($post, 'time_work_dem', 0);
+        $smeta->time_work_mon =  Arr::get($post, 'time_work_mon', 0);
         $smeta->room_name =  Arr::get($post, 'room_name', '');
+        $smeta->count_rooms =  Arr::get($post, 'count_rooms', 0);
         $smeta->partner_id = 0;
-        $smeta->repair_id = $post['types'][0];
-        $smeta->rate_id = $post['types'][1];
-        $smeta->apartment_id = $post['types'][2];
+        $smeta->repair_id =  Arr::get($post, 'repair_id', 1);
+        $smeta->rate_id =  Arr::get($post, 'rate_id', 1);
+        $smeta->apartment_id =  Arr::get($post, 'apartment_id', 1);
         $smeta->create_date = date('Y-m-d H:i:s');
         $smeta->save();
         foreach($rooms as $room){

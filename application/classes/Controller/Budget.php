@@ -30,7 +30,7 @@ class Controller_Budget extends Controller_Core {
             if (!$smeta->loaded()) {
                 throw new HTTP_Exception_404;
             }
-            $this->set('smeta', $smeta);
+            $this->set('smeta', $smeta->as_array());
             $this->set('_rooms', $rooms);
             
             // параметры комнат

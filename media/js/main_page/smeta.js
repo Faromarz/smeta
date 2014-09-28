@@ -186,7 +186,9 @@ var Smeta = (function() {
             url: "ajax/smeta/add",
             data: {
                 "rooms" : JSON.stringify(rooms),
-                "types" : _this.types.getAllTypes(),
+                "repair_id" : _this.types.getRepair(),
+                "rate_id" : _this.types.getRate(),
+                "apartment_id" : _this.types.getApartment(),
                 "size" : _this.getSize(),
                 "height" : _this.getHeight(),
                 "price_materials" : 0,
