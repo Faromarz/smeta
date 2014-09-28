@@ -80,7 +80,6 @@ var Smeta = (function() {
     {
         var _this = this;
         _this.countRooms = $count;
-        _this.updateName();
         $.each(_this.rooms, function(key, room) {
             if(room.getType() === 1){
                 room.setShow(_this.getCountRooms() > key);
@@ -88,6 +87,7 @@ var Smeta = (function() {
         });
         _this.selectRoom();
         $("#rooms").css("background-position", '0px -' + (128 * _this.getCountRooms()) + 'px');
+        _this.updateName();
         _this.update();
     };
     //----------------- фиксация площади
