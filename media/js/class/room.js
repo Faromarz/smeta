@@ -23,15 +23,11 @@ function Room($parent, $params)
     var htmlBlock = '.smeta_room';
     // двери
     _this.door = null;
+    // окна
+    _this.window = null;
     
     _this.materials = new Array();
     _this.works = new Array();
-//    _this.doors = null;
-//    _this.door = {};
-//    _this.door.count = 1;
-//    _this.door.width = 0.90;
-//    _this.door.getCount = function(){return _this.door.count; };
-//    _this.door.getWidth = function(){return _this.door.width; };
 
     if (_params.balcony) {
         var balcony = Number(_params.balcony);
@@ -129,6 +125,9 @@ function Room($parent, $params)
             }
         }
         _this.door.setShow(roomShow);
+        if (_this.window !== null){
+            _this.window.setShow(roomShow);
+        }
     };
     // периметр комнаты
     _this.getPerimeter = function() {
@@ -162,6 +161,9 @@ function Room($parent, $params)
     _this.setEnable = function($enable) {
         roomEnable = $enable;
         _this.door.setEnable($enable);
+        if(_this.window !== null) {
+            _this.window.setEnable($enable);
+        }
         $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
         _parent.changeSize();
     };
@@ -205,6 +207,9 @@ function Room($parent, $params)
             show: _this.getShow(),
             door: _this.door.getParams()
         };
+        if (_this.window !== null) {
+            params['window'] = _this.window.getParams();
+        }
         if (balcony !== undefined) {
             params['balcony'] = _this.getBalcon();
         }
@@ -224,6 +229,10 @@ function Room($parent, $params)
     _this.init = function() {
         // двери
         _this.door = new Door(_parent, _this, 0, _params.door);
+        // окна
+        if (_params.window !== null){
+            _this.window = new Window(_parent, _this, 0, _params.window);
+        }
     
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {

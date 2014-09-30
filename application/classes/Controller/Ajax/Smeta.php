@@ -21,6 +21,7 @@ class Controller_Ajax_Smeta extends Controller_Core
         $post = $this->request->post();
         $result = array();
         $doors = json_decode($post['doors'], true);
+        $windows = json_decode($post['windows'], true);
         $rooms = json_decode($post['rooms'], true);
         
         $smeta = ORM::factory('Smeta');
@@ -63,6 +64,20 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_door->show = $door['show'];
             $smeta_door->count = $door['count'];
             $smeta_door->create();
+            
+            if (isset($room['window'])) {
+                $window = $room['window'];
+                $smeta_window = ORM::factory('Smeta_Window');
+                $smeta_window->smeta_rooms_id = $smeta_room->pk();
+                $smeta_window->smeta_id = $smeta->id;
+                $smeta_window->count_type = $window['count_type'];
+                $smeta_window->enable = $window['enable'];
+                $smeta_window->height = $window['height'];
+                $smeta_window->width = $window['width'];
+                $smeta_window->show = $window['show'];
+                $smeta_window->count = $window['count'];
+                $smeta_window->create();
+            }
         }
         foreach($doors as $door){
             $smeta_door = ORM::factory('Smeta_Door');
@@ -75,6 +90,18 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_door->show = $door['show'];
             $smeta_door->count = $door['count'];
             $smeta_door->create();
+        }
+        foreach($windows as $window){
+            $smeta_window = ORM::factory('Smeta_Window');
+            $smeta_window->smeta_rooms_id = null;
+            $smeta_window->smeta_id = $smeta->id;
+            $smeta_window->count_type = $window['count_type'];
+            $smeta_window->enable = $window['enable'];
+            $smeta_window->height = $window['height'];
+            $smeta_window->width = $window['width'];
+            $smeta_window->show = $window['show'];
+            $smeta_window->count = $window['count'];
+            $smeta_window->create();
         }
         $result[] = array('smeta_name'=>$smeta->name);
         $this->set('_result', json_encode($result));

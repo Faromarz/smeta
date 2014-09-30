@@ -43,6 +43,19 @@ class Controller_Budget extends Controller_Core {
                         ->where('smeta_door.smeta_rooms_id', '=', (int)$room['smetaRoomId'])
                         ->find()->as_array();
                 $rooms[$key]['door'] = $door;
+                // окна
+                $window = ORM::factory('Smeta_Window')
+                        ->select(array('smeta_window.id', 'id'))
+                        ->select(array('smeta_window.height', 'height'))
+                        ->select(array('smeta_window.width', 'width'))
+                        ->join('room_params_def')->on('room_params_def.id', '=', 'smeta_window.room_params_def')
+                        ->where('smeta_window.smeta_rooms_id', '=', (int)$room['smetaRoomId'])
+                        ->find();
+                if ($window->loaded()) {
+                    $rooms[$key]['window'] = $window->as_array();
+                } else {
+                    $rooms[$key]['window'] = null;
+                }
             }
             $this->set('_rooms', $rooms);
 
@@ -58,8 +71,19 @@ class Controller_Budget extends Controller_Core {
                     ->where('smeta_doors.smeta_id', '=', $smeta->id)
                     ->execute()
                     ->as_array();
-
             $this->set('doors', $doors);
+            // окна
+             $windows = DB::select('*')
+                    ->select(array('smeta_windows.id', 'id'))
+                    ->select(array('smeta_windows.height', 'height'))
+                    ->select(array('smeta_windows.width', 'width'))
+                    ->from('smeta_windows')
+                    ->join('room_params_def')->on('room_params_def.id', '=', 'smeta_windows.room_params_def')
+                    ->where('smeta_windows.smeta_rooms_id', '=', 0)
+                    ->where('smeta_windows.smeta_id', '=', $smeta->id)
+                    ->execute()
+                    ->as_array();
+            $this->set('windows', $windows);
             
             // параметры комнат
             $params = DB::select('*')

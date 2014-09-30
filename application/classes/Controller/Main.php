@@ -31,12 +31,32 @@ class Controller_Main extends Controller_Core
             $doors['enable'] = false;
             $doors['show'] = $room['show'];
             $doors['count'] = 1;
-            $door['id'] = null;
+            $doors['id'] = null;
             $rooms[$key]['door'] = $doors;
+            // окна
+            $windows = ORM::factory('Roomparamsdef')
+                    ->select(array('roomparamsdef.id', 'type'))
+                    ->join('rooms_windows')->on('roomparamsdef.id', '=', 'rooms_windows.window_id')
+                    ->where('rooms_windows.room_id', '=', $room['id'])
+                    ->find();
+            
+            if($windows->loaded()){
+                $windows = $windows->as_array();
+                $windows['enable'] = false;
+                $windows['show'] = $room['show'];
+                $windows['count'] = 1;
+                $windows['count_type'] = 2;
+                $windows['id'] = null;
+                $rooms[$key]['window'] = $windows;
+            } else{
+                $rooms[$key]['window'] = NULL;
+            }
+            
+            
         }
         $this->set('_rooms', $rooms);
    
-        // дверь
+        // двери дополнительные
         $door = ORM::factory('Roomparamsdef')
                 ->select(array('roomparamsdef.id', 'type'))
                 ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
@@ -51,8 +71,25 @@ class Controller_Main extends Controller_Core
             1 => $door,
             2 => $door
         );
-
         $this->set('doors', $doors);
+        
+        // окна дополнительные
+        $window = ORM::factory('Roomparamsdef')
+                ->select(array('roomparamsdef.id', 'type'))
+                ->join('rooms_windows')->on('roomparamsdef.id', '=', 'rooms_windows.window_id')
+                ->where('rooms_windows.room_id', '=', 1)
+                ->find()->as_array();
+        $window['enable'] = false;
+        $window['show'] = false;
+        $window['count'] = 1;
+        $window['id'] = null;
+        $window['count_type'] = 2;
+        $windows = array(
+            0 => $window,
+            1 => $window,
+            2 => $window
+        );
+        $this->set('windows', $windows);
 
         // параметры комнат
         $params = DB::select('*')

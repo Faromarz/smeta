@@ -1,5 +1,6 @@
 {% extends "layout/html.twig" %}
 {% block content %}
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/window.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/door.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/height.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/type.js') }}"></script>
@@ -13,7 +14,8 @@
                 rooms: {{ _rooms | json_encode()|raw }},
                 types: {rate:2,repair:2,apartment:2},
                 params: {{_params| json_encode()|raw}},
-                doors: {{ doors | json_encode()|raw }}
+                doors: {{ doors | json_encode()|raw }},
+                windows: {{ windows | json_encode()|raw }}
             });
         });
     </script>

@@ -17,6 +17,7 @@ var Smeta = (function() {
         this.size = 0;
         this.rooms = new Array();
         this.doors = new Array(); // !!! внимание это дополнительные двери.
+        this.windows = new Array(); // !!! внимание это дополнительные окна.
         this.types = null;
         this.height = 0;
     };
@@ -46,6 +47,18 @@ var Smeta = (function() {
             }
         });
         return countDoor;
+    };
+    // ---------------- возвращает количество дополнительных окон
+    Smeta.prototype.getCountWindows = function()
+    {
+        var _this = this;
+        var countWindows = 0;
+        $.each(_this.windows, function(key, window) {
+            if(window.getShow()){
+                countWindows++;
+            }
+        });
+        return countWindows;
     };
     // ---------------- возвращает площадь квартиры
     Smeta.prototype.getSize = function()
@@ -186,16 +199,38 @@ var Smeta = (function() {
             $('.smeta_door[data-room-id="0"][data-door-key="0"] h1.smeta_text_header').text('Дверь межкомнатная');
         }
     };
+    //--------- обновление названий окон
+    Smeta.prototype.windowUpdateName = function()
+    {
+        var _this = this;
+        var count = _this.getCountWindows();
+        if (count > 0) {
+            $('.smeta_window[data-room-id="1"] h1.smeta_text_header').text('окно №1 в квартире №1');
+        } else {
+            $('.smeta_window[data-room-id="1"] h1.smeta_text_header').text('окно в квартире №1');
+        }
+    };
     //--------- добавление двери
     Smeta.prototype.addDoor = function()
     {
          var _this = this;
          var count = _this.getCountDoors();
          if (count >= 3) {
-             return alert('Вы не можете добавить больше 3 дверей');
+             return alert('Вы не можете добавить больше 3-х дверей');
          }
         _this.doors[count].setShow(true);
         _this.doorUpdateName();
+    };
+    //--------- добавление окон
+    Smeta.prototype.addWindow = function()
+    {
+         var _this = this;
+         var count = _this.getCountWindows();
+         if (count >= 3) {
+             return alert('Вы не можете добавить больше 3-х окон');
+         }
+        _this.windows[count].setShow(true);
+        _this.windowUpdateName();
     };
     
     // возвращает параметры сметы
@@ -217,6 +252,16 @@ var Smeta = (function() {
         });
         
         return doors;
+    };
+    // возвращает параметры дополнительных окон
+    Smeta.prototype.getWindowsParams = function()
+    {
+        var windows = {};
+        $.each(this.windows, function(key, window) {
+               windows[key] = window.getParams();
+        });
+        
+        return windows;
     };
     //добавление сметы в бд
     Smeta.prototype.addSmeta=function(){
@@ -244,7 +289,8 @@ var Smeta = (function() {
                 "time_work_mon": 0,
                 "room_name" : _this.getNameRoom(),
                 "count_rooms" : _this.getCountRooms(),
-                "doors" : JSON.stringify(_this.getDoorsParams())
+                "doors" : JSON.stringify(_this.getDoorsParams()),
+                "windows" : JSON.stringify(_this.getWindowsParams())
             },
             success: function(data){
                 var result = JSON.parse(data);
@@ -316,6 +362,11 @@ var Smeta = (function() {
             _this.doors[key] = new Door(_this, null, key, door);
         });
         _this.doorUpdateName();
+        // иницилизация дополнительных окон
+        $.each(params.windows, function(key, window) {
+            _this.windows[key] = new Window(_this, null, key, window);
+        });
+        _this.windowUpdateName();
         
         // типы ремонта
         _this.types.init(params.types);
@@ -358,6 +409,10 @@ var Smeta = (function() {
         // добавление двери
         $("#add_door").on("click", function() {
             _this.addDoor(); 
+        });
+        // добавление окна
+        $("#add_window").on("click", function() {
+            _this.addWindow(); 
         });
         
         // формат чисел min = 0 max = 99.99

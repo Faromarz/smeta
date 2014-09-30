@@ -1,31 +1,81 @@
-<div class="smeta_block smeta_window">
+{% for room in _rooms %}
+    {% if room.id == 1  %}
+        <div class="smeta_block smeta_window" data-room-id="{{ room.id }}">
 
-    <h1 class="smeta_text_header">окна в квартире</h1>
-    <div class="choose_type_window">
-        <p>Выберите тип окна:</p>
-        <div class="smeta_count_window_one"></div>
-        <div class="smeta_count_window_two"></div>
-        <div class="smeta_count_window_three"></div>
+            <h1 class="smeta_text_header">окно в квартире №1</h1>
+            <div class="smeta_count_window_right">
+                <input id="{{ room.id }}_window_0_width" value="{{ room.window.width | number_format(2, ',', ' ') }}"/>
+                <div class="smeta_characteristics_x"></div>
+                <input id="{{ room.id }}_window_0_height" value="{{ room.window.height | number_format(2, ',', ' ') }}">
+                <p class="smeta_characteristics_width">ширина</p>
+                <p class="smeta_characteristics_height">высота</p>
+                <h6>Габариты в метрах</h6>
+            </div>
+
+            <div class="smeta_count_window_left">
+                <div id="room{{ room.id }}-window0-type" class="smeta_count_window_chosen" data-type="{{ room.window.count_type }}"></div>
+                <div id="room{{ room.id }}-window0-down" class="button_minus"></div>
+                <input id="room{{ room.id }}-window0-count" class="smeta_count_input" value="{{ room.window.count }}" />
+                <div id="room{{ room.id }}-window0-up" class="button_plus"></div>
+                <h6>шт.</h6>
+            </div>
+            <div id="room{{ room.id }}-window0-enable" class="ignore{{ room.window.enable ? '' : 'd'}} ignore_window"></div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% for key,window in windows %}
+    <div class="smeta_block smeta_window" data-window-key="{{ key }}" data-room-id="0"{% if window.show == false %} style="display:none"{% endif %}>
+        <h1 class="smeta_text_header"> окно №{{ key+2 }} в квартире №1</h1>
+        <div class="smeta_count_window_right">
+            <input id="0_window_{{key}}_width" value="{{ window.width | number_format(2, ',', ' ') }}"/>
+            <div class="smeta_characteristics_x"></div>
+            <input id="0_window_{{key}}_height" value="{{ window.height | number_format(2, ',', ' ') }}">
+            <p class="smeta_characteristics_width">ширина</p>
+            <p class="smeta_characteristics_height">высота</p>
+            <h6>Габариты в метрах</h6>
+        </div>
+
+        <div class="smeta_count_window_left">
+            <div id="room0-window{{ key }}-type" class="smeta_count_window_chosen" data-type="{{ window.count_type }}"></div>
+            <div id="room0-window{{ key }}-down" class="button_minus"></div>
+            <input id="room0-window{{ key }}-count" class="smeta_count_input" value="{{ window.count }}" />
+            <div id="room0-window{{ key }}-up" class="button_plus"></div>
+            <h6>шт.</h6>
+        </div>
+        <div id="room0-window{{ key }}-enable" class="ignore{{ window.enable ? '' : 'd'}} ignore_window"></div>
     </div>
+{% endfor %}
 
-    <div class="smeta_count_window_right">
-        <input value="0,00"/>
-        <div class="smeta_characteristics_x"></div>
-        <input value="0,00">
-        <p class="smeta_characteristics_width">ширина</p>
-        <p class="smeta_characteristics_height">высота</p>
-        <h6>Габариты в метрах</h6>
-    </div>
 
-    <div class="smeta_count_window_left">
-        <div class="smeta_count_window_chosen"></div>
-        <div class="button_minus"></div>
-        <input class="smeta_count_input" value="0" />
-        <div class="button_plus"></div>
-        <h6>шт.</h6>
-    </div>
-    <div class="ignore ignore_window"></div>
+{% for key,room in _rooms %}
+    {% if room.id != 1 and room.window %}
+        <div class="smeta_block smeta_window" data-room-id="{{ room.id }}"{% if room.window.show == false %} style="display:none"{% endif %}>
 
-</div>
+            <h1 class="smeta_text_header">
+                окно
+                {{ room.type == 1 ? ' в комнате №' ~ (key+1) }}
+                {{ room.type == 2 ? 'на кухне' }}
+            </h1>
+            <div class="smeta_count_window_right">
+                <input id="{{ room.id }}_window_0_width" value="{{ room.window.width | number_format(2, ',', ' ') }}"/>
+                <div class="smeta_characteristics_x"></div>
+                <input id="{{ room.id }}_window_0_height" value="{{ room.window.height | number_format(2, ',', ' ') }}">
+                <p class="smeta_characteristics_width">ширина</p>
+                <p class="smeta_characteristics_height">высота</p>
+                <h6>Габариты в метрах</h6>
+            </div>
+
+            <div class="smeta_count_window_left">
+                <div id="room{{ room.id }}-window0-type" class="smeta_count_window_chosen" data-type="{{ room.window.count_type }}"></div>
+                <div id="room{{ room.id }}-window0-down" class="button_minus"></div>
+                <input id="room{{ room.id }}-window0-count" class="smeta_count_input" value="{{ room.window.count }}" />
+                <div id="room{{ room.id }}-window0-up" class="button_plus"></div>
+                <h6>шт.</h6>
+            </div>
+            <div id="room{{ room.id }}-window0-enable" class="ignore{{ room.window.enable ? '' : 'd'}} ignore_window"></div>
+        </div>
+    {% endif %}
+{% endfor %}
 
 <div id="add_window" class="add_room">Добавить окно</div>
