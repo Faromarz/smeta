@@ -95,6 +95,7 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_window = ORM::factory('Smeta_Window');
             $smeta_window->smeta_rooms_id = null;
             $smeta_window->smeta_id = $smeta->id;
+            $smeta_window->room_params_def = $window['type'];
             $smeta_window->count_type = $window['count_type'];
             $smeta_window->enable = $window['enable'];
             $smeta_window->height = $window['height'];
@@ -107,10 +108,28 @@ class Controller_Ajax_Smeta extends Controller_Core
         $this->set('_result', json_encode($result));
     }
 
-    public function action_load(){
+   /* public function action_load(){
         $post = $this->request->post();
         $smeta_name = Arr::get($post, 'smeta', '');
         $smeta = ORM::factory('Smeta')->where('name','=',$smeta_name)->find()->as_array();
         $this->set('_result', json_encode($smeta));
     }
+*/
+    public function action_enable_room(){
+        $post = $this->request->post();
+        $smeta_id = Arr::get($post, 'smeta_id', '');
+        $room_id = Arr::get($post, 'room_id', '');
+        $smeta_room = ORM::factory('Smeta_Room')->where('smeta_id','=',$smeta_id)->and_where('room_id','=',$room_id)->find();
+        $smeta_room->enable = $smeta_room->enable? 0 : 1;
+        $smeta_room->save();
+    }
+
+    public function action_enable_door(){
+        $post = $this->request->post();
+        $door_id = Arr::get($post, 'door_id', '');
+        $smeta_door = ORM::factory('Smeta_Door',$door_id);
+        $smeta_door->enable = $smeta_door->enable? 0 : 1;
+        $smeta_door->save();
+    }
+
 }

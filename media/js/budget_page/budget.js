@@ -9,6 +9,7 @@ var Budget = (function() {
         rooms: new Array(),
         types: new Array(),
         smetaId: null
+        smeta: new Array()
     };
 
     function Budget() {};
@@ -21,9 +22,34 @@ var Budget = (function() {
         _this.countRooms = Number(params.smeta.count_rooms);
         
          //кнопка открытия комнат       
-    $("#change_budget").on("click", function(){$("#budget_dop_options").slideDown(350); $("#budget_dop_options-hide").fadeIn(400, function() {  mail_top = $("#mail").offset().top;}); });
-    //кнопка закрытия комнат 
-    $("#budget_dop_options-hide").on("click", function(){$("#budget_dop_options").slideUp(350); $("#budget_dop_options-hide").fadeOut(400, function() {mail_top = $("#mail").offset().top;});});
+        $("#change_budget").on("click", function(){$("#budget_dop_options").slideDown(350); $("#budget_dop_options-hide").fadeIn(400, function() {  mail_top = $("#mail").offset().top;}); });
+        //кнопка закрытия комнат
+        $("#budget_dop_options-hide").on("click", function(){$("#budget_dop_options").slideUp(350); $("#budget_dop_options-hide").fadeOut(400, function() {mail_top = $("#mail").offset().top;});});
+        $(".room-enable").on("click", function(){ _this.enable_rooms(this)});
+        $(".ignore_door").on("click", function(){ _this.enable_doors(this)});
+    };
+
+    // enable из smeta_rooms
+    Budget.prototype.enable_rooms = function($object)
+    {
+        var room_id = $($object).parent().attr('data-room-id'),
+            smeta = $.extend(defaults, smeta);
+        $.ajax({
+            type: "POST",
+            url: "../ajax/smeta/enable_room",
+            data: { "smeta_id" : smeta['smeta']['id'], "room_id": room_id}
+        }, 'json');
+    };
+
+    // enable из smeta_doors
+    Budget.prototype.enable_doors = function($object)
+    {
+        var door_id = $($object).parent().attr('data-door-id');
+        $.ajax({
+            type: "POST",
+            url: "../ajax/smeta/enable_door",
+            data: { "door_id": door_id}
+        }, 'json');
     };
 
     return new Budget();
