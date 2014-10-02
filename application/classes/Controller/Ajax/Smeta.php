@@ -95,6 +95,7 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_window = ORM::factory('Smeta_Window');
             $smeta_window->smeta_rooms_id = null;
             $smeta_window->smeta_id = $smeta->id;
+            $smeta_window->room_params_def = $window['type'];
             $smeta_window->count_type = $window['count_type'];
             $smeta_window->enable = $window['enable'];
             $smeta_window->height = $window['height'];
