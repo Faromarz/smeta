@@ -11,6 +11,9 @@ class Controller_Budget extends Controller_Core {
             $smeta = ORM::factory('Smeta')
                     ->where('smeta.name', '=', $name)
                     ->find();
+            if (!$smeta->loaded()) {
+                throw new HTTP_Exception_404;
+            }
             $rooms = DB::select('room.id')
                     ->select('smeta_room.width')
                     ->select('smeta_room.length')
@@ -28,10 +31,7 @@ class Controller_Budget extends Controller_Core {
                 ->order_by('room.id')
                 ->execute()
                 ->as_array();
-            if (!$smeta->loaded()) {
-                throw new HTTP_Exception_404;
-            }
-            $this->set('smeta', $smeta->as_array());
+            $this->set('smeta', $smeta)->set('smeta_array', $smeta->as_array());
             foreach ($rooms as $key => $room) {
                 // дверь
                 $door = ORM::factory('Smeta_Door')
@@ -58,7 +58,6 @@ class Controller_Budget extends Controller_Core {
                 }
             }
             $this->set('_rooms', $rooms);
-
             // дверь
              $doors = DB::select('*')
                     ->select(array('room_params_def.id', 'type'))

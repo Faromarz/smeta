@@ -17,7 +17,7 @@
                 rooms: {{ _rooms | json_encode()|raw }},
                 types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}],
                 params: {{ _params| json_encode()|raw }},
-                smeta: {{ smeta| json_encode()|raw }},
+                smeta: {{ smeta_array| json_encode()|raw }},
                 doors: {{ doors | json_encode()|raw }},
                 windows: {{ windows | json_encode()|raw }}
             });
@@ -207,7 +207,7 @@
                         <h2>Стоимость</h2>
                         <h2>Трудочасы</h2>
                         <h2>Объем работ</h2>
-                        <h1>{{ room.rooms.name }}</h1>
+                        <h1>{{ room.room.name }}</h1>
                     </div>
                     <div class="ignore_4"></div>
                     <ul>
@@ -254,7 +254,7 @@
                         <h2>Стоимость</h2>
                         <h2>Трудочасы</h2>
                         <h2>Объем работ</h2>
-                        <h1>{{ room.rooms.name }}</h1>
+                        <h1>{{ room.room.name }}</h1>
                     </div>
                     <div class="ignore_4"></div>
                     {% if smeta.works.works.where('type','=',1).count_all()>0 %}
@@ -299,7 +299,7 @@
             {% for room in smeta.rooms.where('show','=',1).find_all() %}
                 <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-                        <p class="budget_basic_options_name_materials_header">{{ room.rooms.name }}<p>
+                        <p class="budget_basic_options_name_materials_header">{{ room.room.name }}<p>
                     </div>
                     <div class="ignore_4"></div>
 
