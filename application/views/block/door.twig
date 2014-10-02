@@ -44,7 +44,7 @@
 {% endfor %}
 
 {% for key,door in doors %}
-    <div class="smeta_block smeta_door" data-door-key="{{ key }}" data-room-id="0"{% if door.show == false %} style="display:none"{% endif %}>
+    <div class="smeta_block smeta_door" data-door-key="{{ key }}" data-room-id="0" data-door-id="{{ door.id }}"{% if door.show == false %} style="display:none"{% endif %}>
         <h1 class="smeta_text_header">
             Дверь межкомнатная{{ key+1 }}
         </h1>

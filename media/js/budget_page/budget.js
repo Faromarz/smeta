@@ -25,7 +25,7 @@ var Budget = (function() {
         //кнопка закрытия комнат
         $("#budget_dop_options-hide").on("click", function(){$("#budget_dop_options").slideUp(350); $("#budget_dop_options-hide").fadeOut(400, function() {mail_top = $("#mail").offset().top;});});
         $(".room-enable").on("click", function(){ _this.enable_rooms(this)});
-       // $(".ignore-door").on("click", function(){ _this.enable_doors(this)});
+        $(".ignore_door").on("click", function(){ _this.enable_doors(this)});
     };
 
     // enable из smeta_rooms
@@ -38,22 +38,17 @@ var Budget = (function() {
             url: "../ajax/smeta/enable_room",
             data: { "smeta_id" : smeta['smeta']['id'], "room_id": room_id}
         }, 'json');
-       /* console.log(smeta['smeta']['id']);
-        console.log(room_id);*/
     };
 
     // enable из smeta_doors
     Budget.prototype.enable_doors = function($object)
     {
-        var room_id = $($object).parent().attr('data-room-id'),
-            smeta = $.extend(defaults, smeta);
+        var door_id = $($object).parent().attr('data-door-id');
         $.ajax({
             type: "POST",
             url: "../ajax/smeta/enable_door",
-            data: { "smeta_id" : smeta['smeta']['id'], "door_id": door_id}
+            data: { "door_id": door_id}
         }, 'json');
-        /* console.log(smeta['smeta']['id']);
-         console.log(room_id);*/
     };
 
     return new Budget();

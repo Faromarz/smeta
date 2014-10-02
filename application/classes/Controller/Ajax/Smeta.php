@@ -125,8 +125,10 @@ class Controller_Ajax_Smeta extends Controller_Core
 
     public function action_enable_door(){
         $post = $this->request->post();
-        $smeta_id = Arr::get($post, 'smeta_id', '');
-        $room_id = Arr::get($post, 'room_id', '');
+        $door_id = Arr::get($post, 'door_id', '');
+        $smeta_door = ORM::factory('Smeta_Door',$door_id);
+        $smeta_door->enable = $smeta_door->enable? 0 : 1;
+        $smeta_door->save();
     }
 
 }
