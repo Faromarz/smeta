@@ -9,7 +9,7 @@
  */
 function Room($parent, $params)
 {
-    // 1. Нужна реализация класов окон, дверей, работ, материалов
+    // 1. Нужна реализация класов  материалов, работ
     var _this = this;
     var _parent = $parent;
     var _params = $params;
@@ -21,6 +21,7 @@ function Room($parent, $params)
     var roomEnable = Number(_params.enable) || false;
     var roomShow = Number(_params.show) || false;
     var htmlBlock = '.smeta_room';
+    var categories = new Array();
     // двери
     _this.door = null;
     // окна
@@ -233,6 +234,14 @@ function Room($parent, $params)
         if (_params.window !== null){
             _this.window = new Window(_parent, _this, 0, _params.window);
         }
+        // категории
+        $.each(_parent.load.categories, function(key, cat) {
+            if ($.inArray(_this.getType(), cat.rooms_type.split(',')) !== -1 || cat.rooms_type === ''){
+                categories.push(new Category(_parent, _this, cat));
+            }
+        });
+        console.log(categories);
+        
     
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {

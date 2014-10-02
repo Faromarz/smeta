@@ -11,6 +11,7 @@
  */
 function Window($parent, $room, $key, $params)
 {
+    // нужна реализация цены
     var _this = this;
     var _parent = $parent;
     var _room = $room;

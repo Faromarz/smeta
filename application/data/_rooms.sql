@@ -52,4 +52,4 @@ INSERT INTO `rooms` (`id`, `type`, `alias`, `name`, `length`, `width`, `balcony`
 (7, 3, NULL, 'Коридор', 3.00, 2.00, NULL, 1, NULL),
 (9, 4, 'bath', 'Ванна', 1.80, 1.70, NULL, 1, NULL),
 (10, 5, 'toilet', 'Туалет', 1.70, 0.80, NULL, 1, NULL),
-(8, 4, 'bath_and_toilet', 'Ванна и туалет', 1.80, 1.70, NULL, 0, NULL);
+(8, 6, 'bath_and_toilet', 'Ванна и туалет', 1.80, 1.70, NULL, 0, NULL);

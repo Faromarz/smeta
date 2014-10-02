@@ -15,45 +15,8 @@ class Controller_Main extends Controller_Core
         $this->set('types_repair',$types_repair);
         $this->set('types_apartment',$types_apartment);
 
-        // камнаты
-        $rooms = DB::select('*')
-                ->from('rooms')
-                ->order_by('id')
-                ->execute()
-                ->as_array();
-        foreach ($rooms as $key => $room) {
-            // дверь
-            $doors = ORM::factory('Roomparamsdef')
-                    ->select(array('roomparamsdef.id', 'type'))
-                    ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
-                    ->where('rooms_doors.room_id', '=', $room['id'])
-                    ->find()->as_array();
-            $doors['enable'] = false;
-            $doors['show'] = $room['show'];
-            $doors['count'] = 1;
-            $doors['id'] = null;
-            $rooms[$key]['door'] = $doors;
-            // окна
-            $windows = ORM::factory('Roomparamsdef')
-                    ->select(array('roomparamsdef.id', 'type'))
-                    ->join('rooms_windows')->on('roomparamsdef.id', '=', 'rooms_windows.window_id')
-                    ->where('rooms_windows.room_id', '=', $room['id'])
-                    ->find();
-            
-            if($windows->loaded()){
-                $windows = $windows->as_array();
-                $windows['enable'] = false;
-                $windows['show'] = $room['show'];
-                $windows['count'] = 1;
-                $windows['count_type'] = 2;
-                $windows['id'] = null;
-                $rooms[$key]['window'] = $windows;
-            } else{
-                $rooms[$key]['window'] = NULL;
-            }
-            
-            
-        }
+        // комнаты
+        $rooms = $this->getRooms();
         $this->set('_rooms', $rooms);
    
         // двери дополнительные
@@ -103,4 +66,45 @@ class Controller_Main extends Controller_Core
         $countPartners = ORM::factory('Partner')->count_all();
         $this->set('_countPartners', $countPartners);
     }
+    public static function getRooms()
+    {
+        $rooms = DB::select('*')
+                ->from('rooms')
+                ->order_by('id')
+                ->execute()
+                ->as_array();
+        foreach ($rooms as $key => $room) {
+            // дверь
+            $doors = ORM::factory('Roomparamsdef')
+                    ->select(array('roomparamsdef.id', 'type'))
+                    ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
+                    ->where('rooms_doors.room_id', '=', $room['id'])
+                    ->find()->as_array();
+            $doors['enable'] = false;
+            $doors['show'] = $room['show'];
+            $doors['count'] = 1;
+            $doors['id'] = null;
+            $rooms[$key]['door'] = $doors;
+            // окна
+            $windows = ORM::factory('Roomparamsdef')
+                    ->select(array('roomparamsdef.id', 'type'))
+                    ->join('rooms_windows')->on('roomparamsdef.id', '=', 'rooms_windows.window_id')
+                    ->where('rooms_windows.room_id', '=', $room['id'])
+                    ->find();
+            
+            if($windows->loaded()){
+                $windows = $windows->as_array();
+                $windows['enable'] = false;
+                $windows['show'] = $room['show'];
+                $windows['count'] = 1;
+                $windows['count_type'] = 2;
+                $windows['id'] = null;
+                $rooms[$key]['window'] = $windows;
+            } else{
+                $rooms[$key]['window'] = NULL;
+            }
+        }
+        return $rooms;
+    }
+    
 }

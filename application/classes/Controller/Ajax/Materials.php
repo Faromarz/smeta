@@ -32,12 +32,28 @@ class Controller_Ajax_Materials extends Controller
                 $materials_under = ORM::factory('Material_Categories')->where('parent_id','=',$materials_category->id)->find_all();
                 $i=0;
                 foreach ($materials_under as $material_under){
-                    if ($material_under->count_materials()>0)
-                        $a[] = array('id'=>$material_under->id, 'name'=>$material_under->name, 'repair_id_rate_id'=>$materials_category->repair_id_rate_id, 'rooms_type'=>$materials_category->rooms_type, 'calculation'=>$materials_category->calculation,'selected'=> ($i==0? 1: 0));
+                    if ($material_under->count_materials()>0) {
+                        $a[] = array(
+                            'id' => $material_under->id,
+                            'name' => $material_under->name,
+                            'repair_id_rate_id' => $materials_category->repair_id_rate_id,
+                            'rooms_type' => $materials_category->rooms_type, 
+                            'calculation' => $materials_category->calculation,
+                            'selected' => ($i==0 ? 1 : 0)
+                        );
+                    }
                     $i++;
                 }
-                if(($materials_category->count_categories()>0 && count($a)>0) || $materials_category->count_categories()==0)
-                $result[] = array('id'=>$materials_category->id, 'name'=>$materials_category->name, 'repair_id_rate_id'=>$materials_category->repair_id_rate_id, 'rooms_type'=>$materials_category->rooms_type,'calculation'=>$materials_category->calculation, 'under' => $a);
+                if(($materials_category->count_categories()>0 && count($a)>0) || $materials_category->count_categories()==0) {
+                    $result[] = array(
+                        'id'=>$materials_category->id,
+                        'name'=>$materials_category->name,
+                        'repair_id_rate_id'=>$materials_category->repair_id_rate_id,
+                        'rooms_type'=>$materials_category->rooms_type,
+                        'calculation'=>$materials_category->calculation,
+                        'under' => $a
+                    );
+                }
             }
         }
         die(json_encode($result));
@@ -73,8 +89,7 @@ class Controller_Ajax_Materials extends Controller
                         $i++;
                     }
                     $result = array_merge($result,$for_result);
-                }
-                else{
+                } else {
                     $for_result = array_chunk($for_result, (int) (count($for_result) / $limit));
                     array_walk($for_result, create_function('&$p', '$p = $p[array_rand($p, 1)];'));
                     $for_result = array_slice($for_result, 0, $limit);

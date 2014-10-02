@@ -7,7 +7,8 @@ var Budget = (function() {
 
     var defaults = {
         rooms: new Array(),
-        types: new Array()
+        types: new Array(),
+        smetaId: null
     };
 
     function Budget() {};

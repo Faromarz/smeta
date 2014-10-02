@@ -22,6 +22,20 @@ class Controller_Ajax_Rooms extends Controller
         throw new HTTP_Exception_404;
     }
 
+    public function action_get_rooms()
+    {
+        $post = $this->request->post();
+        $smetaId = 0;
+        if($post){
+            $smetaId = (int) Arr::get($post, 'smetaId', false);
+        }
+        if ($smetaId === 0){
+            $rooms = Controller_Main::getRooms();
+        } else {
+            $rooms = Controller_Budget::getRooms($smetaId);
+        }
+        die(json_encode($rooms));
+    }
     public function action_load_rooms()
     {
         $result = array();

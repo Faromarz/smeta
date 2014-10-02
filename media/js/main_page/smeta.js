@@ -9,7 +9,8 @@ var Smeta = (function() {
 
     var defaults = {
         rooms: new Array(),
-        types: new Array()
+        types: new Array(),
+        smetaId: null
     };
     function Smeta() {
         this.countRooms = 0;
@@ -20,6 +21,7 @@ var Smeta = (function() {
         this.windows = new Array(); // !!! внимание это дополнительные окна.
         this.types = null;
         this.height = 0;
+        this.load = Loaded;
     };
     // ---------------- возвращает высоту потолка
     Smeta.prototype.getHeight = function()
@@ -351,17 +353,17 @@ var Smeta = (function() {
         _this.types = Type;
         _this.height = Height;
         var params = $.extend(defaults, options);
-        
-        // иницилизация комнат
-        $.each(params.rooms, function(key, room) {
-            _this.rooms[key] = new Room(_this, room);
+        this.load.init({
+            parent: _this,
+            smetaId: params.smetaId
         });
-        
+
         // иницилизация дополнительных дверей
         $.each(params.doors, function(key, door) {
             _this.doors[key] = new Door(_this, null, key, door);
         });
         _this.doorUpdateName();
+        
         // иницилизация дополнительных окон
         $.each(params.windows, function(key, window) {
             _this.windows[key] = new Window(_this, null, key, window);

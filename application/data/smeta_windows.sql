@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 29 2014 г., 23:44
+-- Время создания: Окт 01 2014 г., 22:58
 -- Версия сервера: 5.5.38-MariaDB-wsrep
 -- Версия PHP: 5.5.16
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `smeta_windows` (
 `id` int(11) NOT NULL,
   `smeta_rooms_id` int(11) NOT NULL,
+  `room_params_def` int(11) NOT NULL DEFAULT '4',
   `count_type` int(11) NOT NULL,
   `enable` tinyint(1) NOT NULL,
   `height` double(3,2) NOT NULL,
@@ -36,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `smeta_windows` (
   `show` tinyint(1) NOT NULL,
   `count` int(11) NOT NULL,
   `smeta_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
 -- Индексы сохранённых таблиц
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `smeta_windows` (
 -- Индексы таблицы `smeta_windows`
 --
 ALTER TABLE `smeta_windows`
- ADD PRIMARY KEY (`id`), ADD KEY `smeta_doors_smeta_id_idx` (`smeta_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `smeta_doors_smeta_id_idx` (`smeta_id`), ADD KEY `room_params_def` (`room_params_def`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -56,7 +57,7 @@ ALTER TABLE `smeta_windows`
 -- AUTO_INCREMENT для таблицы `smeta_windows`
 --
 ALTER TABLE `smeta_windows`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
