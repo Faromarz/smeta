@@ -14,8 +14,10 @@ class Controller_Budget extends Controller_Core {
             if (!$smeta->loaded()) {
                 throw new HTTP_Exception_404;
             }
-            $this->set('smeta', $smeta->as_array());
-            $rooms = $this->getRooms($smeta->id());
+            $_smeta = $smeta->as_array();
+            $this->set('smeta', $_smeta);
+            $rooms = $this->getRooms($smeta->id);
+            
             
             $this->set('_rooms', $rooms);
             // дверь
@@ -98,6 +100,9 @@ class Controller_Budget extends Controller_Core {
                 } else {
                     $rooms[$key]['window'] = null;
                 }
+                // ================ категории
+                $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id']);
+                $rooms[$key]['categories'] = $categories;
             }
         return $rooms;
     }

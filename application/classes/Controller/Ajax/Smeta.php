@@ -53,6 +53,7 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_room->show = $room['show'];
             $smeta_room->save();
             
+            //======= двери
             $door = $room['door'];
             $smeta_door = ORM::factory('Smeta_Door');
             $smeta_door->smeta_rooms_id = $smeta_room->pk();
@@ -65,6 +66,7 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_door->count = $door['count'];
             $smeta_door->create();
             
+            // =========== окна
             if (isset($room['window'])) {
                 $window = $room['window'];
                 $smeta_window = ORM::factory('Smeta_Window');
@@ -77,6 +79,15 @@ class Controller_Ajax_Smeta extends Controller_Core
                 $smeta_window->show = $window['show'];
                 $smeta_window->count = $window['count'];
                 $smeta_window->create();
+            }
+            // ============== категории
+            $categories = $room['categories'];
+            foreach ($categories as $cat){
+                $smeta_cat = ORM::factory('Smeta_Category');
+                $smeta_cat->smeta_rooms_id = $smeta_room->pk();
+                $smeta_cat->material_categories_id =  $cat['id'];
+                $smeta_cat->enable = $cat['enable'];
+                $smeta_cat->create();
             }
         }
         foreach($doors as $door){

@@ -46,7 +46,7 @@ var Loaded = (function() {
                 _this.finishLoad();
             }
         };
-        $.post('ajax/rooms/get_rooms', {'smetaId': smetaId}, _callback, "json");
+        $.post('/ajax/rooms/get_rooms', {'smetaId': smetaId}, _callback, "json");
         
         // загрузка категорий
 //        var _callback = function(json) {

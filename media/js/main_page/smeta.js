@@ -276,7 +276,7 @@ var Smeta = (function() {
         });
         $.ajax({
             type: "POST",
-            url: "ajax/smeta/add",
+            url: "/ajax/smeta/add",
             data: {
                 "rooms" : JSON.stringify(rooms),
                 "repair_id" : _this.types.getRepair(),
