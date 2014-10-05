@@ -2,7 +2,7 @@
     {% if room.id == 1  %}
         <div class="smeta_block smeta_window" data-room-id="{{ room.id }}">
 
-            <h1 class="smeta_text_header">окно в квартире №1</h1>
+            <h1 class="smeta_text_header">окно в комнате №1</h1>
             <div class="smeta_count_window_right">
                 <input id="{{ room.id }}_window_0_width" value="{{ room.window.width | number_format(2, ',', ' ') }}"/>
                 <div class="smeta_characteristics_x"></div>
@@ -26,7 +26,7 @@
 
 {% for key,window in windows %}
     <div class="smeta_block smeta_window" data-window-key="{{ key }}" data-room-id="0"{% if window.show == false %} style="display:none"{% endif %}>
-        <h1 class="smeta_text_header"> окно №{{ key+2 }} в квартире №1</h1>
+        <h1 class="smeta_text_header"> окно №{{ key+2 }} в комнате №1</h1>
         <div class="smeta_count_window_right">
             <input id="0_window_{{key}}_width" value="{{ window.width | number_format(2, ',', ' ') }}"/>
             <div class="smeta_characteristics_x"></div>

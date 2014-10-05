@@ -9,8 +9,7 @@ var Smeta = (function() {
 
     var defaults = {
         rooms: new Array(),
-        types: new Array(),
-        smetaId: null
+        types: new Array()
     };
     function Smeta() {
         this.countRooms = 0;
@@ -22,6 +21,7 @@ var Smeta = (function() {
         this.types = null;
         this.height = 0;
         this.load = Loaded;
+        this.smetaId = null;
     };
     // ---------------- возвращает высоту потолка
     Smeta.prototype.getHeight = function()
@@ -353,7 +353,7 @@ var Smeta = (function() {
         _this.types = Type;
         _this.height = Height;
         var params = $.extend(defaults, options);
-        this.load.init({
+        _this.load.init({
             parent: _this,
             smetaId: params.smetaId
         });

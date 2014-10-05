@@ -21,7 +21,8 @@ function Room($parent, $params)
     var roomEnable = Number(_params.enable) || false;
     var roomShow = Number(_params.show) || false;
     var htmlBlock = '.smeta_room';
-    var categories = new Array();
+
+    _this.categories = new Array();
     // двери
     _this.door = null;
     // окна
@@ -196,6 +197,14 @@ function Room($parent, $params)
     _this.getSizeApron = function() {
         return _this.getSize() > 12 ? 3.5 : 2.5;
     };
+    // параметры категории
+    _this.getCategoties = function() {
+        var params = new Array();
+        $.each(_this.categories, function(key, cat) {
+            params.push(cat.getParams());
+        });
+        return params;
+    };
     // параметры для сметы
     _this.getParams = function() {
         var  params = {
@@ -206,7 +215,8 @@ function Room($parent, $params)
             length: _this.getLength(),
             enable: _this.getEnable(),
             show: _this.getShow(),
-            door: _this.door.getParams()
+            door: _this.door.getParams(),
+            categories: _this.getCategoties()
         };
         if (_this.window !== null) {
             params['window'] = _this.window.getParams();
@@ -226,23 +236,29 @@ function Room($parent, $params)
         // удаление окон вынести в окна
         $("#add_window").siblings('.smeta_window[data-room='+_this.getId()+']').remove();
     };
+    // обновление категорий
+    _this.updateCategoriesHTML = function() {
+        var html = '';
+        // категории
+        $.each(_this.categories, function(key, cat) {
+            html += cat.getHTML();
+        });
+        $('.materials_room_for_options[data-material-block-room-id="'+_this.getId()+'"]').empty().append(html);
+        $(".selectbox").selectbox();
+    };
     // иницилизация комнаты
     _this.init = function() {
-        // двери
+        // ========== двери
         _this.door = new Door(_parent, _this, 0, _params.door);
-        // окна
+        // ========== окна
         if (_params.window !== null){
             _this.window = new Window(_parent, _this, 0, _params.window);
         }
-        // категории
-        $.each(_parent.load.categories, function(key, cat) {
-            if ($.inArray(_this.getType(), cat.rooms_type.split(',')) !== -1 || cat.rooms_type === ''){
-                categories.push(new Category(_parent, _this, cat));
-            }
+        // ========== категории
+        $.each(_params.categories, function(key, cat) {
+            _this.categories.push(new Category(_parent, _this, cat));
         });
-        console.log(categories);
         
-    
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {
             $(this).toggleClass("ignore ignored");
@@ -254,6 +270,8 @@ function Room($parent, $params)
                     count = 1;
                 }
                 _parent.setCountRooms(count);
+            } else {
+                _parent.update();
             }
          });
         // click balcon
@@ -261,6 +279,7 @@ function Room($parent, $params)
             $(this).toggleClass("check_box_out check_box_in");
             _this.setBalcon($(this).hasClass('check_box_in'));
          });
+         _this.updateCategoriesHTML();
     };
     _this.init();
 }

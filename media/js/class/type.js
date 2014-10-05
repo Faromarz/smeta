@@ -23,6 +23,9 @@ var Type = (function() {
             this.getApartment()
         ];
     };
+    Type.prototype.getCombination = function() {
+        return this.getRate() + '_' + this.getRepair();
+    };
     Type.prototype.getRate = function() {
         return this.rate;
     };
@@ -89,6 +92,19 @@ var Type = (function() {
         if (apartment!==null) {
             _this.apartment = apartment;
         }
+        _this.updateCategoriesEnable();
+    };
+    //  изменение галочек в материалах
+    Type.prototype.updateCategoriesEnable = function() {
+        var _rooms = Smeta.rooms;
+        $.each(_rooms, function(keyRoom, room) {
+            $.each(room.categories, function(keyCat, cat) {
+                cat.updateEnable();
+            });
+            room.updateCategoriesHTML();
+        });
+        
+        
     };
     //------------- иницилизация тип ремонта
     Type.prototype.init = function(options)

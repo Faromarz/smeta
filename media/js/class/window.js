@@ -69,14 +69,17 @@ function Window($parent, $room, $key, $params)
         }
         count = $count;
         $('#room'+_this.getRoomId()+'-window'+_key+'-count').val(number_format(count, 0, ',', ' '));
+        console.log('пересчитать материалы, работы');
     };
     // увеличить количество
     _this.upCount = function() {
         _this.setCount((_this.getCount() + 1) <= 8 ? _this.getCount() + 1: 8);
+        console.log('пересчитать материалы, работы');
     };
     // уменьшить количество
     _this.downCount = function() {
         _this.setCount((_this.getCount() - 1) >= 0 ? _this.getCount() - 1 : 0);
+        console.log('пересчитать материалы, работы');
     };
     // ширина окона
     _this.getWidth = function() {
@@ -136,7 +139,7 @@ function Window($parent, $room, $key, $params)
         }
         
 //        $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
-    console.log('пересчитать материалы, работы');
+    
     };
     // отображение окна
     _this.getShow = function() {
@@ -231,6 +234,7 @@ function Window($parent, $room, $key, $params)
                 } else {
                     _this.setEnable( $(this).hasClass('ignore'));
                 }
+                console.log('пересчитать материалы, работы');
                 
             }
         });

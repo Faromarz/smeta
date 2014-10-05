@@ -74,7 +74,8 @@ class Controller_Main extends Controller_Core
                 ->execute()
                 ->as_array();
         foreach ($rooms as $key => $room) {
-            // дверь
+            
+            // ================ дверь
             $doors = ORM::factory('Roomparamsdef')
                     ->select(array('roomparamsdef.id', 'type'))
                     ->join('rooms_doors')->on('roomparamsdef.id', '=', 'rooms_doors.door_id')
@@ -85,7 +86,8 @@ class Controller_Main extends Controller_Core
             $doors['count'] = 1;
             $doors['id'] = null;
             $rooms[$key]['door'] = $doors;
-            // окна
+            
+            // ================ окна
             $windows = ORM::factory('Roomparamsdef')
                     ->select(array('roomparamsdef.id', 'type'))
                     ->join('rooms_windows')->on('roomparamsdef.id', '=', 'rooms_windows.window_id')
@@ -103,8 +105,56 @@ class Controller_Main extends Controller_Core
             } else{
                 $rooms[$key]['window'] = NULL;
             }
+            // ================ категории
+            $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id']);
+            $rooms[$key]['categories'] = $categories;
         }
         return $rooms;
     }
+    
+//    public static function getMaterialsForCat($catId)
+//    {
+//        $result = array();
+//        $limit = 21;
+//        $category = ORM::factory('Material_Categories', (int) $catId);
+//        if ($category->count_materials()>0){
+//            $materials = ORM::factory('Material')->where('category_id','=',$category->id)->order_by('price','ASC')->find_all();
+//            $for_result = array();
+//            foreach ($materials as $material){
+//                $for_result[] = array(
+//                    'category_id'=>$material->category_id,
+//                    'id'=>$material->id,
+//                    'name'=>$material->name,
+//                    'price'=>$material->price,
+//                    'img'=>$material->img,
+//                    'country'=>$material->country->name,
+//                    'count_text'=>$material->count_text,
+//                    'size'=>$material->size,
+//                    'selected'=> 0
+//                );
+//            }
+//            if (count($for_result) <= $limit) {
+//                $i=0;
+//                foreach ($for_result as $key => $value)
+//                {
+//                    $for_result[$key]['selected'] = $i==0?1:0;
+//                    $i++;
+//                }
+//                $result = array_merge($result,$for_result);
+//            } else {
+//                $for_result = array_chunk($for_result, (int) (count($for_result) / $limit));
+//                array_walk($for_result, create_function('&$p', '$p = $p[array_rand($p, 1)];'));
+//                $for_result = array_slice($for_result, 0, $limit);
+//                $i=0;
+//                foreach ($for_result as $key => $value)
+//                {
+//                    $for_result[$key]['selected'] = $i==10?1:0;
+//                    $i++;
+//                }
+//                $result = array_merge($result,$for_result);
+//            }
+//        }
+//        return $result;
+//    }
     
 }

@@ -115,7 +115,6 @@ function Door($parent, $room, $key, $params)
         }
         
 //        $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
-    console.log('пересчитать материалы, работы');
     };
     // отображение двери
     _this.getShow = function() {
@@ -214,6 +213,7 @@ function Door($parent, $room, $key, $params)
                 } else {
                     _this.setEnable( $(this).hasClass('ignore'));
                 }
+                console.log('пересчитать материалы, работы');
                 
             }
         });

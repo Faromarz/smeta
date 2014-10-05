@@ -1,5 +1,11 @@
 {% extends "layout/html.twig" %}
 {% block content %}
+   {# <link href="{{ Url.media('/media/libs/slider/slider.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/mCustomScrollbar/jquery.mCustomScrollbar_portal.css') }}" rel="stylesheet" type="text/css"/>
+    
+    <script type="text/javascript" src="{{ Url.media('/media/js/portal.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/mCustomScrollbar/jquery.mCustomScrollbar.js') }}"></script>
+    #}
     <script type="text/javascript" src="{{ Url.media('/media/js/class/category.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/loaded.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/window.js') }}"></script>
@@ -208,13 +214,12 @@
         <div class="ignore_2"></div>
 
         <div class="materials_room">
-
             <div class="materials_room_header">
                 <p class="arrow_up" id="toggle_room">Комната №1</p>
                 <div class="ignore_4" data-room-id="1"></div>
             </div>
-
-            <div class="materials_room_for_options">
+            
+            <div class="materials_room_for_options" data-material-block-room-id="1">
             {#МАТЕРИАЛЫ#}
             </div>
             <div class="materials_room_header">

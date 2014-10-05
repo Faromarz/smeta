@@ -26,13 +26,12 @@ var Loaded = (function() {
         $.each(_this.rooms, function(key, room) {
             _this.parent.rooms[key] = new Room(_this.parent, room);
         });
-        console.log(_this.parent);
     };
     //---------- загрузка
     Loaded.prototype.load = function()
     {
         var _this = this;
-        var load = 3;
+        var load = 1;
         _this.parent.preloader(true);
         
         // загрузка комнат
@@ -50,32 +49,18 @@ var Loaded = (function() {
         $.post('ajax/rooms/get_rooms', {'smetaId': smetaId}, _callback, "json");
         
         // загрузка категорий
-        var _callback = function(json) {
-            if (json.error) {
-                alert(json.error);
-                return false;
-            }
-            _this.categories = json;
-            load--;
-            if(load === 0){
-                _this.finishLoad();
-            }
-        };
-        $.post('ajax/materials/load_categories', {'smetaId': smetaId}, _callback, "json");
-
-        // загрузка материалов
-        var _callback = function(json) {
-            if (json.error) {
-                alert(json.error);
-                return false;
-            }
-            _this.materials = json;
-            load--;
-            if(load === 0){
-                _this.finishLoad();
-            }
-        };
-        $.post('ajax/materials/load_materials', {'smetaId': smetaId}, _callback, "json");
+//        var _callback = function(json) {
+//            if (json.error) {
+//                alert(json.error);
+//                return false;
+//            }
+//            _this.categories = json;
+//            load--;
+//            if(load === 0){
+//                _this.finishLoad();
+//            }
+//        };
+//        $.post('ajax/materials/load_categories', {'smetaId': smetaId}, _callback, "json");        
         
     };
     Loaded.prototype.init = function(options)
