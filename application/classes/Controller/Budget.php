@@ -14,8 +14,9 @@ class Controller_Budget extends Controller_Core {
             if (!$smeta->loaded()) {
                 throw new HTTP_Exception_404;
             }
-            $_smeta = $smeta->as_array();
-            $this->set('smeta', $_smeta);
+            $smeta_array = $smeta->as_array();
+            $this->set('smeta', $smeta);
+            $this->set('smeta_array', $smeta_array);
             $rooms = $this->getRooms($smeta->id);
             
             
