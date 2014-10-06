@@ -24,8 +24,18 @@ var Budget = (function() {
         $("#change_budget").on("click", function(){$("#budget_dop_options").slideDown(350); $("#budget_dop_options-hide").fadeIn(400, function() {  mail_top = $("#mail").offset().top;}); });
         //кнопка закрытия комнат
         $("#budget_dop_options-hide").on("click", function(){$("#budget_dop_options").slideUp(350); $("#budget_dop_options-hide").fadeOut(400, function() {mail_top = $("#mail").offset().top;});});
-        $(".room-enable").on("click", function(){ _this.enable_rooms(this)});
-        $(".ignore_door").on("click", function(){ _this.enable_doors(this)});
+        $(".room-enable").on("click", function(){ _this.enable_rooms(this);});
+        $(".ignore_door").on("click", function(){ _this.enable_doors(this);});
+        
+        // свернуть/развернуть материалы
+        $(".slide1").on("click", function() {
+            $(this).parent().children('ul').slideToggle();
+            $(this).toggleClass('budget_basic_options_name_style1_down budget_basic_options_name_style1_up');
+        });
+        $(".slide2").on("click", function() {
+            $(this).parent().children('ul').slideToggle();
+            $(this).toggleClass('budget_basic_options_name_style2_down budget_basic_options_name_style2_up');
+        });
     };
 
     // enable из smeta_rooms

@@ -60,6 +60,7 @@ function Category($parent, $room, $params)
 //        if (_this.getMaterial() === null) {
 //            return '';
 //        }
+console.log(_parent.smetaId);
         var _id_index = _room.getType() + '-' + _room.getId() + '-' + _this.getId();
         var _html = '';
         _html += '<'+(_parent.smetaId === null ? 'div' : 'li') +' class="materials_room_option" id="materials-' + _id_index + '">';
