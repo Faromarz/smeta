@@ -68,12 +68,9 @@
                 <p id="your_budget">ваша</p>
                 <h1>Смета ремонта</h1>
 
-
                 <a href="#" class="xls"></a>
                 <a href="#" class="pdf"></a>
-
                 <h2>Цены и сметы от ремонтных компаний</h2>
-
             </div>
 
             <div id="budget_repair_estimate-scrolling">
@@ -301,11 +298,11 @@
             {% for key, room in _rooms %}
                 <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-                        <p class="budget_basic_options_name_materials_header">{{ room.room.name }}<p>
+                        <p class="budget_basic_options_name_materials_header">{{ room.name }}<p>
                     </div>
                     <div class="ignore_4"></div>
 
-                    <ul data-material-block-room-id="1" class="materials_room_for_options-{{ room.room_id }} materials_room_for_options budget_basic_options_name_materials_block">
+                    <ul data-material-block-room-id="1" class="materials_room_for_options-{{ room.id }} materials_room_for_options budget_basic_options_name_materials_block">
 
                         {#{% if smeta.materials.count_all()>0 %}
                             {% for material in smeta.materials.find_all() %}
