@@ -56,14 +56,13 @@ function Category($parent, $room, $params)
     };
     // html категории
     _this.getHTML = function() {
+        
 //        if (_this.getMaterial() === null) {
 //            return '';
 //        }
         var _id_index = _room.getType() + '-' + _room.getId() + '-' + _this.getId();
-        var _i;
         var _html = '';
-
-        _html += '<div class="materials_room_option" id="materials-' + _id_index + '">';
+        _html += '<'+(_parent.smetaId === null ? 'div' : 'li') +' class="materials_room_option" id="materials-' + _id_index + '">';
         _html += '  <div class="materials_room_option_header">';
         _html += '      <p>' +  _this.getName() + '</p>';
         _html += '      <div class="ignore' + (_this.getEnable() ? '' : 'd') + '_4" data-room-id="' + _room.getId() + '" data-room-type="' + _room.getType() + '" data-cat-id="' + _this.getId() + '"></div>';
@@ -121,7 +120,7 @@ function Category($parent, $room, $params)
         _html += "});";
 //                                _html += '$("#calc-material-'+_id_index+'").on("change", function() { Ballon.onEnabled('+_room_id+', '+_material_id+', this.checked, true) })';
         _html += '</script>';
-        _html += '</div>';
+        _html += '</'+(_parent.smetaId === null ? 'div' : 'li')+'>';
 
         return   _html;
     };

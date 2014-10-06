@@ -357,6 +357,7 @@ var Smeta = (function() {
             parent: _this,
             smetaId: params.smetaId
         });
+        _this.smetaId = params.smetaId;
 
         // иницилизация дополнительных дверей
         $.each(params.doors, function(key, door) {

@@ -302,7 +302,7 @@
                     </div>
                     <div class="ignore_4"></div>
 
-                    <ul data-material-block-room-id="1" class="materials_room_for_options-{{ room.id }} materials_room_for_options budget_basic_options_name_materials_block">
+                    <ul data-material-block-room-id="{{ room.id }}" class="materials_room_for_options-{{ room.id }} materials_room_for_options budget_basic_options_name_materials_block">
 
                         {#{% if smeta.materials.count_all()>0 %}
                             {% for material in smeta.materials.find_all() %}
