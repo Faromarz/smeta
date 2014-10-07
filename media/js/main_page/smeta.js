@@ -22,6 +22,7 @@ var Smeta = (function() {
         this.height = 0;
         this.load = Loaded;
         this.smetaId = null;
+        this.materials_enable = true;
     };
     // ---------------- возвращает высоту потолка
     Smeta.prototype.getHeight = function()
@@ -133,8 +134,9 @@ var Smeta = (function() {
     //------------- пересчет площади квартиры
     Smeta.prototype.changeSize = function()
     {
+        var _this = this;
         var size = 0;
-        $.each(this.rooms, function(key, room) {
+        $.each(_this.rooms, function(key, room) {
             if(room.getEnable()) {
                 size += room.getSize();
             }
@@ -265,6 +267,20 @@ var Smeta = (function() {
         
         return windows;
     };
+    // возвращает статус галочки у материалов
+    Smeta.prototype.getMaterialsEnable = function()
+    {
+        return this.materials_enable;
+    };
+    //  статус галочки у материалов
+    Smeta.prototype.setMaterialsEnable = function($enable)
+    {
+        var _this = this;
+        _this.materials_enable = $enable;
+        $.each(_this.rooms, function(key, room) {
+            room.setMaterialsEnable($enable, true);
+        });
+    };
     //добавление сметы в бд
     Smeta.prototype.addSmeta=function(){
         var _this = this,
@@ -292,7 +308,8 @@ var Smeta = (function() {
                 "room_name" : _this.getNameRoom(),
                 "count_rooms" : _this.getCountRooms(),
                 "doors" : JSON.stringify(_this.getDoorsParams()),
-                "windows" : JSON.stringify(_this.getWindowsParams())
+                "windows" : JSON.stringify(_this.getWindowsParams()),
+                "materials_enable" : _this.getMaterialsEnable()
             },
             success: function(data){
                 var result = JSON.parse(data);
@@ -358,6 +375,7 @@ var Smeta = (function() {
             smetaId: params.smetaId
         });
         _this.smetaId = params.smetaId;
+        _this.materials_enable = params.materials_enable;
 
         // иницилизация дополнительных дверей
         $.each(params.doors, function(key, door) {
@@ -388,6 +406,12 @@ var Smeta = (function() {
         $('.smeta_room_square_width_input').on('change', function() {
             var id = $(this).parents('div.smeta_room').data('room-id');
             _this.rooms[id-1].changeWidth(this);
+            _this.update();
+        });
+        // галочка у всех работ
+        $('#smetaMaterialsEnable').on('click', function() {
+            $(this).toggleClass('ignore_2 ignored_2');
+            _this.setMaterialsEnable($(this).hasClass('ignore_2'));
             _this.update();
         });
         

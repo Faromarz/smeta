@@ -29,11 +29,18 @@ function Category($parent, $room, $params)
     };
     // название категории
     _this.getName = function() {
-        return _name;
+        return _children !== null ? _children.name : _name;
     };
     // on||off  категория
     _this.setEnable = function($enable) {
         _enable = $enable;
+        if ($enable) {
+            $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').removeClass('ignored_4');
+            $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').addClass('ignore_4');
+        } else {
+            $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').removeClass('ignore_4');
+            $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').addClass('ignored_4');
+        }
     };
     // on||off  категория
     _this.getEnable = function() {
@@ -60,13 +67,12 @@ function Category($parent, $room, $params)
 //        if (_this.getMaterial() === null) {
 //            return '';
 //        }
-console.log(_parent.smetaId);
         var _id_index = _room.getType() + '-' + _room.getId() + '-' + _this.getId();
         var _html = '';
         _html += '<'+(_parent.smetaId === null ? 'div' : 'li') +' class="materials_room_option" id="materials-' + _id_index + '">';
         _html += '  <div class="materials_room_option_header">';
         _html += '      <p>' +  _this.getName() + '</p>';
-        _html += '      <div class="ignore' + (_this.getEnable() ? '' : 'd') + '_4" data-room-id="' + _room.getId() + '" data-room-type="' + _room.getType() + '" data-cat-id="' + _this.getId() + '"></div>';
+        _html += '      <div class="ignore' + (_this.getEnable() ? '' : 'd') + '_4 material-enable" data-room-id="' + _room.getId() + '" data-room-type="' + _room.getType() + '" data-cat-id="' + _this.getId() + '"></div>';
         _html += '  </div>';
 
         if (_childrens !== null) {
@@ -137,6 +143,18 @@ console.log(_parent.smetaId);
     // иницилизация категории
     _this.init = function() {
          _this.updateEnable();
+         
+          // галочка у материалов
+        $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').die('click');
+        $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').live('click', function() {
+            $(this).toggleClass('ignore_4 ignored_4');
+            _this.setEnable($(this).hasClass('ignore_4'));
+            
+            if(_this.getEnable()){
+                _room.setMaterialsEnable(true, false);
+            }
+            _parent.update();
+        });
         
         // иницилизировать материалы (для категории и подкатегорий)
         

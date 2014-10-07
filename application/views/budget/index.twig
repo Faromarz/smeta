@@ -292,68 +292,17 @@
                     <dd>Общая сумма:</dd>
                 </dl>
                 <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>
-                <div class="ignore_2 ignore_for_basic_options_header"></div>
+                <div class="ignore_2 ignore_for_basic_options_header" id="smetaMaterialsEnable"></div>
             </div>
 
             {% for key, room in _rooms %}
-                <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
+                <div class="budget_basic_options_name_materials style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}"{% if room.show == false %} style="display:none;"{% endif %}>
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
                         <p class="budget_basic_options_name_materials_header">{{ room.name }}<p>
                     </div>
-                    <div class="ignore_4"></div>
+                    <div class="ignore_4 room-material-enable" data-room-id="{{ room.id }}"></div>
 
                     <ul data-material-block-room-id="{{ room.id }}" class="materials_room_for_options-{{ room.id }} materials_room_for_options budget_basic_options_name_materials_block">
-
-                        {#{% if smeta.materials.count_all()>0 %}
-                            {% for material in smeta.materials.find_all() %}
-                                {% if room.rooms.id==material.room_id %}
-                                    <li class="materials_room_option">
-                                        <div class="materials_room_option_header">
-                                            <p>{{ material.materials.category.name }}</p>
-                                            <div class="ignore_4"></div>
-                                        </div>
-
-                                        <select class="selectbox">
-
-                                            <option id="val1" value="бухгалтерский учет">Обои флизелиновые</option>
-                                            <option id="val2" value="налоговый учет">Обои не флизелиновые</option>
-                                            <option id="val3" value="консалтинг">Обои</option>
-                                            <option id="val4" value="бухгалтерский учет">Обои флизелиновые</option>
-                                            <option id="val5" value="налоговый учет">Обои не флизелиновые</option>
-                                            <option id="val6" value="консалтинг">Обои</option>
-
-                                        </select>
-
-                                        <div class="materials_room_option_slider">
-
-                                            <div class="slider_materials">
-
-                                                <a><h6 class="slider_price">ХХХ ХХХ р</h6></a>
-
-                                            </div>
-
-                                            <div class="slider_img">
-                                                <div class="slider_about">
-
-                                                    <a href="#">Обои Esta Home 326115 Bloomingdale</a>
-
-                                                    <h6>Нидерланды</h6>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="x"></div>
-                                        <h1>18 рулонов =</h1>
-                                        <h2>ХХХ ХХХ р.</h2>
-
-
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                #}
-
                     </ul>
                 </div>
             {% endfor %}

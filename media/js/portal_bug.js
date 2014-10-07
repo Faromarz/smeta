@@ -77,7 +77,7 @@ $(document).ready(function () {
     $("#uk_flag").on("click", function() { $("#rus_select").hide(); $("#uk_select").show();});
 
     $(".ignore").on("click", function() {$(this).toggleClass("ignore ignored"); });
-    $(".ignore_2").on("click", function() {$(this).toggleClass("ignore_2 ignored_2"); });
+//    $(".ignore_2").on("click", function() {$(this).toggleClass("ignore_2 ignored_2"); });
     $(".ignore_3").on("click", function() {$(this).toggleClass("ignore_3 ignored_3"); });
     $(".ignore_4").on("click", function() {$(this).toggleClass("ignore_4 ignored_4"); });
     $(".ignore_5").on("click", function() {$(this).toggleClass("ignore_5 ignored_5"); });

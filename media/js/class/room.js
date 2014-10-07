@@ -21,6 +21,7 @@ function Room($parent, $params)
     var roomEnable = Number(_params.enable) || false;
     var roomShow = Number(_params.show) || false;
     var htmlBlock = '.smeta_room';
+    var materials_enable = Number(_params.materials_enable) || true;
 
     _this.categories = new Array();
     // двери
@@ -205,6 +206,29 @@ function Room($parent, $params)
         });
         return params;
     };
+    // галочка для материалов
+    _this.getMaterialsEnable = function() {
+        return materials_enable;
+    };
+    //  статус галочки у материалов
+    _this.setMaterialsEnable = function($enable, $changeAll)
+    {
+        materials_enable = $enable;
+        if($changeAll) {
+            $.each(_this.categories, function(key, cat) {
+                cat.setEnable($enable);
+            });
+        }
+        
+        if ($enable) {
+            $('.room-material-enable[data-room-id="'+_this.getId()+'"]').removeClass('ignored_4');
+            $('.room-material-enable[data-room-id="'+_this.getId()+'"]').addClass('ignore_4');
+        } else {
+            $('.room-material-enable[data-room-id="'+_this.getId()+'"]').removeClass('ignore_4');
+            $('.room-material-enable[data-room-id="'+_this.getId()+'"]').addClass('ignored_4');
+        }
+        
+    };
     // параметры для сметы
     _this.getParams = function() {
         var  params = {
@@ -216,7 +240,8 @@ function Room($parent, $params)
             enable: _this.getEnable(),
             show: _this.getShow(),
             door: _this.door.getParams(),
-            categories: _this.getCategoties()
+            categories: _this.getCategoties(),
+            materials_enable: _this.getMaterialsEnable()
         };
         if (_this.window !== null) {
             params['window'] = _this.window.getParams();
@@ -274,6 +299,13 @@ function Room($parent, $params)
                 _parent.update();
             }
          });
+         // галочка у всех материалов
+        $('.room-material-enable[data-room-id="'+_this.getId()+'"]').on('click', function() {
+            $(this).toggleClass('ignore_4 ignored_4');
+            _this.setMaterialsEnable($(this).hasClass('ignore_4'), true);
+            _parent.update();
+        });
+        
         // click balcon
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(5)').live("click", function() {
             $(this).toggleClass("check_box_out check_box_in");

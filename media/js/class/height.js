@@ -35,17 +35,19 @@ var Height = (function() {
         _this.height = $height;
         $(defaults.block).val(number_format(_this.height, 2, ',', ' '));
         $('#budget_repair_estimate-type_and_rate').find('dd:eq(1)').text(number_format(_this.height, 2, ',', ' ')+' м');
-        defaults.parent.update();
+//        defaults.parent.update();
     };
     // увеличить высоту
     Height.prototype.upHeight = function() {
         var _this = this;
         _this.setHeight((_this.getHeight() + defaults.step) <= defaults.height_max ? _this.getHeight() + defaults.step : defaults.height_max);
+        defaults.parent.update();
     };
     // уменьшить высоту
     Height.prototype.downHeight = function() {
         var _this = this;
         _this.setHeight((_this.getHeight() - defaults.step) >= defaults.height_min? _this.getHeight() - defaults.step : defaults.height_min);
+        defaults.parent.update();
     };
     //------------- иницилизация высоты
     Height.prototype.init = function(options)
@@ -72,6 +74,7 @@ var Height = (function() {
                 }
                 if (Number(this.value.replace(/\,/, ".")).toFixed(2).replace(/\./, ",") !== NaN) {
                     _this.setHeight(Number(this.value.replace(/\,/, ".")));
+                    defaults.parent.update();
                 } else {
                     this.value = temp;
                 }

@@ -102,7 +102,7 @@ class Controller_Budget extends Controller_Core {
                     $rooms[$key]['window'] = null;
                 }
                 // ================ категории
-                $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id']);
+                $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id'], $smetaId);
                 $rooms[$key]['categories'] = $categories;
             }
         return $rooms;

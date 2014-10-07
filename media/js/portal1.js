@@ -53,7 +53,7 @@ $(document).ready(function () {
     $("#rus_flag").on("click", function() { $("#uk_select").hide(); $("#rus_select").show();});
     $("#uk_flag").on("click", function() { $("#rus_select").hide(); $("#uk_select").show();});
 
-    $(".ignore_2").on("click", function() {$(this).toggleClass("ignore_2 ignored_2"); });
+//    $(".ignore_2").on("click", function() {$(this).toggleClass("ignore_2 ignored_2"); });
     $(".ignore_3").on("click", function() {$(this).toggleClass("ignore_3 ignored_3"); });
 
 

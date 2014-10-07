@@ -14,8 +14,7 @@
     <script type="text/javascript" src="{{ Url.media('/media/js/class/type.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/room.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/main_page/smeta.js') }}"></script>
-    
-    
+
     <script>
         $(document).ready(function(){
             Smeta.init({
@@ -212,12 +211,12 @@
             <p class="text_header">Материалы для ремонта</p>
         </div>
 
-        <div class="ignore_2"></div>
+        <div class="ignore_2" id="smetaMaterialsEnable"></div>
 
         <div class="materials_room">
             <div class="materials_room_header">
                 <p class="arrow_up" id="toggle_room">Комната №1</p>
-                <div class="ignore_4" data-room-id="1"></div>
+                <div class="ignore_4 room-material-enable" data-room-id="1"></div>
             </div>
             
             <div class="materials_room_for_options" data-material-block-room-id="1">

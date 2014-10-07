@@ -45,7 +45,7 @@ class Model_Material_Categories extends ORM_MPTT
                     ->select('smeta_categories.enable')
                     ->join('smeta', 'INNER')
                     ->on('smeta.id', '=', DB::expr($smetaId))
-                    ->join('smeta_room', 'INNER')
+                    ->join('smeta_rooms', 'INNER')
                     ->on('smeta_rooms.smeta_id', '=', 'smeta.id')
                     ->on('smeta_rooms.room_id', '=', DB::expr($roomId))
                     ->join('smeta_categories', 'INNER')
@@ -59,7 +59,7 @@ class Model_Material_Categories extends ORM_MPTT
         $room = ORM::factory('Room', $roomId);
         $result = array();
         if ($room->loaded()){
-            $categories = $this->getCategoriesForRoom($room->type, $room->id, $smetaId = NULL);
+            $categories = $this->getCategoriesForRoom($room->type, $room->id, $smetaId);
             foreach ($categories as $category){
                 if ($category->has_materials() || $category->has_children()){
                     $cat = $category->as_array();

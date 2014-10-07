@@ -235,7 +235,7 @@ function SetupRoomList($parent)
             alert('Категории еще не подгрузились, кликните еще раз');
             return false;
         }
-        $(this).toggleClass("ignore_2 ignored_2");
+//        $(this).toggleClass("ignore_2 ignored_2");
         var _room;
         var _cat;
         for (_room in _parent.rooms.room) {
@@ -325,7 +325,7 @@ function SetupRoomList($parent)
             return false;
         }
         var _type = $(this).attr('data-work');
-        $(this).toggleClass('ignore_2 ignored_2');
+//        $(this).toggleClass('ignore_2 ignored_2');
         if (_type === 'all') {
             var _enable = $(this).hasClass('ignore_2');
             $('.work-change[data-work]').removeClass('ignore_3').removeClass('ignored_3').addClass('ignore' + (_enable ? '' : 'd') + '_3');

@@ -41,6 +41,7 @@ class Controller_Ajax_Smeta extends Controller_Core
         $smeta->rate_id =  Arr::get($post, 'rate_id', 1);
         $smeta->apartment_id =  Arr::get($post, 'apartment_id', 1);
         $smeta->create_date = date('Y-m-d H:i:s');
+        $smeta->materials_enable = Arr::get($post, 'materials_enable', true);
         $smeta->save();
         foreach($rooms as $room){
             $smeta_room = ORM::factory('Smeta_Room');
@@ -51,6 +52,7 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_room->balcony = isset($room['balcony']) ? $room['balcony']:NULL;
             $smeta_room->enable = $room['enable'];
             $smeta_room->show = $room['show'];
+            $smeta_room->materials_enable = $room['materials_enable'];
             $smeta_room->save();
             
             //======= двери
@@ -119,13 +121,6 @@ class Controller_Ajax_Smeta extends Controller_Core
         $this->set('_result', json_encode($result));
     }
 
-   /* public function action_load(){
-        $post = $this->request->post();
-        $smeta_name = Arr::get($post, 'smeta', '');
-        $smeta = ORM::factory('Smeta')->where('name','=',$smeta_name)->find()->as_array();
-        $this->set('_result', json_encode($smeta));
-    }
-*/
     public function action_enable_room(){
         $post = $this->request->post();
         $smeta_id = Arr::get($post, 'smeta_id', '');
