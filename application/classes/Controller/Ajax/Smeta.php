@@ -89,6 +89,9 @@ class Controller_Ajax_Smeta extends Controller_Core
                 $smeta_cat->smeta_rooms_id = $smeta_room->pk();
                 $smeta_cat->material_categories_id =  $cat['id'];
                 $smeta_cat->enable = $cat['enable'];
+                if (isset($cat['childrenId'])) {
+                    $smeta_cat->children_id = $cat['childrenId'];
+                }
                 $smeta_cat->create();
             }
         }

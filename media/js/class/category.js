@@ -16,9 +16,9 @@ function Category($parent, $room, $params)
     var _params = $params;
     var _id = _params.id;
     var _name = _params.name;
-    var _enable = _params.enable || false;
+    var _enable = Number(_params.enable) || false;
     var _childrens = _params.childrens || null;
-    var _children = _params.children || null;
+    var _childrenId = Number(_params.childrenId) || null;
     var _repairRateCombination = _params.repair_id_rate_id.split(',');
 //    var _materials = _params.materials || [];
     var _material = _params.material || null;// тут будет new Material(_params.material);
@@ -29,7 +29,7 @@ function Category($parent, $room, $params)
     };
     // название категории
     _this.getName = function() {
-        return _children !== null ? _children.name : _name;
+        return _name;
     };
     // on||off  категория
     _this.setEnable = function($enable) {
@@ -56,9 +56,9 @@ function Category($parent, $room, $params)
             id: _this.getId(),
             enable: _this.getEnable()
         };
-//        if (_this.material !== null) {
-//            params['material'] = _material.getParams();
-//        }
+        if (_childrenId !== null) {
+            params['childrenId'] =  _childrenId;
+        }
         return params;
     };
     // html категории
@@ -78,7 +78,7 @@ function Category($parent, $room, $params)
         if (_childrens !== null) {
             _html += '<select class="selectbox" data-cat-id="' + _this.getId() + '"   data-room-id="' + _room.getId() + '" data-room-type="' +_room.getType() + '">';
             $.each(_childrens, function(key, cat) {
-                _html += '<option id="val' + key + '" value="' + cat.name + '"' + (_children && cat.id === _children.id ? 'selected' : '') + '>' + cat.name + '</option>';
+                _html += '<option id="val' + key + '" value="' + cat.id + '"' + (_childrenId  === Number(cat.id) ? 'selected' : '') + '>' + cat.name + '</option>';
             });
             _html += '</select>';
         } else {
@@ -140,6 +140,9 @@ function Category($parent, $room, $params)
             }
         }
     };
+    _this.setChildrenId = function($id){
+        _childrenId = $id;
+    };
     // иницилизация категории
     _this.init = function() {
          _this.updateEnable();
@@ -155,9 +158,15 @@ function Category($parent, $room, $params)
             }
             _parent.update();
         });
-        
+        // изменение категории
+       $('.selectbox[data-cat-id="'+_this.getId()+'"][data-room-id="'+_room.getId()+'"][data-room-type="' +_room.getType() + '"]').die('change');
+       $('.selectbox[data-cat-id="'+_this.getId()+'"][data-room-id="'+_room.getId()+'"][data-room-type="' +_room.getType() + '"]').live('change', function(){
+            _this.setChildrenId(Number($(this).val()));
+            console.log('нужно загрузить другие материалы// или изменить');
+            // тут изменение материалов
+            //_parent.update(); // пересчитать смету и сохранить
+       });
         // иницилизировать материалы (для категории и подкатегорий)
-        
     };
     _this.init();
 }

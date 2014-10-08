@@ -43,6 +43,7 @@ class Model_Material_Categories extends ORM_MPTT
         if($smetaId) {
             $categories
                     ->select('smeta_categories.enable')
+                    ->select('smeta_categories.children_id')
                     ->join('smeta', 'INNER')
                     ->on('smeta.id', '=', DB::expr($smetaId))
                     ->join('smeta_rooms', 'INNER')
@@ -70,8 +71,10 @@ class Model_Material_Categories extends ORM_MPTT
                         $cat['childrens'] = array();
                         $childrens = $category->children();
                         foreach ($childrens as $children){
-                            if (in_array($room->type, explode(',', $children->rooms_type))){
-                                $cat['children'] = $children->as_array();
+                            if (!$smetaId && in_array($room->type, explode(',', $children->rooms_type))){
+                                $cat['childrenId'] = $children->id;
+                            } elseif ($smetaId && $children->id == $category->children_id){
+                                $cat['childrenId'] = $children->id;
                             }
                             $cat['childrens'][] = $children->as_array();
                         }
