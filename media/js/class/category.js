@@ -135,7 +135,13 @@ function Category($parent, $room, $params)
 //                                _html += '$("#calc-material-'+_id_index+'").on("change", function() { Ballon.onEnabled('+_room_id+', '+_material_id+', this.checked, true) })';
         _html += '</script>';
         _html += '</'+(_parent.smetaId === null ? 'div' : 'li')+'>';
-
+        $(".slider_img")
+            .mouseenter(function() {
+                $(this).children(".slider_about").show();
+            })
+            .mouseleave(function() {
+                $(this).children(".slider_about").hide();
+            });
         return   _html;
     };
     _this.updateEnable = function(){
