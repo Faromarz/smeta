@@ -30,9 +30,9 @@ class Controller_Ajax_Rooms extends Controller
             $smetaId = (int) Arr::get($post, 'smetaId', false);
         }
         if ($smetaId === 0){
-            $rooms = Controller_Main::getRooms();
+            $rooms = Controller_Main::getRooms(true);
         } else {
-            $rooms = Controller_Budget::getRooms($smetaId);
+            $rooms = Controller_Budget::getRooms($smetaId, true);
         }
         die(json_encode($rooms));
     }

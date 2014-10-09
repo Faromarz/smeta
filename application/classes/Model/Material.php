@@ -52,4 +52,5 @@ class Model_Material extends ORM
         }
         return $result==0?$last:$result;
     }
+
 }

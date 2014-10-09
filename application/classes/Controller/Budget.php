@@ -58,7 +58,7 @@ class Controller_Budget extends Controller_Core {
         
         }
     }
-    public static function getRooms($smetaId)
+    public static function getRooms($smetaId, $ajax = false)
     {
         $rooms = DB::select('room.id')
                     ->select('smeta_room.width')
@@ -101,9 +101,11 @@ class Controller_Budget extends Controller_Core {
                 } else {
                     $rooms[$key]['window'] = null;
                 }
-                // ================ категории
-                $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id'], $smetaId);
-                $rooms[$key]['categories'] = $categories;
+                if($ajax) {
+                    // ================ категории
+                    $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id'], $smetaId);
+                    $rooms[$key]['categories'] = $categories;
+                }
             }
         return $rooms;
     }

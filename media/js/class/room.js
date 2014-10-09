@@ -173,9 +173,17 @@ function Room($parent, $params)
     // общее количество окон в комнате
     _this.getCountWindows = function() {
         var count = 0;
-        $.each(_this.windows, function(key, window) {
+       /* $.each(_this.windows, function(key, window) {
             count += window.getCount();
-        });
+        });*/
+        return 1;
+    };
+    // общее количество окон в комнате
+    _this.getAreaApron = function() {
+        var count = 1;
+        /*  $.each(_this.windows, function(key, window) {
+         count += window.getCount();
+         });*/
         return count;
     };
     // общее количество дверей в комнате
@@ -266,7 +274,13 @@ function Room($parent, $params)
         var html = '';
         // категории
         $.each(_this.categories, function(key, cat) {
-            html += cat.getHTML();
+            var $object_material = false;
+            $.each(_this.materials, function(k, material) {
+                if(material.getCategory()===cat.getId() && material.getSelected()===1){
+                    $object_material = material;
+                };
+            });
+            html += cat.getHTML($object_material);
         });
         $('.materials_room_for_options[data-material-block-room-id="'+_this.getId()+'"]').empty().append(html);
         $(".selectbox").selectbox();
@@ -283,7 +297,12 @@ function Room($parent, $params)
         $.each(_params.categories, function(key, cat) {
             _this.categories.push(new Category(_parent, _this, cat));
         });
-        
+
+        // ========== материалы
+        $.each(_params.materials, function(key, material) {
+            _this.materials.push(new Material(_parent, _this, material));
+        });
+
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {
             $(this).toggleClass("ignore ignored");

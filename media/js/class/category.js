@@ -62,7 +62,7 @@ function Category($parent, $room, $params)
         return params;
     };
     // html категории
-    _this.getHTML = function() {
+    _this.getHTML = function($material) {
         
 //        if (_this.getMaterial() === null) {
 //            return '';
@@ -79,6 +79,13 @@ function Category($parent, $room, $params)
             _html += '<select class="selectbox" data-cat-id="' + _this.getId() + '"   data-room-id="' + _room.getId() + '" data-room-type="' +_room.getType() + '">';
             $.each(_childrens, function(key, cat) {
                 _html += '<option id="val' + key + '" value="' + cat.id + '"' + (_childrenId  === Number(cat.id) ? 'selected' : '') + '>' + cat.name + '</option>';
+                if(_childrenId  === Number(cat.id)){
+                    $.each(_room.materials, function (k, material) {
+                        if (material.getCategory() == Number(cat.id) && material.getSelected() == 1) {
+                            $material = material;
+                        };
+                    });
+                };
             });
             _html += '</select>';
         } else {
@@ -86,17 +93,17 @@ function Category($parent, $room, $params)
         }
         _html += '<div class="materials_room_option_slider">';
         _html += '    <div class="slider-materials-' + _id_index + '" style="position: relative">';
-        _html += '        <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + _id_index + '">' + /*_material.getPrice()*/0 + ' р</h6></div>';
+        _html += '        <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + _id_index + '">' + $material.getPrice() + ' р</h6></div>';
         _html += '    </div>';
-        _html += '    <div class="slider_img" style="background-image: url(/media/img/material/)">'; /*_material.getImg()*/
+        _html += '    <div class="slider_img" style="background-image: url(/media/img/material/'+$material.getImg()+')">';
         _html += '    <div class="slider_about">';
-        _html += '        <a href="#" class="mat-name-' + _id_index + '">'  + 'название материала</a>';/*_material.getName()*/
-        _html += '        <h6 class="city-name-' + _id_index + '">' +  'город</h6>';/*_material.getCity()*/
+        _html += '        <a href="/materials/view/'  + $material.getId()+'" class="mat-name-' + _id_index + '">'  + $material.getName()+'</a>';
+        _html += '        <h6 class="city-name-' + _id_index + '">' + $material.getCountry()+'</h6>';
         _html += '    </div>';
         _html += '</div>';
         _html += '     <div class="x"></div>';
-        _html += '     <h1>0  =</h1>';
-        _html += '     <h2 class="mat-price-all-' + _id_index + '">0 р.</h2>';
+        _html += '     <h1>'+$material.count_material()+' '+$material.getCount_text_ready()+'  =</h1>';
+        _html += '     <h2 class="mat-price-all-' + _id_index + '">'+$material.getAllPrice()+' р.</h2>';
         _html += '</div>';
         _html += '<script>';
         _html += "$('.slider-materials-" + _id_index + "').slider({";

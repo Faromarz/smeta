@@ -66,7 +66,7 @@ class Controller_Main extends Controller_Core
         $countPartners = ORM::factory('Partner')->count_all();
         $this->set('_countPartners', $countPartners);
     }
-    public static function getRooms()
+    public static function getRooms($ajax=false)
     {
         $rooms = DB::select('*')
                 ->from('rooms')
@@ -105,9 +105,11 @@ class Controller_Main extends Controller_Core
             } else{
                 $rooms[$key]['window'] = NULL;
             }
-            // ================ категории
-            $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id']);
-            $rooms[$key]['categories'] = $categories;
+            if($ajax) {
+                // ================ категории
+                $categories = ORM::factory('Material_Categories')->getCategoriesForRoomId($room['id']);
+                $rooms[$key]['categories'] = $categories;
+            }
         }
         return $rooms;
     }

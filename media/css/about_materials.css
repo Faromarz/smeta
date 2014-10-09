@@ -1,0 +1,156 @@
+body, html {
+    font-family: Roboto;
+    font-size: 14px;
+    color: #000000;
+}
+
+#about_materials-block{
+    width: 1010px;
+    margin: auto;
+    margin-top: 80px;
+}
+
+#about_materials-block h1{
+    font-family: Roboto Slab;
+    font-size: 40px;
+    color: #a3845b;
+    margin-bottom: 40px;
+}
+
+#about_materials-about{
+    width: 508px;
+    border: solid 1px #e5e5e5;
+    float: left;
+    margin-bottom: 80px;
+    background: #ffffff;
+}
+
+#about_materials-about-photo{
+    width: 488px;
+    height: 488px;
+    background: url("../img/materials/materials01.jpg");
+    margin: 10px 0 0 10px;
+}
+
+#about_materials-about p{
+    width: 420px;
+    margin: 40px 0 40px 40px;
+    line-height: 19px;
+}
+
+#about_materials-attribute{
+    width: 440px;
+    float: right;
+    background: #ffffff;
+    border-bottom: solid 8px #e6ecf1;
+    margin-bottom: 80px;
+}
+
+#about_materials-attribute h2{
+    font-size: 12px;
+    color: #274761;
+    background: #e6ecf1;
+    padding: 20px 0 20px 20px;
+}
+
+#about_materials-attribute dl {
+    width: 440px;
+    float: left;
+    border-bottom: solid 1px #efefef;
+}
+
+#about_materials-attribute dl dt{
+    width: 145px;
+    float: left;
+    margin: 12px 10px 12px 20px;
+}
+
+#about_materials-attribute dl dd{
+    font-size: 20px;
+    margin: 7px 0 7px 0;
+}
+
+#about_materials-summ {
+    width: 508px;
+    height: 175px;
+    border: solid 1px #f7540f;
+    margin: 10px 0 0 85px;
+    background: #ffffff;
+}
+
+#about_materials-summ h1{
+    font-size: 12px;
+    color: #84909a;
+    text-transform: uppercase;
+    margin: 30px 0 0 40px;
+}
+
+#about_materials-summ h2{
+    width: 428px;
+    font-size: 40px;
+    color: #84909a;
+    margin: 5px 0 10px 40px;
+    border-bottom: solid 1px #84909a;
+    padding-bottom: 20px;
+}
+
+#about_materials-summ h5{
+    color: #84909a;
+    float: left;
+    margin: 14px 10px 0 0;
+}
+
+#about_materials-summ h6{
+    font-size: 20px;
+    margin: 20px 0 0 0;
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1400px){
+
+    #about_materials-instruments_left{
+        width: 378px;
+        height: 1228px;
+        background: url("../img/materials/instruments_left.png");
+        position: absolute;
+        top: 90px;
+        left: -120px;
+        z-index: 4;
+    }
+
+
+    #about_materials-instruments_right{
+        width: 324px;
+        height: 1378px;
+        background: url("../img/materials/instruments_right.png");
+        position: absolute;
+        top: 0;
+        right: -120px;
+        z-index: 4;
+    }
+
+}
+
+@media only screen and (min-width: 1400px) and (max-width: 2500px){
+
+    #about_materials-instruments_left{
+        width: 378px;
+        height: 1228px;
+        background: url("../img/materials/instruments_left.png");
+        position: absolute;
+        top: 90px;
+        left: 0px;
+        z-index: 4;
+    }
+
+
+    #about_materials-instruments_right{
+        width: 324px;
+        height: 1378px;
+        background: url("../img/materials/instruments_right.png");
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 4;
+    }
+
+}

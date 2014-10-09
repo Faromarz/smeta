@@ -1,0 +1,72 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/cms.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/about_materials.css') }}">
+        <div id="content">
+
+            <div id="about_materials-block">
+
+                <h1>{{ material.name }}</h1>
+
+                <div id="about_materials-about">
+
+                    <div id="about_materials-about-photo" style="background: url({{ Url.media('/media/img/material/'~material.img) }}) no-repeat !important;"></div>
+
+                    <p>{{ material.description|raw }}</p>
+
+                </div>
+
+                <div id="about_materials-attribute">
+
+                    <h2>ХАРАКТЕРИСТИКИ</h2>
+
+                    <dl>
+                        <dt>Категория материала</dt>
+                        <dd>{{ material.category.name }}</dd>
+                    </dl>
+                    <dl>
+                        <dt>Страна производитель</dt>
+                        <dd>{{ material.country.name }}</dd>
+                    </dl>
+
+                </div>
+
+                <div class="rasporka100"></div>
+
+            </div>
+
+        </div>
+
+        <div id="content_bottom">
+
+            <div id="reviews_left_corner">
+
+                <div id="about_materials-summ">
+
+                    <h1>Стоимость:</h1>
+                    <h2>{{ material.price }} р.</h2>
+                    <div class="x"></div>
+                    {% set text = material.count_text|split(',') %}
+                    <h5>{{ material.size }} {{ text[0] }} = </h5>
+                    <h6>{{ material.price }} р.</h6>
+
+                </div>
+
+
+
+            </div>
+
+
+            <div id="reviews_right_corner">
+
+                <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+                <h2>при заказав ремонта от 100 000 рублей </h2>
+                <a href="#">Узнать подробности</a>
+
+            </div>
+
+
+
+        </div>
+
+{% endblock content %}
