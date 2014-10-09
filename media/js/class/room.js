@@ -150,7 +150,7 @@ function Room($parent, $params)
         if (_this.balcony !== undefined) {
             _perimeter -=   Number( _this.getBalcon() ? 1.6 : 0);
         }
-        if (_this.windows !== undefined) {
+        if (_this.window !== undefined) {
             _perimeter -=   Number(_this.getSizeWindows());
         }
         return _perimeter;
@@ -170,24 +170,25 @@ function Room($parent, $params)
         $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
         _parent.changeSize();
     };
-    // общее количество окон в комнате
+    // количество окон в комнате
     _this.getCountWindows = function() {
         var count = 0;
-       /* $.each(_this.windows, function(key, window) {
-            count += window.getCount();
-        });*/
-        return 1;
-    };
-    // общее количество окон в комнате
-    _this.getAreaApron = function() {
-        var count = 1;
-        /*  $.each(_this.windows, function(key, window) {
-         count += window.getCount();
-         });*/
+        if (_this.window !== null){
+             count += _this.window.getCount();
+        }
         return count;
     };
-    // общее количество дверей в комнате
+    // условная площадь для фартука/рукава
+    _this.getAreaApron = function() {
+        var count = 2.75;
+        return count;
+    };
+    // количество дверей в комнате
     _this.getCountDoors = function() {
+        var count = 0;
+        if (_this.door !== null){
+             count += _this.door.getCount();
+        }
         return count;
     };
     // количество петлей на дверь
