@@ -28,8 +28,9 @@ function Room($parent, $params)
     _this.door = null;
     // окна
     _this.window = null;
-    
-    _this.materials = new Array();
+
+    _this.materials = _params.materials;
+
     _this.works = new Array();
 
     if (_params.balcony) {
@@ -270,18 +271,13 @@ function Room($parent, $params)
         // удаление окон вынести в окна
         $("#add_window").siblings('.smeta_window[data-room='+_this.getId()+']').remove();
     };
+
     // обновление категорий
     _this.updateCategoriesHTML = function() {
         var html = '';
         // категории
         $.each(_this.categories, function(key, cat) {
-            var $object_material = false;
-            $.each(_this.materials, function(k, material) {
-                if(material.getCategory()===cat.getId() && material.getSelected()===1){
-                    $object_material = material;
-                };
-            });
-            html += cat.getHTML($object_material);
+            html += cat.getHTML();
         });
         $('.materials_room_for_options[data-material-block-room-id="'+_this.getId()+'"]').empty().append(html);
         $(".selectbox").selectbox();
@@ -296,12 +292,9 @@ function Room($parent, $params)
         }
         // ========== категории
         $.each(_params.categories, function(key, cat) {
+            cat.materials = new Array();
+            cat.materials = $.extend(true, [], _params.materials);
             _this.categories.push(new Category(_parent, _this, cat));
-        });
-
-        // ========== материалы
-        $.each(_params.materials, function(key, material) {
-            _this.materials.push(new Material(_parent, _this, material));
         });
 
         // click enable room

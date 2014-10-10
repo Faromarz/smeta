@@ -76,7 +76,7 @@ function Material($parent, $room, $params)
         calculation = eval('_this.getRoom().'+method+'()');
         return Math.ceil(calculation/_this.getSize());
     };
-
+    //склонение ед. измерений
     _this.declination = function(a, b, c, s) {
         var words = [a, b, c];
         var index = s % 100;
@@ -89,17 +89,17 @@ function Material($parent, $room, $params)
     // количество материала
     _this.getSize = function() {
         return _size;
-    }
+    };
     // выбранный материала
     _this.getSelected = function() {
         return _selected;
-    }
+    };
     // комната
     _this.getRoom = function() {
         return _room;
     };
     // общая цена
-    _this.getAllPrice = function() { console.log(_this.getRoom().getCountWindows());
+    _this.getAllPrice = function() {
         var summa = (parseFloat(_this.count_material())*parseFloat(_this.getPrice()));
         return number_format(summa, 2, ',', ' ');
     };

@@ -29,7 +29,6 @@ var Loaded = (function() {
             room.materials=$.extend(true, [], _this.materials);
             _this.parent.rooms[key] = new Room(_this.parent, room);
         });
-        console.log(_this.parent.rooms);
     };
 
     //---------- загрузка
