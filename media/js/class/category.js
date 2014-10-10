@@ -119,7 +119,7 @@ function Category($parent, $room, $params)
             _html += "step: 1,";
             _html += "create: function () {},";
         _html += "slide: function (e, ul) { ";
-        _html += '   $(".price-materials-' + _id_index + '").text(number_format(_room.categories[' + _param.number + '].getMaterials()[ul.value].price, \'2\', \',\', \' \') +\' р.\');';
+        //_html += '   $(".price-materials-' + _id_index + '").text(number_format(_room.categories[' + _param.number + '].getMaterials()[ul.value].price, \'2\', \',\', \' \') +\' р.\');';
         //_html += '   $(".mat-price-all-' + _id_index + '").text(number_format(smeta.rooms.room[0].categories[' + _param.number + '].material_count * smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].price, \'2\', \',\', \' \') +\' р.\');';
         //_html += '   $(".mat-name-' + _id_index + '").text(smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].name);';
         //_html += '   $(".city-name-' + _id_index + '").text(smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].city_name);';
