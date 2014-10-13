@@ -11,19 +11,19 @@
 function Material($parent, $room, $params)
 {
     var _this = this,
-         _parent = $parent,
-         _room = $room,
-         _params = $params,
-         _id = _params.id,
-         _name = _params.name,
-         _category_id = _params.category_id,
-         _price = _params.price,
-         _img = _params.img,
-         _country = _params.country,
-         _count_text = _params.count_text,
-         _size = _params.size,
-         _selected = _params.selected,
-         _calc = _params.calc;
+        _parent = $parent,
+        _room = $room,
+        _params = $params,
+        _id = _params.id,
+        _name = _params.name,
+        _category_id = _params.category_id,
+        _price = _params.price,
+        _img = _params.img,
+        _country = _params.country,
+        _count_text = _params.count_text,
+        _size = _params.size,
+        _selected = _params.selected,
+        _calc = _params.calc;
 
     // ID материала
     _this.getId = function() {
@@ -104,7 +104,6 @@ function Material($parent, $room, $params)
         return number_format(summa, 2, ',', ' ');
     };
 
-  
     // иницилизация материала
     _this.init = function() {
         

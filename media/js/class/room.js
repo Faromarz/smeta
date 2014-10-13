@@ -30,7 +30,7 @@ function Room($parent, $params)
     // окна
     _this.window = null;
 
-    _this.materials = _params.materials;
+//    _this.materials = _params.materials;
 
     _this.works = new Array();
 
@@ -298,8 +298,8 @@ function Room($parent, $params)
         // ========== категории
         var i=0;
         $.each(_params.categories, function(key, cat) {
-            cat.materials = new Array();
-            cat.materials = $.extend(true, [], _params.materials);
+//            cat.materials = new Array();
+//            cat.materials = $.extend(true, [], _params.materials);
             cat.number = i;
             _this.categories.push(new Category(_parent, _this, cat));
             i++;

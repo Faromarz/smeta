@@ -27,10 +27,10 @@ var Loaded = (function() {
         _this.parent.preloader(false);
         // иницилизация комнат
         $.each(_this.rooms, function(key, room) {
-            room.materials = new Array();
-            room.materials = $.extend(true, [], _this.materials);
+//            room.materials = new Array();
+//            room.materials = $.extend(true, [], _this.materials);// зачем-то дублируем материалы в каждую комнату либо ограничить либо закоментировать нах.
             room.works = new Array();
-            room.works = $.extend(true, [], _this.works);
+            room.works = $.extend(true, [], _this.works);// если такая же хрень как с материалами то закоментировать и вызывать Loaded.works
             _this.parent.rooms[key] = new Room(_this.parent, room);
         });
     };
@@ -41,7 +41,7 @@ var Loaded = (function() {
         var _this = this;
         _this.parent.preloader(true);
 
-        if(smetaId!=null){
+        if(smetaId !== null){
             var _callback = function(json) {
                 if (json.error) {
                     alert(json.error);

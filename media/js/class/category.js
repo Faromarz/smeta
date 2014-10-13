@@ -20,9 +20,9 @@ function Category($parent, $room, $params)
     var _childrens = _params.childrens || null;
     var _childrenId = Number(_params.childrenId) || null;
     var _repairRateCombination = _params.repair_id_rate_id.split(',');
-    var _materials = new Array();
-    var _material = null;// тут будет new Material(_params.material);
 
+   _this.materials = new Array();
+   _this.material = null;
     // ID категории
     _this.getId = function() {
         return _id;
@@ -48,19 +48,19 @@ function Category($parent, $room, $params)
     };
     // выбрать материал
     _this.setMaterial = function(){
-        $.each(_materials, function(k, material) {
-            if(material.getSelected()==1){
-                _material = material;
+        $.each(_this.materials, function(k, material) {
+            if(material.getSelected()===1){
+                _this.material = material;
             };
         });
     };
     // выбранный материал
     _this.getMaterial = function(){
-        return _material;
+        return _this.material;
     };
     //
     _this.getMaterials = function(){
-        return _materials;
+        return _this.materials;
     };
     // параметры для сметы
     _this.getParams = function() {
@@ -81,7 +81,7 @@ function Category($parent, $room, $params)
 //            return '';
 //        }
         var _id_index = _room.getType() + '-' + _room.getId() + '-' + _this.getId();
-        var _html = '', material=false;
+        var _html = '';
         _html += '<'+(_parent.smetaId === null ? 'div' : 'li') +' class="materials_room_option" id="materials-' + _id_index + '">';
         _html += '  <div class="materials_room_option_header">';
         _html += '      <p>' +  _this.getName() + '</p>';
@@ -91,43 +91,44 @@ function Category($parent, $room, $params)
         if (_childrens !== null) {
             _html += '<select class="selectbox" data-cat-id="' + _this.getId() + '"   data-room-id="' + _room.getId() + '" data-room-type="' +_room.getType() + '">';
             $.each(_childrens, function(key, cat) {
-                _html += '<option id="val' + key + '" value="' + cat.getId() + '"' + (_childrenId  === Number(cat.getId()) ? 'selected' : '') + '>' + cat.getName() + '</option>';
-                if (_childrenId  === Number(cat.getId())) material = cat.getMaterial();
+                _html += '<option id="val' + key + '" value="' + cat.id + '"' + (_childrenId  === Number(cat.id) ? 'selected' : '') + '>' + cat.name + '</option>';
+//                if (_childrenId  === Number(cat.getId())){
+//                    material = cat.getMaterial();
+//                }
             });
             _html += '</select>';
         } else {
             _html += ' <div class="materials_room_option_menu"></div>';
-            material = _this.getMaterial();
         }
 
         _html += '<div class="materials_room_option_slider">';
         _html += '    <div class="slider-materials-' + _id_index + '" style="position: relative">';
-        _html += '        <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + _id_index + '">' + material.getPrice() + ' р</h6></div>';
+        _html += '        <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + _id_index + '">' + _this.material.getPrice() + ' р</h6></div>';
         _html += '    </div>';
-        _html += '    <div class="slider_img" style="background-image: url(/media/img/material/'+material.getImg()+')">';
+        _html += '    <div class="slider_img" style="background-image: url(/media/img/material/'+_this.material.getImg()+')">';
         _html += '    <div class="slider_about">';
-        _html += '        <a href="/materials/view/'  + material.getId()+'" target="_blank" class="mat-name-' + _id_index + '">'  + material.getName()+'</a>';
-        _html += '        <h6 class="city-name-' + _id_index + '">' + material.getCountry()+'</h6>';
+        _html += '        <a href="/materials/view/'  + _this.material.getId()+'" target="_blank" class="mat-name-' + _id_index + '">'  + _this.material.getName()+'</a>';
+        _html += '        <h6 class="city-name-' + _id_index + '">' + _this.material.getCountry()+'</h6>';
         _html += '    </div>';
         _html += '</div>';
         _html += '     <div class="x"></div>';
-        _html += '     <h1>'+material.count_material()+' '+material.getCount_text_ready()+'  =</h1>';
-        _html += '     <h2 class="mat-price-all-' + _id_index + '">'+material.getAllPrice()+' р.</h2>';
+        _html += '     <h1>'+_this.material.count_material()+' '+_this.material.getCount_text_ready()+'  =</h1>';
+        _html += '     <h2 class="mat-price-all-' + _id_index + '">'+_this.material.getAllPrice()+' р.</h2>';
         _html += '</div>';
         _html += '<script>';
         _html += "$('.slider-materials-" + _id_index + "').slider({";
             _html += "min: 0,";
             _html += "orientation : 'vertical',";
             _html += "value: " + 10 + ",";
-            _html += 'max: ' + 21 + ',';
+            _html += 'max: ' + 20 + ',';
             _html += "step: 1,";
             _html += "create: function () {},";
         _html += "slide: function (e, ul) { ";
-        _html += '   $(".price-materials-' + _id_index + '").text(number_format(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getPrice(), \'2\', \',\', \' \') +\' р.\');';
-        _html += '   $(".mat-price-all-' + _id_index + '").text(number_format(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getAllPrice(), \'2\', \',\', \' \') +\' р.\');';
-        _html += '   $(".mat-name-' + _id_index + '").text(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getName());';
-        _html += '   $(".city-name-' + _id_index + '").text(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getCountry());';
-        _html += '   $("#materials-' + _id_index + '").find(".slider_img").css( "background-image","url(/media/img/material/"+Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getImg()+")");';
+        _html += '   $(".price-materials-' + _id_index + '").text(number_format(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].getPrice(), \'2\', \',\', \' \') +\' р.\');';
+        _html += '   $(".mat-price-all-' + _id_index + '").text(number_format(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].getAllPrice(), \'2\', \',\', \' \') +\' р.\');';
+        _html += '   $(".mat-name-' + _id_index + '").text(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].getName());';
+        _html += '   $(".city-name-' + _id_index + '").text(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].getCountry());';
+        _html += '   $("#materials-' + _id_index + '").find(".slider_img").css( "background-image","url(/media/img/material/"+Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].getImg()+")");';
        // _html += "   smeta.rooms.room[0].categories[" + _param.number + "].material_scroll = ul.value;";
 //                            _html +=     "var _item = $(this).parents('.item_material');" +
 //                                        "o33 = priceProfil(0, "+_room_id+");" +
@@ -135,11 +136,12 @@ function Category($parent, $room, $params)
 //                                            " Ballon.show(_item, "+_room_id+", "+_material_id+", ul.value, o33);" +
 //                                        "}else {Ballon.show(_item, "+_room_id+", "+_material_id+", ul.value, 0);} ";
         _html += "},";
-        //_html += "stop : function (e, ul) {";
+        _html += "stop : function (e, ul) {";
+        _html += "console.log('пересчитать смету(работы)')";
         //_html += "smeta.rooms.room[0].categories[" + _param.number + "].setMaterial(ul.value);";
         //_html += "smeta.calc.update();";
-        //                    _html += "var _item = $(this).parents('.item_material');  Ballon.stop(_item, "+_room_id+", "+_material_id+", ul.value); ";
-        //_html += "},";
+        // _html += "var _item = $(this).parents('.item_material');  Ballon.stop(_item, "+_room_id+", "+_material_id+", ul.value); ";
+        _html += "},";
         _html += "});";
 //                                _html += '$("#calc-material-'+_id_index+'").on("change", function() { Ballon.onEnabled('+_room_id+', '+_material_id+', this.checked, true) })';
         _html += '</script>';
@@ -169,22 +171,22 @@ function Category($parent, $room, $params)
     _this.init = function() {
          _this.updateEnable();
       //  console.log(_params);
-        if (_childrens !== null) {
-            var cat_children = new Array();
-            $.each(_params.childrens, function (key, cat) {
-                cat.materials = new Array();
-                cat.materials = $.extend(true, [], _room.materials);
-                cat_children.push(new Category(_parent, _room, cat));
-            });
-            _childrens = $.extend(true, [], cat_children);
-        };
-        var cat_materials = new Array();
-            $.each(_params.materials, function(key, material) {
-                if(material.category_id == _this.getId()){
-                    cat_materials.push(new Material(_parent, _room, material));
+      //  // замысел хорош. но нужно продумать.
+//        if (_childrens !== null) {
+//            var cat_children = new Array();
+//            $.each(_params.childrens, function (key, cat) {
+//                cat_children.push(new Category(_parent, _room, cat));
+//            });
+//            _childrens = $.extend(true, [], cat_children);
+//        };
+        var _materials = new Array();
+            $.each(Loaded.materials, function(key, material) {
+                if(Number(material.category_id) === Number(_this.getId()) || Number(material.category_id) === Number(_childrenId)){
+                    _materials.push(new Material(_parent, _room, material));
                 };
             });
-        _materials = $.extend(true, [], cat_materials);
+            _this.materials = $.extend(true, [], _materials);
+//        _materials = $.extend(true, [], cat_materials);
         _this.setMaterial();
           // галочка у материалов
         $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').die('click');
@@ -202,6 +204,7 @@ function Category($parent, $room, $params)
        $('.selectbox[data-cat-id="'+_this.getId()+'"][data-room-id="'+_room.getId()+'"][data-room-type="' +_room.getType() + '"]').live('change', function(){
             _this.setChildrenId(Number($(this).val()));
             console.log('нужно загрузить другие материалы// или изменить');
+            // при изменении чилдрен - изменить переменую _this.materials - новыми материалами
             // тут изменение материалов
             //_parent.update(); // пересчитать смету и сохранить
        });
