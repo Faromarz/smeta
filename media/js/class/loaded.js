@@ -9,13 +9,15 @@ var Loaded = (function() {
         smetaId: null,
         rooms: new Array(),
         categories: new Array(),
-        materials: new Array()
+        materials: new Array(),
+        works: new Array()
     };
     function Loaded() {
         this.parent;
         this.rooms;
         this.categories;
         this.materials;
+        this.works;
     };
 
     // все загружено - комнаты
@@ -26,18 +28,19 @@ var Loaded = (function() {
         // иницилизация комнат
         $.each(_this.rooms, function(key, room) {
             room.materials = new Array();
-            room.materials=$.extend(true, [], _this.materials);
+            room.materials = $.extend(true, [], _this.materials);
+            room.works = new Array();
+            room.works = $.extend(true, [], _this.works);
             _this.parent.rooms[key] = new Room(_this.parent, room);
         });
     };
 
-    //---------- загрузка
+    //---------- загрузка материалов
     Loaded.prototype.load = function()
     {
         var _this = this;
         _this.parent.preloader(true);
 
-        // загрузка материалов
         if(smetaId!=null){
             var _callback = function(json) {
                 if (json.error) {
@@ -45,7 +48,7 @@ var Loaded = (function() {
                     return false;
                 }
                 _this.materials = json;
-                _this.load_rooms();
+                _this.load_works();
             };
             $.post('/ajax/materials/load_materials_smeta', {'smetaId': smetaId}, _callback, "json");
         }else{
@@ -55,12 +58,28 @@ var Loaded = (function() {
                     return false;
                 }
                 _this.materials = json;
-                _this.load_rooms();
+                _this.load_works();
             };
             $.post('/ajax/materials/load_materials', {}, _callback, "json");
         };
     };
 
+    //---------- загрузка работ
+    Loaded.prototype.load_works = function()
+    {
+        var _this = this;
+        var _callback = function(json) {
+            if (json.error) {
+                alert(json.error);
+                return false;
+            }
+            _this.works = json;
+            _this.load_rooms();
+        };
+        $.post('/ajax/works/load_works', {}, _callback, "json");
+    };
+
+    //---------- загрузка комнат
     Loaded.prototype.load_rooms = function()
     {
         var _this = this;

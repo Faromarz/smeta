@@ -58,6 +58,10 @@ function Category($parent, $room, $params)
     _this.getMaterial = function(){
         return _material;
     };
+    //
+    _this.getMaterials = function(){
+        return _materials;
+    };
     // параметры для сметы
     _this.getParams = function() {
         var params = {
@@ -119,12 +123,12 @@ function Category($parent, $room, $params)
             _html += "step: 1,";
             _html += "create: function () {},";
         _html += "slide: function (e, ul) { ";
-        //_html += '   $(".price-materials-' + _id_index + '").text(number_format(_room.categories[' + _param.number + '].getMaterials()[ul.value].price, \'2\', \',\', \' \') +\' р.\');';
-        //_html += '   $(".mat-price-all-' + _id_index + '").text(number_format(smeta.rooms.room[0].categories[' + _param.number + '].material_count * smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].price, \'2\', \',\', \' \') +\' р.\');';
-        //_html += '   $(".mat-name-' + _id_index + '").text(smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].name);';
-        //_html += '   $(".city-name-' + _id_index + '").text(smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].city_name);';
-        //_html += '   $("#materials-' + _id_index + '").find(".slider_img").css( "background-image","url(/media/img/material/"+smeta.rooms.room[0].categories[' + _param.number + '].getMaterials()[ul.value].img+")");';
-        //_html += "   smeta.rooms.room[0].categories[" + _param.number + "].material_scroll = ul.value;";
+        _html += '   $(".price-materials-' + _id_index + '").text(number_format(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getPrice(), \'2\', \',\', \' \') +\' р.\');';
+        _html += '   $(".mat-price-all-' + _id_index + '").text(number_format(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getAllPrice(), \'2\', \',\', \' \') +\' р.\');';
+        _html += '   $(".mat-name-' + _id_index + '").text(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getName());';
+        _html += '   $(".city-name-' + _id_index + '").text(Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getCountry());';
+        _html += '   $("#materials-' + _id_index + '").find(".slider_img").css( "background-image","url(/media/img/material/"+Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].getMaterials()[ul.value].getImg()+")");';
+       // _html += "   smeta.rooms.room[0].categories[" + _param.number + "].material_scroll = ul.value;";
 //                            _html +=     "var _item = $(this).parents('.item_material');" +
 //                                        "o33 = priceProfil(0, "+_room_id+");" +
 //                                        "if("+_material_id+">=33 && "+ _material_id +"<=38){" +
@@ -164,6 +168,7 @@ function Category($parent, $room, $params)
     // иницилизация категории
     _this.init = function() {
          _this.updateEnable();
+      //  console.log(_params);
         if (_childrens !== null) {
             var cat_children = new Array();
             $.each(_params.childrens, function (key, cat) {

@@ -73,7 +73,10 @@ class Controller_Main extends Controller_Core
                 ->order_by('id')
                 ->execute()
                 ->as_array();
+
         foreach ($rooms as $key => $room) {
+
+            $rooms[$key]['number'] = $key;
             
             // ================ дверь
             $doors = ORM::factory('Roomparamsdef')

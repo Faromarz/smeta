@@ -13,6 +13,7 @@ function Room($parent, $params)
     var _this = this;
     var _parent = $parent;
     var _params = $params;
+    var number = _params.number;
     var roomId = Number(_params.id);
     var roomType = Number(_params.type);
     var roomTitle = _params.name;
@@ -45,6 +46,10 @@ function Room($parent, $params)
             $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(1)').children('div:eq(0)').attr('class', 'check_box_'+($type?'in':'out'));
         };
     }
+    // ключ
+    _this.getNumber = function() {
+        return number;
+    };
     // ID комнаты
     _this.getId = function() {
         return roomId;
@@ -291,12 +296,14 @@ function Room($parent, $params)
             _this.window = new Window(_parent, _this, 0, _params.window);
         }
         // ========== категории
+        var i=0;
         $.each(_params.categories, function(key, cat) {
             cat.materials = new Array();
             cat.materials = $.extend(true, [], _params.materials);
+            cat.number = i;
             _this.categories.push(new Category(_parent, _this, cat));
+            i++;
         });
-
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {
             $(this).toggleClass("ignore ignored");
