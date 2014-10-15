@@ -40,6 +40,9 @@ function Material($parent, $room, $params)
     };
     // цена материала
     _this.getPrice = function() {
+        if ($.inArray(Number(_category_id), [46,47,48]) !== -1 && _room.window !== null) {
+            return _room.window.getPrice(parseFloat(_price)-1);
+        }
         return _price;
     };
     // картинка материала

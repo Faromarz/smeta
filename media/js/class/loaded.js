@@ -18,6 +18,7 @@ var Loaded = (function() {
         this.categories;
         this.materials;
         this.works;
+        this.okna;
     };
 
     // все загружено - комнаты
@@ -83,7 +84,7 @@ var Loaded = (function() {
     Loaded.prototype.load_rooms = function()
     {
         var _this = this;
-        var load = 1;
+        var load = 2;
         // загрузка комнат
         var _callback = function(json) {
             if (json.error) {
@@ -97,6 +98,19 @@ var Loaded = (function() {
             }
         };
         $.post('/ajax/rooms/get_rooms', {'smetaId': smetaId}, _callback, "json");
+        // загрузка параметров окон
+        var _callback = function(json) {
+            if (json.error) {
+                alert(json.error);
+                return false;
+            }
+            _this.okna = json;
+            load--;
+            if(load === 0){
+                _this.finishLoad();
+            }
+        };
+        $.post('/ajax/rooms/get_okna', {'smetaId': smetaId}, _callback, "json");
     };
 
     Loaded.prototype.init = function(options)

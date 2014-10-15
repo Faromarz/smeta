@@ -175,6 +175,121 @@ function Window($parent, $room, $key, $params)
         };
         return params;
     };
+    _this.getPrice = function($scroll) {
+        var o3 = false;
+        var area = Math.round(_this.getWidth() * _this.getHeight() * 100);
+        
+        var type=_this.getCountType()-1;
+        
+        var stvorka1 = Number(Loaded.okna[type]['base_gluh']);
+        var stvorka2 = Number(Loaded.okna[type]['stvorka2']);
+        var stvorka3 = Number(Loaded.okna[type]['stvorka3']);
+
+        var base_window = Number(Loaded.okna[type]['base_gluh']) + area * Number(Loaded.okna[type]['price']);
+        var base_povorot_window = Number(Loaded.okna[type]['base_povorot']) + area * Number(Loaded.okna[type]['price']);
+        var base_povorot_otk_window = Number(Loaded.okna[type]['base_povorot_otk']) + area * Number(Loaded.okna[type]['price']);
+
+        var podokonnik = Number(Loaded.okna[type]['podokonnik_otliv']) * _this.getWidth() * 10;
+        var otkos_sht = Number(Loaded.okna[type]['otkos_shtuk']) * area;
+        var otkos_plast = Number(Loaded.okna[type]['otkos_plastik']) * area;
+        var montaj = Number(Loaded.okna[type]['montaj']) * area;
+        var setka = Number(Loaded.okna[type]['setka']) * area;
+        var framuga = Number(Loaded.okna[type]['framuga']);
+        var woodColor = Number(Loaded.okna[type]['color_wood']);
+
+        if (_this.getWidth() >= 0.4 && _this.getWidth() <= 1.0) {
+            base_window += stvorka1;
+            base_povorot_window += stvorka1;
+            base_povorot_otk_window += stvorka1;
+        }
+        if (_this.getWidth() >= 1.001 && _this.getWidth() <= 1.7) {
+            base_window += stvorka2;
+            base_povorot_window += stvorka2;
+            base_povorot_otk_window += stvorka2;
+        }
+        if (_this.getWidth() >= 1.701 && _this.getWidth() <= 2.7) {
+            base_window += stvorka3;
+            base_povorot_window += stvorka3;
+            base_povorot_otk_window += stvorka3;
+        }
+
+        if (_this.getHeight() >= 1.601 && _this.getHeight() <= 2.3) {
+            base_window += framuga;
+            base_povorot_window += framuga;
+            base_povorot_otk_window += framuga;
+        }
+
+        switch (Number($scroll)) {
+            case 0:
+                o3 = base_window;
+                break;
+            case 1:
+                o3 = base_window + montaj;
+                break;
+            case 2:
+                o3 = base_window + montaj + otkos_sht;
+                break;
+            case 3:
+                o3 = base_window + montaj + otkos_plast;
+                break;
+            case 4:
+                o3 = base_window + montaj + otkos_plast + podokonnik;
+                break;
+            case 5:
+                o3 = base_window + montaj + otkos_plast + podokonnik + setka;
+                break;
+            case 6:
+                o3 = base_povorot_window;
+                break;
+            case 7:
+                o3 = base_povorot_window + podokonnik;
+                break;
+            case 8:
+                o3 = base_povorot_window + podokonnik + otkos_sht;
+                break;
+            case 9:
+                o3 = base_povorot_window + podokonnik + otkos_plast;
+                break;
+            case 10:
+                o3 = base_povorot_window + podokonnik + otkos_plast + montaj;
+                break;
+            case 11:
+                o3 = base_povorot_window + podokonnik + otkos_plast + montaj + setka;
+                break;
+            case 12:
+                o3 = base_povorot_otk_window;
+                break;
+            case 13:
+                o3 = base_povorot_otk_window + podokonnik;
+                break;
+            case 14:
+                o3 = base_povorot_otk_window + podokonnik + otkos_sht;
+                break;
+            case 15:
+                o3 = base_povorot_otk_window + podokonnik + otkos_plast;
+                break;
+            case 16:
+                o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj;
+                break;
+            case 17:
+                o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka;
+                break;
+            case 18:
+                if (_this.getLength() >= 0.9 && _this.getLength() <= 1.6) {
+                    o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka + framuga;
+                } else {
+                    o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka;
+                }
+                break;
+            case 19:
+                o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka + woodColor;
+                if (_this.getLength() >= 0.9 && _this.getLength() <= 1.6) {
+                    o3 += framuga;
+                }
+                break;
+        }
+        return o3;
+    };
     // удаление окна
     _this.removeWindow = function() {
         if (_room !== null && _room.getId() === 1){
@@ -183,6 +298,7 @@ function Window($parent, $room, $key, $params)
     };
     // иницилизация окон
     _this.init = function() {
+        
         $('#'+_this.getRoomId()+'_window_'+_key+'_width')
             .dblclick(function() {
                 temp = this.value;

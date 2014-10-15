@@ -36,6 +36,15 @@ class Controller_Ajax_Rooms extends Controller
         }
         die(json_encode($rooms));
     }
+    public function action_get_okna()
+    {
+        $okna = DB::select('*')
+                ->from('okna')
+                ->order_by('id')
+                ->execute()
+                ->as_array();
+        die(json_encode($okna));
+    }
     public function action_load_rooms()
     {
         $result = array();
