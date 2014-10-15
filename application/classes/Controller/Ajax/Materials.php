@@ -74,7 +74,7 @@ class Controller_Ajax_Materials extends Controller
     public function action_load_materials_smeta()
     {
         $result = array();
-        $id = (int) Arr::get($_POST, 'id', 0);
+        $id = (int) Arr::get($_POST, 'smetaId', 0);
         $rooms_smeta = ORM::factory('Smeta_Room')->where('smeta_id','=',$id)->find_all();
         foreach ($rooms_smeta as $room){
             $smeta_materials = ORM::factory('Smeta_Material')->where('smeta_id','=',$id)->where('room_id','=',$room->room_id)->find_all();
@@ -94,6 +94,7 @@ class Controller_Ajax_Materials extends Controller
                 foreach ($materials as $material){
                     $result[] = array(
                         'category_id'=>$material->category_id,
+                        'calc'=>$material->category->calculation,
                         'room_id'=>$room->room_id,
                         'id'=>$material->id,
                         'name'=>$material->name,
@@ -113,6 +114,7 @@ class Controller_Ajax_Materials extends Controller
                         foreach ($materials as $material){
                             $result[] = array(
                                 'category_id'=>$material->category_id,
+                                'calc'=>$material->category->calculation,
                                 'room_id'=>$room->room_id,
                                 'id'=>$material->id,
                                 'name'=>$material->name,

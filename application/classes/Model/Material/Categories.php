@@ -12,7 +12,12 @@ class Model_Material_Categories extends ORM_MPTT
 
     );
 
-    protected $_belongs_to = array();
+    protected $_belongs_to = array(
+        'category_parent' => array(
+            'model'   => 'Material_Categories',
+            'foreign_key'   => 'parent_id',
+        )
+    );
 
     public function count_materials()
     {

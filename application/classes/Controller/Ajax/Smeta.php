@@ -93,6 +93,11 @@ class Controller_Ajax_Smeta extends Controller_Core
                     $smeta_cat->children_id = $cat['childrenId'];
                 }
                 $smeta_cat->create();
+                $smeta_material = ORM::factory('Smeta_Material');
+                $smeta_material->smeta_id = $smeta->id;
+                $smeta_material->room_id = (int) $room['id'];
+                $smeta_material->material_id = $cat['material_id'];
+                $smeta_material->save();
             }
         }
         foreach($doors as $door){

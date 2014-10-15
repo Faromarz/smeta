@@ -23,7 +23,8 @@ function Material($parent, $room, $params)
         _count_text = _params.count_text,
         _size = _params.size,
         _selected = _params.selected,
-        _calc = _params.calc;
+        _calc = _params.calc,
+        _room_id = _params.room_id || 0;
 
     // ID материала
     _this.getId = function() {
@@ -90,9 +91,22 @@ function Material($parent, $room, $params)
     _this.getSize = function() {
         return _size;
     };
+    // комната материала
+    _this.getRoomId = function() {
+        return _room_id;
+    };
+
     // выбранный материала
     _this.getSelected = function() {
         return _selected;
+    };
+    // убрать выбранный материал
+    _this.deleteSelected = function() {
+        _selected = 0;
+    };
+    // выбрать материал
+    _this.setSelected = function() {
+        _selected = 1;
     };
     // комната
     _this.getRoom = function() {
@@ -101,7 +115,7 @@ function Material($parent, $room, $params)
     // общая цена
     _this.getAllPrice = function() {
         var summa = (parseFloat(_this.count_material())*parseFloat(_this.getPrice()));
-        return number_format(summa, 2, ',', ' ');
+        return summa;
     };
 
     // иницилизация материала

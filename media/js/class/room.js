@@ -285,7 +285,28 @@ function Room($parent, $params)
             html += cat.getHTML();
         });
         $('.materials_room_for_options[data-material-block-room-id="'+_this.getId()+'"]').empty().append(html);
-        $(".selectbox").selectbox();
+        $(".selectbox").selectbox({
+            onChange: function (val, inst) {
+                var room_id = $(this).attr('data-room-id'),
+                    category_id = $(this).attr('data-cat-id');
+                $.each(_parent.rooms, function(key, room) {
+                    if (room.getId() == Number(room_id)){
+                        $.each(room.categories, function(k, cat) {
+                            if(cat.getId() == Number(category_id)){
+                                cat.newCategory(Number(val));
+                            };
+                        });
+                    };
+                });
+            }
+        });
+        $(".slider_img")
+            .mouseenter(function() {
+                $(this).children(".slider_about").show();
+            })
+            .mouseleave(function() {
+                $(this).children(".slider_about").hide();
+            });
     };
     // иницилизация комнаты
     _this.init = function() {

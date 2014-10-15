@@ -78,6 +78,9 @@ class Controller_Budget extends Controller_Core {
                 ->execute()
                 ->as_array();
         foreach ($rooms as $key => $room) {
+
+                $rooms[$key]['number'] = $key;
+
                 // дверь
                 $door = ORM::factory('Smeta_Door')
                         ->select(array('room_params_def.id', 'type'))

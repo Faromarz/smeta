@@ -1,7 +1,8 @@
 {% extends "layout/html.twig" %}
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}" />
-    
+
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/material.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/category.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/loaded.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/window.js') }}"></script>
@@ -302,7 +303,7 @@
                     </div>
                     <div class="ignore_4 room-material-enable" data-room-id="{{ room.id }}"></div>
 
-                    <ul data-material-block-room-id="{{ room.id }}" class="materials_room_for_options-{{ room.id }} materials_room_for_options budget_basic_options_name_materials_block">
+                    <ul data-material-block-room-id="{{ room.id }}" class="materials_room_for_options budget_basic_options_name_materials_block">
                     </ul>
                 </div>
             {% endfor %}

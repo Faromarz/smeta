@@ -50,8 +50,18 @@ function Category($parent, $room, $params)
     _this.setMaterial = function(){
         $.each(_this.materials, function(k, material) {
             if(material.getSelected()===1){
-                _this.material = material;
+                if (_parent.smetaId === null) {
+                    _this.material = material;
+                }else if(_room.getId()==material.getRoomId()){
+                    _this.material = material;
+                }
             };
+        });
+    };
+    // убрать выбранный материал
+    _this.deleteSelectedMaterial = function(){
+        $.each(_this.materials, function(k, material) {
+            material.deleteSelected();
         });
     };
     // выбранный материал
@@ -66,7 +76,8 @@ function Category($parent, $room, $params)
     _this.getParams = function() {
         var params = {
             id: _this.getId(),
-            enable: _this.getEnable()
+            enable: _this.getEnable(),
+            material_id: _this.getMaterial().getId()
         };
         if (_childrenId !== null) {
             params['childrenId'] =  _childrenId;
@@ -119,7 +130,7 @@ function Category($parent, $room, $params)
         _html += "$('.slider-materials-" + _id_index + "').slider({";
             _html += "min: 0,";
             _html += "orientation : 'vertical',";
-            _html += "value: " + 10 + ",";
+            _html += "value: " + (_parent.smetaId === null ? 10 : 5) + ",";
             _html += 'max: ' + 20 + ',';
             _html += "step: 1,";
             _html += "create: function () {},";
@@ -137,7 +148,10 @@ function Category($parent, $room, $params)
 //                                        "}else {Ballon.show(_item, "+_room_id+", "+_material_id+", ul.value, 0);} ";
         _html += "},";
         _html += "stop : function (e, ul) {";
-        _html += "console.log('пересчитать смету(работы)')";
+        _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].deleteSelectedMaterial();';
+        _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].setSelected();';
+        _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].setMaterial();';
+        _html += "console.log('пересчитать смету(работы)');";
         //_html += "smeta.rooms.room[0].categories[" + _param.number + "].setMaterial(ul.value);";
         //_html += "smeta.calc.update();";
         // _html += "var _item = $(this).parents('.item_material');  Ballon.stop(_item, "+_room_id+", "+_material_id+", ul.value); ";
@@ -146,13 +160,6 @@ function Category($parent, $room, $params)
 //                                _html += '$("#calc-material-'+_id_index+'").on("change", function() { Ballon.onEnabled('+_room_id+', '+_material_id+', this.checked, true) })';
         _html += '</script>';
         _html += '</'+(_parent.smetaId === null ? 'div' : 'li')+'>';
-        $(".slider_img")
-            .mouseenter(function() {
-                $(this).children(".slider_about").show();
-            })
-            .mouseleave(function() {
-                $(this).children(".slider_about").hide();
-            });
         return   _html;
     };
     _this.updateEnable = function(){
@@ -167,6 +174,23 @@ function Category($parent, $room, $params)
     _this.setChildrenId = function($id){
         _childrenId = $id;
     };
+    // для selectbox
+    _this.newCategory = function($id){
+        _this.setChildrenId($id);
+        _this.selectMaterials();
+        _room.updateCategoriesHTML();
+    };
+    // выбрать материалы для категории
+    _this.selectMaterials = function(){
+        var _materials = new Array();
+        $.each(Loaded.materials, function(key, material) {
+            if(Number(material.category_id) === Number(_this.getId()) || Number(material.category_id) === Number(_childrenId)){
+                _materials.push(new Material(_parent, _room, material));
+            };
+        });
+        _this.materials = $.extend(true, [], _materials);
+        _this.setMaterial();
+    };
     // иницилизация категории
     _this.init = function() {
          _this.updateEnable();
@@ -179,15 +203,16 @@ function Category($parent, $room, $params)
 //            });
 //            _childrens = $.extend(true, [], cat_children);
 //        };
-        var _materials = new Array();
-            $.each(Loaded.materials, function(key, material) {
-                if(Number(material.category_id) === Number(_this.getId()) || Number(material.category_id) === Number(_childrenId)){
-                    _materials.push(new Material(_parent, _room, material));
-                };
-            });
-            _this.materials = $.extend(true, [], _materials);
-//        _materials = $.extend(true, [], cat_materials);
-        _this.setMaterial();
+//        var _materials = new Array();
+//            $.each(Loaded.materials, function(key, material) {
+//                if(Number(material.category_id) === Number(_this.getId()) || Number(material.category_id) === Number(_childrenId)){
+//                    _materials.push(new Material(_parent, _room, material));
+//                };
+//            });
+//            _this.materials = $.extend(true, [], _materials);
+////        _materials = $.extend(true, [], cat_materials);
+//        _this.setMaterial();
+        _this.selectMaterials();
           // галочка у материалов
         $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').die('click');
         $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').live('click', function() {
