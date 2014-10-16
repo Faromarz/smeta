@@ -30,8 +30,8 @@ var Loaded = (function() {
         $.each(_this.rooms, function(key, room) {
 //            room.materials = new Array();
 //            room.materials = $.extend(true, [], _this.materials);// зачем-то дублируем материалы в каждую комнату либо ограничить либо закоментировать нах.
-            room.works = new Array();
-            room.works = $.extend(true, [], _this.works);// если такая же хрень как с материалами то закоментировать и вызывать Loaded.works
+//            room.works = new Array();
+//            room.works = $.extend(true, [], _this.works);// если такая же хрень как с материалами то закоментировать и вызывать Loaded.works
             _this.parent.rooms[key] = new Room(_this.parent, room);
         });
     };

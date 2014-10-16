@@ -266,6 +266,49 @@ function Room($parent, $params)
         }
         return params;
     };
+    // сумма материалов комнаты
+    _this.getPriceAllMaterials = function() {
+        var summa = 0;
+        $.each(_this.categories, function(key, cat) {
+            if(cat.getEnable()) {
+                summa += cat.getPriceMaterial();
+            }
+        });
+        return summa;
+    };
+    // сумма работ комнаты
+    _this.getPriceAllWorks = function() {
+        var summa = 0;
+        $.each(_this.works, function(key, work) {
+            if(_parent.types.getApartment() == work.getApartment())
+            if($.inArray(_parent.types.getCombination(),  work.getRepair()) !== -1 || work.getRepair() === null) {
+                $.each(_this.categories, function (k, cat) {
+                    if (cat.getEnable()) {
+                        if($.inArray(cat._childrenId === null ? cat.getId() : cat._childrenId, work.getCatId()) !== -1 || work.getCatId() === null) {
+                            var count = work.getSumma();
+                            if (count === undefined) {
+                                count = 1;
+                            } else if ( work.getPrice() === undefined) {
+                            }
+                            summa += parseFloat(work.getPrice()) * parseFloat(count);
+                            //if(work.type === 0){
+                            //    dem_sum+=parseFloat(work.price) * parseFloat(count);
+                            //    dem_time+=parseFloat(work.watch);
+                            //}else{
+                            //    mont_sum+=parseFloat(work.price) * parseFloat(count);
+                            //    mont_time+=parseFloat(work.watch);
+                            //}
+                            //all_works.push({ 'work_id' : work.id, 'room_id' : room.getId(), 'room_type' : room.getType(),
+                            //    'price' : parseFloat(work.price) * parseFloat(_this.count), 'count' : parseFloat(_this.count)});
+                            //summa += cat.getPriceWorks();
+                        }
+                    }
+                });
+            }
+        });
+
+        return summa;
+    };
     // удаление комнаты
     _this.removeRoom = function() {
         if (_this.getId() === 1){
@@ -324,6 +367,12 @@ function Room($parent, $params)
             cat.number = i;
             _this.categories.push(new Category(_parent, _this, cat));
             i++;
+        });
+        $.each(Loaded.works, function(key, work) {
+            var for_types = work.room_type === null ? 1 : work.room_type.split(',');
+            if($.inArray(""+_this.getType(), for_types) !== -1 || work.room_type === null) {
+                _this.works.push(new Work(_parent, _this, work));
+            }
         });
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {

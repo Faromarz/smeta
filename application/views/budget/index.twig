@@ -2,6 +2,7 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('media/css/budget.css') }}" />
 
+    <script type="text/javascript" src="{{ Url.media('/media/js/class/work.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/material.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/category.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/class/loaded.js') }}"></script>
@@ -289,7 +290,7 @@
 
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt>{{ smeta.price_materials }} р.</dt>
+                    <dt id="budget_materials_summ">{{ smeta.price_materials }} р.</dt>
                     <dd>Общая сумма:</dd>
                 </dl>
                 <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>

@@ -23,6 +23,7 @@ var Smeta = (function() {
         this.load = Loaded;
         this.smetaId = null;
         this.materials_enable = true;
+        this.price_materials = 0;
     };
     // ---------------- возвращает высоту потолка
     Smeta.prototype.getHeight = function()
@@ -300,7 +301,7 @@ var Smeta = (function() {
                 "apartment_id" : _this.types.getApartment(),
                 "size" : _this.getSize(),
                 "height" : _this.getHeight(),
-                "price_materials" : 0,
+                "price_materials" : _this.price_materials,
                 "price_work_dem": 0,
                 "price_work_mon": 0,
                 "time_work_dem": 0,
@@ -360,6 +361,20 @@ var Smeta = (function() {
         this.changeSize();
         // !!! возможны зацикливания !!!
         // перерасчет материалов, работ, общей цены
+        //=========== материалы =====================
+        var summa_materials = 0,
+            summa_works = 0;
+        $.each(this.rooms, function(key, room) {
+            summa_materials += room.getPriceAllMaterials();
+            summa_works += room.getPriceAllWorks();
+        });
+        $('#materials_summ').find('h1:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
+        $('#budget_materials_summ').text(number_format(summa_materials, 2, ',', ' ') + '  р');
+        this.price_materials = parseFloat(summa_materials).toFixed(2);
+        //=========== работы =====================
+
+        //=========== общая сумма =====================
+        $('#your_price_without_discount').find('h2:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
         console.log('должен быть общий перерачет сметы (вызывать аккуратно после изменений чего либо)');
     };
 

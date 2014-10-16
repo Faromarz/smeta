@@ -46,6 +46,10 @@ function Category($parent, $room, $params)
     _this.getEnable = function() {
         return _enable;
     };
+    // цена материала
+    _this.getPriceMaterial = function() {
+        return _this.material.getAllPrice();
+    };
     // выбрать материал
     _this.setMaterial = function(){
         $.each(_this.materials, function(k, material) {
@@ -151,7 +155,7 @@ function Category($parent, $room, $params)
         _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].deleteSelectedMaterial();';
         _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].setSelected();';
         _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].setMaterial();';
-        _html += "console.log('пересчитать смету(работы)');";
+        _html += "Smeta.update(); console.log('пересчитать смету(работы)');";
         //_html += "smeta.rooms.room[0].categories[" + _param.number + "].setMaterial(ul.value);";
         //_html += "smeta.calc.update();";
         // _html += "var _item = $(this).parents('.item_material');  Ballon.stop(_item, "+_room_id+", "+_material_id+", ul.value); ";
