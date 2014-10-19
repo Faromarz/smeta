@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `material_params` (
   `flam` varchar(63) DEFAULT NULL COMMENT 'Класс горючести',
   `type_diz` varchar(63) DEFAULT NULL COMMENT 'Тип дизайна:',
   `design_id` int(10) DEFAULT NULL COMMENT 'Дизайн',
-  `type_id` int(10) DEFAULT NULL COMMENT 'Порода дерева',
+  `type_wood_id` int(10) DEFAULT NULL COMMENT 'Порода дерева',
   `color_id` int(10) DEFAULT NULL COMMENT 'Цвет',
   `count_line` varchar(125) DEFAULT NULL COMMENT 'Количество полос',
   `fasca` varchar(255) DEFAULT NULL COMMENT 'Фаска',

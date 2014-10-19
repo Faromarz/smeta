@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Country extends ORM
+class Model_Colection extends ORM
 {
-    protected $_table_name = 'country';
+    protected $_table_name = 'colection';
     protected $_primary_key = 'id';
     
     public function __toString()

@@ -12,13 +12,29 @@ class Model_Material_Params extends ORM
             'model'   => 'Material',
             'foreign_key'   => 'material_id',
         ),
-//        'country' => array(
-//            'model'   => 'Country',
-//            'foreign_key'   => 'country_id',
-//        ),
+        'country' => array(
+            'model'   => 'Country',
+            'foreign_key'   => 'country_id',
+        ),
         'manuf' => array(
             'model' => 'Manuf',
             'foreign_key' => 'manuf_id'
+        ),
+        'colection' => array(
+            'model' => 'Colection',
+            'foreign_key' => 'colection_id'
+        ),
+        'design' => array(
+            'model' => 'Design',
+            'foreign_key' => 'design_id'
+        ),
+        'type_wood' => array(
+            'model' => 'Types_Wood',
+            'foreign_key' => 'type_wood_id'
+        ),
+        'color' => array(
+            'model' => 'Color',
+            'foreign_key' => 'color_id'
         )
     );
         

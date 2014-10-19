@@ -9,7 +9,7 @@
                 <h1>{{ material.name }}</h1>
 
                 <div id="about_materials-about">
-                    <div id="about_materials-about-photo" style="background: url({{ Url.media('/media/img/material/'~material.img) }}) no-repeat !important;"></div>
+                    <div id="about_materials-about-photo" style="background: url({{ Url.media('/media/img/material/' ~ material.img) }}) no-repeat !important;"></div>
                     <p>{{ material.description|raw }}</p>
                 </div>
 
@@ -33,14 +33,30 @@
                                         'id',
                                         'material_id',
                                         'room_old',
-                                        'products_id_old'
+                                        'products_id_old',
+                                        'country_manuf_id_old'
                                         ]
                             and material.params.as_array()[key]
                                                             %}
-                      
                             <dl>
                                 <dt>{{ key |i18n }}</dt>
-                                <dd>{{ material.params.as_array()[key] }}</dd>
+                                <dd>
+                                {% if key == 'manuf_id' %}
+                                    {{ material.params.manuf }}
+                                {% elseif key == 'country_id' %}
+                                    {{ material.params.country }}
+                                {% elseif key == 'colection_id' %}
+                                    {{ material.params.colection }}
+                                {% elseif key == 'design_id' %}
+                                    {{ material.params.design }}
+                                {% elseif key == 'type_wood_id' %}
+                                    {{ material.params.type_wood }}
+                                {% elseif key == 'color_id' %}
+                                    {{ material.params.color }}
+                                {% else %}
+                                    {{ material.params.as_array()[key |replace({'_id': ''})] }}
+                                {% endif %}
+                                </dd>
                             </dl>
                         
                     {% endfor %}
