@@ -275,7 +275,7 @@ function Window($parent, $room, $key, $params)
                 o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka;
                 break;
             case 18:
-                if (_this.getLength() >= 0.9 && _this.getLength() <= 1.6) {
+                if (_this.getHeight() >= 0.9 && _this.getHeight() <= 1.6) {
                     o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka + framuga;
                 } else {
                     o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka;
@@ -283,7 +283,7 @@ function Window($parent, $room, $key, $params)
                 break;
             case 19:
                 o3 = base_povorot_otk_window + podokonnik + otkos_plast + montaj + setka + woodColor;
-                if (_this.getLength() >= 0.9 && _this.getLength() <= 1.6) {
+                if (_this.getHeight() >= 0.9 && _this.getHeight() <= 1.6) {
                     o3 += framuga;
                 }
                 break;

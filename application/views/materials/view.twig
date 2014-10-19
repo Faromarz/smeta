@@ -9,25 +9,41 @@
                 <h1>{{ material.name }}</h1>
 
                 <div id="about_materials-about">
-
                     <div id="about_materials-about-photo" style="background: url({{ Url.media('/media/img/material/'~material.img) }}) no-repeat !important;"></div>
-
                     <p>{{ material.description|raw }}</p>
-
                 </div>
 
                 <div id="about_materials-attribute">
 
                     <h2>ХАРАКТЕРИСТИКИ</h2>
-
                     <dl>
                         <dt>Категория материала</dt>
                         <dd>{{ material.category.name }}</dd>
                     </dl>
+                    {% if material.country.name %}
                     <dl>
                         <dt>Страна производитель</dt>
                         <dd>{{ material.country.name }}</dd>
                     </dl>
+                    {% endif %}
+                    {% for key in material.params.as_array()|keys
+                            if key not in 
+                                        [
+                                        'type_old',
+                                        'id',
+                                        'material_id',
+                                        'room_old',
+                                        'products_id_old'
+                                        ]
+                            and material.params.as_array()[key]
+                                                            %}
+                      
+                            <dl>
+                                <dt>{{ key |i18n }}</dt>
+                                <dd>{{ material.params.as_array()[key] }}</dd>
+                            </dl>
+                        
+                    {% endfor %}
 
                 </div>
 
@@ -44,19 +60,14 @@
                 <div id="about_materials-summ">
 
                     <h1>Стоимость:</h1>
-                    <h2>{{ material.price }} р.</h2>
+                    <h2>{{ material.price | number_format(2, ',', ' ')}} р.</h2>
                     <div class="x"></div>
                     {% set text = material.count_text|split(',') %}
-                    <h5>{{ material.size }} {{ text[0] }} = </h5>
-                    <h6>{{ material.price }} р.</h6>
+                    <h5>{{ material.size }} {{ text[0]|raw }} = </h5>
+                    <h6>{{ material.price | number_format(2, ',', ' ')}} р.</h6>
 
                 </div>
-
-
-
             </div>
-
-
             <div id="reviews_right_corner">
 
                 <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
@@ -64,9 +75,6 @@
                 <a href="#">Узнать подробности</a>
 
             </div>
-
-
-
         </div>
 
 {% endblock content %}

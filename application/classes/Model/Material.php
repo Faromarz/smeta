@@ -15,6 +15,14 @@ class Model_Material extends ORM
             'foreign_key'   => 'country_id',
         ),
     );
+    
+    protected $_has_one = array(
+        'params' => array(
+            'model' => 'Material_Params',
+            'foreign_key' => 'material_id'
+            )
+    );
+
 
     public function min_price()
     {

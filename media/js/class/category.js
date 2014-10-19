@@ -56,7 +56,7 @@ function Category($parent, $room, $params)
             if(material.getSelected()===1){
                 if (_parent.smetaId === null) {
                     _this.material = material;
-                }else if(_room.getId()==material.getRoomId()){
+                }else if(_room.getId()===material.getRoomId()){
                     _this.material = material;
                 }
             };
@@ -122,7 +122,7 @@ function Category($parent, $room, $params)
         _html += '    </div>';
         _html += '    <div class="slider_img" style="background-image: url(/media/img/material/'+_this.material.getImg()+')">';
         _html += '    <div class="slider_about">';
-        _html += '        <a href="/materials/view/'  + _this.material.getId()+'" target="_blank" class="mat-name-' + _id_index + '">'  + _this.material.getName()+'</a>';
+        _html += '        <a href="'  + _this.material.getUrl()+'" target="_blank" class="mat-name-' + _id_index + '">'  + _this.material.getName()+'</a>';
         _html += '        <h6 class="city-name-' + _id_index + '">' + _this.material.getCountry()+'</h6>';
         _html += '    </div>';
         _html += '</div>';

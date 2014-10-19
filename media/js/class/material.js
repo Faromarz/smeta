@@ -45,6 +45,13 @@ function Material($parent, $room, $params)
         }
         return _price;
     };
+    //  ссылка на материал
+    _this.getUrl = function() {
+        if ($.inArray(Number(_category_id), [46,47,48]) !== -1 && _room.window !== null) {
+            return '/materials/view/'  + _this.getId()+'?width='+_room.window.getWidth()+'&height='+_room.window.getHeight()+'&type='+_room.window.getCountType()+'&offset='+(Number(_this.getSelected())+1);
+        }
+        return '/materials/view/'  + _this.getId()+'';
+    };
     // картинка материала
     _this.getImg = function() {
         return _img;
