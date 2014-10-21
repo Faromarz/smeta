@@ -213,7 +213,7 @@
                     <div class="ignore_4"></div>
                     <ul>
                         {% for work in smeta.works.find_all() %}
-                            {% if work.works.type==0 and room.rooms.id==work.room_id %}
+                            {% if work.works.type==0 and room.room.id==work.room_id %}
                                 <li>
                                     <p>{{ work.price }} р.</p>
                                     <p>{{ work.works.watch }}</p>
@@ -263,7 +263,7 @@
                             <ul class="budget_basic_options_list-{{ cat_work.id }}">
                                 <li></li>
                                 {% for work in smeta.works.find_all() %}
-                                    {% if work.works.category_id==cat_work.id and work.works.type==1 and room.rooms.id==work.room_id %}
+                                    {% if work.works.category_id==cat_work.id and work.works.type==1 and room.room.id==work.room_id %}
                                         <li>
                                             <p>{{ work.price }} р.</p>
                                             <p>{{ work.works.watch }}</p>

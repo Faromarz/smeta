@@ -77,21 +77,19 @@ class Controller_Ajax_Materials extends Controller
         $id = (int) Arr::get($_POST, 'smetaId', 0);
         $rooms_smeta = ORM::factory('Smeta_Room')->where('smeta_id','=',$id)->find_all();
         foreach ($rooms_smeta as $room){
-            $smeta_materials = ORM::factory('Smeta_Material')->where('smeta_id','=',$id)->where('room_id','=',$room->room_id)->find_all();
-            foreach ($smeta_materials as $smeta_material){
-                $cat = $smeta_material->materials->category->category_parent;
-                $under_cat = $smeta_material->materials->category;
-                $min_price = $smeta_material->materials->min_price();
-                $max_price = $smeta_material->materials->max_price();
+            $smeta_categories = $room->smeta_categories->find_all();
+            foreach ($smeta_categories as $smeta_category){
+                $category = $smeta_category->children_id>0 ? $smeta_category->children_id : $smeta_category->material_categories_id;
                 $materials = ORM::factory('Material')
-                    ->where('category_id','=',$smeta_material->materials->category_id)
-                    ->and_where('price', 'between', DB::expr($min_price.' AND '.$max_price))
-                    ->order_by('price','ASC')
-                    ->find_all()->as_array();
-                if(count($materials)==0 && $min_price==$max_price) {
-                    $materials=ORM::factory('Material')->where('category_id','=',$smeta_material->materials->category_id)->order_by('price','ASC')->find_all()->as_array();
-                }
-                foreach ($materials as $material){
+                    ->where('category_id','=',$category)
+                    ->and_where('price', '<=', $smeta_category->material->price)
+                    ->and_where('id', '<>', $smeta_category->material->id)
+                    ->limit(5)
+                    ->order_by('price','DESC')
+                    ->order_by('id','ASC')
+                    ->find_all();
+                $add_materials = $materials->as_array(NULL, 'id');
+                foreach (array_reverse($materials->as_array()) as $material){
                     $result[] = array(
                         'category_id'=>$material->category_id,
                         'calc'=>$material->category->calculation,
@@ -103,11 +101,48 @@ class Controller_Ajax_Materials extends Controller
                         'country'=>$material->country->name,
                         'count_text'=>$material->count_text,
                         'size'=>$material->size,
-                        'selected'=> ($smeta_material->material_id==$material->id?1:0)
+                        'selected'=> 0
                     );
                 }
-                if($cat->loaded()){
-                    $categories = ORM::factory('Material_Categories')->where('parent_id','=',$cat->id)->and_where('id','<>',$under_cat)->find_all();
+                $result[] = array(
+                    'category_id'=>$smeta_category->material->category_id,
+                    'calc'=>$smeta_category->material->category->calculation,
+                    'room_id'=> (int) $room->room_id,
+                    'id'=>$smeta_category->material->id,
+                    'name'=>$smeta_category->material->name,
+                    'price'=>$smeta_category->material->price,
+                    'img'=>$smeta_category->material->img,
+                    'country'=>$smeta_category->material->country->name,
+                    'count_text'=>$smeta_category->material->count_text,
+                    'size'=>$smeta_category->material->size,
+                    'selected'=> 1
+                );
+                $materials = ORM::factory('Material')
+                    ->where('category_id','=',$category)
+                    ->and_where('price', '>=', $smeta_category->material->price)
+                    ->and_where('id', '<>', $smeta_category->material->id);
+                if (!empty($add_materials)) $materials = $materials->and_where('id', 'NOT IN', $add_materials);
+                $materials = $materials->limit(5)
+                    ->order_by('price','ASC')
+                    ->order_by('id','ASC')
+                    ->find_all()->as_array();
+                foreach ($materials as $material){
+                    $result[] = array(
+                        'category_id'=>$material->category_id,
+                        'calc'=>$material->category->calculation,
+                        'room_id'=> (int) $room->room_id,
+                        'id'=>$material->id,
+                        'name'=>$material->name,
+                        'price'=>$material->price,
+                        'img'=>$material->img,
+                        'country'=>$material->country->name,
+                        'count_text'=>$material->count_text,
+                        'size'=>$material->size,
+                        'selected'=> 0
+                    );
+                }
+                if($smeta_category->children_id>0){
+                    $categories = ORM::factory('Material_Categories')->where('parent_id','=',$smeta_category->material_categories_id)->and_where('id','<>',$smeta_category->children_id)->find_all();
                     foreach ($categories as $category){
                         $materials = ORM::factory('Material')->where('category_id','=',$category->id)->order_by('price','ASC')->limit(11)->find_all();
                         $i=0;
@@ -115,7 +150,7 @@ class Controller_Ajax_Materials extends Controller
                             $result[] = array(
                                 'category_id'=>$material->category_id,
                                 'calc'=>$material->category->calculation,
-                                'room_id'=>$room->room_id,
+                                'room_id'=> (int) $room->room_id,
                                 'id'=>$material->id,
                                 'name'=>$material->name,
                                 'price'=>$material->price,

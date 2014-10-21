@@ -82,6 +82,16 @@ class Controller_Ajax_Smeta extends Controller_Core
                 $smeta_window->count = $window['count'];
                 $smeta_window->create();
             }
+            // =========== работы
+            foreach($room['works'] as $work){
+                $smeta_work = ORM::factory('Smeta_Work');
+                $smeta_work->smeta_id = $smeta->id;
+                $smeta_work->room_id =  (int) $room['id'];
+                $smeta_work->work_id = $work['work_id'];
+                $smeta_work->price =  $work['price'];
+                $smeta_work->count = $work['count'];
+                $smeta_work->save();
+            }
             // ============== категории
             $categories = $room['categories'];
             foreach ($categories as $cat){
@@ -92,12 +102,8 @@ class Controller_Ajax_Smeta extends Controller_Core
                 if (isset($cat['childrenId'])) {
                     $smeta_cat->children_id = $cat['childrenId'];
                 }
+                $smeta_cat->material_id = $cat['material_id'];
                 $smeta_cat->create();
-                $smeta_material = ORM::factory('Smeta_Material');
-                $smeta_material->smeta_id = $smeta->id;
-                $smeta_material->room_id = (int) $room['id'];
-                $smeta_material->material_id = $cat['material_id'];
-                $smeta_material->save();
             }
         }
         foreach($doors as $door){

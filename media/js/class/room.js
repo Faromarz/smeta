@@ -214,10 +214,18 @@ function Room($parent, $params)
         return _this.getSize() > 12 ? 3.5 : 2.5;
     };
     // параметры категории
-    _this.getCategoties = function() {
+    _this.getCategories = function() {
         var params = new Array();
         $.each(_this.categories, function(key, cat) {
             params.push(cat.getParams());
+        });
+        return params;
+    };
+    // параметры работ
+    _this.getWorks = function() {
+        var params = new Array();
+        $.each(_this.works, function(key, work) {
+            params.push(work.getParams());
         });
         return params;
     };
@@ -255,8 +263,9 @@ function Room($parent, $params)
             enable: _this.getEnable(),
             show: _this.getShow(),
             door: _this.door.getParams(),
-            categories: _this.getCategoties(),
-            materials_enable: _this.getMaterialsEnable()
+            categories: _this.getCategories(),
+            materials_enable: _this.getMaterialsEnable(),
+            works: _this.getWorks()
         };
         if (_this.window !== null) {
             params['window'] = _this.window.getParams();
@@ -280,33 +289,24 @@ function Room($parent, $params)
     _this.getPriceAllWorks = function() {
         var summa = 0;
         $.each(_this.works, function(key, work) {
-            if(_parent.types.getApartment() == work.getApartment())
-            if($.inArray(_parent.types.getCombination(),  work.getRepair()) !== -1 || work.getRepair() === null) {
                 $.each(_this.categories, function (k, cat) {
                     if (cat.getEnable()) {
-                        if($.inArray(cat._childrenId === null ? cat.getId() : cat._childrenId, work.getCatId()) !== -1 || work.getCatId() === null) {
                             var count = work.getSumma();
                             if (count === undefined) {
                                 count = 1;
                             } else if ( work.getPrice() === undefined) {
                             }
                             summa += parseFloat(work.getPrice()) * parseFloat(count);
-                            //if(work.type === 0){
-                            //    dem_sum+=parseFloat(work.price) * parseFloat(count);
-                            //    dem_time+=parseFloat(work.watch);
-                            //}else{
-                            //    mont_sum+=parseFloat(work.price) * parseFloat(count);
-                            //    mont_time+=parseFloat(work.watch);
-                            //}
-                            //all_works.push({ 'work_id' : work.id, 'room_id' : room.getId(), 'room_type' : room.getType(),
-                            //    'price' : parseFloat(work.price) * parseFloat(_this.count), 'count' : parseFloat(_this.count)});
-                            //summa += cat.getPriceWorks();
-                        }
+                            if(work.getType() === 0){
+                                _parent.price_work_dem+=parseFloat(work.getPrice()) * parseFloat(count);
+                                _parent.time_work_dem+=parseFloat(work.getWatch());
+                            }else{
+                                _parent.price_work_mon+=parseFloat(work.getPrice()) * parseFloat(count);
+                                _parent.time_work_mon+=parseFloat(work.getWatch());
+                            }
                     }
                 });
-            }
         });
-
         return summa;
     };
     // удаление комнаты
@@ -351,6 +351,33 @@ function Room($parent, $params)
                 $(this).children(".slider_about").hide();
             });
     };
+    // заполнение работ
+    _this.setWorks = function(){
+        var add_works = new Array();
+        _this.works = new Array();
+        $.each(Loaded.works, function(key, work) {
+            if(work.room_id === 0 || work.room_id === _this.getId()) {
+                var for_types = work.room_type === null ? 1 : work.room_type.split(',');
+                if ($.inArray("" + _this.getType(), for_types) !== -1 || work.room_type === null) {
+                    if (_parent.types.getApartment() == work.types_apartment_ids) {
+                        var repair = work.repair_ids === null ? null : work.repair_ids.split(',');
+                        if ($.inArray(_parent.types.getCombination(), repair) !== -1 || repair === null) {
+                            $.each(_this.categories, function (k, cat) {
+                                var cat_arr = work.cat_arr === null ? null : work.cat_arr.split(',');
+                                if ($.inArray(cat._childrenId === null ? cat.getId() : cat._childrenId, cat_arr) !== -1 || cat_arr === null) {
+                                    if($.inArray(work.id, add_works) === -1) {
+                                        _this.works.push(new Work(_parent, _this, work));
+                                        add_works.push(work.id);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+        console.log(_this.works);
+    };
     // иницилизация комнаты
     _this.init = function() {
         // ========== двери
@@ -368,12 +395,7 @@ function Room($parent, $params)
             _this.categories.push(new Category(_parent, _this, cat));
             i++;
         });
-        $.each(Loaded.works, function(key, work) {
-            var for_types = work.room_type === null ? 1 : work.room_type.split(',');
-            if($.inArray(""+_this.getType(), for_types) !== -1 || work.room_type === null) {
-                _this.works.push(new Work(_parent, _this, work));
-            }
-        });
+        _this.setWorks();
         // click enable room
         $(htmlBlock+'[data-room-id="'+_this.getId()+'"] div:eq(6)').live("click", function() {
             $(this).toggleClass("ignore ignored");

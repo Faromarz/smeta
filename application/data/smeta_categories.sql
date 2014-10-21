@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `smeta_categories` (
   `smeta_rooms_id` int(11) NOT NULL,
   `material_categories_id` int(11) NOT NULL,
   `enable` tinyint(1) NOT NULL,
-  `children_id` int(11) DEFAULT NULL COMMENT 'material_categories.id'
+  `children_id` int(11) DEFAULT NULL COMMENT 'material_categories.id',
+  `material_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

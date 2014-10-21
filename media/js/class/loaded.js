@@ -69,15 +69,27 @@ var Loaded = (function() {
     Loaded.prototype.load_works = function()
     {
         var _this = this;
-        var _callback = function(json) {
-            if (json.error) {
-                alert(json.error);
-                return false;
-            }
-            _this.works = json;
-            _this.load_rooms();
-        };
-        $.post('/ajax/works/load_works', {}, _callback, "json");
+        if(smetaId !== null){
+            var _callback = function(json) {
+                if (json.error) {
+                    alert(json.error);
+                    return false;
+                }
+                _this.works = json;
+                _this.load_rooms();
+            };
+            $.post('/ajax/works/load_works_smeta', {'smetaId': smetaId}, _callback, "json");
+        }else {
+            var _callback = function (json) {
+                if (json.error) {
+                    alert(json.error);
+                    return false;
+                }
+                _this.works = json;
+                _this.load_rooms();
+            };
+            $.post('/ajax/works/load_works', {}, _callback, "json");
+        }
     };
 
     //---------- загрузка комнат

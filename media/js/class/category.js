@@ -56,7 +56,7 @@ function Category($parent, $room, $params)
             if(material.getSelected()===1){
                 if (_parent.smetaId === null) {
                     _this.material = material;
-                }else if(_room.getId()===material.getRoomId()){
+                }else if(_room.getId() === material.getRoomId()){
                     _this.material = material;
                 }
             };
@@ -135,7 +135,7 @@ function Category($parent, $room, $params)
             _html += "min: 0,";
             _html += "orientation : 'vertical',";
             _html += "value: " + (_parent.smetaId === null ? 10 : 5) + ",";
-            _html += 'max: ' + 20 + ',';
+            _html += 'max: ' + (_parent.smetaId === null ? 20 : 10) + ',';
             _html += "step: 1,";
             _html += "create: function () {},";
         _html += "slide: function (e, ul) { ";
@@ -194,6 +194,10 @@ function Category($parent, $room, $params)
         });
         _this.materials = $.extend(true, [], _materials);
         _this.setMaterial();
+        //if (_this.material == null) {
+        //    console.log(_this.getId());
+        //    console.log(_this.materials);
+        //}
     };
     // иницилизация категории
     _this.init = function() {
@@ -207,15 +211,6 @@ function Category($parent, $room, $params)
 //            });
 //            _childrens = $.extend(true, [], cat_children);
 //        };
-//        var _materials = new Array();
-//            $.each(Loaded.materials, function(key, material) {
-//                if(Number(material.category_id) === Number(_this.getId()) || Number(material.category_id) === Number(_childrenId)){
-//                    _materials.push(new Material(_parent, _room, material));
-//                };
-//            });
-//            _this.materials = $.extend(true, [], _materials);
-////        _materials = $.extend(true, [], cat_materials);
-//        _this.setMaterial();
         _this.selectMaterials();
           // галочка у материалов
         $('.material-enable[data-room-id="'+_room.getId()+'"][data-cat-id="'+_this.getId()+'"]').die('click');

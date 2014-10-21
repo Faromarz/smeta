@@ -11,6 +11,7 @@ var Type = (function() {
         apartment: 1
     };
     function Type() {
+        this.parent = false;
         this.rate = 1;
         this.repair = 1;
         this.apartment = 1;
@@ -65,6 +66,7 @@ var Type = (function() {
             $("#examples_works_slider_econom").children('div').fadeOut(400, function() { $("#examples_works_slider_econom").hide() });
             setTimeout(function(){ $("#examples_works_slider_premium").show(function() {$("#examples_works_slider_premium").children('div').fadeIn(); }); }, 500);
         }
+        _this.updateWorks();
     };
     // изменение ремонта
     Type.prototype.changeRepair = function($obj) {
@@ -72,6 +74,7 @@ var Type = (function() {
         $("#order_options_repairs li").removeClass("selected");
         $($obj).addClass("selected");
         _this.setTypes(null,$($obj).index(),null);
+        _this.updateWorks();
     };
     // изменение апартаментов
     Type.prototype.changeApartment = function($obj) {
@@ -79,6 +82,7 @@ var Type = (function() {
         $("#order_options_type li").removeClass("selected");
         $($obj).addClass("selected");
         _this.setTypes(null,null,$($obj).index());
+        _this.updateWorks();
     };
     // установка типов ремонта
     Type.prototype.setTypes = function(rate, repair, apartment) {
@@ -94,9 +98,16 @@ var Type = (function() {
         }
         _this.updateCategoriesEnable();
     };
+    // обновить работы
+    Type.prototype.updateWorks = function() {
+        $.each(this.parent.rooms, function(key, room) {
+            room.setWorks();
+        });
+        this.parent.update();
+    };
     //  изменение галочек в материалах
     Type.prototype.updateCategoriesEnable = function() {
-        var _rooms = Smeta.rooms;
+        var _rooms = this.parent.rooms;
         $.each(_rooms, function(keyRoom, room) {
             $.each(room.categories, function(keyCat, cat) {
                 cat.updateEnable();
@@ -107,9 +118,10 @@ var Type = (function() {
         
     };
     //------------- иницилизация тип ремонта
-    Type.prototype.init = function(options)
+    Type.prototype.init = function(parent, options)
     {
         var _this = this;
+        _this.parent = parent;
         var params = $.extend(defaults, options);
         //типы ремонта
         $.each(params, function(key, type) {

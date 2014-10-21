@@ -22,6 +22,7 @@ function Work($parent, $room, $params)
         _cat_arr = _params.cat_arr;
         _count = _params.count;
         _price = _params.price;
+        _watch = _params.watch;
 
     // ID работы
     _this.getId = function() {
@@ -30,6 +31,14 @@ function Work($parent, $room, $params)
     // название работы
     _this.getName = function() {
         return _name;
+    };
+    // тип работы
+    _this.getWatch = function() {
+        return _watch;
+    };
+    // время работы
+    _this.getType = function() {
+        return _type;
     };
     // типы ремонта
     _this.getRepair = function() {
@@ -52,7 +61,7 @@ function Work($parent, $room, $params)
         var count = _count;
         var new_count = '';
         if (count.indexOf('S') + 1) {
-            new_count = count.replace("S", "Number(_room.getSize())");
+            new_count = count.replace("S", "Number(Smeta.rooms["+_room.getNumber()+"].getSize())");
         } else if (count.indexOf('CD') + 1) {
             new_count = count.replace("CD", "Number(_room.getCountDoors())");
         } else if (count.indexOf('CW') + 1) {
@@ -66,9 +75,18 @@ function Work($parent, $room, $params)
         } else {
             new_count = count;
         }
-        return eval("(function(){return " + new_count + ";})");
+        var result = eval(new_count);
+        return result;
     };
-
+    // параметры для сметы
+    _this.getParams = function() {
+        var params = {
+            work_id: _this.getId(),
+            price : _this.getPrice(),
+            count : _this.getSumma()
+        };
+        return params;
+    };
     // иницилизация работы
     _this.init = function() {
         
