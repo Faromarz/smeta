@@ -258,29 +258,29 @@
                         <h1>{{ room.room.name }}</h1>
                     </div>
                     <div class="ignore_4"></div>
-                    {% if smeta.works.works.where('type','=',1).count_all()>0 %}
                         {% for cat_work in cat_works %}
-                            <ul class="budget_basic_options_list-{{ cat_work.id }}">
-                                <li></li>
-                                {% for work in smeta.works.find_all() %}
-                                    {% if work.works.category_id==cat_work.id and work.works.type==1 and room.room.id==work.room_id %}
-                                        <li>
-                                            <p>{{ work.price }} р.</p>
-                                            <p>{{ work.works.watch }}</p>
-                                            <div class="budget_basic_options_job">
-                                                <h3>{{ work.count }}</h3>
-                                                <h6>{{ work.works.unit|raw }}</h6>
+                            {% if smeta.count_categories_works(1,cat_work.id,room.room.id) > 0 %}
+                                <ul class="budget_basic_options_list-{{ cat_work.id }}">
+                                    <li></li>
+                                    {% for work in smeta.works.find_all() %}
+                                        {% if work.works.category_id==cat_work.id and work.works.type==1 and room.room.id==work.room_id %}
+                                            <li>
+                                                <p>{{ work.price }} р.</p>
+                                                <p>{{ work.works.watch }}</p>
+                                                <div class="budget_basic_options_job">
+                                                    <h3>{{ work.count }}</h3>
+                                                    <h6>{{ work.works.unit|raw }}</h6>
 
-                                                <input  value="0" />
-                                            </div>
-                                            <h5>{{ work.works.name }}</h5>
-                                            <div class="ignore_5"></div>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                                                    <input  value="0" />
+                                                </div>
+                                                <h5>{{ work.works.name }}</h5>
+                                                <div class="ignore_5"></div>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         {% endfor %}
-                    {% endif %}
                 </div>
             {% endfor %}
             <div class="budget_basic_options_rasporka"></div>
