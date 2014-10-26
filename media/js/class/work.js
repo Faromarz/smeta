@@ -16,12 +16,12 @@ function Work($parent, $room, $params)
         _params = $params,
         _type = _params.type,
         _id = _params.id,
-        _name = _params.name;
-        _repairIds = _params.repair_ids;
-        _apartment = _params.types_apartment_ids;
-        _cat_arr = _params.cat_arr;
-        _count = _params.count;
-        _price = _params.price;
+        _name = _params.name,
+        _repairIds = _params.repair_ids,
+        _apartment = _params.types_apartment_ids,
+        _cat_arr = _params.cat_arr,
+        _count = _params.count,
+        _price = _params.price,
         _watch = _params.watch;
 
     // ID работы
@@ -32,11 +32,11 @@ function Work($parent, $room, $params)
     _this.getName = function() {
         return _name;
     };
-    // тип работы
+    // время работы
     _this.getWatch = function() {
         return _watch;
     };
-    // время работы
+    // тип работы
     _this.getType = function() {
         return _type;
     };
@@ -48,11 +48,11 @@ function Work($parent, $room, $params)
     _this.getApartment = function() {
         return _apartment;
     };
-    // типы квартиры
+    // категории материалов
     _this.getCatId = function() {
         return _cat_arr === null ? null : _cat_arr.split(',');
     };
-    // цена квартиры
+    // цена работы
     _this.getPrice = function() {
         return _price;
     };
@@ -82,7 +82,7 @@ function Work($parent, $room, $params)
     _this.getParams = function() {
         var params = {
             work_id: _this.getId(),
-            price : _this.getPrice(),
+            price : _this.getPrice()*_this.getSumma(),
             count : _this.getSumma()
         };
         return params;

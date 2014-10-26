@@ -178,6 +178,9 @@ function Category($parent, $room, $params)
     _this.setChildrenId = function($id){
         _childrenId = $id;
     };
+    _this.getChildrenId = function(){
+        return _childrenId;
+    };
     // для selectbox
     _this.newCategory = function($id){
         _this.setChildrenId($id);

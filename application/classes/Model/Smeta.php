@@ -37,4 +37,16 @@ class Model_Smeta extends ORM
             'foreign_key'   => 'apartment_id',
         ),
     );
+
+
+    public function count_categories_works($type, $category, $room)
+    {
+        $result = 0;
+        $smeta_works = $this->works->where('room_id','=',$room)->find_all();
+        foreach ($smeta_works as $smeta_work){
+            if ($smeta_work->works->type==$type and $smeta_work->works->category_id==$category) $result++;
+        }
+        return $result;
+    }
+
 }

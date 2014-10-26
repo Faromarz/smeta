@@ -55,7 +55,10 @@ class Controller_Budget extends Controller_Core {
                     ->as_array();
             $params[0]['height'] = $smeta->height;
             $this->set('_params', $params);
-        
+
+            //категории работ
+            $cat_works = ORM::factory('Work_Categories')->find_all();
+            $this->set('cat_works', $cat_works);
         }
     }
     public static function getRooms($smetaId, $ajax = false)

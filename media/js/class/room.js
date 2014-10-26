@@ -297,7 +297,7 @@ function Room($parent, $params)
                             } else if ( work.getPrice() === undefined) {
                             }
                             summa += parseFloat(work.getPrice()) * parseFloat(count);
-                            if(work.getType() === 0){
+                            if(Number(work.getType()) === 0){
                                 _parent.price_work_dem+=parseFloat(work.getPrice()) * parseFloat(count);
                                 _parent.time_work_dem+=parseFloat(work.getWatch());
                             }else{
@@ -364,7 +364,7 @@ function Room($parent, $params)
                         if ($.inArray(_parent.types.getCombination(), repair) !== -1 || repair === null) {
                             $.each(_this.categories, function (k, cat) {
                                 var cat_arr = work.cat_arr === null ? null : work.cat_arr.split(',');
-                                if ($.inArray(cat._childrenId === null ? cat.getId() : cat._childrenId, cat_arr) !== -1 || cat_arr === null) {
+                                if ($.inArray(cat.getChildrenId() === null ? ''+cat.getId() : ''+cat.getChildrenId(), cat_arr) !== -1 || cat_arr === null) {
                                     if($.inArray(work.id, add_works) === -1) {
                                         _this.works.push(new Work(_parent, _this, work));
                                         add_works.push(work.id);
@@ -376,7 +376,6 @@ function Room($parent, $params)
                 }
             }
         });
-        console.log(_this.works);
     };
     // иницилизация комнаты
     _this.init = function() {

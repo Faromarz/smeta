@@ -18,4 +18,6 @@ class Model_Smeta_Room extends ORM
         )
 
     );
+
+
 }
