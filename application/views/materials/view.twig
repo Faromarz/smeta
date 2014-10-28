@@ -42,19 +42,19 @@
                                 <dt>{{ key |i18n }}</dt>
                                 <dd>
                                 {% if key == 'manuf_id' %}
-                                    {{ material.params.manuf }}
+                                    {{ material.params.manuf | raw  }}
                                 {% elseif key == 'country_id' %}
-                                    {{ material.params.country }}
+                                    {{ material.params.country | raw  }}
                                 {% elseif key == 'colection_id' %}
-                                    {{ material.params.colection }}
+                                    {{ material.params.colection | raw  }}
                                 {% elseif key == 'design_id' %}
-                                    {{ material.params.design }}
+                                    {{ material.params.design | raw  }}
                                 {% elseif key == 'type_wood_id' %}
-                                    {{ material.params.type_wood }}
+                                    {{ material.params.type_wood | raw  }}
                                 {% elseif key == 'color_id' %}
-                                    {{ material.params.color }}
+                                    {{ material.params.color | raw  }}
                                 {% else %}
-                                    {{ material.params.as_array()[key |replace({'_id': ''})] }}
+                                    {{ material.params.as_array()[key |replace({'_id': ''})] | raw }}
                                 {% endif %}
                                 </dd>
                             </dl>
