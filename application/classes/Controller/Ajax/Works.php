@@ -37,7 +37,7 @@ class Controller_Ajax_Works extends Controller
         $result = array();
         $works = ORM::factory('Work')->find_all();
         foreach ($works as $work){
-                $result[] = array('id'=>$work->id, 'name'=>$work->name, 'count' => $work->count, 'repair_ids' => $work->repair_ids, 'cat_arr' => $work->cat_arr, 'category_id' => $work->category_id, 'watch' => $work->watch, 'types_apartment_ids' => $work->types_apartment_ids, 'room_type' => $work->room_type, 'type' => $work->type, 'price' => $work->price, 'room_id' => 0);
+                $result[] = array('id'=>$work->id, 'name'=>$work->name, 'count' => $work->count, 'repair_ids' => $work->repair_ids, 'cat_arr' => $work->cat_arr, 'category_id' => $work->category_id, 'watch' => $work->watch, 'types_apartment_ids' => $work->types_apartment_ids, 'room_type' => $work->room_type, 'type' => (int) $work->type, 'price' => $work->price, 'room_id' => 0, 'enable' => 1);
         }
         die(json_encode($result));
     }
@@ -49,7 +49,7 @@ class Controller_Ajax_Works extends Controller
         $smeta_works = ORM::factory('Smeta_Work')->where('smeta_id','=',$id)->find_all();
         foreach ($smeta_works as $smeta_work){
             $work = $smeta_work->works;
-            $result[] = array('id'=>$work->id, 'name'=>$work->name, 'count' => $work->count, 'repair_ids' => $work->repair_ids, 'cat_arr' => $work->cat_arr, 'category_id' => $work->category_id, 'watch' => $work->watch, 'types_apartment_ids' => $work->types_apartment_ids, 'room_type' => $work->room_type, 'type' => $work->type, 'price' => $work->price, 'room_id' => $smeta_work->room_id);
+            $result[] = array('id'=>$work->id, 'name'=>$work->name, 'count' => $work->count, 'repair_ids' => $work->repair_ids, 'cat_arr' => $work->cat_arr, 'category_id' => $work->category_id, 'watch' => $work->watch, 'types_apartment_ids' => (int) $work->types_apartment_ids, 'room_type' => $work->room_type, 'type' => (int) $work->type, 'price' => $work->price, 'room_id' => (int) $smeta_work->room_id, 'enable' => (int) $smeta_work->enable);
         }
         die(json_encode($result));
     }

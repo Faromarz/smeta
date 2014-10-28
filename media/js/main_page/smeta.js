@@ -289,8 +289,10 @@ var Smeta = (function() {
     //добавление сметы в бд
     Smeta.prototype.addSmeta=function(){
         var _this = this,
-            rooms = new Array(),
-            open_link = window.open('','_blank');
+            rooms = new Array();
+        if(_this.smetaId === null) {
+            var open_link = window.open('', '_blank');
+        }
         _this.preloader(true);
         $.each(_this.rooms, function(key, room) {
             rooms.push(room.getParams());
@@ -299,6 +301,7 @@ var Smeta = (function() {
             type: "POST",
             url: "/ajax/smeta/add",
             data: {
+                "smetaid" : _this.smetaId,
                 "rooms" : JSON.stringify(rooms),
                 "repair_id" : _this.types.getRepair(),
                 "rate_id" : _this.types.getRate(),
@@ -318,7 +321,9 @@ var Smeta = (function() {
             },
             success: function(data){
                 var result = JSON.parse(data);
-                open_link.location="budget/"+result[0]['smeta_name'];
+                if(result[0]['smeta_name'] !== '') {
+                    open_link.location = "budget/" + result[0]['smeta_name'];
+                }
                 _this.preloader(false);
             }
         }, 'json');
@@ -385,9 +390,14 @@ var Smeta = (function() {
         $('#demont_works').find('h1:eq(1)').text(number_format(this.price_work_dem, 2, ',', ' ') + '  р');
         $('#mont_works').find('h1:eq(0)').text(number_format(this.time_work_mon, 2, ',', ' ') + '  часов');
         $('#mont_works').find('h1:eq(1)').text(number_format(this.price_work_mon, 2, ',', ' ') + '  р');
-
+        $('#dem-work-watch').text(number_format(this.time_work_dem, 2, ',', ' ') + '  часов');
+        $('#dem-work-price').text(number_format(this.price_work_dem, 2, ',', ' ') + '  р');
+        $('#mon-work-watch').text(number_format(this.time_work_mon, 2, ',', ' ') + '  часов');
+        $('#mon-work-price').text(number_format(this.price_work_mon, 2, ',', ' ') + '  р');
         $('#your_price_without_discount').find('h2:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
         console.log('должен быть общий перерачет сметы (вызывать аккуратно после изменений чего либо)');
+
+        if (this.smetaId !== null) this.addSmeta();
     };
 
     //------------- иницилизация сметы
@@ -498,6 +508,26 @@ var Smeta = (function() {
                     this.value = temp;
                 }
             });
+
+        // галочка для демонтажных работ
+        $('.dem-work').on('click', function() {
+            $(this).toggleClass('ignore_2 ignored_2');
+            var bool = $(this).hasClass('ignore_2');
+            $.each(_this.rooms, function(key, room) {
+                room.setWorksEnable(0,bool, true);
+            });
+            _this.update();
+        });
+
+        // галочка для монтажных работ
+        $('.mon-work').on('click', function() {
+            $(this).toggleClass('ignore_2 ignored_2');
+            var bool = $(this).hasClass('ignore_2');
+            $.each(_this.rooms, function(key, room) {
+                room.setWorksEnable(1,bool, true);
+            });
+            _this.update();
+        });
 
         //кнопка перехода на смету клиента
         $("#your_smeta,.send_form").on("click", function() { _this.addSmeta(); });

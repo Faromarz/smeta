@@ -18,7 +18,7 @@
     <script>
         $(document).ready(function(){
             Budget.init({
-                types: [{{ smeta.repair_id }}, {{ smeta.rate_id }}, {{ smeta.apartment_id }}],
+                types: {rate:{{ smeta.rate_id }},repair:{{ smeta.repair_id }},apartment:{{ smeta.apartment_id }}},
                 params: {{ _params| json_encode()|raw }},
                 smeta: {{ smeta_array| json_encode()|raw }},
                 doors: {{ doors | json_encode()|raw }},
@@ -190,19 +190,19 @@
         <div class="budget_basic_options">
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt>{{ smeta.price_work_dem }} р.</dt>
+                    <dt id="dem-work-price">{{ smeta.price_work_dem|number_format(2, ',', ' ') }} р.</dt>
                     <dd>Общая сумма:</dd>
                 </dl>
                 <dl>
-                    <dt>{{ smeta.time_work_dem }} дней</dt>
+                    <dt id="dem-work-watch">{{ smeta.time_work_dem|number_format(2, ',', ' ') }} часов</dt>
                     <dd>Общее время:</dd>
                 </dl>
                 <h1>демонтажные работы</h1>
-                <div class="ignore_2 ignore_for_basic_options_header"></div>
+                <div class="ignore_2 ignore_for_basic_options_header dem-work"></div>
 
             </div>
 
-            {% for room in smeta.rooms.where('show','=',1).find_all() %}
+            {% for room in smeta.rooms.where('show','=',1).order_by('room_id','ASC').find_all() %}
                 <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
                         <h2>Стоимость</h2>
@@ -210,7 +210,7 @@
                         <h2>Объем работ</h2>
                         <h1>{{ room.room.name }}</h1>
                     </div>
-                    <div class="ignore_4"></div>
+                    <div class="ignore_4 room-work-dem-enable" data-room-id="{{ room.room_id }}"></div>
                     <ul>
                         {% for work in smeta.works.find_all() %}
                             {% if work.works.type==0 and room.room.id==work.room_id %}
@@ -223,7 +223,7 @@
                                         <input  value="0" />
                                     </div>
                                     <h5>{{ work.works.name }}</h5>
-                                    <div class="ignore_5"></div>
+                                    <div class="ignore{{  work.enable ? '': 'd' }}_5 dem-work-enable" data-room-id="{{ room.room_id }}" data-work-id="{{ work.works.id }}"></div>
                                 </li>
                             {% endif %}
                         {% endfor %}
@@ -238,18 +238,18 @@
         <div class="budget_basic_options">
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt>{{ smeta.price_work_mon }} р.</dt>
+                    <dt id="mon-work-price">{{ smeta.price_work_mon|number_format(2, ',', ' ') }} р.</dt>
                     <dd>Общая сумма:</dd>
                 </dl>
                 <dl>
-                    <dt>{{ smeta.time_work_mon }} дней</dt>
+                    <dt id="mon-work-watch">{{ smeta.time_work_mon|number_format(2, ',', ' ') }} часов</dt>
                     <dd>Общее время:</dd>
                 </dl>
                 <h1>монтажные работы</h1>
-                <div class="ignore_2 ignore_for_basic_options_header"></div>
+                <div class="ignore_2 ignore_for_basic_options_header mon-work"></div>
             </div>
 
-            {% for room in smeta.rooms.where('show','=',1).find_all() %}
+            {% for room in smeta.rooms.where('show','=',1).order_by('room_id','ASC').find_all() %}
                 <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
                         <h2>Стоимость</h2>
@@ -257,7 +257,7 @@
                         <h2>Объем работ</h2>
                         <h1>{{ room.room.name }}</h1>
                     </div>
-                    <div class="ignore_4"></div>
+                    <div class="ignore_4 room-work-mon-enable" data-room-id="{{ room.room_id }}"></div>
                         {% for cat_work in cat_works %}
                             {% if smeta.count_categories_works(1,cat_work.id,room.room.id) > 0 %}
                                 <ul class="budget_basic_options_list-{{ cat_work.id }}">
@@ -274,7 +274,7 @@
                                                     <input  value="0" />
                                                 </div>
                                                 <h5>{{ work.works.name }}</h5>
-                                                <div class="ignore_5"></div>
+                                                <div class="ignore{{  work.enable ? '': 'd' }}_5 mon-work-enable" data-room-id="{{ room.room_id }}" data-work-id="{{ work.works.id }}"></div>
                                             </li>
                                         {% endif %}
                                     {% endfor %}

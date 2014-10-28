@@ -23,9 +23,37 @@ class Controller_Ajax_Smeta extends Controller_Core
         $doors = json_decode($post['doors'], true);
         $windows = json_decode($post['windows'], true);
         $rooms = json_decode($post['rooms'], true);
-        
-        $smeta = ORM::factory('Smeta');
-        $smeta->name = uniqid();
+        $smeta_id = 0;
+
+        if((int) Arr::get($post, 'smetaid', 0)>0){
+            $smeta_id = (int) Arr::get($post, 'smetaid', 0);
+            $smeta = ORM::factory('Smeta', $smeta_id);
+            $smeta_rooms = ORM::factory('Smeta_Room')->where('smeta_id','=',$smeta_id)->find_all();
+            foreach($smeta_rooms as $smeta_room){
+                $smeta_categories = ORM::factory('Smeta_Category')->where('smeta_rooms_id','=',$smeta_room->id)->find_all();
+                foreach($smeta_categories as $smeta_category) {
+                    $smeta_category->delete();
+                }
+                $smeta_room->delete();
+            }
+            $smeta_doors = ORM::factory('Smeta_Door')->where('smeta_id','=',$smeta_id)->find_all();
+            foreach($smeta_doors as $smeta_door){
+                $smeta_door->delete();
+            }
+            $smeta_windows = ORM::factory('Smeta_Window')->where('smeta_id','=',$smeta_id)->find_all();
+            foreach($smeta_windows as $smeta_window){
+                $smeta_window->delete();
+            }
+            $smeta_works = ORM::factory('Smeta_Work')->where('smeta_id','=',$smeta_id)->find_all();
+            foreach($smeta_works as $smeta_work){
+                $smeta_work->delete();
+            }
+        }else{
+            $smeta = ORM::factory('Smeta');
+            $smeta->name = uniqid();
+            $smeta->create_date = date('Y-m-d H:i:s');
+        }
+
         $smeta->geo_id = 0;
         $smeta->size = Arr::get($post, 'size', '');
         $smeta->height =  Arr::get($post, 'height', '');
@@ -40,7 +68,6 @@ class Controller_Ajax_Smeta extends Controller_Core
         $smeta->repair_id =  Arr::get($post, 'repair_id', 1);
         $smeta->rate_id =  Arr::get($post, 'rate_id', 1);
         $smeta->apartment_id =  Arr::get($post, 'apartment_id', 1);
-        $smeta->create_date = date('Y-m-d H:i:s');
         $smeta->materials_enable = Arr::get($post, 'materials_enable', true);
         $smeta->save();
         foreach($rooms as $room){
@@ -90,6 +117,7 @@ class Controller_Ajax_Smeta extends Controller_Core
                 $smeta_work->work_id = $work['work_id'];
                 $smeta_work->price =  $work['price'];
                 $smeta_work->count = $work['count'];
+                $smeta_work->enable = $work['enable'];
                 $smeta_work->save();
             }
             // ============== категории
@@ -131,7 +159,8 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_window->count = $window['count'];
             $smeta_window->create();
         }
-        $result[] = array('smeta_name'=>$smeta->name);
+        if($smeta_id==0) $result[] = array('smeta_name'=>$smeta->name);
+        else $result[] = array('smeta_name'=>'');
         $this->set('_result', json_encode($result));
     }
 

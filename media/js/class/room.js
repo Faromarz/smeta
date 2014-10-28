@@ -252,6 +252,36 @@ function Room($parent, $params)
         }
         
     };
+    //  статус галочки у работ
+    _this.setWorksEnable = function($type, $enable, $changeAll)
+    {
+        if($changeAll) {
+            $.each(_this.works, function(key, work) {
+                if(Number(work.getType()) === $type) {
+                    work.setEnable($enable);
+                }
+            });
+        }
+
+        if ($enable) {
+            if($type===0){
+                $('.room-work-dem-enable[data-room-id="'+_this.getId()+'"]').removeClass('ignored_4');
+                $('.room-work-dem-enable[data-room-id="'+_this.getId()+'"]').addClass('ignore_4');
+            }else{
+                $('.room-work-mon-enable[data-room-id="'+_this.getId()+'"]').removeClass('ignored_4');
+                $('.room-work-mon-enable[data-room-id="'+_this.getId()+'"]').addClass('ignore_4');
+            }
+        } else {
+            if($type===0){
+                $('.room-work-dem-enable[data-room-id="'+_this.getId()+'"]').removeClass('ignore_4');
+                $('.room-work-dem-enable[data-room-id="'+_this.getId()+'"]').addClass('ignored_4');
+            }else{
+                $('.room-work-mon-enable[data-room-id="'+_this.getId()+'"]').removeClass('ignore_4');
+                $('.room-work-mon-enable[data-room-id="'+_this.getId()+'"]').addClass('ignored_4');
+            }
+        }
+
+    };
     // параметры для сметы
     _this.getParams = function() {
         var  params = {
@@ -289,23 +319,25 @@ function Room($parent, $params)
     _this.getPriceAllWorks = function() {
         var summa = 0;
         $.each(_this.works, function(key, work) {
+            if (work.getEnable()) {
                 $.each(_this.categories, function (k, cat) {
                     if (cat.getEnable()) {
-                            var count = work.getSumma();
-                            if (count === undefined) {
-                                count = 1;
-                            } else if ( work.getPrice() === undefined) {
-                            }
-                            summa += parseFloat(work.getPrice()) * parseFloat(count);
-                            if(Number(work.getType()) === 0){
-                                _parent.price_work_dem+=parseFloat(work.getPrice()) * parseFloat(count);
-                                _parent.time_work_dem+=parseFloat(work.getWatch());
-                            }else{
-                                _parent.price_work_mon+=parseFloat(work.getPrice()) * parseFloat(count);
-                                _parent.time_work_mon+=parseFloat(work.getWatch());
-                            }
+                        var count = work.getSumma();
+                        if (count === undefined) {
+                            count = 1;
+                        } else if (work.getPrice() === undefined) {
+                        }
+                        summa += parseFloat(work.getPrice()) * parseFloat(count);
+                        if (Number(work.getType()) === 0) {
+                            _parent.price_work_dem += parseFloat(work.getPrice()) * parseFloat(count);
+                            _parent.time_work_dem += parseFloat(work.getWatch());
+                        } else {
+                            _parent.price_work_mon += parseFloat(work.getPrice()) * parseFloat(count);
+                            _parent.time_work_mon += parseFloat(work.getWatch());
+                        }
                     }
                 });
+            }
         });
         return summa;
     };
@@ -414,6 +446,20 @@ function Room($parent, $params)
         $('.room-material-enable[data-room-id="'+_this.getId()+'"]').on('click', function() {
             $(this).toggleClass('ignore_4 ignored_4');
             _this.setMaterialsEnable($(this).hasClass('ignore_4'), true);
+            _parent.update();
+        });
+
+        // галочка для демонтажных работ
+        $('.room-work-dem-enable[data-room-id="'+_this.getId()+'"]').on('click', function() {
+            $(this).toggleClass('ignore_4 ignored_4');
+            _this.setWorksEnable(0,$(this).hasClass('ignore_4'), true);
+            _parent.update();
+        });
+
+        // галочка для монтажных работ
+        $('.room-work-mon-enable[data-room-id="'+_this.getId()+'"]').on('click', function() {
+            $(this).toggleClass('ignore_4 ignored_4');
+            _this.setWorksEnable(1,$(this).hasClass('ignore_4'), true);
             _parent.update();
         });
         

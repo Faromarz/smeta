@@ -22,7 +22,8 @@ function Work($parent, $room, $params)
         _cat_arr = _params.cat_arr,
         _count = _params.count,
         _price = _params.price,
-        _watch = _params.watch;
+        _watch = _params.watch,
+        _enable = _params.enable;
 
     // ID работы
     _this.getId = function() {
@@ -78,18 +79,45 @@ function Work($parent, $room, $params)
         var result = eval(new_count);
         return result;
     };
+    // enable работы
+    _this.getEnable = function() {
+        return _enable;
+    };
+    // on||off  работы
+    _this.setEnable = function($enable) {
+        _enable = $enable;
+        var class_room='';
+        if (_this.getType()===0) class_room = 'dem'; else class_room = 'mon';
+        if ($enable) {
+            $('.'+class_room+'-work-enable[data-room-id="'+_room.getId()+'"][data-work-id="'+_this.getId()+'"]').removeClass('ignored_5');
+            $('.'+class_room+'-work-enable[data-room-id="'+_room.getId()+'"][data-work-id="'+_this.getId()+'"]').addClass('ignore_5');
+        } else {
+            $('.'+class_room+'-work-enable[data-room-id="'+_room.getId()+'"][data-work-id="'+_this.getId()+'"]').removeClass('ignore_5');
+            $('.'+class_room+'-work-enable[data-room-id="'+_room.getId()+'"][data-work-id="'+_this.getId()+'"]').addClass('ignored_5');
+        }
+    };
     // параметры для сметы
     _this.getParams = function() {
         var params = {
             work_id: _this.getId(),
             price : _this.getPrice()*_this.getSumma(),
-            count : _this.getSumma()
+            count : _this.getSumma(),
+            enable : _this.getEnable()
         };
         return params;
     };
     // иницилизация работы
     _this.init = function() {
-        
+        // галочка у работ
+        var class_room='';
+        if (_this.getType()===0) class_room = 'dem'; else class_room = 'mon';
+        $('.'+class_room+'-work-enable[data-room-id="'+_room.getId()+'"][data-work-id="'+_this.getId()+'"]').die('click');
+        $('.'+class_room+'-work-enable[data-room-id="'+_room.getId()+'"][data-work-id="'+_this.getId()+'"]').live('click', function() {
+            $(this).toggleClass('ignore_5 ignored_5');
+            _this.setEnable($(this).hasClass('ignore_5'));
+
+            _parent.update();
+        });
     };
     _this.init();
 }
