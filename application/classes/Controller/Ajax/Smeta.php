@@ -164,21 +164,21 @@ class Controller_Ajax_Smeta extends Controller_Core
         $this->set('_result', json_encode($result));
     }
 
-    public function action_enable_room(){
-        $post = $this->request->post();
-        $smeta_id = Arr::get($post, 'smeta_id', '');
-        $room_id = Arr::get($post, 'room_id', '');
-        $smeta_room = ORM::factory('Smeta_Room')->where('smeta_id','=',$smeta_id)->and_where('room_id','=',$room_id)->find();
-        $smeta_room->enable = $smeta_room->enable? 0 : 1;
-        $smeta_room->save();
-    }
-
-    public function action_enable_door(){
-        $post = $this->request->post();
-        $door_id = Arr::get($post, 'door_id', '');
-        $smeta_door = ORM::factory('Smeta_Door',$door_id);
-        $smeta_door->enable = $smeta_door->enable? 0 : 1;
-        $smeta_door->save();
-    }
+//    public function action_enable_room(){
+//        $post = $this->request->post();
+//        $smeta_id = Arr::get($post, 'smeta_id', '');
+//        $room_id = Arr::get($post, 'room_id', '');
+//        $smeta_room = ORM::factory('Smeta_Room')->where('smeta_id','=',$smeta_id)->and_where('room_id','=',$room_id)->find();
+//        $smeta_room->enable = $smeta_room->enable? 0 : 1;
+//        $smeta_room->save();
+//    }
+//
+//    public function action_enable_door(){
+//        $post = $this->request->post();
+//        $door_id = Arr::get($post, 'door_id', '');
+//        $smeta_door = ORM::factory('Smeta_Door',$door_id);
+//        $smeta_door->enable = $smeta_door->enable? 0 : 1;
+//        $smeta_door->save();
+//    }
 
 }

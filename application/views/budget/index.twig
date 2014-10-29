@@ -215,7 +215,7 @@
                         {% for work in smeta.works.find_all() %}
                             {% if work.works.type==0 and room.room.id==work.room_id %}
                                 <li>
-                                    <p>{{ work.price }} р.</p>
+                                    <p>{{ work.price|number_format(2, ',', ' ') }} р.</p>
                                     <p>{{ work.works.watch }}</p>
                                      <div class="budget_basic_options_job">
                                         <h3>{{ work.count }}</h3>
@@ -265,7 +265,7 @@
                                     {% for work in smeta.works.find_all() %}
                                         {% if work.works.category_id==cat_work.id and work.works.type==1 and room.room.id==work.room_id %}
                                             <li>
-                                                <p>{{ work.price }} р.</p>
+                                                <p>{{ work.price|number_format(2, ',', ' ') }} р.</p>
                                                 <p>{{ work.works.watch }}</p>
                                                 <div class="budget_basic_options_job">
                                                     <h3>{{ work.count }}</h3>
@@ -290,7 +290,7 @@
 
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt id="budget_materials_summ">{{ smeta.price_materials }} р.</dt>
+                    <dt id="budget_materials_summ">{{ smeta.price_materials|number_format(2, ',', ' ') }} р.</dt>
                     <dd>Общая сумма:</dd>
                 </dl>
                 <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>

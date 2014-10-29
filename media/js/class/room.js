@@ -373,6 +373,7 @@ function Room($parent, $params)
                         });
                     };
                 });
+                _parent.update();
             }
         });
         $(".slider_img")

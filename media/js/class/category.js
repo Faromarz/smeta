@@ -118,7 +118,7 @@ function Category($parent, $room, $params)
 
         _html += '<div class="materials_room_option_slider">';
         _html += '    <div class="slider-materials-' + _id_index + '" style="position: relative">';
-        _html += '        <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + _id_index + '">' + _this.material.getPrice() + ' р</h6></div>';
+        _html += '        <div class="ui-slider-handle ui-state-default ui-corner-all"><h6 class="slider_price price-materials-' + _id_index + '">' + number_format(_this.material.getPrice(), 2, ',', ' ') + ' р</h6></div>';
         _html += '    </div>';
         _html += '    <div class="slider_img" style="background-image: url(/media/img/material/'+_this.material.getImg()+')">';
         _html += '    <div class="slider_about">';
@@ -128,7 +128,7 @@ function Category($parent, $room, $params)
         _html += '</div>';
         _html += '     <div class="x"></div>';
         _html += '     <h1>'+_this.material.count_material()+' '+_this.material.getCount_text_ready()+'  =</h1>';
-        _html += '     <h2 class="mat-price-all-' + _id_index + '">'+_this.material.getAllPrice()+' р.</h2>';
+        _html += '     <h2 class="mat-price-all-' + _id_index + '">'+number_format(_this.material.getAllPrice(), 2, ',', ' ')+' р.</h2>';
         _html += '</div>';
         _html += '<script>';
         _html += "$('.slider-materials-" + _id_index + "').slider({";
@@ -152,10 +152,17 @@ function Category($parent, $room, $params)
 //                                        "}else {Ballon.show(_item, "+_room_id+", "+_material_id+", ul.value, 0);} ";
         _html += "},";
         _html += "stop : function (e, ul) {";
-        _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].deleteSelectedMaterial();';
-        _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].materials[ul.value].setSelected();';
-        _html += 'Smeta.rooms['+_room.getNumber()+'].categories[' + _params.number + '].setMaterial();';
-        _html += "Smeta.update(); console.log('пересчитать смету(работы)');";
+        if(_parent.smetaId === null) {
+            _html += 'Smeta.rooms[' + _room.getNumber() + '].categories[' + _params.number + '].deleteSelectedMaterial();';
+            _html += 'Smeta.rooms[' + _room.getNumber() + '].categories[' + _params.number + '].materials[ul.value].setSelected();';
+            _html += 'Smeta.rooms[' + _room.getNumber() + '].categories[' + _params.number + '].setMaterial();';
+            _html += "Smeta.update(); console.log('пересчитать смету(работы)');";
+        }else{
+            _html += 'Budget.rooms[' + _room.getNumber() + '].categories[' + _params.number + '].deleteSelectedMaterial();';
+            _html += 'Budget.rooms[' + _room.getNumber() + '].categories[' + _params.number + '].materials[ul.value].setSelected();';
+            _html += 'Budget.rooms[' + _room.getNumber() + '].categories[' + _params.number + '].setMaterial();';
+            _html += "Budget.update(); console.log('пересчитать смету(работы)');";
+        }
         //_html += "smeta.rooms.room[0].categories[" + _param.number + "].setMaterial(ul.value);";
         //_html += "smeta.calc.update();";
         // _html += "var _item = $(this).parents('.item_material');  Ballon.stop(_item, "+_room_id+", "+_material_id+", ul.value); ";

@@ -73,6 +73,11 @@ var Smeta = (function() {
     {
         return this.size;
     };
+    // ---------------- возвращает площадь квартиры
+    Smeta.prototype.getSmetaId = function()
+    {
+        return this.smetaId;
+    };
     //------------- обновление название квартиры
     //вызывается при:
     // добавлении комнаты
@@ -290,7 +295,7 @@ var Smeta = (function() {
     Smeta.prototype.addSmeta=function(){
         var _this = this,
             rooms = new Array();
-        if(_this.smetaId === null) {
+        if(_this.getSmetaId() === null) {
             var open_link = window.open('', '_blank');
         }
         _this.preloader(true);
@@ -397,7 +402,7 @@ var Smeta = (function() {
         $('#your_price_without_discount').find('h2:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
         console.log('должен быть общий перерачет сметы (вызывать аккуратно после изменений чего либо)');
 
-        if (this.smetaId !== null) this.addSmeta();
+        if (this.getSmetaId() !== null) this.addSmeta();
     };
 
     //------------- иницилизация сметы
