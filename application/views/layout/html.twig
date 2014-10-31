@@ -30,29 +30,6 @@
     <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.anythingslider.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/slider/jquery-slider.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/fancybox/jquery.fancybox.pack.js') }}"></script>
-
-    {#
-    <script type="text/javascript" src="{{ Url.media('/media/js/portal.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/js/scrolling_portal.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.easing.1.2.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.anythingslider.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.anythingslider.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.easing.1.2.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/slider/jquery-slider.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.extensions.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.date.extensions.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.numeric.extensions.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/inputmask/jquery.inputmask.custom.extensions.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/arcticmodal/jquery.arcticmodal.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/libs/all.js') }}"></script>
-    <script type="text/javascript" src="{{ Url.media('/media/js/base.js') }}"></script>
-    #}
-
     <script type="text/javascript" src="{{ Url.media('/media/js/jquery.inputmask.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/jquery.inputmask.regex.extensions.js') }}"></script>
 </head>
@@ -140,11 +117,13 @@
     <div id="top_right_stiker_five_room" class="five_room" data-numb="5"></div>
 </div>
 
-{% if _controller=='Main' %}
+{% if _controller=='Main' or _controller=='Repair' %}
+    {% if _controller=='Main' %}
     <div id="top_right_stiker">
         <p>Сколько комнат в вашей квартире?</p>
         <a href="javascript: void(0);" class="send_form">Ваша смета</a>
     </div>
+    {% endif %}
 
     <div id="instruments_top_left"></div>
     <div id="instruments_top_right_1"></div>

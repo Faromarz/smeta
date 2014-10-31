@@ -57,17 +57,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
             }
             
         }
-
-//        if ($_POST) {
-//            try {
-////                // Создаём запись
-////                $object = $object->create_article($_POST);
-////
-////                HTTP::redirect("/admin/category/");
-//            } catch (ORM_Validation_Exception $e) {
-//                $errors = Arr::flatten($e->errors(""));
-//            }
-//        }
         $objects = ORM::factory('Article_Categories')->fulltree();
         $this->set('_categories', $objects);
         $this->set('_errors', $errors);
@@ -135,39 +124,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
     }
 
     /**
-     * Редактирование основних параметров работи в портфолио
-     * 
-     * @throws Kohana_HTTP_Exception_404
-     */
-//    public function action_edit()
-//    {
-//        $object = ORM::factory('category', $this->request->param('param'));
-//        $this->template->v_body->v_page = View::factory('admin/blocks/category/edit');
-//        $errors = array();
-//
-//        // Если рабр\оти нет, тогда 404 ошибка
-//        if (!$object->loaded())
-//            throw new Kohana_HTTP_Exception_404("Страница не найдена");
-//
-//        if ($_POST) {
-//            try {
-//                // Обновление даних
-//                $object->update_article($_POST);
-//
-//                HTTP::redirect("/admin/category/");
-//            } catch (ORM_Validation_Exception $e) {
-//                $errors = Arr::flatten($e->errors(""));
-//            }
-//        }
-//
-//        $this->template->title = 'Редактирование';
-//
-//        $this->template->v_body->v_page = View::factory('admin/blocks/category/edit');
-//        $this->template->v_body->v_page->object = $object;
-//        $this->template->v_body->v_page->errors = $errors;
-//    }
-
-    /**
      * 
      * @throws Kohana_HTTP_Exception_404
      */
@@ -190,6 +146,14 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 }
                 $chaild->delete();
             }
+            foreach ($object->articles() as $article) {
+                if (is_file($article->getImg())) {
+                    if (unlink($article->getImg())) {
+                        
+                    }
+                }
+                $article->delete();
+            }
             $object->delete();
             HTTP::redirect('/admin/category');
         } else {
@@ -199,8 +163,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
 
     public function after()
     {
-//		if(empty($this->template->left_menu->links))
-//                    $this->template->v_body->v_page ->class = ' full-content pages';
         parent::after();
     }
 
@@ -223,7 +185,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
         // генерируем название
 
         $image = Image::factory($file);
-//            $image->save("$directory/logo/$filename.$ext");// сохряняем оригинал
         $watermark = Image::factory("media/img/logo.png");
         $ratio = $image->width / $image->height;
         $ratio_2 = $watermark->width / $watermark->height;
@@ -234,44 +195,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
         }
         $image->watermark($watermark, NULL, NULL, 20);
         $image->save("$directory/$filename.$ext");
-//        // лого для стр. события    
-//        $width = '290';
-//        $height = '1000';
-//        if ($image->height > $height || $image->width > $width) {
-//            // изменяем размер изобржаения и загружаем
-//            $original_ratio = $width / $height; // нужный коефициент картинки
-//            if ($ratio > $original_ratio) {
-//                $image->resize($width, $height, Image::WIDTH);
-//            } else {
-//                $image->resize($width, $height, Image::HEIGHT);
-//            }
-//        }
-//        $image->save("$directory/290_$filename.$ext");
-//        // лого для стр. события    
-//        $width = '100';
-//        $height = '100';
-//        if ($image->height > $height || $image->width > $width) {
-//            // изменяем размер изобржаения и загружаем
-//            $original_ratio = $width / $height; // нужный коефициент картинки
-//            if ($ratio > $original_ratio) {
-//                $image->resize($width, $height, Image::WIDTH);
-//            } else {
-//                $image->resize($width, $height, Image::HEIGHT);
-//            }
-//        }
-//        $image->save("$directory/100_100_$filename.$ext");
-//        $width = '40';
-//        $height = '40';
-//        if ($image->height > $height || $image->width > $width) {
-//            // изменяем размер изобржаения и загружаем
-//            $original_ratio = $width / $height; // нужный коефициент картинки
-//            if ($ratio > $original_ratio) {
-//                $image->resize($width, $height, Image::WIDTH);
-//            } else {
-//                $image->resize($width, $height, Image::HEIGHT);
-//            }
-//        }
-//        $image->save("$directory/40_40_$filename.$ext");
 
         return $filename . '.' . $ext;
     }
