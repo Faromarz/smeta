@@ -23,7 +23,7 @@
                     <span class="title">Рабочий стол</span>
                 </a>
             </li>
-            <li{% if _controller == 'Category' %} class="active"{% endif %}>
+            <li{% if _controller == 'Category' or _controller == 'Article' %} class="active"{% endif %}>
                 <a href="javascript:;">
                     <i class="fa fa-sitemap"></i>
                     <span class="title">Статьи</span>
@@ -34,6 +34,12 @@
                         <a href="{{ Url.site('/admin/category') }}">
                             <i class="fa fa-sitemap"></i>
                             <span class="title">Категории</span>
+                        </a>
+                    </li>
+                    <li{% if _controller == 'Article' and _action == 'create' %} class="active"{% endif %}>
+                        <a href="{{ Url.site('/admin/article/create') }}">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Добавление статьи</span>
                         </a>
                     </li>
                 </ul>

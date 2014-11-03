@@ -31,12 +31,12 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 if(ORM::factory('Article_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', 0)->find()->loaded()){
                     $errors['name'] = array('Категория <b>"'.$post['name'].'"</b> уже добавлена');
                 }else{
-                    if($_FILES['img']['tmp_name']){
+                /*if($_FILES['img']['tmp_name']){
                         $file = $_FILES['img']['tmp_name'];
                         $name = $_FILES['img']['name'];
                         $type = strtolower(substr($name, 1 + strrpos($name, ".")));
                         $cat->img = $this->_upload_img($file, $type, $cat->pk());
-                    }
+                }*/
                     $cat->make_root();
                     HTTP::redirect("/admin/category/");
                 }
@@ -45,12 +45,12 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 if(count($cld) > 0 && ORM::factory('Article_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', $cld[0]->parent_id)->find()->loaded()){
                     $errors['name'] = array('Подкатегория <b>"'.$post['name'].'"</b> уже добавлена');
                 }else{
-                    if($_FILES['img']['tmp_name']){
+                    /*if($_FILES['img']['tmp_name']){
                         $file = $_FILES['img']['tmp_name'];
                         $name = $_FILES['img']['name'];
                         $type = strtolower(substr($name, 1 + strrpos($name, ".")));
                         $cat->img = $this->_upload_img($file, $type, $cat->pk());
-                    }
+                    }*/
                     $cat->insert_as_last_child((int)$post['parent_id']);
                     HTTP::redirect("/admin/category/");
                 }
@@ -92,36 +92,37 @@ class Controller_Admin_Category extends Controller_Admin_Index
         }
         $this->set('_result', json_encode($array));
     }
-    public function action_saveimg()
-    {
-        $array = array();
-        if ($this->request->param('id')) {
-            $object = ORM::factory('Article_Categories', $this->request->param('id'));
-            if ($object->loaded()) {
-                 if($_FILES['img']['tmp_name']){
-                    $file = $_FILES['img']['tmp_name'];
-                    $name = $_FILES['img']['name'];
-                    $type = strtolower(substr($name, 1 + strrpos($name, ".")));
-                    $directory = '/media/img/cat/';
-                     if (is_file($directory . $object->img)) {
-                        if (unlink($directory . $object->img)) {
 
-                        }
-                    }
-                    $object->img = $this->_upload_img($file, $type, $object->pk());
-                    $object->save();
-                    $array['file'] = $object->img;
-                } else {
-                    $array = array('error' => 'File empty');
-                }
-            } else {
-                $array = array('error' => 'category not found');
-            }
-        } else {
-            $array = array('error' => 'data empty');
-        }
-        $this->set('_result', json_encode($array));
-    }
+//    public function action_saveimg()
+//    {
+//        $array = array();
+//        if ($this->request->param('id')) {
+//            $object = ORM::factory('Article_Categories', $this->request->param('id'));
+//            if ($object->loaded()) {
+//                 if($_FILES['img']['tmp_name']){
+//                    $file = $_FILES['img']['tmp_name'];
+//                    $name = $_FILES['img']['name'];
+//                    $type = strtolower(substr($name, 1 + strrpos($name, ".")));
+//                    $directory = '/media/img/cat/';
+//                     if (is_file($directory . $object->img)) {
+//                        if (unlink($directory . $object->img)) {
+//
+//                        }
+//                    }
+//                    $object->img = $this->_upload_img($file, $type, $object->pk());
+//                    $object->save();
+//                    $array['file'] = $object->img;
+//                } else {
+//                    $array = array('error' => 'File empty');
+//                }
+//            } else {
+//                $array = array('error' => 'category not found');
+//            }
+//        } else {
+//            $array = array('error' => 'data empty');
+//        }
+//        $this->set('_result', json_encode($array));
+//    }
 
     /**
      * 
@@ -146,7 +147,7 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 }
                 $chaild->delete();
             }
-            foreach ($object->articles() as $article) {
+            foreach ($object->articles->find_all() as $article) {
                 if (is_file($article->getImg())) {
                     if (unlink($article->getImg())) {
                         

@@ -159,14 +159,14 @@ Route::set('budget', 'budget/<name>', array('name'=>'[0-9a-zA-Z]+'))
         'controller' => 'budget',
         'action'     => 'index',
     ));
-Route::set('repair', 'repair/<id>(/<cat>)', array('id'=>'[0-9]+', 'cat'=>'[0-9]+'))
+Route::set('articl', 'article-<alias>', array('alias'=>'[0-9a-zA-Z-]+'))
     ->defaults(array(
-        'controller'    => 'repair',
-        'action'        => 'index',
+        'controller' => 'article',
+        'action'     => 'index',
     ));
-Route::set('news', 'news/<alias>', array('alias'=>'[0-9a-zA-Z-]+'))
+Route::set('article', 'article/<cat>', array('cat'=>'[0-9]+'))
     ->defaults(array(
-        'controller' => 'repair',
+        'controller' => 'article',
         'action'     => 'index',
     ));
 Route::set('default', '(<controller>(/<action>(/<id>)))')

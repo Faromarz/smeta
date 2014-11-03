@@ -10,7 +10,7 @@ class Controller_ImageFly extends Controller
 {
     public function action_index()
     {
-        $this->auto_render = FALSE;
+        $this->auto_render = true;
         new ImageFly();
     }
 }
