@@ -14,10 +14,6 @@ class Model_Article extends ORM
         )
     );
     
-    public function __toString()
-    {
-        return (string) $this->title;
-    }
     public function getDirectory()
     {
         return $this->directory;
