@@ -31,12 +31,12 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 if(ORM::factory('Article_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', 0)->find()->loaded()){
                     $errors['name'] = array('Категория <b>"'.$post['name'].'"</b> уже добавлена');
                 }else{
-                    if($_FILES['img']['tmp_name']){
+                /*if($_FILES['img']['tmp_name']){
                         $file = $_FILES['img']['tmp_name'];
                         $name = $_FILES['img']['name'];
                         $type = strtolower(substr($name, 1 + strrpos($name, ".")));
                         $cat->img = $this->_upload_img($file, $type, $cat->pk());
-                    }
+                }*/
                     $cat->make_root();
                     HTTP::redirect("/admin/category/");
                 }
@@ -45,29 +45,18 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 if(count($cld) > 0 && ORM::factory('Article_Categories')->where('name', '=', $post['name'])->where('parent_id', '=', $cld[0]->parent_id)->find()->loaded()){
                     $errors['name'] = array('Подкатегория <b>"'.$post['name'].'"</b> уже добавлена');
                 }else{
-                    if($_FILES['img']['tmp_name']){
+                    /*if($_FILES['img']['tmp_name']){
                         $file = $_FILES['img']['tmp_name'];
                         $name = $_FILES['img']['name'];
                         $type = strtolower(substr($name, 1 + strrpos($name, ".")));
                         $cat->img = $this->_upload_img($file, $type, $cat->pk());
-                    }
+                    }*/
                     $cat->insert_as_last_child((int)$post['parent_id']);
                     HTTP::redirect("/admin/category/");
                 }
             }
             
         }
-
-//        if ($_POST) {
-//            try {
-////                // Создаём запись
-////                $object = $object->create_article($_POST);
-////
-////                HTTP::redirect("/admin/category/");
-//            } catch (ORM_Validation_Exception $e) {
-//                $errors = Arr::flatten($e->errors(""));
-//            }
-//        }
         $objects = ORM::factory('Article_Categories')->fulltree();
         $this->set('_categories', $objects);
         $this->set('_errors', $errors);
@@ -103,68 +92,35 @@ class Controller_Admin_Category extends Controller_Admin_Index
         }
         $this->set('_result', json_encode($array));
     }
-    public function action_saveimg()
-    {
-        $array = array();
-        if ($this->request->param('id')) {
-            $object = ORM::factory('Article_Categories', $this->request->param('id'));
-            if ($object->loaded()) {
-                 if($_FILES['img']['tmp_name']){
-                    $file = $_FILES['img']['tmp_name'];
-                    $name = $_FILES['img']['name'];
-                    $type = strtolower(substr($name, 1 + strrpos($name, ".")));
-                    $directory = '/media/img/cat/';
-                     if (is_file($directory . $object->img)) {
-                        if (unlink($directory . $object->img)) {
-
-                        }
-                    }
-                    $object->img = $this->_upload_img($file, $type, $object->pk());
-                    $object->save();
-                    $array['file'] = $object->img;
-                } else {
-                    $array = array('error' => 'File empty');
-                }
-            } else {
-                $array = array('error' => 'category not found');
-            }
-        } else {
-            $array = array('error' => 'data empty');
-        }
-        $this->set('_result', json_encode($array));
-    }
-
-    /**
-     * Редактирование основних параметров работи в портфолио
-     * 
-     * @throws Kohana_HTTP_Exception_404
-     */
-//    public function action_edit()
+//    public function action_saveimg()
 //    {
-//        $object = ORM::factory('category', $this->request->param('param'));
-//        $this->template->v_body->v_page = View::factory('admin/blocks/category/edit');
-//        $errors = array();
+//        $array = array();
+//        if ($this->request->param('id')) {
+//            $object = ORM::factory('Article_Categories', $this->request->param('id'));
+//            if ($object->loaded()) {
+//                 if($_FILES['img']['tmp_name']){
+//                    $file = $_FILES['img']['tmp_name'];
+//                    $name = $_FILES['img']['name'];
+//                    $type = strtolower(substr($name, 1 + strrpos($name, ".")));
+//                    $directory = '/media/img/cat/';
+//                     if (is_file($directory . $object->img)) {
+//                        if (unlink($directory . $object->img)) {
 //
-//        // Если рабр\оти нет, тогда 404 ошибка
-//        if (!$object->loaded())
-//            throw new Kohana_HTTP_Exception_404("Страница не найдена");
-//
-//        if ($_POST) {
-//            try {
-//                // Обновление даних
-//                $object->update_article($_POST);
-//
-//                HTTP::redirect("/admin/category/");
-//            } catch (ORM_Validation_Exception $e) {
-//                $errors = Arr::flatten($e->errors(""));
+//                        }
+//                    }
+//                    $object->img = $this->_upload_img($file, $type, $object->pk());
+//                    $object->save();
+//                    $array['file'] = $object->img;
+//                } else {
+//                    $array = array('error' => 'File empty');
+//                }
+//            } else {
+//                $array = array('error' => 'category not found');
 //            }
+//        } else {
+//            $array = array('error' => 'data empty');
 //        }
-//
-//        $this->template->title = 'Редактирование';
-//
-//        $this->template->v_body->v_page = View::factory('admin/blocks/category/edit');
-//        $this->template->v_body->v_page->object = $object;
-//        $this->template->v_body->v_page->errors = $errors;
+//        $this->set('_result', json_encode($array));
 //    }
 
     /**
@@ -190,6 +146,14 @@ class Controller_Admin_Category extends Controller_Admin_Index
                 }
                 $chaild->delete();
             }
+            foreach ($object->articles->find_all() as $article) {
+                if (is_file($article->getImg())) {
+                    if (unlink($article->getImg())) {
+                        
+                    }
+                }
+                $article->delete();
+            }
             $object->delete();
             HTTP::redirect('/admin/category');
         } else {
@@ -199,8 +163,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
 
     public function after()
     {
-//		if(empty($this->template->left_menu->links))
-//                    $this->template->v_body->v_page ->class = ' full-content pages';
         parent::after();
     }
 
@@ -223,7 +185,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
         // генерируем название
 
         $image = Image::factory($file);
-//            $image->save("$directory/logo/$filename.$ext");// сохряняем оригинал
         $watermark = Image::factory("media/img/logo.png");
         $ratio = $image->width / $image->height;
         $ratio_2 = $watermark->width / $watermark->height;
@@ -234,44 +195,6 @@ class Controller_Admin_Category extends Controller_Admin_Index
         }
         $image->watermark($watermark, NULL, NULL, 20);
         $image->save("$directory/$filename.$ext");
-//        // лого для стр. события    
-//        $width = '290';
-//        $height = '1000';
-//        if ($image->height > $height || $image->width > $width) {
-//            // изменяем размер изобржаения и загружаем
-//            $original_ratio = $width / $height; // нужный коефициент картинки
-//            if ($ratio > $original_ratio) {
-//                $image->resize($width, $height, Image::WIDTH);
-//            } else {
-//                $image->resize($width, $height, Image::HEIGHT);
-//            }
-//        }
-//        $image->save("$directory/290_$filename.$ext");
-//        // лого для стр. события    
-//        $width = '100';
-//        $height = '100';
-//        if ($image->height > $height || $image->width > $width) {
-//            // изменяем размер изобржаения и загружаем
-//            $original_ratio = $width / $height; // нужный коефициент картинки
-//            if ($ratio > $original_ratio) {
-//                $image->resize($width, $height, Image::WIDTH);
-//            } else {
-//                $image->resize($width, $height, Image::HEIGHT);
-//            }
-//        }
-//        $image->save("$directory/100_100_$filename.$ext");
-//        $width = '40';
-//        $height = '40';
-//        if ($image->height > $height || $image->width > $width) {
-//            // изменяем размер изобржаения и загружаем
-//            $original_ratio = $width / $height; // нужный коефициент картинки
-//            if ($ratio > $original_ratio) {
-//                $image->resize($width, $height, Image::WIDTH);
-//            } else {
-//                $image->resize($width, $height, Image::HEIGHT);
-//            }
-//        }
-//        $image->save("$directory/40_40_$filename.$ext");
 
         return $filename . '.' . $ext;
     }

@@ -64,7 +64,7 @@
                 <ul class="navigation">
                     <li><a href="/">{% if _controller=='Main' %}<span>{% endif %}
                                 услуги{% if _controller=='Main' %}</span>{% endif %}</a></li>
-                    <li><a href="/repair">{% if _controller=='Repair' %}<span>{% endif %}
+                    <li><a href="/article">{% if _controller=='Article' %}<span>{% endif %}
                                 о ремонте{% if _controller=='Main' %}</span>{% endif %}</a></li>
                     <li><a href="/project">{% if _controller=='Project' %}<span>{% endif %}
                                 о проекте{% if _controller=='Main' %}</span>{% endif %}</a></li>
@@ -140,7 +140,7 @@
     <div id="top_right_stiker_five_room" class="five_room" data-numb="5"></div>
 </div>
 
-{% if _controller=='Main' %}
+{% if showInstruments is defined %}
     <div id="top_right_stiker">
         <p>Сколько комнат в вашей квартире?</p>
         <a href="javascript: void(0);" class="send_form">Ваша смета</a>

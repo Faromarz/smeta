@@ -307,7 +307,7 @@ class ImageFly
      * @param  string     path to the file to server (either default or cached version)
      */
     private function _create_headers($file_data)
-    {        
+    {
         // Create the required header vars
         $last_modified = gmdate('D, d M Y H:i:s', filemtime($file_data)).' GMT';
         $content_type = File::mime($file_data);

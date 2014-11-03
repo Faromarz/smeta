@@ -1,0 +1,246 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link href="{{ Url.media('/media/css/page_article/atricle.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/page_article/cms.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/redactor/redactor.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor-icons.css') }}" rel="stylesheet" type="text/css"/>
+    
+    <script src="{{ Url.media('/media/js/class/work.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/material.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/category.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/loaded.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/window.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/door.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/height.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/type.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/class/room.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/js/main_page/smeta.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ Url.media('/media/js/article_page/article.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/redactor/redactor.min.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/underscore.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/eventable.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor.js') }}" type="text/javascript"></script>
+    
+
+    <script>
+        $(document).ready(function(){
+            Smeta.init({
+                types: {rate:2,repair:2,apartment:2},
+                params: {{_params| json_encode()|raw}},
+                doors: {{ doors | json_encode()|raw }},
+                windows: {{ windows | json_encode()|raw }},
+                smetaId: null
+            });
+        });
+    </script>
+    <div id="content">
+        <p id="text-header1">информация</p>
+        <p id="text-header2">о нюансах ремонта</p>
+        <p id="text-header_line">Приведенные ниже статьи помогут вам сделать правильный выбор типа ремонта и его исполнителя</p>
+
+            <div id="text-menu">
+                <a href="{{ Url.site('/article') }}" class="text-menu-item">
+                    <h1 class="text-menu-non_selected{% if _action=='index' and _cat is empty %} text-menu-selected{% endif %}">Все статьи</h1>
+                </a>
+                {% for category in categories %}
+                    {% if category.has_children() %}
+                        <div class="text-menu-item">
+                    {% else %}
+                        <a href="{{ Url.site('/article/'~category.id) }}"  class="text-menu-item">
+                    {% endif %}
+                        <h1 class="text-menu-non_selected{% if _action=='index' and _cat == category.id %} text-menu-selected{% endif %}">{{ category }}</h1>
+                        {% if  category.has_children() %}
+                            <ul{% if _action=='index' and _cat == category.id %} style="display:block;"{% endif %}>
+                                {% for children in category.children %}
+                                    <li><a href="{{ Url.site('/article/'~children.id) }}" class="text-menu_second-non_selected{% if _action=='index' and _catCildrenId == children.id %} text-menu-selected{% endif %}">{{ children }}</a></li>
+                                {% endfor%}
+                            </ul>
+                        {% endif%}
+                    </{{ category.has_children() ? 'div' : 'a' }}>
+                {% endfor%}
+            </div>
+
+            {% if _alias is not empty %}
+                <div id="text-full">
+
+                    <div id="text-full-photo" style="background: url('{{ _news.getImg }}') 50% 50%;">
+                        <h6>{{ _news.datetime | date('d.m.Y')}}</h6>
+                    </div>
+
+                    <h1>{{ _news.title }}</h1>
+                    <div id="articleText">
+                                <script>
+                                    $(document).ready(function(){
+                                    new SirTrevor.getInstance('#articleText');
+                                    var data = JSON.parse({{ _news.getText |raw }});
+                                    var block = $('#articleText');
+                                    for (var key in data['data']){
+                                        if(data['data'][key].type === 'text'){
+                                            block.before('<div class="div-p">'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</div>');
+                                        }else if(data['data'][key].type === 'image'){
+                                            block.before('<img style="max-width:100%" src="'+data['data'][key].data.file.url+'" />'); 
+                                        }else if(data['data'][key].type === 'quote'){
+                                            block.before('<h3>“</h3><h5>'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</h5>');  
+                                        }else if(data['data'][key].type === 'heading'){
+                                            block.before('<div><h1 class="block-modul">'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</h1></div>'); 
+                                        }else if(data['data'][key].type === 'video'){
+                                            block.before(SirTrevor.toHTML(data['data'][key].data.source,data['data'][key].type));
+                                        }else if(data['data'][key].type === 'list'){
+                                            block.before(SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type));
+                                        }
+                                    }
+            });
+                                </script>
+                    </div>
+                    <div id="text-full-rasporka_bottom"></div>
+                </div>
+{#
+                <a id="text-last_text">предыдущая статья</a>
+                <a id="text-next_text">следующая статья</a>
+#}
+            {% else %}
+            <div id="text-chapters">
+                {% for new in _news %}
+                    <a href="{{ Url.site('/article-'~new.alias) }}" class="text-chapters-item">
+                        <div class="text-chapters-item-img" style="background: url('/imagefly/w253-h253/{{ new.getImg }}')"></div>
+                        <h1>{{ Text.limit_chars(new.title, 20, '...') }}</h1>
+                        <p>{{ new.short_text }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="rasporka100"></div>
+
+            <p id="text-header3">Экономьте время, укажите количество комнат в вашей квартире и получите детальную смету онлайн</p>
+
+            <div id="text-for_choice">
+                <ul id="order_options_rate">
+                    <p>тариф</p>
+                    {% for item in types_rate %}
+                        <li id="order_options_rate_{{ item.alias}}" {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                    {% endfor %}
+                </ul>
+                <ul id="order_options_repairs">
+                    <p>ремонт</p>
+                    {% for item in types_repair %}
+                        <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                    {% endfor %}
+                </ul>
+                <ul id="order_options_type">
+                    <p>тип квартиры</p>
+                    {% for item in types_apartment %}
+                        <li {% if loop.index==2 %}class="selected"{% endif %}><div><h1>{{ item.name }}</h1><h2>{{ item.name }}</h2></div></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="text-for_rooms">
+                <h1>Cколько комнат<br>в вашей квартире?</h1>
+                <div id="rooms">
+                    <div id="one_room" data-numb="1"></div>
+                    <div id="two_room" data-numb="2"></div>
+                    <div id="three_room" data-numb="3"></div>
+                    <div id="four_room" data-numb="4"></div>
+                    <div id="five_room" data-numb="5"></div>
+                </div>
+            </div>
+
+             {#
+            <div id="dop_options_footer">
+                <div id="dop_options_footer_rezult">
+                    <h1>{{ smeta.room_name ? smeta.room_name : 'Укажите количество комнат' }}</h1>
+                    <h2>Общая площадь:</h2>
+                    <h3>{{ smeta.size |number_format(2, ',', ' ')}} м²</h3>
+                </div>
+                <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
+            </div>
+                #}
+            <div id="text-for_calculate">
+                <div id="text-calculate">
+                    <h1>однокомнатная квартира</h1>
+                    <dl>
+                        <dt>Стоимость работ:</dt>
+                        <dd>XXX XXX р.</dd>
+                    </dl>
+                    <dl>
+                        <dt>Стоимость материалов:</dt>
+                        <dd>XXX XXX р.</dd>
+                    </dl>
+                </div>
+                {#
+                <div id="your_price_without_discount">
+                        <p>Стоимость материалов:</p>
+                        <h2>{{ _smeta.priceMaterials ? _smeta.priceMaterials : 0 }} р.</h2>
+                        <p>Стоимость работ:</p>
+                        <h2>{{ _smeta.priceWorks ? _smeta.priceWorks : 0 }} р.</h2>
+                    </div>
+                #}
+                <a id="text-you_smeta">ваша смета</a>
+                {#<div id="your_smeta">
+                    <a href="javascript:void(0);">Ваша смета</a>
+                </div>
+#}
+            </div>
+            <div id="text-line"></div>
+            <div class="rasporka100"></div>
+        
+        
+        
+        
+        
+        
+      
+    </div>
+    <div id="content_bottom">
+
+            <div id="reviews_left_corner">
+
+                <div class="widget"id="ok_group_widget"></div>
+                <script>
+                    !function (d, id, did, st) {
+                        var js = d.createElement("script");
+                        js.src = "http://connect.ok.ru/connect.js";
+                        js.onload = js.onreadystatechange = function () {
+                            if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
+                                if (!this.executed) {
+                                    this.executed = true;
+                                    setTimeout(function () {
+                                        OK.CONNECT.insertGroupWidget(id,did,st);
+                                    }, 0);
+                                }
+                            }}
+                        d.documentElement.appendChild(js);
+                    }(document,"ok_group_widget","56869893636150","{width:320,height:240}");
+                </script>
+                <div id="reviews">
+
+                    <h1>Отзывы о проекте</h1>
+                    <a href="#" id="reviews_arrow_left"></a>
+
+                    <p>Быстро построила смету - очень удобно! Заказала ремонт и теперь всем рекомендую:)</p>
+
+                    <a href="#" id="reviews_arrow_right"></a>
+                    <h2>Ирина</h2>
+                    <h3>г. Москва</h3>
+
+                    <div id="add_review"></div>
+
+                </div>
+
+            </div>
+
+
+            <div id="reviews_right_corner">
+
+                <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+                <h2>при заказав ремонта от 100 000 рублей </h2>
+                <a href="#">Узнать подробности</a>
+
+            </div>
+
+        </div>
+
+{% endblock content %}

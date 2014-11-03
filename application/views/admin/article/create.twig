@@ -1,0 +1,191 @@
+{% extends "admin/index.twig" %}
+{% block boody %}
+    <link href="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor-icons.css') }}" rel="stylesheet" type="text/css"/>
+    
+    <script src="{{ Url.media('/media/libs/underscore.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/eventable.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/synctranslit/jquery.synctranslit.min.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/charRemaining.js') }}" type="text/javascript"></script>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-title">
+                Добавление <small>новой статьи</small>
+            </h3>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a href="{{ Url.site('/admin') }}">Рабочий стол</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="{{ Url.site('/admin/category') }}">Категории</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="">Новая статья</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <div class="table-container">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gift"></i>Новая статья
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <!-- BEGIN FORM-->
+                                <form action="{{ Url.site('/admin/article/create') }}" class="form-horizontal form-row-seperated" method="post" enctype="multipart/form-data">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Категория</label>
+                                            <div class="col-md-9">
+                                                 <select name="cat_id" class="form-control">
+                                                    {% for cat in _categories %}
+                                                        <option value="{{ cat.id }}"{% if cat.id == _catId %}selected{% endif %}>{{ cat.getEmptyLvl}}{{ cat.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <span class="help-block">Укажите категорию</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Картинка</label>
+                                            <div class="col-md-9">
+                                                <input type="file" name="img">
+                                                <span class="help-block">Выберите файл</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Title картинки</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="img-title" class="form-control" placeholder="Введите название картинки">
+                                                <span class="help-block">Введите название картинки</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Alt картинки</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="img-alt" class="form-control" placeholder="Введите альтернативное имя картинки">
+                                                <span class="help-block">Введите альтернативное имя картинки</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Название</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="title" id="title_news" placeholder="Введите название" class="form-control">
+                                                <span class="help-block">Введите название статьи</span>
+                                                {% if _errors.title is defined %}{{ _errors.title.0 | raw('html') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Url статьи</label>
+                                            <div class="col-md-9" style="position: relative;">
+                                                <div style="position: absolute;top: 1px;left: 16px;width: 240px;padding: 6px 0px;text-align: right;font-size: 14px;font-weight: normal;color: #333333;background-color: white;-webkit-box-shadow: none;box-shadow: none;-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;height: 32px;">{{ _domainName }}article-</div>
+                                                <input style="padding-left: 240px;" type="text" name="alias" placeholder="Введите url" id="title_alias_news" class="form-control">
+                                                <span class="help-block">Введите url статьи</span>
+                                                {% if _errors.alias is defined %}{{ _errors.alias.0 | raw('html') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">SEO title</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="SEO_title" placeholder="Введите SEO title" class="form-control">
+                                                <span class="help-block">Введите SEO title</span>
+                                                {% if _errors.SEO_title is defined %}{{ _errors.SEO_title.0 | raw('html') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">SEO description</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="SEO_description" placeholder="Введите SEO description" class="form-control">
+                                                <span class="help-block">Введите SEO description</span>
+                                                {% if _errors.SEO_description is defined %}{{ _errors.SEO_description.0 | raw('html') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">SEO keywords</label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="SEO_keywords" placeholder="Введите SEO keywords" class="form-control">
+                                                <span class="help-block">Введите SEO keywords</span>
+                                                {% if _errors.SEO_keywords is defined %}{{ _errors.SEO_keywords.0 | raw('html') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Короткое описание</label>
+                                            <div class="col-md-9">
+                                                <textarea class="form-control textarea-limit" name="short_text" maxlength="200"></textarea>
+                                                <span class="help-block">Введите короткое описание (ограничено 200 символов) <span id="textareaFeedback"></span></span>
+                                                {% if _errors.short_text is defined %}{{ _errors.short_text.0 | raw('html') }}{% endif %}
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                                     var maxLength = $('.textarea-limit').attr('maxlength');        //(1)
+                                                        $('.textarea-limit').keyup(function()
+                                                        {
+                                                            var curLength = $('.textarea-limit').val().length;         //(2)
+                                                            $(this).val($(this).val().substr(0, maxLength));     //(3)
+                                                            var remaning = maxLength - curLength;
+                                                            if (remaning < 0) remaning = 0;
+                                                            $('#textareaFeedback').html(remaning + ' осталось символов');//(4)
+                                                            if (remaning < 10)          //(5)
+                                                            {
+                                                                $('#textareaFeedback').addClass('warning');
+                                                            }
+                                                            else
+                                                            {
+                                                                $('#textareaFeedback').removeClass('warning');
+                                                            }
+                                                        });
+                                                });
+                                          </script>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Текст</label>
+                                            <div class="col-md-9">
+                                                <textarea class="js-st-instance" name="text"></textarea>
+                                                {% if _errors.text is defined %}{{ _errors.text.0 | raw('html') }}{% endif %}
+                                            </div>
+                                            <script>
+                                                new SirTrevor.Editor({ el: $('.js-st-instance') });
+                                                SirTrevor.setDefaults({
+                                                    uploadUrl: "/admin/article/upload_img"
+                                                });
+                                                $('#title_news').syncTranslit({destination: 'title_alias_news'});
+                                          </script>
+                                        </div>
+                                            
+                                    <div class="form-actions fluid">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    <button type="submit" class="btn green"><i class="fa fa-pencil"></i> Добавить</button>
+                                                    <a href="{{ Url.site('/admin/category') }}" class="btn default">Отмена</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: life time stats -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+
+{% endblock boody %}

@@ -65,6 +65,8 @@ class Controller_Main extends Controller_Core
         // количество партнерев
         $countPartners = ORM::factory('Partner')->count_all();
         $this->set('_countPartners', $countPartners);
+        
+        $this->set('showInstruments', true);
     }
     public static function getRooms($ajax=false)
     {

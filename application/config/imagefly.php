@@ -39,7 +39,7 @@ return array
      * Any other param configuration will throw a 404 error.
      */
     'presets'          => array(
-        'w253-h253-c'
+        'w253-h253'
     ),
     /**
      * Configure one or more watermarks. Each configuration key can be passed as a param through an Imagefly URL to apply the watermark.

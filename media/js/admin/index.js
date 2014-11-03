@@ -1,6 +1,7 @@
 var Admin = (function() {
     var defaults = {
         ajaxDeleteClass: 'admin-delete-ajax',
+        ajaxDeleteClassTr: 'admin-delete-ajax-tr',
         deleteClass: 'admin-delete',
         ajaxBlockId: 'ajaxBlock',
         statusLoad: '<div id="statusLoad">Загрузка...</div>',
@@ -37,6 +38,33 @@ var Admin = (function() {
 //                success: function(response) {
 //                    $('#' + _this.params.ajaxBlockId).remove(_this.params.statusLoad);
 //                }
+            });
+
+        });
+        $('.' + _this.params.ajaxDeleteClassTr).on('click', function() {
+            var _this = this;
+            var question = $(this).data('question');
+            if (question === undefined) {
+                question = 'Удалить?';
+            }
+            if (!confirm(question)) {
+                return false;
+            }
+            var url = $(this).data('url');
+            var params = $(this).data('params');
+            if (url === undefined) {
+                alert('Url не указан (укажите параметр data-url)');
+            }
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: params,
+//                beforeSend: function() {
+//                    $('#' + _this.params.ajaxBlockId).append(_this.params.statusLoad);
+//                },
+                success: function(response) {
+                    $(_this).parent('td').parent('tr').remove();
+                }
             });
 
         });
