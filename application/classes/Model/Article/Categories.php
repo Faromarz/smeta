@@ -14,11 +14,6 @@ class Model_Article_Categories extends ORM_MPTT
 
     );
      
-    public function __toString()
-    {
-        return (string) $this->name;
-    }
-
     public function getEmptyLvl()
     {
         return str_repeat(
