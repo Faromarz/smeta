@@ -15,7 +15,7 @@ return array
     /**
      * Path to the image cache directory you would like to use, don't forget the trailing slash!
      */
-    'cache_dir'        => 'cache/',
+    'cache_dir'        => 'application/cache/',
     /**
      * Mimic the source file folder structure within the cache directory.
      * Useful if you want to keep track of cached files and folders to perhaps periodically clear some cache folders but not others.
