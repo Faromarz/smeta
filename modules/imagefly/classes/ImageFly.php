@@ -81,9 +81,9 @@ class ImageFly
         $this->cached_file = $this->cache_dir.$this->_encoded_filename();
         
         // Create a modified cache file if required
-        if ( ! $this->_cached_exists() AND $this->_cached_required())
+        if (! $this->_cached_exists() AND $this->_cached_required())
         {
-          //  $this->_create_cached();
+            $this->_create_cached();
         }
         
         // Serve the image file

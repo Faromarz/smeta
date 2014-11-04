@@ -79,7 +79,7 @@
                                                             done: function (e, data) {
                                                                 $(this).parents('div.col-md-9').find('img').remove();
                                                                 $(this).parents('div.col-md-9').prepend('<img style="max-width:114px;" src="/{{ _article.getDirectory }}'+data.result.file+'?v='+ Math.random()+'" />');
-                                                                alert('Изобржаение загружено');
+                                                               // alert('Изобржаение загружено');
                                                                 //$.each(data.result.files, function (index, file) {
                                                                    // $('<p/>').text(file.name).appendTo('#files');
 
@@ -125,7 +125,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Url статьи</label>
                                             <div class="col-md-9" style="position: relative;">
-                                                <div style="position: absolute;top: 1px;left: 16px;width: 240px;padding: 6px 0px;text-align: right;font-size: 14px;font-weight: normal;color: #333333;background-color: white;-webkit-box-shadow: none;box-shadow: none;-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;height: 32px;">{{ _domainName }}article-</div>
+                                                <div style="position: absolute;top: 1px;left: 16px;width: 240px;padding: 6px 0px;text-align: right;font-size: 14px;font-weight: normal;color: #333333;background-color: white;-webkit-box-shadow: none;box-shadow: none;-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;height: 32px;">{{ _domainName }}</div>
                                                 <input style="padding-left: 240px;" type="text" name="alias" value="{{ _article.alias }}" placeholder="Введите url" id="title_alias_news" class="form-control">
                                                 <span class="help-block">Введите url статьи</span>
                                                 {% if _errors.alias is defined %}{{ _errors.alias.0 | raw('html') }}{% endif %}
@@ -158,7 +158,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Короткое описание</label>
                                             <div class="col-md-9">
-                                                <textarea class="form-control textarea-limit" name="short_text" value="{{ _article.short_text }}  maxlength="200"></textarea>
+                                                <textarea class="form-control textarea-limit" name="short_text"  maxlength="200">{{ _article.short_text }}</textarea>
                                                 <span class="help-block">Введите короткое описание (ограничено 200 символов) <span id="textareaFeedback"></span></span>
                                                 {% if _errors.short_text is defined %}{{ _errors.short_text.0 | raw('html') }}{% endif %}
                                             </div>

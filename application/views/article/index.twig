@@ -65,7 +65,7 @@
             {% if _alias is not empty %}
                 <div id="text-full">
 
-                    <div id="text-full-photo" style="background: url('{{ _news.getImg }}') 50% 50%;">
+                    <div id="text-full-photo" style="background: url('/imagefly/w567/{{ _news.getImg }}') 50% 50%;">
                         <h6>{{ _news.datetime | date('d.m.Y')}}</h6>
                     </div>
 
@@ -103,7 +103,7 @@
             {% else %}
             <div id="text-chapters">
                 {% for new in _news %}
-                    <a href="{{ Url.site('/article-'~new.alias) }}" class="text-chapters-item">
+                    <a href="{{ Url.site('/'~new.alias) }}" class="text-chapters-item">
                         <div class="text-chapters-item-img" style="background: url('/imagefly/w253-h253/{{ new.getImg }}')"></div>
                         <h1>{{ Text.limit_chars(new.title, 20, '...') }}</h1>
                         <p>{{ new.short_text }}</p>

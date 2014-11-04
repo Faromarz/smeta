@@ -11,6 +11,9 @@ class Controller_Article extends Controller_Main
         $catId = $this->request->param('cat');
         $this->set('_cat', $catId);
         $_alias = $this->request->param('alias');
+        if (in_array($_alias, array('article'))){
+            $_alias = '';
+        }
         $this->set('_alias', $_alias);
         
         $types_rate = ORM::factory('Types_Rate')->find_all();
@@ -86,7 +89,7 @@ class Controller_Article extends Controller_Main
         } elseif(!empty ($_alias)) {
             $news = ORM::factory('Article')->where('alias', '=', $_alias)->find();
             $cat = $news->category;
-            if ($cat->lvl) {
+            if ($cat->lvl != 1) {
                 $this->set('_cat', $cat->parent_id);
                 $this->set('_catCildrenId', $cat->id);
             } else {

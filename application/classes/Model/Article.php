@@ -13,6 +13,10 @@ class Model_Article extends ORM
             'foreign_key' => 'cat_id'
         )
     );
+    public function __toString()
+    {
+        return $this->title;
+    }
     
     public function getDirectory()
     {
