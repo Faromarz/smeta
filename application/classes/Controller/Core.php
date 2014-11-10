@@ -21,6 +21,7 @@ class Controller_Core extends Controller_Kotwig {
         $this->set('_controller', $this->request->controller());
         $this->set('_action', $this->request->action());
         $this->set('_domainName', URL::base('http'));
+        $this->set('_countSmeta', (ORM::factory('Smeta')->count_all())*3);
 
     }
 

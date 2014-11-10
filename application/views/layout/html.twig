@@ -80,12 +80,17 @@
                     <li><a href="#">О проекте</a></li>
                 </ul>
                 <div id="footer_counter">
-                    <div class="counter_number n_none"></div>
-                    <div class="counter_number n8"></div>
-                    <div class="counter_number n9"></div>
-                    <div class="counter_number n6"></div>
-                    <div class="counter_number n3"></div>
-                    <div class="counter_number n1"></div>
+                    {% set countSmeta = _countSmeta|split('') %}
+                    {% set countNone = 6 - (_countSmeta|length) %}
+                    {% for number in [1,2,3,4,5,6] %}
+                        {% if number <= countNone %}
+                            <div class="counter_number n_none"></div>
+                        {% endif %}
+                    {% endfor %}
+                    {% for number in countSmeta %}
+                        <div class="counter_number n{{number}}"></div>
+                    {% endfor %}
+                    
                     <p>смет расчитано</p>
                 </div>
                 <h1>© 2013–2014 MasterSmeta LLC. Все права защищены. Запрещено любое копирование материалов
