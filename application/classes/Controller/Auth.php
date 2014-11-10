@@ -14,7 +14,7 @@ class Controller_Auth extends Controller_Core{
             }
             else
             {
-                die(json_encode(array('error' => 'Неверные данные!')));
+                die(json_encode(array('error' => 'Попробуйте еще раз!')));
             }
         }
     }

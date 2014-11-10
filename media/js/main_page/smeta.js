@@ -109,6 +109,7 @@ var Smeta = (function() {
         }
         $('#dop_options_footer_rezult').find('h1:eq(0)').text(text_room);
         $('#budget_repair_estimate-type_and_rate').find('dt:eq(0)').text(text_room);
+        $('#text-calculate').find('h1:eq(0)').text(text_room);
         _this.roomName = text_room;
     };
     //------------- изменение количества комнат
@@ -219,9 +220,9 @@ var Smeta = (function() {
         var _this = this;
         var count = _this.getCountWindows();
         if (count > 0) {
-            $('.smeta_window[data-room-id="1"] h1.smeta_text_header').text('окно №1 в квартире №1');
+            $('.smeta_window[data-room-id="1"] h1.smeta_text_header').text('окно №1 в комнате №1');
         } else {
-            $('.smeta_window[data-room-id="1"] h1.smeta_text_header').text('окно в квартире №1');
+            $('.smeta_window[data-room-id="1"] h1.smeta_text_header').text('окно в комнате №1');
         }
     };
     //--------- добавление двери
@@ -400,6 +401,11 @@ var Smeta = (function() {
         $('#mon-work-watch').text(number_format(this.time_work_mon, 2, ',', ' ') + '  часов');
         $('#mon-work-price').text(number_format(this.price_work_mon, 2, ',', ' ') + '  р');
         $('#your_price_without_discount').find('h2:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
+        
+        // для стр. статьи
+        $('#text-calculate').find('dl:eq(0)').find('dd:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
+        $('#text-calculate').find('dl:eq(1)').find('dd:eq(0)').text(number_format(this.price_work_mon+this.price_work_mon, 2, ',', ' ') + '  р');
+        
         console.log('должен быть общий перерачет сметы (вызывать аккуратно после изменений чего либо)');
 
         if (this.getSmetaId() !== null) this.addSmeta();
@@ -536,6 +542,8 @@ var Smeta = (function() {
 
         //кнопка перехода на смету клиента
         $("#your_smeta,.send_form").on("click", function() { _this.addSmeta(); });
+        //кнопка перехода на смету клиента
+        $("a#text-you_smeta").on("click", function() { _this.addSmeta(); });
         // обединение туалет ванна
         $('.combine, .uncombine').on('click', function(){_this.changeCombine(_this, this);});
     };
