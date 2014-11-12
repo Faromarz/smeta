@@ -79,8 +79,20 @@
                     <h2>{{ material.price | number_format(2, ',', ' ')}} р.</h2>
                     <div class="x"></div>
                     {% set text = material.count_text|split(',') %}
-                    <h5>{{ material.size }} {{ text[0]|raw }} = </h5>
-                    <h6>{{ (material.price*material.size)|round | number_format(0, ',', ' ')}} р.</h6>
+                    <h5>
+                        {% if material.params.coun_yp is defined %}
+                            {{ material.params.coun_yp |number_format(0, ',', ' ') }} {{ text[0]|raw }}
+                        {% else %}
+                            1 {{ text[0]|raw }}
+                        {% endif %}
+                    </h5>
+                    <h6>
+                        {% if material.params.coun_yp is defined %}
+                            {{ (material.price*material.params.coun_yp)|round | number_format(0, ',', ' ')}}
+                        {% else %}
+                            {{ (material.price)|round | number_format(0, ',', ' ')}}
+                        {% endif %}  р.
+                    </h6>
 
                 </div>
             </div>
