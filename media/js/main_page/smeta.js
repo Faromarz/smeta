@@ -384,8 +384,10 @@ var Smeta = (function() {
         this.time_work_dem = 0;
         this.time_work_mon = 0;
         $.each(this.rooms, function(key, room) {
-            summa_materials += room.getPriceAllMaterials();
-            summa_works += room.getPriceAllWorks();
+            if (room.getEnable()) {
+                summa_materials += room.getPriceAllMaterials();
+                summa_works += room.getPriceAllWorks();
+            }
         });
         $('#materials_summ').find('h1:eq(0)').text(number_format(summa_materials, 2, ',', ' ') + '  р');
         $('#budget_materials_summ').text(number_format(summa_materials, 2, ',', ' ') + '  р');
@@ -407,7 +409,6 @@ var Smeta = (function() {
         $('#text-calculate').find('dl:eq(1)').find('dd:eq(0)').text(number_format(this.price_work_mon+this.price_work_mon, 2, ',', ' ') + '  р');
         
         console.log('должен быть общий перерачет сметы (вызывать аккуратно после изменений чего либо)');
-
         if (this.getSmetaId() !== null) this.addSmeta();
     };
 
