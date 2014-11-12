@@ -80,7 +80,7 @@
                     <div class="x"></div>
                     {% set text = material.count_text|split(',') %}
                     <h5>{{ material.size }} {{ text[0]|raw }} = </h5>
-                    <h6>{{ material.price | number_format(2, ',', ' ')}} р.</h6>
+                    <h6>{{ (material.price*material.size)|round | number_format(0, ',', ' ')}} р.</h6>
 
                 </div>
             </div>
