@@ -190,12 +190,12 @@
         <div class="budget_basic_options">
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt id="dem-work-price">{{ smeta.price_work_dem|number_format(2, ',', ' ') }} р.</dt>
-                    <dd>Общая сумма:</dd>
+                    <dd id="dem-work-price">{{ smeta.price_work_dem|number_format(0, ',', ' ') }} р.</dd>
+                    <dt>Общая сумма:</dt>
                 </dl>
                 <dl>
-                    <dt id="dem-work-watch">{{ smeta.time_work_dem|number_format(2, ',', ' ') }} часов</dt>
-                    <dd>Общее время:</dd>
+                    <dd id="dem-work-watch">{{ smeta.time_work_dem|number_format(0, ',', ' ') }} часов</dd>
+                    <dt>Общее время:</dt>
                 </dl>
                 <h1>демонтажные работы</h1>
                 <div class="ignore_2 ignore_for_basic_options_header dem-work"></div>
@@ -218,7 +218,7 @@
                                     <p>{{ work.price|number_format(2, ',', ' ') }} р.</p>
                                     <p>{{ work.works.watch }}</p>
                                      <div class="budget_basic_options_job">
-                                        <h3>{{ work.count }}</h3>
+                                        <h3>{% if work.works.unit|raw == 'шт.' %}{{ work.count|number_format(0, ',', ' ') }}{% else %}{{ work.count }}{% endif %}</h3>
                                         <h6>{{ work.works.unit|raw }}</h6>
                                         <input  value="0" />
                                     </div>
@@ -238,12 +238,12 @@
         <div class="budget_basic_options">
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt id="mon-work-price">{{ smeta.price_work_mon|number_format(2, ',', ' ') }} р.</dt>
-                    <dd>Общая сумма:</dd>
+                    <dd id="mon-work-price">{{ smeta.price_work_mon|number_format(0, ',', ' ') }} р.</dd>
+                    <dt>Общая сумма:</dt>
                 </dl>
                 <dl>
-                    <dt id="mon-work-watch">{{ smeta.time_work_mon|number_format(2, ',', ' ') }} часов</dt>
-                    <dd>Общее время:</dd>
+                    <dd id="mon-work-watch">{{ smeta.time_work_mon|number_format(0, ',', ' ') }} часов</dd>
+                    <dt>Общее время:</dt>
                 </dl>
                 <h1>монтажные работы</h1>
                 <div class="ignore_2 ignore_for_basic_options_header mon-work"></div>
@@ -268,7 +268,7 @@
                                                 <p>{{ work.price|number_format(2, ',', ' ') }} р.</p>
                                                 <p>{{ work.works.watch }}</p>
                                                 <div class="budget_basic_options_job">
-                                                    <h3>{{ work.count }}</h3>
+                                                    <h3>{% if work.works.unit|raw == 'шт.' %}{{ work.count|number_format(0, ',', ' ') }}{% else %}{{ work.count }}{% endif %}</h3>
                                                     <h6>{{ work.works.unit|raw }}</h6>
 
                                                     <input  value="0" />
@@ -290,8 +290,8 @@
 
             <div class="budget_basic_options_header">
                 <dl>
-                    <dt id="budget_materials_summ">{{ smeta.price_materials|number_format(2, ',', ' ') }} р.</dt>
-                    <dd>Общая сумма:</dd>
+                    <dd id="budget_materials_summ">{{ smeta.price_materials|number_format(0, ',', ' ') }} р.</dd>
+                    <dt>Общая сумма:</dt>
                 </dl>
                 <p class="budget_basic_options_header_header">МАТЕРИАЛЫ ДЛЯ РЕМОНТА<p>
                 <div class="ignore_2 ignore_for_basic_options_header" id="smetaMaterialsEnable"></div>
