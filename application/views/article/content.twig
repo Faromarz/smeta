@@ -1,0 +1,49 @@
+{% if _alias is not empty %}
+<div id="text-full">
+
+    <div id="text-full-photo" style="background: url('/imagefly/w567/{{ _news.getImg }}') 50% 50%;">
+        <h6>{{ _news.datetime | date('d.m.Y')}}</h6>
+    </div>
+
+    <h1>{{ _news.title }}</h1>
+    <div id="articleText">
+                <script>
+                    $(document).ready(function(){
+                    new SirTrevor.getInstance('#articleText');
+                    var data = JSON.parse({{ _news.getText |raw }});
+                    var block = $('#articleText');
+                    for (var key in data['data']){
+                        if(data['data'][key].type === 'text'){
+                            block.before('<div class="div-p">'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</div>');
+                        }else if(data['data'][key].type === 'image'){
+                            block.before('<img style="max-width:100%" src="'+data['data'][key].data.file.url+'" />'); 
+                        }else if(data['data'][key].type === 'quote'){
+                            block.before('<h3>“</h3><h5>'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</h5>');  
+                        }else if(data['data'][key].type === 'heading'){
+                            block.before('<div><h1 class="block-modul">'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</h1></div>'); 
+                        }else if(data['data'][key].type === 'video'){
+                            block.before(SirTrevor.toHTML(data['data'][key].data.source,data['data'][key].type));
+                        }else if(data['data'][key].type === 'list'){
+                            block.before(SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type));
+                        }
+                    }
+});
+                </script>
+    </div>
+    <div id="text-full-rasporka_bottom"></div>
+</div>
+{#
+    <a id="text-last_text">предыдущая статья</a>
+    <a id="text-next_text">следующая статья</a>
+#}
+{% else %}
+<div id="text-chapters">
+    {% for new in _news %}
+        <a href="{{ Url.site('/'~new.alias) }}" class="js-pjax text-chapters-item">
+            <div class="text-chapters-item-img" style="background: url('/imagefly/w253-h253/{{ new.getImg }}')"></div>
+            <h1>{{ Text.limit_chars(new.title, 20, '...') }}</h1>
+            <p>{{ new.short_text }}</p>
+        </a>
+    {% endfor %}
+</div>
+{% endif %}

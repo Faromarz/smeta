@@ -25,7 +25,7 @@ var Loaded = (function() {
     Loaded.prototype.finishLoad = function()
     {
         var _this = this;
-//        _this.parent.preloader(false);
+        _this.parent.preloader(false);
         // иницилизация комнат
         $.each(_this.rooms, function(key, room) {
 //            room.materials = new Array();
@@ -40,7 +40,7 @@ var Loaded = (function() {
     Loaded.prototype.load = function()
     {
         var _this = this;
-//        _this.parent.preloader(true);
+        _this.parent.preloader(true);
 
         if(smetaId !== null){
             var _callback = function(json) {

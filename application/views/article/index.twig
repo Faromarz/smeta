@@ -22,7 +22,7 @@
     <script src="{{ Url.media('/media/libs/underscore.js') }}" type="text/javascript"></script>
     <script src="{{ Url.media('/media/libs/eventable.js') }}" type="text/javascript"></script>
     <script src="{{ Url.media('/media/libs/sir-trevor-js-master/sir-trevor.js') }}" type="text/javascript"></script>
-    
+    <script src="{{ Url.media('/media/libs/jquery.pjax.js') }}" type="text/javascript"></script>
 
     <script>
         $(document).ready(function(){
@@ -33,6 +33,12 @@
                 windows: {{ windows | json_encode()|raw }},
                 smetaId: null
             });
+        $('a.js-pjax').pjax('#pjax-container');
+    /*$('#pjax-container')
+        .bind('start.pjax', function() { $('#pjax-container').html('<div id="text-full">Загрузка...</div>') })
+        .bind('success.pjax',   function() { $('#loading').hide() })
+        .live('complete.pjax',   function(event, jqXHR) {  })
+        .bind('error.pjax',   function() { });*/
         });
     </script>
     <div id="content">
@@ -41,76 +47,26 @@
         <p id="text-header_line">Приведенные ниже статьи помогут вам сделать правильный выбор типа ремонта и его исполнителя</p>
 
             <div id="text-menu">
-                <a href="{{ Url.site('/article') }}" class="text-menu-item">
+                <a href="{{ Url.site('/article') }}" class="js-pjax text-menu-item">
                     <h1 class="text-menu-non_selected{% if _action=='index' and _cat is empty %} text-menu-selected{% endif %}">Все статьи</h1>
                 </a>
                 {% for category in categories %}
-                    {% if category.has_children() %}
-                        <div class="text-menu-item">
-                    {% else %}
-                        <a href="{{ Url.site('/article/'~category.id) }}"  class="text-menu-item">
-                    {% endif %}
+                    <a href="{{ Url.site('/article/'~category.id) }}"  class="js-pjax text-menu-item">
                         <h1 class="text-menu-non_selected{% if _action=='index' and _cat == category.id %} text-menu-selected{% endif %}">{{ category }}</h1>
                         {% if  category.has_children() %}
                             <ul{% if _action=='index' and _cat == category.id %} style="display:block;"{% endif %}>
                                 {% for children in category.children %}
-                                    <li><a href="{{ Url.site('/article/'~children.id) }}" class="text-menu_second-non_selected{% if _action=='index' and _catCildrenId == children.id %} text-menu-selected{% endif %}">{{ children }}</a></li>
+                                    <li><a href="{{ Url.site('/article/'~children.id) }}" class="js-pjax text-menu_second-non_selected{% if _action=='index' and _catCildrenId == children.id %} text-menu_second-selected{% endif %}">{{ children }}</a></li>
                                 {% endfor%}
                             </ul>
                         {% endif%}
-                    </{{ category.has_children() ? 'div' : 'a' }}>
+                    </a>
                 {% endfor%}
             </div>
 
-            {% if _alias is not empty %}
-                <div id="text-full">
-
-                    <div id="text-full-photo" style="background: url('/imagefly/w567/{{ _news.getImg }}') 50% 50%;">
-                        <h6>{{ _news.datetime | date('d.m.Y')}}</h6>
-                    </div>
-
-                    <h1>{{ _news.title }}</h1>
-                    <div id="articleText">
-                                <script>
-                                    $(document).ready(function(){
-                                    new SirTrevor.getInstance('#articleText');
-                                    var data = JSON.parse({{ _news.getText |raw }});
-                                    var block = $('#articleText');
-                                    for (var key in data['data']){
-                                        if(data['data'][key].type === 'text'){
-                                            block.before('<div class="div-p">'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</div>');
-                                        }else if(data['data'][key].type === 'image'){
-                                            block.before('<img style="max-width:100%" src="'+data['data'][key].data.file.url+'" />'); 
-                                        }else if(data['data'][key].type === 'quote'){
-                                            block.before('<h3>“</h3><h5>'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</h5>');  
-                                        }else if(data['data'][key].type === 'heading'){
-                                            block.before('<div><h1 class="block-modul">'+SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type)+'</h1></div>'); 
-                                        }else if(data['data'][key].type === 'video'){
-                                            block.before(SirTrevor.toHTML(data['data'][key].data.source,data['data'][key].type));
-                                        }else if(data['data'][key].type === 'list'){
-                                            block.before(SirTrevor.toHTML(data['data'][key].data.text,data['data'][key].type));
-                                        }
-                                    }
-            });
-                                </script>
-                    </div>
-                    <div id="text-full-rasporka_bottom"></div>
-                </div>
-{#
-                <a id="text-last_text">предыдущая статья</a>
-                <a id="text-next_text">следующая статья</a>
-#}
-            {% else %}
-            <div id="text-chapters">
-                {% for new in _news %}
-                    <a href="{{ Url.site('/'~new.alias) }}" class="text-chapters-item">
-                        <div class="text-chapters-item-img" style="background: url('/imagefly/w253-h253/{{ new.getImg }}')"></div>
-                        <h1>{{ Text.limit_chars(new.title, 20, '...') }}</h1>
-                        <p>{{ new.short_text }}</p>
-                    </a>
-                {% endfor %}
+            <div id="pjax-container">
+                {{ include('article/content.twig') }}
             </div>
-            {% endif %}
 
             <div class="rasporka100"></div>
 
@@ -147,17 +103,6 @@
                     <div id="five_room" data-numb="5"></div>
                 </div>
             </div>
-
-             {#
-            <div id="dop_options_footer">
-                <div id="dop_options_footer_rezult">
-                    <h1>{{ smeta.room_name ? smeta.room_name : 'Укажите количество комнат' }}</h1>
-                    <h2>Общая площадь:</h2>
-                    <h3>{{ smeta.size |number_format(2, ',', ' ')}} м²</h3>
-                </div>
-                <div id="dop_options_button_calculate"><p>рассчитать смету</p></div>
-            </div>
-                #}
             <div id="text-for_calculate">
                 <div id="text-calculate">
                     <h1>однокомнатная квартира</h1>
@@ -170,28 +115,10 @@
                         <dd>XXX XXX р.</dd>
                     </dl>
                 </div>
-                {#
-                <div id="your_price_without_discount">
-                        <p>Стоимость материалов:</p>
-                        <h2>{{ _smeta.priceMaterials ? _smeta.priceMaterials : 0 }} р.</h2>
-                        <p>Стоимость работ:</p>
-                        <h2>{{ _smeta.priceWorks ? _smeta.priceWorks : 0 }} р.</h2>
-                    </div>
-                #}
                 <a id="text-you_smeta">ваша смета</a>
-                {#<div id="your_smeta">
-                    <a href="javascript:void(0);">Ваша смета</a>
-                </div>
-#}
             </div>
             <div id="text-line"></div>
             <div class="rasporka100"></div>
-        
-        
-        
-        
-        
-        
       
     </div>
     <div id="content_bottom">

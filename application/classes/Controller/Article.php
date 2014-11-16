@@ -7,6 +7,10 @@ class Controller_Article extends Controller_Main
 
     public function action_index()
     {
+        $pjax = $this->request->query('_pjax');
+        if ($pjax) {
+            $this->default_template = 'article/content';
+        }
         $this->set('showInstruments', true);
         $catId = $this->request->param('cat');
         $this->set('_cat', $catId);
