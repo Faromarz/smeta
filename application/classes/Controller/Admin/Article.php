@@ -52,7 +52,9 @@ class Controller_Admin_Article extends Controller_Admin_Index
         if(!$article){
             throw new Exception('Article not found', 404);
         }
-        if($this->request->post() && $id){
+        if ($article->category->has_children()) {
+            $errors['cat_id'] = array('В категорию верхнего уровня запрещено добавлять статьи');
+        } else if($this->request->post() && $id){
             $post = $this->request->post();
             if(!empty($post['title'])){
                 if(ORM::factory('Article')->where('title', '=', $post['title'])->where('id', '!=', $id)->find()->loaded()){
