@@ -1,0 +1,21 @@
+<div id="text-menu">
+    <a href="{{ Url.site('/article') }}" class="js-pjax text-menu-item">
+        <h1 class="text-menu-non_selected{% if _action=='index' and _cat is empty %} text-menu-selected{% endif %}">Все статьи</h1>
+    </a>
+    {% for category in categories %}
+        {% if category.articles.count_all > 0 or category.hasArticle  %}
+        <a href="{{ Url.site('/article/'~category.id) }}"  class="js-pjax text-menu-item">
+            <h1 class="text-menu-non_selected{% if _action=='index' and _cat == category.id %} text-menu-selected{% endif %}">{{ category }}</h1>
+            {% if  category.has_children() %}
+                <ul{% if _action=='index' and _cat == category.id %} style="display:block;"{% endif %}>
+                    {% for children in category.children %}
+                        {% if children.has_children or children.articles.find_all|length > 0  %}
+                        <li><a href="{{ Url.site('/article/'~children.id) }}" class="js-pjax text-menu_second-non_selected{% if _action=='index' and _catCildrenId == children.id %} text-menu_second-selected{% endif %}">{{ children }}</a></li>
+                        {% endif %}
+                    {% endfor%}
+                </ul>
+            {% endif%}
+        </a>
+        {% endif %}
+    {% endfor%}
+</div>

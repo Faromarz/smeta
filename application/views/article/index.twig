@@ -46,23 +46,7 @@
         <p id="text-header2">о нюансах ремонта</p>
         <p id="text-header_line">Приведенные ниже статьи помогут вам сделать правильный выбор типа ремонта и его исполнителя</p>
 
-            <div id="text-menu">
-                <a href="{{ Url.site('/article') }}" class="js-pjax text-menu-item">
-                    <h1 class="text-menu-non_selected{% if _action=='index' and _cat is empty %} text-menu-selected{% endif %}">Все статьи</h1>
-                </a>
-                {% for category in categories %}
-                    <a href="{{ Url.site('/article/'~category.id) }}"  class="js-pjax text-menu-item">
-                        <h1 class="text-menu-non_selected{% if _action=='index' and _cat == category.id %} text-menu-selected{% endif %}">{{ category }}</h1>
-                        {% if  category.has_children() %}
-                            <ul{% if _action=='index' and _cat == category.id %} style="display:block;"{% endif %}>
-                                {% for children in category.children %}
-                                    <li><a href="{{ Url.site('/article/'~children.id) }}" class="js-pjax text-menu_second-non_selected{% if _action=='index' and _catCildrenId == children.id %} text-menu_second-selected{% endif %}">{{ children }}</a></li>
-                                {% endfor%}
-                            </ul>
-                        {% endif%}
-                    </a>
-                {% endfor%}
-            </div>
+            {{ include('article/menu.html.twig') }}
 
             <div id="pjax-container">
                 {{ include('article/content.twig') }}

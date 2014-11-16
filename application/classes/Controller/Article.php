@@ -89,7 +89,13 @@ class Controller_Article extends Controller_Main
                 $this->set('_cat', $category->parent_id);
                 $this->set('_catCildrenId', $catId);
             }
-            $news = $category->articles->find_all();
+            $children = $category->children(true);
+            $ids = array();
+            $ids[] = $category->id;
+            foreach ($children as $chaild) {
+                $ids[] = $chaild->id;
+            }
+            $news = ORM::factory('Article')->where('cat_id', 'in', $ids)->find_all();
         } elseif(!empty ($_alias)) {
             $news = ORM::factory('Article')->where('alias', '=', $_alias)->find();
             $cat = $news->category;

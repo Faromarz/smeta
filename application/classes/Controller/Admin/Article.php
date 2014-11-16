@@ -20,7 +20,9 @@ class Controller_Admin_Article extends Controller_Admin_Index
         if($this->request->post()){
             $post = $this->request->post();
             $article = ORM::factory('Article');
-            if(!empty($post['title'])){
+            if ($article->category->has_children()) {
+                $errors['cat_id'] = array('В категорию верхнего уровня запрещено добавлять статьи');
+            } else if(!empty($post['title'])){
                 if(ORM::factory('Article')->where('title', '=', $post['title'])->find()->loaded()){
                     $errors['title'] = array('Статья <b>"'.$post['title'].'"</b> уже добавлена');
                 }else{

@@ -55,7 +55,7 @@
                                             <div class="col-md-9">
                                                  <select name="cat_id" class="form-control">
                                                     {% for cat in _categories %}
-                                                        <option value="{{ cat.id }}"{% if cat.id == _catId %}selected{% endif %}>{{ cat.getEmptyLvl}}{{ cat.name}}</option>
+                                                        <option{% if cat.has_children %} disabled{% endif %} value="{{ cat.id }}"{% if cat.id == _catId %}selected{% endif %}>{{ cat.getEmptyLvl}}{{ cat.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                                 <span class="help-block">Укажите категорию</span>
