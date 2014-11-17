@@ -48,7 +48,9 @@ body, html {
     margin-left: -455px;
 }
 
-#text-menu h1{
+
+.text-menu-item-header{
+    display: block;
     font-size: 20px;
     text-transform: uppercase;
     margin-bottom: 3px;
@@ -56,9 +58,10 @@ body, html {
     cursor: pointer;
 }
 
-#text-menu h1:hover{
+.text-menu-item-header:hover{
     color: #f7540f;
 }
+
 
 .text-menu-non_selected{
     color: #37170d;

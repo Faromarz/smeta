@@ -1,11 +1,11 @@
 <div id="text-menu">
-    <a href="{{ Url.site('/article') }}" class="js-pjax text-menu-item">
-        <h1 class="text-menu-non_selected{% if _action=='index' and _cat is empty %} text-menu-selected{% endif %}">Все статьи</h1>
-    </a>
+    <div  class="text-menu-item">
+        <a href="{{ Url.site('/article') }}" class="js-pjax text-menu-item-header text-menu-non_selected{% if _action=='index' and _cat is empty %} text-menu-selected{% endif %}">Все статьи</a>
+    </div>
     {% for category in categories %}
         {% if category.articles.count_all > 0 or category.hasArticle  %}
-        <a href="{{ Url.site('/article/'~category.id) }}"  class="js-pjax text-menu-item">
-            <h1 class="text-menu-non_selected{% if _action=='index' and _cat == category.id %} text-menu-selected{% endif %}">{{ category }}</h1>
+        <div class="text-menu-item">
+            <a  href="{{ Url.site('/article/'~category.id) }}"  class="js-pjax  text-menu-item-header text-menu-non_selected{% if _action=='index' and _cat == category.id %} text-menu-selected{% endif %}">{{ category }}</a>
             {% if  category.has_children() %}
                 <ul{% if _action=='index' and _cat == category.id %} style="display:block;"{% endif %}>
                     {% for children in category.children %}
@@ -15,7 +15,7 @@
                     {% endfor%}
                 </ul>
             {% endif%}
-        </a>
+        </div>
         {% endif %}
     {% endfor%}
 </div>
