@@ -201,11 +201,11 @@
                 <div class="ignore_2 ignore_for_basic_options_header dem-work"></div>
 
             </div>
-
             {% for room in smeta.rooms.where('show','=',1).order_by('room_id','ASC').find_all() %}
+                {% set summa = 0 %}
                 <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-                        <h2>Стоимость</h2>
+                        <h2 id="dem_work_all_summa_room{{ room.id }}" style="width: 72px">Стоимость</h2>
                         <h2>Трудочасы</h2>
                         <h2>Объем работ</h2>
                         <h1>{{ room.room.name }}</h1>
@@ -225,11 +225,16 @@
                                     <h5>{{ work.works.name }}</h5>
                                     <div class="ignore{{  work.enable ? '': 'd' }}_5 dem-work-enable" data-room-id="{{ room.room_id }}" data-work-id="{{ work.works.id }}"></div>
                                 </li>
+                                {% set summa = summa + work.price %}
                             {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
+                <script>
+                    $('#dem_work_all_summa_room'+'{{ room.id }}').empty().html('{{ summa|number_format(0, ',', ' ') }} р.');
+                </script>
             {% endfor %}
+
 
             <div class="budget_basic_options_rasporka"></div>
 
@@ -250,9 +255,10 @@
             </div>
 
             {% for room in smeta.rooms.where('show','=',1).order_by('room_id','ASC').find_all() %}
+                {% set summa = 0 %}
                 <div class="budget_basic_options_name style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}">
                     <div class="slide{% if loop.index % 2 == 0 %}2{% else %}1{% endif %} budget_basic_options_name_style{% if loop.index % 2 == 0 %}2{% else %}1{% endif %}_down">
-                        <h2>Стоимость</h2>
+                        <h2 id="mon_work_all_summa_room{{ room.id }}" style="width: 72px">Стоимость</h2>
                         <h2>Трудочасы</h2>
                         <h2>Объем работ</h2>
                         <h1>{{ room.room.name }}</h1>
@@ -276,12 +282,16 @@
                                                 <h5>{{ work.works.name }}</h5>
                                                 <div class="ignore{{  work.enable ? '': 'd' }}_5 mon-work-enable" data-room-id="{{ room.room_id }}" data-work-id="{{ work.works.id }}"></div>
                                             </li>
+                                            {% set summa = summa + work.price %}
                                         {% endif %}
                                     {% endfor %}
                                 </ul>
                             {% endif %}
                         {% endfor %}
                 </div>
+                <script>
+                    $('#mon_work_all_summa_room'+'{{ room.id }}').empty().html('{{ summa|number_format(0, ',', ' ') }} р.');
+                </script>
             {% endfor %}
             <div class="budget_basic_options_rasporka"></div>
         </div>

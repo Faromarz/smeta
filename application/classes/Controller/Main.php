@@ -67,7 +67,9 @@ class Controller_Main extends Controller_Core
         $this->set('_countPartners', $countPartners);
         
         $this->set('showInstruments', true);
+
     }
+
     public static function getRooms($ajax=false)
     {
         $rooms = DB::select('*')
@@ -118,4 +120,19 @@ class Controller_Main extends Controller_Core
         }
         return $rooms;
     }
+
+//    static public function countries(){
+//        $countries_old = ORM::factory('Country')->find_all();
+//        foreach ($countries_old as $country_old){
+//            $country_new = ORM::factory('Countrynew')->where('name','=',$country_old->name)->find();
+//            if($country_new->loaded()){
+//                $materials = ORM::factory('Material')->where('country_id','=',49)->find_all();
+//                foreach ($materials as $material){
+//                    $material->country_id = $country_new->id;
+//                    $material->save();
+//                }
+//            }
+//            else echo $country_old->id.'<br>';
+//      }
+//    }
 }
