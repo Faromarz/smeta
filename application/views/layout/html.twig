@@ -61,7 +61,7 @@
                     type: 'POST',
                     dataType: 'json',
                     success: function(data) {
-                       // console.log('Положение: '+data.results[0].address_components[2].long_name);
+                        console.log('Положение: '+data.results[0].address_components[2].long_name);
                         set_cookie(data.results[0].address_components[2].long_name);
                     },
                     error: function(xhr, textStatus, errorThrown) {
@@ -184,10 +184,19 @@
     <div id="instruments_bottom_left"></div>
     <div id="instruments_bottom_right"></div>
 {% endif %}
-{% if _controller=='Materials' %}
+{% if _controller|lower == 'materials' %}
     <div id="about_materials-instruments_left"></div>
     <div id="about_materials-instruments_right"></div>
 {% endif %}
+
+{% if _controller|lower == 'partners' %}
+    <div id="instruments_top_left"></div>
+    <div id="instruments_top_right_1"></div>
+    <div id="instruments_top_right_2"></div>
+    <div id="instruments_bottom_left-partners"></div>
+    <div id="instruments_bottom_right-partners"></div>
+{% endif %}
+
 <div id="page_up"></div>
 </body>
 </html>

@@ -1,0 +1,245 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/partners/partners.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/partners/cms.css') }}">
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap;
+
+        function init(){
+            myMap = new ymaps.Map("partners-content-map", {
+                center: [55.54, 43.77],
+                zoom: 5,
+                controls: []
+
+            });
+
+        }
+    </script>
+    <div id="content">
+
+        <p id="partners-content-header">наши партнеры</p>
+
+        <h1 id="content-header">Мы с гордостью предоставляем цены и работы только надёжных и проверенных фирм</h1>
+
+        <ul class="partners-content-list marginl140">
+            <li>обладают опытом работы более 10 лет</li>
+            <li>соблюдают сроки</li>
+            <li>слова не расходятся с делом</li>
+        </ul>
+
+        <ul class="partners-content-list">
+            <li>дают гарантию на свои работы более 2-х лет</li>
+            <li>всегда на связи и проконсультируют по любому вопросу</li>
+            <li>делают ремонт вашей квартиры, как для себя</li>
+        </ul>
+
+        <div id="partners-content-map">
+        </div>
+
+        <div id="partners-category">
+
+            <select  class="selectbox2">
+                <option  value="1">Категория 1</option>
+                <option  value="2">Категория 2</option>
+                <option  value="3">Категория 3</option>
+            </select>
+
+        </div>
+
+        <div id="partners-content-location">
+
+            <div id="rus_flag"></div>
+
+            <div id="rus_select">
+                <select  class="selectbox2">
+                    <option disabled>Ленинградская область</option>
+                    <option  value="Санкт-Петербур">Санкт-Петербург</option>
+                    <option disabled>Московская область</option>
+                    <option  value="Москва">Москва</option>
+                    <option disabled>Томская область</option>
+                    <option  value="Томск">Томск</option>
+                </select>
+            </div>
+
+            <div class="repair_company_rasporka"></div>
+
+            <div id="uk_flag"></div>
+            <div id="uk_select">
+                <select   class="selectbox2">
+                    <option  value="Санкт-Петербур">Киев</option>
+                    <option  value="Москва">Житомир</option>
+                    <option  value="Томск">Львов</option>
+                </select>
+            </div>
+
+            <div class="repair_company_rasporka"></div>
+
+        </div>
+
+        <div class="rasporka100"></div>
+
+        <div class="partners-content-for_company">
+
+            <div class="partners-content-company">
+
+                <div class="rate_4 marginl10"></div>
+                <h1>ООО «Название компании»</h1>
+
+
+                <img src="media/img/company01_logo.png">
+
+                <h2>Росссия</h2>
+                <p class="partners-content-company-town">Город</p>
+                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
+                <a href="#">сайт компании</a>
+
+            </div>
+            <div class="partners-content-company">
+
+                <div class="rate_4 marginl10"></div>
+                <h1>ООО «Название компании»</h1>
+
+
+                <img src="media/img/company01_logo.png">
+
+                <h2>Росссия</h2>
+                <p class="partners-content-company-town">Город</p>
+                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
+                <a href="#">сайт компании</a>
+
+            </div>
+            <div class="partners-content-company">
+
+                <div class="rate_4 marginl10"></div>
+                <h1>ООО «Название компании»</h1>
+
+
+                <img src="media/img/company01_logo.png">
+
+                <h2>Росссия</h2>
+                <p class="partners-content-company-town">Город</p>
+                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
+                <a href="#">сайт компании</a>
+
+            </div>
+            <div class="partners-content-company">
+
+                <div class="rate_4 marginl10"></div>
+                <h1>ООО «Название компании»</h1>
+
+
+                <img src="media/img/company01_logo.png">
+
+                <h2>Росссия</h2>
+                <p class="partners-content-company-town">Город</p>
+                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
+                <a href="#">сайт компании</a>
+
+            </div>
+            <div class="partners-content-company">
+
+                <div class="rate_4 marginl10"></div>
+                <h1>ООО «Название компании»</h1>
+
+
+                <img src="media/img/company01_logo.png">
+
+                <h2>Росссия</h2>
+                <p class="partners-content-company-town">Город</p>
+                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
+                <a href="#">сайт компании</a>
+
+            </div>
+            <div class="partners-content-company">
+
+                <div class="rate_4 marginl10"></div>
+                <h1>ООО «Название компании»</h1>
+
+
+                <img src="media/img/company01_logo.png">
+
+                <h2>Росссия</h2>
+                <p class="partners-content-company-town">Город</p>
+                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
+                <a href="#">сайт компании</a>
+
+            </div>
+
+        </div>
+
+        <div id="partners-content-more">
+
+            <p>ПОКАЗАТЬ ЕЩЕ</p>
+
+        </div>
+
+        <div id="partners-content-partners">
+
+            <h1>Партнёрство — в доверии</h1>
+            <p>Будьте уверены, что взявшись за ремонт — партнёры выполнят работу в оговоренный срок и цену.</p>
+            <p>С нами уже <span>ХХХХ</span> проверенных и надежных компаний.</p>
+            <div id="partners_icon">
+
+                <p></p>
+
+            </div>
+
+        </div>
+
+        <div class="rasporka100"></div>
+
+    </div>
+
+    <div id="content_bottom">
+
+        <div id="reviews_left_corner">
+
+            <div id="partners-content_bottom-left_corner">
+
+                <div id="partners-content_bottom-left_corner-left">
+
+                    <input placeholder="Название компании" />
+                    <input placeholder="Адрес сайта" />
+                    <input placeholder="Фамилия и имя руководителя" />
+                    <input placeholder="Электронная почта" />
+                    <input placeholder="Контактный телефон" />
+                    <p id="partners-be_partners">Стать партнером</p>
+
+                </div>
+
+                <div id="partners-content_bottom-left_corner-right">
+
+                    <h1>Преимущества партнерства:</h1>
+
+                    <ul>
+                        <li>Участие на нашем сервисе совершенно бесплатно</li>
+                        <li>Ещё больше людей узнает о вас и ваших возможностях</li>
+                        <li>Вы сможете с помощью нашего сервиса строить сметы и&nbspвносить корректировки – быстро и удобно. </li>
+                        <li>Скачивать и сохранять сметы в удобном формате (pdf, excel)</li>
+                    </ul>
+
+                    <h2>Узнать о условиях и&nbspпартнерских программах вы можете по телефону:</h2>
+                    <h3>+7 (903) 100-71-31</h3>
+
+                </div>
+
+            </div>
+            <div id="partners-content_bottom-rasporka"></div>
+
+        </div>
+
+
+        <div id="reviews_right_corner">
+
+            <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+            <h2>при заказав ремонта от 100 000 рублей </h2>
+            <a href="#">Узнать подробности</a>
+
+        </div>
+
+
+
+    </div>
+{% endblock content %}
