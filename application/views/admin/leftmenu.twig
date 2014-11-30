@@ -113,6 +113,12 @@
                     <span class="title">Все пользователи</span>
                 </a>
             </li>
+            <li{% if _controller == 'Contacts' %} class="active"{% endif %}>
+                <a href="{{ Url.site('/admin/contacts') }}">
+                    <i class="fa fa-sitemap"></i>
+                    <span class="title">Контакты</span>
+                </a>
+            </li>
             {#<li>
                 <a href="javascript:;">
                     <i class="fa fa-shopping-cart"></i>

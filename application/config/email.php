@@ -5,7 +5,8 @@ return array(
 	 *
 	 * Valid drivers are: native, sendmail, smtp
 	 */
-    'driver'  => 'smtp','template' => 'default',
+    'driver'  => 'native',
+    'template' => 'default',
 	
 	/**
 	 * To use secure connections with SMTP, set "port" to 465 instead of 25.
@@ -25,10 +26,10 @@ return array(
 	 * @param   string  sendmail: executable path, with -bs or equivalent attached
 	 * @param   array   smtp: hostname, (username), (password), (port), (encryption)
 	 */
-    'options' => array(
+   /*'options' => array(
         'hostname' => 'smtp.yandex.com',
         'username' => 'ya.test-test777@yandex.ru',
         'password' => 'ya.test-test777111',
         'port'     => '587',
-    )
+    )*/
 );

@@ -164,6 +164,16 @@ Route::set('partners', 'partners(/<action>(/<id>))')
         'controller' => 'partners',
         'action'     => 'index',
     ));
+Route::set('contacts', 'contacts')
+    ->defaults(array(
+        'controller' => 'contacts',
+        'action'     => 'index',
+    ));
+Route::set('project', 'project')
+    ->defaults(array(
+        'controller' => 'project',
+        'action'     => 'index',
+    ));
 Route::set('article', 'article/<cat>', array('cat'=>'[0-9]+'))
     ->defaults(array(
         'controller' => 'article',

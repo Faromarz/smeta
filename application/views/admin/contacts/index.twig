@@ -1,0 +1,75 @@
+{% extends "admin/index.twig" %}
+{% block boody %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-title">
+                Контакты <small></small>
+            </h3>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a href="{{ Url.site('/admin') }}">Рабочий стол</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="{{ Url.site('/admin/contacts') }}">Контакты</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="portlet-body">
+        <script>
+            $(document).ready(function(){
+
+                $('.admin-editable').editable({
+                    url: '/admin/contacts/save',
+                    emptytext: 'Введите значение'
+                });
+            });
+        </script>
+        <table class="table table-striped table-bordered table-advance table-hover" id="dashboard-handling">
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>Телефон (По вопросам связанным с ремонтом)</td>
+                    <td><a href="#" data-type="text" id="phone_remont" data-pk="{{ item.id }}" data-value="{{ item.phone_remont }}" data-title="Введите телефон" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>Телефон (По вопросам связанным с партнёрством)</td>
+                    <td><a href="#" data-type="text" id="phone_partner" data-pk="{{ item.id }}" data-value="{{ item.phone_partner }}" data-title="Введите телефон" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><a href="#" data-type="text" id="email" data-pk="{{ item.id }}" data-value="{{ item.email }}" data-title="Введите Email" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>Название компании</td>
+                    <td><a href="#" data-type="text" id="name" data-pk="{{ item.id }}" data-value="{{ item.name }}" data-title="Введите название компании" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>Юридический адрес</td>
+                    <td><a href="#" data-type="text" id="address_legal" data-pk="{{ item.id }}" data-value="{{ item.address_legal }}" data-title="Введите юридический адрес" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>Адрес для корреспонденции</td>
+                    <td><a href="#" data-type="text" id="address_for_correspondence" data-pk="{{ item.id }}" data-value="{{ item.address_for_correspondence }}" data-title="Введите aдрес для корреспонденции" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>Адрес</td>
+                    <td><a href="#" data-type="text" id="address" data-pk="{{ item.id }}" data-value="{{ item.address }}" data-title="Введите aдрес" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>ОГРН</td>
+                    <td><a href="#" data-type="text" id="ogrn" data-pk="{{ item.id }}" data-value="{{ item.ogrn }}" data-title="Введите ОРГН" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>ИНН</td>
+                    <td><a href="#" data-type="text" id="inn" data-pk="{{ item.id }}" data-value="{{ item.inn }}" data-title="Введите ИНН" class="editable editable-click admin-editable"></a></td>
+                </tr>
+                <tr>
+                    <td>КПП</td>
+                    <td><a href="#" data-type="text" id="cpp" data-pk="{{ item.id }}" data-value="{{ item.cpp }}" data-title="Введите КПП" class="editable editable-click admin-editable"></a></td>
+                </tr>
+        </table>
+    </div>
+{% endblock boody %}

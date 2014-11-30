@@ -1,0 +1,117 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link href="{{ Url.media('/media/css/page_contacts/contacts.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/cms.css') }}" rel="stylesheet" type="text/css"/>
+    
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap;
+     
+        function init(){
+            ymaps.geocode('{{item.address}}').then(
+                function(res) {
+                   var myMap  = new ymaps.Map("contacts-content-map", {
+                        center: res.geoObjects.get(0).geometry.getCoordinates(), 
+                        zoom: 17,  
+                        controls: ['zoomControl', 'searchControl', 'geolocationControl', 'fullscreenControl'] 
+                    });
+                } 
+        ); 
+
+           /* myMap = new ymaps.Map("contacts-content-map", {
+                center: [55.747637, 37.582461],
+                zoom: 17,
+               controls: ['zoomControl', 'searchControl', 'geolocationControl', 'fullscreenControl'] 
+
+            });*/
+
+        }
+        $(document).ready(function(){
+            $('#contacts-content-form-send').click(function(){
+                
+                var nameTo = $('#nameTo');
+                var emailTo = $('#emailTo');
+                var textTo = $('#textTo');
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/email/send",
+                    data: {"nameTo" : nameTo.val(),"emailTo" : emailTo.val(),"textTo" : textTo.val()  },
+                    success: function(data){
+                        nameTo.val('');
+                        emailTo.val('');
+                        textTo.val('');
+                    }
+                },'json');
+                
+            });
+        });
+    </script>
+    
+    <div id="content">
+        <p id="contacts-content-header">наши контакты</p>
+
+            <h1 class="contacts-content-header-line">Мы всегда на связи и рады ответить на ваши вопросы и предложения</h1>
+
+            <div id="contacts-content-form">
+
+                <input type="text" id="nameTo" placeholder="Представьтесь, пожалуйста" />
+                <input type="email" id="emailTo" placeholder="Ваша электронная почта" />
+                <textarea  id="textTo" placeholder="Текст сообщения"></textarea>
+                <p id="contacts-content-form-send">Отправить</p>
+
+            </div>
+
+            <dl class="contacts">
+                <dt>По вопросам связанным с&nbspремонтом, звоните</dt>
+                <dd>+{{ item.phone_remont}}</dd>
+            </dl>
+
+            <dl class="contacts">
+                <dt>По вопросам связанным с&nbspпартнёрством, звоните</dt>
+                <dd>+{{ item.phone_partner}}</dd>
+            </dl>
+
+            <p id="contacts-content-send">Предложения высылайте на <a href="mailto:{{ item.email}}">{{ item.email}}</a></p>
+
+            <div id="contacts-content-left">
+
+                <h1>{{ item.name}}</h1>
+
+                <dl>
+                    <dt>ОГРН</dt><dd>{{ item.ogrn}}</dd>
+                    <dt>ИНН</dt><dd>{{ item.inn}}</dd>
+                    <dt>КПП</dt><dd>{{ item.cpp}}</dd>
+
+                </dl>
+
+            </div>
+
+            <dl class="adres margint50">
+                <dt>Юридический адрес:</dt>
+                <dd>{{ item.address_legal}}</dd>
+            </dl>
+
+            <dl class="adres">
+                <dt>Адрес для корреспонденции:</dt>
+                <dd>{{ item.address_for_correspondence}}</dd>
+            </dl>
+
+            <h1 class="contacts-content-adres-line">Наш адрес: {{ item.address}}</h1>
+
+            <div id="contacts-content-map"></div>
+
+            <div class="rasporka100"></div>
+      
+    </div>
+    <div id="content_bottom">
+            <div id="reviews_left_corner"></div>
+
+            <div id="reviews_right_corner">
+                <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+                <h2>при заказав ремонта от 100 000 рублей </h2>
+                <a href="#">Узнать подробности</a>
+            </div>
+        </div>
+
+{% endblock content %}

@@ -1,0 +1,221 @@
+body, html {
+    font-family: Roboto;
+    font-size: 14px;
+    color: #000000;
+}
+
+
+#contacts-content-header {
+    width: 910px;
+    font-weight: 700;
+    font-size: 105px;
+    color: #2f0d03;
+    text-transform: uppercase;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+    padding-top: 20px;
+    border-top: solid 9px #84909a;
+}
+
+.contacts-content-header-line{
+    width: 910px;
+    background: #84909a;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    padding: 13px 0 13px 0;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+#contacts-content-form{
+    width: 354px;
+    height: 350px;
+    background: #efefef;
+    float: right;
+    margin: 0 135px 0 0;
+}
+
+#contacts-content-form input:first-child{
+    margin-top: 20px;
+}
+
+#contacts-content-form input {
+    width: 308px;
+    height: 40px;
+    margin-left: 18px;
+    margin-bottom: 10px;
+    font-style: italic;
+    padding-left: 10px;
+
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.27);
+}
+
+#contacts-content-form textarea{
+    width: 308px;
+    height: 140px;
+    font-family: Roboto;
+    margin-left: 18px;
+    margin-bottom: 10px;
+    font-style: italic;
+    padding-top: 10px;
+    padding-left: 10px;
+
+    resize: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.27);
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px){
+    #contacts-content-form input{
+        width: 300px;
+    }
+
+    #contacts-content-form textarea{
+        width: 304px;
+        height: 130px;
+    }
+}
+
+#contacts-content-form-send {
+    width: 318px;
+    font-size: 20px;
+    color: #ffffff;
+    background: #f7540f;
+    text-align: center;
+    margin: 0 0 0 18px;
+    padding: 10px 0 13px 0;
+    cursor: pointer;
+}
+
+#contacts-content-form-send:hover{
+    background: #40c1b6;
+}
+
+.contacts{
+    margin: 30px 0 0 135px;
+    padding-top: 1px;
+}
+
+.contacts dt {
+    width: 200px;
+    line-height: 15px;
+    margin-top: 10px;
+    float: left;
+}
+
+.contacts dd{
+    font-family: Roboto Slab;
+    font-size: 36px;
+    margin-top: 10px;
+}
+
+#contacts-content-send {
+    margin: 50px 0 0 135px;
+}
+
+#contacts-content-send a{
+    color: #40c1b6;
+}
+
+#contacts-content-left {
+    width: 210px;
+    height: 100px;
+    margin: 50px 0 0 135px;
+    float: left;
+}
+
+#contacts-content-left h1{
+    color: #f7580f;
+}
+
+#contacts-content-left dl{
+    margin: 30px 0 0 0;
+}
+
+#contacts-content-left dl dt{
+    width: 60px;
+    float: left;
+    margin: 0 0 5px 0;
+}
+
+#contacts-content-left dl dd{
+    margin: 0 0 5px 0;
+}
+
+.adres {
+    margin: 0 0 30px 0;
+}
+
+.adres dt{
+    color: #84909a;
+    margin-bottom: 5px;
+}
+
+.contacts-content-adres-line{
+    width: 910px;
+    background: #84909a;
+    color: #ffffff;
+    text-align: center;
+    padding: 13px 0 13px 0;
+    margin: auto;
+    margin-top: 60px;
+}
+
+#contacts-content-map{
+    width: 910px;
+    height: 586px;
+    margin: auto;
+    border-bottom: solid 9px #84909a;
+    margin-bottom: 60px;
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1400px){
+
+    #instruments_bottom_left-contacts{
+        width: 246px;
+        height: 826px;
+        background: url("../img/instruments_bottom_left.png");
+        position: absolute;
+        top: 1100px;
+        left: -120px;
+        z-index: 3;
+    }
+
+    #instruments_bottom_right-contacts{
+        width: 285px;
+        height: 627px;
+        background: url("../img/instruments_bottom_right.png");
+        position: absolute;
+        top: 1100px;
+        right: -120px;
+        z-index: 3;
+    }
+
+}
+
+
+@media only screen and (min-width: 1400px) and (max-width: 2500px){
+
+    #instruments_bottom_left-contacts{
+        width: 246px;
+        height: 826px;
+        background: url("../img/instruments_bottom_left.png");
+        position: absolute;
+        top: 1100px;
+        left: 0;
+        z-index: 3;
+    }
+
+    #instruments_bottom_right-contacts{
+        width: 285px;
+        height: 627px;
+        background: url("../img/instruments_bottom_right.png");
+        position: absolute;
+        top: 1100px;
+        right: 0;
+        z-index: 3;
+    }
+
+}
