@@ -62,12 +62,13 @@ body, html {
 #about_materials-attribute dl dt{
     width: 145px;
     float: left;
-    margin: 12px 10px 12px 20px;
+    margin: 12px 0 12px 20px;
 }
 
 #about_materials-attribute dl dd{
+    width: 260px;
     font-size: 20px;
-    margin: 7px 0 7px 0;
+    margin: 7px 0 7px 180px;
 }
 
 #about_materials-summ {

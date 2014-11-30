@@ -25,6 +25,15 @@ class Controller_Ajax_Materials extends Controller
 
     public function action_load_materials()
     {
+        $url = $this->request->uri();
+
+		$cache_key = md5($url);
+
+        $result = Cache::instance()->get($cache_key);
+		if ($result){
+			die(json_encode($result));
+		}else{
+        
         $result = array();
         $limit = 21;
         $materials_categories = ORM::factory('Material_Categories')->find_all();
@@ -68,7 +77,9 @@ class Controller_Ajax_Materials extends Controller
                 }
             }
         }
+        Cache::instance()->set($cache_key, $result, Date::DAY);
         die(json_encode($result));
+        }
     }
 
     public function action_load_materials_smeta()

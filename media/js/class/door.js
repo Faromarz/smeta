@@ -74,9 +74,6 @@ function Door($parent, $room, $key, $params)
         }
         width = $width;
         var roomId = 0;
-        if(_room !== null){
-            roomId = _room.getId();
-        }
         $('#room'+roomId+'-door'+_key+'-type').attr('data-type', (width >= 1.3 ? 2 : 1));
     };
     //  Высота двери
@@ -108,13 +105,7 @@ function Door($parent, $room, $key, $params)
         if (!enable) {
             className += 'd';
         }
-        if (_room === null) {
-            $('.smeta_door[data-door-key="'+_key+'"] div.ignore_door').attr('class', className);
-        } else {
-            $('.smeta_door[data-room-id="'+_room.getId()+'"] div.ignore_door').attr('class', className);
-        }
-        
-//        $('.smeta_room[data-room-id="'+_this.getId()+'"]').children('div:eq(2)').attr('class', 'room-enable ignore'+($enable?'':'d'));
+        $('.smeta_door[data-door-key="'+_key+'"] div.ignore_door').attr('class', className);
     };
     // отображение двери
     _this.getShow = function() {
@@ -127,13 +118,6 @@ function Door($parent, $room, $key, $params)
         _this.setEnable($show);
         if (_room === null) {
             $('.smeta_door[data-door-key="'+_key+'"]').show();
-        } else if (_room.getId() !== 1) {
-            if ($show) {
-                $('.smeta_door[data-room-id="'+_room.getId()+'"]').show();
-            } else {
-                $('.smeta_door[data-room-id="'+_room.getId()+'"]').hide();
-            }
-            
         }
     };
 
@@ -159,9 +143,6 @@ function Door($parent, $room, $key, $params)
     // иницилизация комнаты
     _this.init = function() {
         var roomId = 0;
-        if (_room !== null){
-            roomId = _room.getId();
-        }
         $('#'+roomId+'_door_'+_key+'_width')
             .dblclick(function() {
                 temp = this.value;

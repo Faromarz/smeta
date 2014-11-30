@@ -413,7 +413,11 @@ function Room($parent, $params)
     // иницилизация комнаты
     _this.init = function() {
         // ========== двери
-        _this.door = new Door(_parent, _this, 0, _params.door);
+        if (_this.getId() === 1) {
+            _this.door = new Door(_parent, _this, '0', _params.door);
+        } else {
+            _this.door = _parent.rooms[0].door;
+        }
         // ========== окна
         if (_params.window !== null){
             _this.window = new Window(_parent, _this, 0, _params.window);
