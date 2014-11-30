@@ -32,6 +32,56 @@
     <script type="text/javascript" src="{{ Url.media('/media/libs/fancybox/jquery.fancybox.pack.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/jquery.inputmask.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/jquery.inputmask.regex.extensions.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            var r = document.cookie.match("(^|;) ?city=([^;]*)(;|$)");
+            if ( r===null ) {
+                getGeolocation();
+            }
+
+            function set_cookie(name)
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ Url.media('ajax/geolocation/set_cookie') }}",
+                    data: {"city_name" : name },
+                    success: function(){
+                    }
+                },'json');
+            }
+
+            function exportPosition(position) {
+                // Получаем координаты и помещаем в переменные
+                latitude = position.coords.latitude;
+                longitude  = position.coords.longitude;
+                // Вызываем Google Maps API и получаем название места
+                $.ajax({
+                    url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log('Положение: '+data.results[0].address_components[2].long_name);
+                        set_cookie(data.results[0].address_components[2].long_name);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        errorPosition();
+                    }
+                });
+            }
+            function errorPosition() {
+                console.log('К сожалению не удалось определить Ваше местоположение');
+            }
+
+            function getGeolocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(exportPosition, errorPosition);
+                } else {
+                    console.log('Ваш браузер не поддерживает Geolocation API');
+                }
+            }
+        });
+    </script>
 </head>
 <body>
 <div id="background{% if _controller=='Budget' %}_budget{% endif %}">
@@ -134,10 +184,19 @@
     <div id="instruments_bottom_left"></div>
     <div id="instruments_bottom_right"></div>
 {% endif %}
-{% if _controller=='Materials' %}
+{% if _controller|lower == 'materials' %}
     <div id="about_materials-instruments_left"></div>
     <div id="about_materials-instruments_right"></div>
 {% endif %}
+
+{% if _controller|lower == 'partners' %}
+    <div id="instruments_top_left"></div>
+    <div id="instruments_top_right_1"></div>
+    <div id="instruments_top_right_2"></div>
+    <div id="instruments_bottom_left-partners"></div>
+    <div id="instruments_bottom_right-partners"></div>
+{% endif %}
+
 <div id="page_up"></div>
 </body>
 </html>

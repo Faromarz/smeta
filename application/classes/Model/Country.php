@@ -2,7 +2,7 @@
 
 class Model_Country extends ORM
 {
-    protected $_table_name = 'country';
+    protected $_table_name = 'countries';
     protected $_primary_key = 'id';
     
     public function __toString()

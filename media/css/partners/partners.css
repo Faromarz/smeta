@@ -1,0 +1,327 @@
+body, html {
+    font-family: Roboto;
+    font-size: 14px;
+    color: #000000;
+}
+
+#partners-content-header {
+    width: 910px;
+    font-weight: 700;
+    font-size: 103px;
+    color: #2f0d03;
+    text-transform: uppercase;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+    padding-top: 20px;
+    border-top: solid 9px #84909a;
+    letter-spacing: 1px;
+}
+
+#content-header{
+    width: 910px;
+    background: #84909a;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    padding: 13px 0 13px 0;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+
+
+.partners-content-list{
+    width: 450px;
+    float: left;
+}
+
+.partners-content-list li{
+    background: url("../../img/arrow_list.png") 0 50% no-repeat;
+    padding: 5px 0 5px 30px;
+    margin-bottom: 5px;
+}
+
+#partners-content-map {
+    width: 1013px;
+    height: 561px;
+    background: url("../img/partners_map.jpg")50% 50% no-repeat #ffffff;
+    clear: both;
+    margin: auto;
+    margin-top: 200px;
+    padding: 10px;
+    border: solid 1px #bbbbbb;
+}
+
+#partners-category{
+    height: 80px;
+    margin: 30px 40px 0 60px;
+    float: left;
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px){
+    #partners-category{
+        margin: 30px 40px 0 69px;
+    }
+}
+
+#partners-content-location {
+    width: 500px;
+    height: 100px;
+    margin: 30px 0 0 0;
+    float: left;
+}
+
+
+.partners-content-for_company{
+    width: 1060px;
+    height: 480px;
+    margin: auto;
+    margin-top: 30px;
+    background: #ffffff;
+}
+
+.partners-content-company {
+    width: 332px;
+    height: 200px;
+    float: left;
+    border-bottom: solid 3px #84909a;
+    margin: 0 10px 40px 10px;
+}
+
+.partners-content-company h1{
+    font-size: 16px;
+    color: #274761;
+    margin: 5px 0 0 10px;
+}
+
+.partners-content-company h2{
+    color: #84909a;
+    text-transform: uppercase;
+    margin: 30px 0 0 135px;
+}
+
+.partners-content-company-town{
+    margin: 3px 0 0 135px;
+}
+
+.partners-content-company-cell{
+    margin: 20px 0 0 135px;
+}
+
+.partners-content-company a{
+    display: block;
+    color: #40c1b6;
+    margin: 36px 0 0 135px;
+}
+
+.partners-content-company img{
+    width: 116px;
+    height: 116px;
+    margin: 30px 0 0 10px;
+    float: left;
+}
+
+#partners-content-more{
+    width: 1033px;
+    height: 60px;
+    margin: auto;
+    background: url("../../img/arrow_down.png") 98%  50% no-repeat #e6ecf1;
+    cursor: pointer;
+}
+
+#partners-content-more:hover{
+    background-position: 98% 55%;
+}
+
+#partners-content-more p{
+    font-size: 28px;
+    margin-left: 20px;
+    padding-top: 17px;
+}
+
+#partners-content-partners{
+    width: 1033px;
+    height: 160px;
+    margin: auto;
+    margin-top: 70px;
+    margin-bottom: 400px;
+    border-top: solid 1px #949fa7;
+    border-bottom: solid 1px #949fa7;
+    text-align: center;
+}
+
+#partners-content-partners h1{
+    width: 600px;
+    font-family: Roboto Slab;
+    font-size: 40px;
+    color: #a3845b;
+    background: url("../../img/paper.png") 19px 8px;
+    margin: auto;
+    margin-top: -20px;
+    margin-bottom: 40px;
+}
+
+#partners-content-partners p{
+    margin-top: 10px;
+}
+
+#partners-content-partners p span{
+    font-size: 28px;
+    color: #f7540f;
+}
+
+#partners_icon {
+    width: 96px;
+    margin: auto;
+    margin-top: 30px;
+    background: url("../../img/paper.png") 0 13px;;
+}
+
+#partners_icon p{
+    width: 66px;
+    height: 40px;
+    background: url("../../img/partners_icon.png") 50% 50% no-repeat;
+    margin: auto;
+}
+
+#partners-content_bottom-left_corner {
+    width: 910px;
+    height: 450px;
+    margin: -330px 0 0 136px;
+    border-top: solid 30px #84909a;
+    padding-top: 1px;
+}
+
+#partners-content_bottom-rasporka{
+    width: 800px;
+    margin-left: 136px;
+    border-bottom: solid 9px #84909a;
+}
+
+#partners-content_bottom-left_corner-left{
+    width: 350px;
+    height: 413px;
+    background: #efefef;
+    margin: 20px 0 0 0;
+    float: left;
+}
+
+#partners-content_bottom-left_corner-left input{
+    width: 299px;
+    height: 40px;
+    margin: 20px 0 0 19px;
+    font-style: italic;
+    padding-left: 10px;
+    color: #84909a;
+    outline: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.27);
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px){
+    #partners-content_bottom-left_corner-left input{
+        width: 290px;
+    }
+}
+
+#partners-be_partners{
+    width: 308px;
+    font-size: 20px;
+    color: #ffffff;
+    background: #f7540f;
+    text-align: center;
+    margin: 20px 0 0 19px;
+    padding: 10px 0 13px 0;
+    cursor: pointer;
+}
+
+#partners-be_partners:hover{
+    background: #40c1b6;
+}
+
+#partners-content_bottom-left_corner-right{
+    width: 455px;
+    height: 400px;
+    float: left;
+    margin: 35px 0 0 50px;
+}
+
+#partners-content_bottom-left_corner-right h1{
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+#partners-content_bottom-left_corner-right ul{
+    width: 450px;
+}
+
+#partners-content_bottom-left_corner-right ul li{
+    margin: 0 0 20px 0;
+    line-height: 15px;
+    background: url("../../img/arrow_list.png") no-repeat;
+    padding: 0 0 4px 30px;
+    line-height: 19px;
+}
+
+#partners-content_bottom-left_corner-right h2 {
+    width: 260px;
+    font-size: 20px;
+    line-height: 22px;
+    margin: 50px 0 0 0;
+}
+
+#partners-content_bottom-left_corner-right h3 {
+    font-family: Roboto Slab;
+    font-size: 40px;
+    margin: 15px 0 0 0;
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1400px){
+
+    #instruments_bottom_left-partners{
+        width: 246px;
+        height: 826px;
+        background: url("../../img/instruments_bottom_left.png");
+        position: absolute;
+        top: 1100px;
+        left: -120px;
+        z-index: 3;
+    }
+
+    #instruments_bottom_right-partners{
+        width: 285px;
+        height: 627px;
+        background: url("../../img/instruments_bottom_right.png");
+        position: absolute;
+        top: 1100px;
+        right: -120px;
+        z-index: 3;
+    }
+
+}
+
+
+@media only screen and (min-width: 1400px) and (max-width: 2500px){
+
+    #instruments_bottom_left-partners{
+        width: 246px;
+        height: 826px;
+        background: url("../../img/instruments_bottom_left.png");
+        position: absolute;
+        top: 1100px;
+        left: 0;
+        z-index: 3;
+    }
+
+    #instruments_bottom_right-partners{
+        width: 285px;
+        height: 627px;
+        background: url("../../img/instruments_bottom_right.png");
+        position: absolute;
+        top: 1100px;
+        right: 0;
+        z-index: 3;
+    }
+
+}
