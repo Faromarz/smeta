@@ -24,3 +24,9 @@ CREATE TABLE IF NOT EXISTS `partner_works` (
   `price_premium` decimal(20,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+------------------------ 30.11.2014
+ALTER TABLE `smeta_rooms` ADD `door_enable` BOOLEAN NOT NULL AFTER `materials_enable`;
+ALTER TABLE `smeta_doors` DROP `smeta_rooms_id`;
+ALTER TABLE `smeta_doors` ADD `is_room` BOOLEAN NOT NULL COMMENT 'Дверь дополнительная или для комнат' ;
+------------------------ 30.11.2014

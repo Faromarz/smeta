@@ -56,6 +56,30 @@ var Smeta = (function() {
         });
         return countDoor;
     };
+    // ---------------- возвращает количество межкомнатых дверей
+    Smeta.prototype.getCountDoorsInRoom = function()
+    {
+        var _this = this;
+        var countDoor = 0;
+        $.each(_this.rooms, function(key, room) {
+            if(room.getShow() && room.getType() !== 3 && room.getDoorEnable()){
+                countDoor++;
+            }
+        });
+        return countDoor;
+    };
+    // ---------------- возвращает максимальное количество межкомнатых дверей
+    Smeta.prototype.getMaxCountDoors = function()
+    {
+        var _this = this;
+        var countDoor = 0;
+        $.each(_this.rooms, function(key, room) {
+            if(room.getShow() && room.getType() !== 3){
+                countDoor++;
+            }
+        });
+        return countDoor;
+    };
     // ---------------- возвращает количество дополнительных окон
     Smeta.prototype.getCountWindows = function()
     {
@@ -343,6 +367,7 @@ var Smeta = (function() {
             $('#toilet').slideUp(400, function() {
                 _this.rooms[7].setShow(true);
                 _this.rooms[7].setEnable((_this.rooms[8].getEnable() || _this.rooms[9].getEnable() )? true : false );
+                 _this.rooms[7].setDoorEnable((_this.rooms[8].getEnable() || _this.rooms[9].getEnable() )? true : false);
                 _this.rooms[8].setShow(false);
                 _this.rooms[9].setShow(false);
                 $('#bath_and_toilet').slideDown(400, function() {
@@ -419,6 +444,14 @@ var Smeta = (function() {
         _this.types = Type;
         _this.height = Height;
         var params = $.extend(defaults, options);
+        
+         // иницилизация дополнительных дверей
+        $.each(params.doors, function(key, door) {
+            _this.doors[key] = new Door(_this, key, door);
+        });
+        _this.doorUpdateName();
+
+        // загрузка - комнат, материалов, работ
         _this.load.init({
             parent: _this,
             smetaId: params.smetaId
@@ -426,11 +459,6 @@ var Smeta = (function() {
         _this.smetaId = params.smetaId;
         _this.materials_enable = params.materials_enable;
 
-        // иницилизация дополнительных дверей
-        $.each(params.doors, function(key, door) {
-            _this.doors[key] = new Door(_this, null, key, door);
-        });
-        _this.doorUpdateName();
         
         // иницилизация дополнительных окон
         $.each(params.windows, function(key, window) {
@@ -547,6 +575,7 @@ var Smeta = (function() {
         $("a#text-you_smeta").on("click", function() { _this.addSmeta(); });
         // обединение туалет ванна
         $('.combine, .uncombine').on('click', function(){_this.changeCombine(_this, this);});
+
     };
     //гифка прелоадера
     Smeta.prototype.preloader = function(status){
@@ -577,6 +606,7 @@ var Smeta = (function() {
     };
 
     return new Smeta();
+    
 })();
 
 // ================= формат чисел

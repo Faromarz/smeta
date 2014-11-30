@@ -29,7 +29,6 @@ class Controller_Budget extends Controller_Core {
                     ->select(array('smeta_doors.width', 'width'))
                     ->from('smeta_doors')
                     ->join('room_params_def')->on('room_params_def.id', '=', 'smeta_doors.room_params_def')
-                    ->where('smeta_doors.smeta_rooms_id', '=', 0)
                     ->where('smeta_doors.smeta_id', '=', $smeta->id)
                     ->execute()
                     ->as_array();
@@ -91,7 +90,7 @@ class Controller_Budget extends Controller_Core {
                         ->select(array('smeta_door.height', 'height'))
                         ->select(array('smeta_door.width', 'width'))
                         ->join('room_params_def')->on('room_params_def.id', '=', 'smeta_door.room_params_def')
-                        ->where('smeta_door.smeta_rooms_id', '=', (int)$room['smetaRoomId'])
+                        ->where('smeta_door.is_room', '=', true)
                         ->find()->as_array();
                 $rooms[$key]['door'] = $door;
                 // окна

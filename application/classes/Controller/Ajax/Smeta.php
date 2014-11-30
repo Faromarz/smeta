@@ -79,21 +79,22 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_room->balcony = isset($room['balcony']) ? $room['balcony']:NULL;
             $smeta_room->enable = $room['enable'];
             $smeta_room->show = $room['show'];
+            $smeta_room->door_enable = $room['door_enable'];
             $smeta_room->materials_enable = $room['materials_enable'];
             $smeta_room->save();
             
             //======= двери
-            $door = $room['door'];
-            $smeta_door = ORM::factory('Smeta_Door');
-            $smeta_door->smeta_rooms_id = $smeta_room->pk();
-            $smeta_door->smeta_id = $smeta->id;
-            $smeta_door->room_params_def = $door['type'];
-            $smeta_door->enable = $door['enable'];
-            $smeta_door->height = $door['height'];
-            $smeta_door->width = $door['width'];
-            $smeta_door->show = $door['show'];
-            $smeta_door->count = $door['count'];
-            $smeta_door->create();
+//            $door = $room['door'];
+//            $smeta_door = ORM::factory('Smeta_Door');
+//            $smeta_door->is_room =$door['is_room'];
+//            $smeta_door->smeta_id = $smeta->id;
+//            $smeta_door->room_params_def = $door['type'];
+//            $smeta_door->enable = $door['enable'];
+//            $smeta_door->height = $door['height'];
+//            $smeta_door->width = $door['width'];
+//            $smeta_door->show = $door['show'];
+//            $smeta_door->count = $door['count'];
+//            $smeta_door->create();
             
             // =========== окна
             if (isset($room['window'])) {
@@ -134,9 +135,9 @@ class Controller_Ajax_Smeta extends Controller_Core
                 $smeta_cat->create();
             }
         }
-        foreach($doors as $door){
+        foreach($doors as $key => $door){
             $smeta_door = ORM::factory('Smeta_Door');
-            $smeta_door->smeta_rooms_id = null;
+            $smeta_door->is_room = $key === 0 ? 1 : 0 ;
             $smeta_door->smeta_id = $smeta->id;
             $smeta_door->room_params_def = $door['type'];
             $smeta_door->enable = $door['enable'];
@@ -159,26 +160,11 @@ class Controller_Ajax_Smeta extends Controller_Core
             $smeta_window->count = $window['count'];
             $smeta_window->create();
         }
-        if($smeta_id==0) $result[] = array('smeta_name'=>$smeta->name);
-        else $result[] = array('smeta_name'=>'');
+        if($smeta_id==0){
+            $result[] = array('smeta_name'=>$smeta->name);
+        } else {
+            $result[] = array('smeta_name'=>'');
+        }
         $this->set('_result', json_encode($result));
     }
-
-//    public function action_enable_room(){
-//        $post = $this->request->post();
-//        $smeta_id = Arr::get($post, 'smeta_id', '');
-//        $room_id = Arr::get($post, 'room_id', '');
-//        $smeta_room = ORM::factory('Smeta_Room')->where('smeta_id','=',$smeta_id)->and_where('room_id','=',$room_id)->find();
-//        $smeta_room->enable = $smeta_room->enable? 0 : 1;
-//        $smeta_room->save();
-//    }
-//
-//    public function action_enable_door(){
-//        $post = $this->request->post();
-//        $door_id = Arr::get($post, 'door_id', '');
-//        $smeta_door = ORM::factory('Smeta_Door',$door_id);
-//        $smeta_door->enable = $smeta_door->enable? 0 : 1;
-//        $smeta_door->save();
-//    }
-
 }

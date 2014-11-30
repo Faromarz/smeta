@@ -1,52 +1,51 @@
 {% for room in _rooms %}
         {% if room.type == 3  %}
-            <div class="smeta_block  smeta_door" data-room-id="{{ room.id }}">
+            <div class="smeta_block  smeta_door" data-door-type="2" data-door-key="0">
                 <h1 class="smeta_text_header">Входная дверь</h1>
                 <div class="smeta_characteristics">
-                    <input id="{{ room.id }}_door_0_width" value="{{ room.door.width | number_format(2, ',', ' ') }}"/>
+                    <input id="door_type2_key0-width" value="{{ room.door.width | number_format(2, ',', ' ') }}"/>
                     <div class="smeta_characteristics_x"></div>
-                    <input id="{{ room.id }}_door_0_height" value="{{ room.door.height | number_format(2, ',', ' ') }}">
+                    <input id="door_type2_key0-height" value="{{ room.door.height | number_format(2, ',', ' ') }}">
                     <p class="smeta_characteristics_width">ширина</p>
                     <p class="smeta_characteristics_height">высота</p>
                     <h6>Габариты в метрах</h6>
                 </div>
                 <div class="smeta_count_entrance_door"></div>
-                <div id="room{{ room.id }}-door0-enable" class="ignore{{ room.door.enable ? '' : 'd'}} ignore_door"></div>
+                <div id="door_type2_key0-enable" class="ignore{{ room.door.enable ? '' : 'd'}} ignore_door"></div>
             </div>
         {% endif %}
 {% endfor %}
 
         {% set countRoom = 0 %}
         {% for key,room in _rooms %}
-            {% if room.type != 3 and room.door.enable %}
+            {% if room.type != 3 and room.door.show %}
                 {% set countRoom = countRoom+1 %}
             {% endif %}
         {% endfor %}
     
-
 {% for key,door in doors %}
-    <div class="smeta_block smeta_door" data-door-key="{{ key }}" data-room-id="0" data-door-id="{{ door.id }}"{% if door.show == false %} style="display:none"{% endif %}>
+    <div class="smeta_block smeta_door" data-door-type="3" data-door-key="{{ key }}" data-door-id="{{ door.id }}"{% if door.show == false %} style="display:none"{% endif %}>
         <h1 class="smeta_text_header">
             Дверь межкомнатная{{ key+1 }}
         </h1>
 
         <div class="smeta_count_interior_door_right">
-            <input id="0_door_{{key+1}}_width" value="{{ door.width | number_format(2, ',', ' ') }}"/>
+            <input id="door_type3_key{{key}}-width" value="{{ door.width | number_format(2, ',', ' ') }}"/>
             <div class="smeta_characteristics_x"></div>
-            <input id="0_door_{{key+1}}_height" value="{{ door.height | number_format(2, ',', ' ') }}">
+            <input id="door_type3_key{{key}}-height" value="{{ door.height | number_format(2, ',', ' ') }}">
             <p class="smeta_characteristics_width">ширина</p>
             <p class="smeta_characteristics_height">высота</p>
             <h6>Габариты в метрах</h6>
         </div>
 
         <div class="smeta_count_interior_door_left">
-            <div id="room0-door{{ key+1 }}-type" class="smeta_count_interior_door_chosen" data-type="{{ door.width >= 1.3 ? 2 : 1 }}"></div>
-            <div id="room0-door{{ key+1 }}-down" class="button_minus"></div>
-            <input id="room0-door{{ key+1 }}-count" class="smeta_count_input" value="{{ key == 0 ? countRoom : door.count }}" />
-            <div id="room0-door{{ key+1 }}-up" class="button_plus"></div>
+            <div id="door_type3_key{{key}}-type" class="smeta_count_interior_door_chosen" data-type="{{ door.width >= 1.3 ? 2 : 1 }}"></div>
+            <div id="door_type3_key{{key}}-down" class="button_minus"></div>
+            <input id="door_type3_key{{key}}-count" class="smeta_count_input" value="{{  door.count }}" />
+            <div id="door_type3_key{{key}}-up" class="button_plus"></div>
             <h6>шт.</h6>
         </div>
-        <div id="room0-door{{ key }}-enable" class="ignore{{ door.enable ? '' : 'd'}} ignore_door"></div>
+        <div id="door_type3_key{{key}}-enable" class="ignore{{ door.enable ? '' : 'd'}} ignore_door"></div>
     </div>
 {% endfor %}
 

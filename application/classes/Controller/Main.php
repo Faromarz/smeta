@@ -35,6 +35,8 @@ class Controller_Main extends Controller_Core
             2 => $door
         );
         $doors[0]['show'] = true;
+        $doors[0]['is_room'] = true;
+        $doors[0]['count'] = 4;
         $this->set('doors', $doors);
         
         // окна дополнительные

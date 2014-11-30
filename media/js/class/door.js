@@ -5,18 +5,16 @@
  * @version 1.0
  * 
  * @param {object}  $parent
- * @param {object}  $room
  * @param {integer} $key
  * @param {array}   $params
  */
-function Door($parent, $room, $key, $params)
+function Door($parent, $key, $params)
 {
     var _this = this;
     var _parent = $parent;
-    var _room = $room;
-    var _key = $key;
     var _params = $params;
     
+    var key = $key;
     var id = Number(_params.id);
     var type = Number(_params.type);
     var width = Number(_params.width);
@@ -28,14 +26,36 @@ function Door($parent, $room, $key, $params)
     var enable = Number(_params.enable) || false;
     var show = Number(_params.show) || false;
     var count = Number(_params.count) || 1;
+    var isRoom = Number(_params.is_room) || 0;
+    _this.isRoom = isRoom;
+    _this.count = count;
+    _this.type = type;
+    _this.key = key;
+    _this.show = show;
 
-    // ID двери
-    _this.getId = function() {
-        return  id;
-    };
     // type двери
     _this.getType = function() {
         return type;
+    };
+    // номер двери 0-2
+    _this.getKey = function () {
+        return key;
+    };
+    // идентификатор двери
+    _this.getIdentificator = function () {
+        return 'door_type'+_this.getType()+'_key'+_this.getKey();
+    };
+    
+    // дверь (для комнат или дополнительная)
+    _this.getIsRoom = function() {
+        return  isRoom;
+    };
+    _this.setIsRoom = function($isRoom) {
+        isRoom = $isRoom;
+    };
+    // ID двери
+    _this.getId = function() {
+        return  id;
     };
     // количество дверей
     _this.getCount = function() {
@@ -46,15 +66,50 @@ function Door($parent, $room, $key, $params)
         if ($count < 0) {
             $count = 0;
         }
-        if ($count > 8) {
-            $count = 8;
+        var maxCount = 8;
+        if ($count > maxCount) {
+            $count = maxCount;
         }
         count = $count;
-        $('#room0-door'+_key+'-count').val(number_format(count, 0, ',', ' '));
+        if (count === 0){
+            _this.setEnable(false);
+        } else if(!_this.getEnable()) {
+            _this.setEnable(true);
+        }
+        $('#'+_this.getIdentificator()+'-count').val(number_format(count, 0, ',', ' '));
+        
+        // если межкомнатные двери то изменяем в комнатах
+        if (_this.getKey() === 0 && _this.getType() === 3){
+            var countDoors = _parent.getCountDoorsInRoom();
+            // если уменшили количество дверей
+            if (countDoors > count) {
+                var addCount = countDoors-count;
+                $.each(_parent.rooms, function(key, room){
+                    if (room.getType() !== 3 && room.getShow() && room.getDoorEnable() && addCount > 0) {
+                        addCount--;
+                        room.setEnable(false);
+                    }
+                });
+            } else if (countDoors < count) {
+                var addCount = count-countDoors;
+                _parent.rooms.reverse();
+                $.each(_parent.rooms, function(key, room){
+                    if (room.getType() !== 3 && room.getShow() && !room.getDoorEnable() && addCount > 0) {
+                        addCount--;
+                        room.setEnable(true);
+                    }
+                });
+                _parent.rooms.reverse();
+            }
+        }
     };
     // увеличить количество
     _this.upCount = function() {
-        _this.setCount((_this.getCount() + 1) <= 8 ? _this.getCount() + 1: 8);
+        var maxCount = 8;
+        if (_this.getKey() === 0 && _this.getType() === 3){
+            maxCount = _parent.getMaxCountDoors();
+        }
+        _this.setCount((_this.getCount() + 1) <= maxCount ? _this.getCount() + 1: maxCount);
     };
     // уменьшить количество
     _this.downCount = function() {
@@ -73,8 +128,7 @@ function Door($parent, $room, $key, $params)
             $width = Number(width_max);
         }
         width = $width;
-        var roomId = 0;
-        $('#room'+roomId+'-door'+_key+'-type').attr('data-type', (width >= 1.3 ? 2 : 1));
+        $('#'+_this.getIdentificator()+'-type').attr('data-type', (width >= 1.3 ? 2 : 1));
     };
     //  Высота двери
     _this.getHeight = function() {
@@ -105,7 +159,7 @@ function Door($parent, $room, $key, $params)
         if (!enable) {
             className += 'd';
         }
-        $('.smeta_door[data-door-key="'+_key+'"] div.ignore_door').attr('class', className);
+        $('#'+_this.getIdentificator()+'-enable').attr('class', className);
     };
     // отображение двери
     _this.getShow = function() {
@@ -116,8 +170,8 @@ function Door($parent, $room, $key, $params)
         var _this = this;
         show = $show;
         _this.setEnable($show);
-        if (_room === null) {
-            $('.smeta_door[data-door-key="'+_key+'"]').show();
+        if (_this.getType() === 3) {
+            $('.smeta_door[data-door-key="'+_this.getKey()+'"]').show();
         }
     };
 
@@ -134,16 +188,9 @@ function Door($parent, $room, $key, $params)
         };
         return params;
     };
-    // удаление двери
-    _this.removeDoor = function() {
-        if (_room !== null && _room.getId() === 1){
-            return true;
-        }
-    };
     // иницилизация комнаты
     _this.init = function() {
-        var roomId = 0;
-        $('#'+roomId+'_door_'+_key+'_width')
+        $('#'+_this.getIdentificator()+'-width')
             .dblclick(function() {
                 temp = this.value;
                 this.value = '';
@@ -160,7 +207,7 @@ function Door($parent, $room, $key, $params)
                     this.value = temp;
                 }
             });
-        $('#'+roomId+'_door_'+_key+'_height')
+        $('#'+_this.getIdentificator()+'-height')
             .dblclick(function() {
                 temp = this.value;
                 this.value = '';
@@ -178,19 +225,26 @@ function Door($parent, $room, $key, $params)
                     this.value = temp;
                 }
             });
-        $('#room'+roomId+'-door'+_key+'-enable').on('click', function(){
+        $('#'+_this.getIdentificator()+'-enable').on('click', function(){
             $(this).toggleClass("ignore ignored");
-            if (_room !== null){
+            if (_this.getIsRoom()){
                 if ($(this).hasClass('ignore')) {
-                    _room.setEnable($(this).hasClass('ignore'));
-                     // пересчет комнат
-                    if (_parent.getCountRooms() === 0) {
-                        var count = 0;
-                        if (_room.getType() === 1) {
-                            count = 1;
+                    var count = 0;
+                    $.each(_parent.rooms, function(key, room){
+                        if (room.getType() !== 3 && room.getShow()) {
+                            count++;
+                            room.setEnable($(this).hasClass('ignore'));
                         }
-                        _parent.setCountRooms(count);
-                    }
+                    });
+                    _this.setCount(count);
+                     // пересчет комнат
+//                    if (_parent.getCountRooms() === 0) {
+//                        var count = 0;
+//                        if (_room.getType() === 1) {
+//                            count = 1;
+//                        }
+//                        _parent.setCountRooms(count);
+//                    }
                 } else {
                     _this.setEnable( $(this).hasClass('ignore'));
                 }
@@ -198,10 +252,10 @@ function Door($parent, $room, $key, $params)
                 
             }
         });
-        if (_room === null){
-            $('#room'+roomId+'-door'+_key+'-up').on('click', function(){_this.upCount();});
-            $('#room'+roomId+'-door'+_key+'-down').on('click', function(){_this.downCount();});
-            $('#room'+roomId+'-door'+_key+'-count')
+        if (_this.getType() === 3){
+            $('#'+_this.getIdentificator()+'-up').on('click', function(){_this.upCount(); console.log('Нужен перерасчет сметы');});
+            $('#'+_this.getIdentificator()+'-down').on('click', function(){_this.downCount();console.log('Нужен перерасчет сметы');});
+            $('#'+_this.getIdentificator()+'-count')
                 .dblclick(function() {
                     temp = this.value;
                     this.value = '';
@@ -215,6 +269,7 @@ function Door($parent, $room, $key, $params)
                     } else {
                         this.value = temp;
                     }
+                    console.log('Нужен перерасчет сметы');
                 });
         }
     };
