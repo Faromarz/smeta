@@ -1,7 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-use Email;
-
 class Controller_Ajax_Email extends Controller
 {
     protected $user = false;
