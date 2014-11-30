@@ -36,7 +36,7 @@ class Controller_Ajax_Email extends Controller
             Email::send(
                     $emailTo,
                     $object->email,
-                    "Сообщение со страницы контакты mastersmeta.ru от ".$name ,
+                    "Сообщение со страницы 'Контакты' mastersmeta.ru от ".$name ,
                     $text,
                     false
                 );
