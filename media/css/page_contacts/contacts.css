@@ -176,7 +176,7 @@ body, html {
     #instruments_bottom_left-contacts{
         width: 246px;
         height: 826px;
-        background: url("../img/instruments_bottom_left.png");
+        background: url("../../img/instruments_bottom_left.png");
         position: absolute;
         top: 1100px;
         left: -120px;
@@ -186,7 +186,7 @@ body, html {
     #instruments_bottom_right-contacts{
         width: 285px;
         height: 627px;
-        background: url("../img/instruments_bottom_right.png");
+        background: url("../../img/instruments_bottom_right.png");
         position: absolute;
         top: 1100px;
         right: -120px;
@@ -201,7 +201,7 @@ body, html {
     #instruments_bottom_left-contacts{
         width: 246px;
         height: 826px;
-        background: url("../img/instruments_bottom_left.png");
+        background: url("../../img/instruments_bottom_left.png");
         position: absolute;
         top: 1100px;
         left: 0;
@@ -211,7 +211,7 @@ body, html {
     #instruments_bottom_right-contacts{
         width: 285px;
         height: 627px;
-        background: url("../img/instruments_bottom_right.png");
+        background: url("../../img/instruments_bottom_right.png");
         position: absolute;
         top: 1100px;
         right: 0;

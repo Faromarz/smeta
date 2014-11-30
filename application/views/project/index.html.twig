@@ -1,0 +1,221 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link href="{{ Url.media('/media/css/reset.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/style.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/page_about/about.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/selectbox/jquery.selectbox.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/fancybox/jquery.fancybox.css') }}" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="{{ Url.media('/media/js/portal.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/fancybox/jquery.fancybox.pack.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("a.about-left_corner-certificate-pict").fancybox({
+                'transitionIn'	:	'elastic',
+                'transitionOut'	:	'elastic',
+                'speedIn'		:	600,
+                'speedOut'		:	200,
+                "overlayShow" : false,
+                "hideOnContentClick" :true
+
+            });
+        });
+    </script>
+    
+        <div id="content">
+
+            <div id="about-content_header">
+
+                <h1>Mastersmeta</h1>
+                <h2>Ваш помощник при ремонте квартир!</h2>
+                <h3>Нашим сервисом уже воспользовались <span>{{_countSmeta}}</span>.</h3>
+                <ul>
+
+                    <li>Вам нужно лишь указать размеры квартиры и&nbspваша&nbspсмета готова! </li>
+                    <li>Цены и работы только надёжных и проверенных компаний.</li>
+                    <li>Полностью автоматический расчёт объёма работ. Нет&nbspместа ошибке.</li>
+                    <li>Возможность подбора оптимального варианта стоимости ремонта.</li>
+
+
+                </ul>
+
+            </div>
+
+            <div id="about-services">
+
+                <h1>Наши услуги бесплатны</h1>
+
+                <dl>
+
+                    <dt id="about-services-cost">Реальная стоимость ремонта вашей квартиры</dt>
+                    <dd>Не нужно обзванивать кучу ремонтных компаний, чтобы узнать цену. Цены, фотографии работ, отзывы – уже есть на сайте!</dd>
+
+                </dl>
+
+                <dl class="about-services-dl-margin">
+
+                    <dt id="about-services-smeta">детальная смета прямо&nbspна&nbspсайте</dt>
+                    <dd>Мы гордимся нашей сметой. Вы&nbspв&nbspлюбой момент можете внести изменения и смета будет пересчитана за секунды!</dd>
+
+                </dl>
+
+                <dl class="about-services-dl-margin">
+
+                    <dt id="about-services-company">возможность выбора ремонтной компании</dt>
+                    <dd>Падберите наиболее подходящий вам вариант по цене или качеству. Средний опыт работы ремонтных компаний – 10 лет.</dd>
+
+                </dl>
+
+                <div class="about-services-button">
+
+                    <a href="/">перейти к расчету сметы</a>
+
+                </div>
+
+
+            </div>
+
+            <div id="about-warranty">
+
+                <h1>Наши гарантии</h1>
+
+                <ul>
+                    <li>качественный</br>ремонт</li>
+                    <li>работы по рыночным ценам – всё честно</li>
+                    <li>ремонт в установленные сроки</li>
+                    <li>заключение договора фирмы с заказчиком</li>
+                </ul>
+
+                <div id="about-warranty-icon">
+
+                    <p></p>
+
+                </div>
+
+            </div>
+
+            <div id="about-time">
+
+                <h1>Экономьте время</h1>
+                <h2>Сравните цены разных компаний не выходя из дома и не приглашая домой бригадиров. Ваш дом – ваша крепость!</h2>
+
+                <div id="about-time-icon">
+
+                    <p></p>
+
+                </div>
+
+            </div>
+
+            <div id="about-insurance">
+
+                <h1>Страховка — бесплатно</h1>
+                <h2>Заказав ремонт, стоимостью от 100 тысяч рублей </h2>
+                <h3>мы застрахуем вашу квартиру и Гражданскую ответственность на 500 тысяч рублей</h3>
+
+                <div id="about-insurance-icon">
+
+                    <p></p>
+
+                </div>
+
+            </div>
+
+            <div class="about-video_left">
+
+                <div class="youtube" id="Fv6UyzTshw0" style="width:100%; height:100%;"></div>
+
+            </div>
+
+            <div class="about-video_right">
+
+                <div class="youtube" id="ZH-StXyGnVU" style="width:100%; height:100%;"></div>
+
+            </div>
+
+            <script src="media/js/youtube.js" type="text/javascript"></script>
+
+            <div id="about-help">ООО «МастерСмета» помогает людям делать ремонт с 2013 года</div>
+
+            <div id="about-leader">
+
+                <img src="/media/img/leader.jpg">
+                <h1>Руководитель компании</h1>
+                <h2>АЛЕКСАНДР БЫСТРОВ</h2>
+                <p>Обладает высшим техническим (инженерное) и экономическим образованием, Финансовая академия при Правительстве РФ.</p>
+                <p>Увлекается спортом: беговые и горные лыжи, дайвинг и снорклинг, большой и настольный теннис, велосипед</p>
+
+
+            </div>
+
+
+        </div>
+
+        <div id="content_bottom">
+
+            <div id="reviews_left_corner">
+
+                <div id="about-left_corner">
+
+                    <div id="about-left_corner-certificate">
+
+
+                            
+                        <a class="about-left_corner-certificate-pict" href="/media/img/certificate2.jpg"><img src="/media/img/certificate.jpg" /></a>
+                            
+
+
+                    </div>
+
+                    <div id="about-left_corner-address">
+
+                        <dl>
+                            <dt>Юридический адрес:</dt>
+                            <dd>{{ contacts.address_legal}}</dd>
+                        </dl>
+
+                        <dl>
+                            <dt>Адрес для корреспонденции:</dt>
+                            <dd>{{ contacts.address_for_correspondence}}</dd>
+                        </dl>
+
+                    </div>
+
+                    <h1>Мы работаем с соблюдением законодательства</h1>
+
+                    <ul id="about-left_corner-name_details">
+                        <li>ОГРН</li>
+                        <li>ИНН</li>
+                        <li>КПП</li>
+                    </ul>
+
+                    <ul id="about-left_corner-details">
+                        <li>{{ contacts.ogrn}}</li>
+                        <li>{{ contacts.inn}}</li>
+                        <li>{{ contacts.cpp}}</li>
+                    </ul>
+
+
+
+                </div>
+
+
+            </div>
+
+
+            <div id="reviews_right_corner">
+
+                <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+                <h2>при заказав ремонта от 100 000 рублей </h2>
+                <a href="#">Узнать подробности</a>
+
+            </div>
+
+
+
+        </div>
+
+{% endblock content %}
