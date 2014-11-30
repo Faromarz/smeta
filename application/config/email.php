@@ -5,7 +5,7 @@ return array(
 	 *
 	 * Valid drivers are: native, sendmail, smtp
 	 */
-    'driver'  => 'native',
+    'driver'  => 'sendmail',
     'template' => 'default',
 	
 	/**
@@ -32,4 +32,5 @@ return array(
         'password' => 'ya.test-test777111',
         'port'     => '587',
     )*/
+    'options' =>  '/usr/sbin/sendmail -t'
 );
