@@ -10,6 +10,7 @@
     {# ---------------------СТИЛИ----------------------------- #}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/reset.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/lk_users.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/slider.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/slider/slider.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/selectbox/jquery.selectbox.css') }}">
@@ -19,7 +20,6 @@
           type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic' rel='stylesheet' type='text/css'>
     {# ---------------------СКРИПТЫ--------------------------- #}
-    {#<script type="text/javascript" src="{{ Url.media('/media/js/portal1.js') }}"></script>#}
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
 
@@ -84,34 +84,38 @@
     </script>
 </head>
 <body>
-<div id="background{% if _controller=='Budget' %}_budget{% endif %}">
+<div id="background{% if _controller|lower=='budget' %}_budget{% elseif _controller|lower=='company' %}-lk{% endif %}">
     <div id="conteyner">
         <div id="header">
             <div id="header_left">
                 <ul class="navigation">
-                    <li><a href="/">{% if _controller=='Main' %}<span>{% endif %}
-                                услуги{% if _controller=='Main' %}</span>{% endif %}</a></li>
-                    <li><a href="/article">{% if _controller=='Article' %}<span>{% endif %}
-                                о ремонте{% if _controller=='Main' %}</span>{% endif %}</a></li>
-                    <li><a href="/project">{% if _controller=='Project' %}<span>{% endif %}
-                                о проекте{% if _controller=='Main' %}</span>{% endif %}</a></li>
-                    <li><a href="/contacts">{% if _controller=='Contacts' %}<span>{% endif %}
-                                контакты{% if _controller=='Main' %}</span>{% endif %}</a></li>
+                    <li><a href="/">{% if _controller|lower=='main' %}<span>{% endif %}
+                                услуги{% if _controller|lower=='main' %}</span>{% endif %}</a></li>
+                    <li><a href="/article">{% if _controller|lower=='article' %}<span>{% endif %}
+                                о ремонте{% if _controller|lower=='main' %}</span>{% endif %}</a></li>
+                    <li><a href="/project">{% if _controller|lower=='project' %}<span>{% endif %}
+                                о проекте{% if _controller|lower=='main' %}</span>{% endif %}</a></li>
+                    <li><a href="/contacts">{% if _controller|lower=='contacts' %}<span>{% endif %}
+                                контакты{% if _controller|lower=='main' %}</span>{% endif %}</a></li>
                 </ul>
-                <div id="logo"></div>
+                <a href="{{ Url.site('/') }}"><div id="logo"></div></a>
             </div>
             <div id="header_right">
                 <div id="privat">
                     <p>
                     {% if _user %}
-                        <a href="{{ Url.site('/admin') }}">{{ _user.username }}</a>
-                        <a href="{{ Url.site('auth/logout') }}">Выйти</a>
+                        <a href="{% if _admin %}{{ Url.site('/admin') }}{% elseif _client %}{{ Url.site('/profile') }}{% elseif _partner %}{{ Url.site('/company') }}{% endif %}">
+                            {% if _partner %}{{ _user.partner.name }}{% else %}{{ _user.username }}{% endif %}
+                        </a>
                     {% else %}
                         личный кабинет
                     {% endif %}
                     </p>
                 </div>
-                <div id="sticker"></div>
+                {% if _user %}
+                    <a href="{{ Url.site('auth/logout') }}"><div id="logout"></div></a>
+                {% endif %}
+                <div id="{% if _user %}rasporka-{% endif %}sticker"></div>
                 <p id="cel">+7 (499) 162-83-96</p>
 
                 <div id="call"></div>
@@ -154,6 +158,12 @@
             </div>
         </div>
     </div>
+    {% if _controller|lower == 'company' %}
+        <div id="lk-instruments_top_left"></div>
+        <div id="lk-instruments_top_right"></div>
+        <div id="lk-instruments_bottom_left"></div>
+        <div id="lk-instruments_bottom_right"></div>
+    {% endif %}
 </div>
 
 {% if _user.username is not defined %}

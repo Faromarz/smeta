@@ -197,16 +197,22 @@
         <div id="reviews_left_corner">
 
             <div id="partners-content_bottom-left_corner">
-
+                {% if auth=='success' %}
+                    <script>
+                        $(document).ready(function() {
+                            authorization();
+                        });
+                    </script>
+                {% endif %}
                 <div id="partners-content_bottom-left_corner-left">
-
-                    <input placeholder="Название компании" />
-                    <input placeholder="Адрес сайта" />
-                    <input placeholder="Фамилия и имя руководителя" />
-                    <input placeholder="Электронная почта" />
-                    <input placeholder="Контактный телефон" />
-                    <p id="partners-be_partners">Стать партнером</p>
-
+                    <form action="" method="post">
+                        <input type="text" name="company_name" placeholder="Название компании" />
+                        <input type="text" name="site" placeholder="Адрес сайта" />
+                        <input type="text" name="director_name" placeholder="Фамилия и имя руководителя" />
+                        <input type="text" name="email" placeholder="Электронная почта" />
+                        <input type="text" name="phone" placeholder="Контактный телефон" />
+                        <button id="partners-be_partners">Стать партнером</button>
+                    </form>
                 </div>
 
                 <div id="partners-content_bottom-left_corner-right">

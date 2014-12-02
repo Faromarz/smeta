@@ -2,6 +2,13 @@
 
 class Model_User extends Model_Auth_User
 {
+
+    protected $_has_one = array(
+        'partner' => array(
+            'model' => 'Partner',
+            'foreign_key' => 'user_id'
+        )
+    );
     public static function username_available($username)
     {
         $data = ORM::factory('User')->where('username', '=', strtolower($username))->count_all();

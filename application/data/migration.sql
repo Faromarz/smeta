@@ -25,6 +25,8 @@ CREATE TABLE IF NOT EXISTS `partner_works` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+ALTER TABLE  `partners` ADD  `director_name` VARCHAR( 100 ) NOT NULL;
+
 ------------------------ 30.11.2014
 ALTER TABLE `smeta_rooms` ADD `door_enable` BOOLEAN NOT NULL AFTER `materials_enable`;
 ALTER TABLE `smeta_doors` DROP `smeta_rooms_id`;

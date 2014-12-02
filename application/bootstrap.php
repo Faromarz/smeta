@@ -159,6 +159,11 @@ Route::set('budget', 'budget/<name>', array('name'=>'[0-9a-zA-Z]+'))
         'controller' => 'budget',
         'action'     => 'index',
     ));
+Route::set('company', 'company(/<action>(/<id>))')
+    ->defaults(array(
+        'controller' => 'company',
+        'action'     => 'index',
+    ));
 Route::set('partners', 'partners(/<action>(/<id>))')
     ->defaults(array(
         'controller' => 'partners',

@@ -15,5 +15,7 @@ class Model_Work extends ORM
                 return $partner_work->price_econom;
             } else return $this->price;
         } else return $this->price;
+
     }
+
 }
