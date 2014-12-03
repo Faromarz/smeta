@@ -37,5 +37,11 @@ class Controller_Partners extends Controller_Core
                 $this->set('errors', $errors);
             }
         }
+        $partnerCount = ORM::factory('Partner')->count_all();
+        $this->set('partnerCount', $partnerCount);
+        $partners = ORM::factory('Partner')->find_all();
+        $this->set('partners', $partners);
+        $contacts = ORM::factory('Contacts', 1);
+        $this->set('contacts', $contacts);
     }
 }

@@ -81,92 +81,17 @@
         <div class="rasporka100"></div>
 
         <div class="partners-content-for_company">
-
+            {% for partner in partners %}
             <div class="partners-content-company">
-
                 <div class="rate_4 marginl10"></div>
-                <h1>ООО «Название компании»</h1>
-
-
-                <img src="media/img/company01_logo.png">
-
+                <h1>{{ partner.name }}</h1>
+                <img src="media/img/partners/{{ partner.img }}">
                 <h2>Росссия</h2>
                 <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
-                <a href="#">сайт компании</a>
-
+                <p class="partners-content-company-cell">+{{ partner.user.phone }}</p>
+                <a href="{{ partner.site }}">{{ partner.site }}</a>
             </div>
-            <div class="partners-content-company">
-
-                <div class="rate_4 marginl10"></div>
-                <h1>ООО «Название компании»</h1>
-
-
-                <img src="media/img/company01_logo.png">
-
-                <h2>Росссия</h2>
-                <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
-                <a href="#">сайт компании</a>
-
-            </div>
-            <div class="partners-content-company">
-
-                <div class="rate_4 marginl10"></div>
-                <h1>ООО «Название компании»</h1>
-
-
-                <img src="media/img/company01_logo.png">
-
-                <h2>Росссия</h2>
-                <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
-                <a href="#">сайт компании</a>
-
-            </div>
-            <div class="partners-content-company">
-
-                <div class="rate_4 marginl10"></div>
-                <h1>ООО «Название компании»</h1>
-
-
-                <img src="media/img/company01_logo.png">
-
-                <h2>Росссия</h2>
-                <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
-                <a href="#">сайт компании</a>
-
-            </div>
-            <div class="partners-content-company">
-
-                <div class="rate_4 marginl10"></div>
-                <h1>ООО «Название компании»</h1>
-
-
-                <img src="media/img/company01_logo.png">
-
-                <h2>Росссия</h2>
-                <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
-                <a href="#">сайт компании</a>
-
-            </div>
-            <div class="partners-content-company">
-
-                <div class="rate_4 marginl10"></div>
-                <h1>ООО «Название компании»</h1>
-
-
-                <img src="media/img/company01_logo.png">
-
-                <h2>Росссия</h2>
-                <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+7 (XXX) XXX-XX-XX</p>
-                <a href="#">сайт компании</a>
-
-            </div>
-
+            {% endfor %}
         </div>
 
         <div id="partners-content-more">
@@ -179,7 +104,7 @@
 
             <h1>Партнёрство — в доверии</h1>
             <p>Будьте уверены, что взявшись за ремонт — партнёры выполнят работу в оговоренный срок и цену.</p>
-            <p>С нами уже <span>ХХХХ</span> проверенных и надежных компаний.</p>
+            <p>С нами уже <span>{{ partnerCount }}</span> проверенных и надежных компаний.</p>
             <div id="partners_icon">
 
                 <p></p>
@@ -227,7 +152,7 @@
                     </ul>
 
                     <h2>Узнать о условиях и&nbspпартнерских программах вы можете по телефону:</h2>
-                    <h3>+7 (903) 100-71-31</h3>
+                    <h3>+{{contacts.phone_partner}}</h3>
 
                 </div>
 
