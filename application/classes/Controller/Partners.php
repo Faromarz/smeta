@@ -26,6 +26,7 @@ class Controller_Partners extends Controller_Core
                 $partner->site = $site;
                 $partner->name = $company_name;
                 $partner->director_name = $director_name;
+                $partner->spec_id = 1;
                 $partner->save();
                 $config = Kohana::$config->load('email');
                 Email::connect($config);

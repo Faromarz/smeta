@@ -134,6 +134,7 @@ Kohana::modules(array(
 	 'pagination'        => MODPATH.'pagination',
      'email'       => MODPATH.'email',
     'htmlpurifirer' => MODPATH . 'htmlpurifirer',
+    'phpexcel'       => MODPATH.'phpexcel',
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));

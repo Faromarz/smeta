@@ -3,6 +3,21 @@
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/lk_company.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/cms.css') }}">
     <script type="text/javascript" src="{{ Url.media('/media/js/lk_company.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/ajaxupload.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $(".UploadButton").ajaxUpload({
+                url : "{{ Url.site('company/load') }}",
+                name: "file",
+                onSubmit: function() {
+                },
+                onComplete: function(data) {
+                    var result = JSON.parse(data);
+                    alert(result['message']);
+                }
+            });
+        });
+    </script>
     <div id="content">
 
     <p id="lk-your">ваш</p>
@@ -11,7 +26,7 @@
     <p id="lk-content-header">Личный кабинет</p>
 
     <p class="lk-content-header_line">Информация о компании</p>
-
+    <form action="" method="post">
     <div id="lk-content-personal_data">
 
         <div id="lk-company-logo-for_logo">
@@ -29,19 +44,20 @@
 
         <div class="lk-content-personal_data_block">
 
-            <select  class="selectbox3">
+            <select name="spec" class="selectbox3">
                 <option selected disabled >Область специализации</option>
-                <option value="2">Область специализации 1</option>
-                <option value="2">Область специализации 2</option>
-                <option value="3">Область специализации 3</option>
+                {% for item in spec %}
+                    <option value="{{ item.id }}" {% if company.spec_id==item.id %}selected="selected" {% endif %}>{{ item.name }}</option>
+                {% endfor %}
             </select>
+            <br><br>
 
-            <select  class="selectbox3">
-                <option selected disabled >Сегмент рынка</option>
-                <option  value="1">Сегмент рынка 1</option>
-                <option  value="2">Сегмент рынка 2</option>
-                <option  value="3">Сегмент рынка 3</option>
-            </select>
+            {#<select  class="selectbox3">#}
+                {#<option selected disabled >Сегмент рынка</option>#}
+                {#<option  value="1">Сегмент рынка 1</option>#}
+                {#<option  value="2">Сегмент рынка 2</option>#}
+                {#<option  value="3">Сегмент рынка 3</option>#}
+            {#</select>#}
 
             <input type="text" name="site" value="{{ company.site }}" placeholder="Адрес сайта"/>
             <input type="text" name="email" value="{{ _user.email }}" placeholder="Электронная почта" />
@@ -62,25 +78,52 @@
 
                 <div class="flag" id="rus_flag"></div>
 
-                <div id="rus_select">
-                    <select  class="selectbox2">
-                        <option disabled>Ленинградская область</option>
-                        <option  value="Санкт-Петербур">Санкт-Петербург</option>
-                        <option disabled>Московская область</option>
-                        <option  value="Москва">Москва</option>
-                        <option disabled>Томская область</option>
-                        <option  value="Томск">Томск</option>
+                <div class="flag_select" {% if company.city.country.id==1 or company.city.id is not defined %}style="display: block"{% endif %}>
+                    <select  class="selectbox2" name="rus_country">
+                        {% for city in cities %}
+                            {% if city.country_id==1 %}
+                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                            {% endif %}
+                        {% endfor %}
                     </select>
                 </div>
 
                 <div class="repair_company_rasporka"></div>
 
                 <div class="flag" id="uk_flag"></div>
-                <div id="uk_select">
-                    <select   class="selectbox2">
-                        <option  value="Санкт-Петербур">Киев</option>
-                        <option  value="Москва">Житомир</option>
-                        <option  value="Томск">Львов</option>
+                <div class="flag_select" {% if company.city.country.id==1 %}style="display: block"{% endif %}>
+                    <select class="selectbox2" name="uk_country" disabled>
+                        {% for city in cities %}
+                            {% if city.country_id==2 %}
+                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="repair_company_rasporka"></div>
+
+                <div class="flag" id="by_flag"></div>
+                <div class="flag_select" {% if company.city.country.id==1 %}style="display: block"{% endif %}>
+                    <select class="selectbox2" name="by_country" disabled>
+                        {% for city in cities %}
+                            {% if city.country_id==3 %}
+                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="repair_company_rasporka"></div>
+
+                <div class="flag" id="kaz_flag"></div>
+                <div class="flag_select" {% if company.city.country.id==1 %}style="display: block"{% endif %}>
+                    <select class="selectbox2" name="kaz_country" disabled>
+                        {% for city in cities %}
+                            {% if city.country_id==4 %}
+                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                            {% endif %}
+                        {% endfor %}
                     </select>
                 </div>
 
@@ -96,7 +139,7 @@
             <div class="lk-content-data_company">
 
                 <p>Cредний опыт работы&nbsp;сотрудников</p>
-                <input value="XX">
+                <input type="text" name="experience" value="{{ company.experience }}">
                 <h1>лет</h1>
 
             </div>
@@ -105,7 +148,7 @@
             <div class="lk-content-data_company">
 
                 <p>Дата формирования компании:</p>
-                <input value="XXXX">
+                <input type="text" name="date" value="{{ company.date }}">
                 <h1>г.</h1>
 
             </div>
@@ -114,7 +157,7 @@
             <div class="lk-content-data_company">
 
                 <p>Количество завершённых ремонтных проектов:</p>
-                <input value="XXXX">
+                <input type="text" name="success_works" value="{{ company.success_works }}">
 
             </div>
 
@@ -122,7 +165,7 @@
             <div class="lk-content-data_company">
 
                 <p>Количество сотрудников в&nbsp;компании:</p>
-                <input value="XXXX">
+                <input type="text" name="workers" value="{{ company.workers }}">
                 <h1>человек</h1>
 
             </div>
@@ -133,10 +176,10 @@
 
         <h6>Для корректного отображения вашей компании в списках поставщиков услуг необходимо заполнить все поля</h6>
 
-        <p id="lk_company-content-save_change">Сохранить изменения</p>
+        <button id="lk_company-content-save_change">Сохранить изменения</button>
 
     </div>
-
+    </form>
 
 
 
@@ -375,8 +418,8 @@
             расценки на типовые услуги, указаные ниже. </p>
 
         <p class="lk_company-price-info2">Вы можете заполнить шаблон в формате excel и позже
-            <a href="#">загрузить</a> на сервер в удобное для вас время.
-            Скачать&nbspшаблон можно <a href="#">здесь</a></p>
+            <span class="UploadButton"><a href="#">загрузить</a></span> на сервер в удобное для вас время.
+            Скачать&nbspшаблон можно <a href="{{ Url.media('media/upload/Prices.xls') }}">здесь</a></p>
 
         <div class="rasporka100"></div>
 
@@ -495,7 +538,7 @@
 
 
 
-        <p class="lk_company-price-info3">Вы можете заполнить шаблон в формате excel и позже <a href="#">загрузить</a> на сервер в удобное для вас время. Скачать шаблон можно <a href="#">здесь</a></p>
+        <p class="lk_company-price-info3">Вы можете заполнить шаблон в формате excel и позже <span class="UploadButton"><a href="#">загрузить</a></span> на сервер в удобное для вас время. Скачать шаблон можно <a href="{{  Url.media('media/upload/Prices.xls') }}">здесь</a></p>
 
 
     </div>

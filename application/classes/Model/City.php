@@ -12,6 +12,13 @@ class Model_City extends ORM
         )
     );
 
+    protected $_belongs_to = array(
+        'country' => array(
+            'model'   => 'Country',
+            'foreign_key'   => 'country_id',
+        )
+    );
+
     public function __toString()
     {
         return (string) $this->city;

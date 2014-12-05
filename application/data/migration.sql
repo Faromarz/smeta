@@ -9,14 +9,14 @@ ALTER TABLE  `cities` ADD  `price_coef` INT( 11 ) NOT NULL DEFAULT  '1' COMMENT 
 
 
 CREATE TABLE IF NOT EXISTS `partner_cities` (
-`id` int(11) NOT NULL,
+`id` int(11) NOT NULL  AUTO_INCREMENT,
   `partner_id` int(11) NOT NULL,
   `city_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `partner_works` (
-`id` int(11) NOT NULL,
+`id` int(11) NOT NULL  AUTO_INCREMENT,
   `partner_id` int(11) NOT NULL,
   `work_id` int(11) NOT NULL,
   `price_econom` decimal(20,2) DEFAULT NULL,
@@ -32,3 +32,19 @@ ALTER TABLE `smeta_rooms` ADD `door_enable` BOOLEAN NOT NULL AFTER `materials_en
 ALTER TABLE `smeta_doors` DROP `smeta_rooms_id`;
 ALTER TABLE `smeta_doors` ADD `is_room` BOOLEAN NOT NULL COMMENT 'Дверь дополнительная или для комнат' ;
 ------------------------ 30.11.2014
+
+------------------------ 04.12.2014
+CREATE TABLE IF NOT EXISTS `partner_spec` (
+`id` int(11) NOT NULL  AUTO_INCREMENT,
+  `name` VARCHAR( 255 ) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `partner_spec` (`id`, `name`) VALUES (NULL, 'Ремонтные компании'), (NULL, 'Ремонтные бригады'), (NULL, 'Интернет-магазины'), (NULL, 'Поставщики окон'), (NULL, 'Монтаж потолков');
+
+ALTER TABLE  `partners` ADD  `spec_id` int(11) NOT NULL;
+ALTER TABLE  `partners` ADD  `experience` decimal(20,2) NOT NULL;
+ALTER TABLE  `partners` ADD  `date` date NOT NULL;
+ALTER TABLE  `partners` ADD  `success_works` int(11) NOT NULL;
+ALTER TABLE  `partners` ADD  `workers` int(11) NOT NULL;
+------------------------ 04.12.2014

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $("#rus_flag, #uk_flag, #by_flag, #kaz_flag").on("click", change_flag);
+
     $(".selectbox3").selectbox({
         classHolder: 'sbHolder3',
         classSelector: 'sbSelector3',
@@ -33,7 +35,12 @@ $(document).ready(function () {
 
 });
 
-
+function change_flag(){
+    $('.flag_select').hide();
+    $('.flag_select').children().attr('disabled','disabled');
+    $(this).next().show();
+    $(this).next().children().removeAttr('disabled');
+}
 
 function change_photo(){
     $("#overlap").show();

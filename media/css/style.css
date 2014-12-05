@@ -2067,9 +2067,9 @@ a {
 }
 
 #rus_flag{
-    width: 33px;
-    height: 22px;
-    background: url("../img/flag_rus.gif");
+    width: 32px;
+    height: 32px;
+    background: url("../img/flag_rus.png");
     float: left;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -2077,16 +2077,36 @@ a {
 }
 
 #uk_flag{
-    width: 33px;
-    height: 22px;
-    background: url("../img/flag_ua.gif");
+    width: 32px;
+    height: 32px;
+    background: url("../img/flag_ua.png");
     float: left;
     margin-top: 5px;
     margin-bottom: 10px;
     cursor: pointer;
 }
 
-#uk_select{
+#kaz_flag{
+    width: 32px;
+    height: 32px;
+    background: url("../img/flag_kaz.png");
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#by_flag{
+    width: 32px;
+    height: 32px;
+    background: url("../img/flag_by.png");
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.flag_select{
     display: none;
 }
 
