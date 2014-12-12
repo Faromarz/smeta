@@ -2,12 +2,24 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/lk_company.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/cms.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/datepicker/css/style.css') }}">
+    <script type="text/javascript" src="{{ Url.media('/media/libs/datepicker/js/calendar.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/lk_company.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/js/ajaxupload.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             $(".UploadButton").ajaxUpload({
                 url : "{{ Url.site('company/load') }}",
+                name: "file",
+                onSubmit: function() {
+                },
+                onComplete: function(data) {
+                    var result = JSON.parse(data);
+                    alert(result['message']);
+                }
+            });
+            $(".upload_logo").ajaxUpload({
+                url : "{{ Url.site('company/load_logo') }}",
                 name: "file",
                 onSubmit: function() {
                 },
@@ -31,13 +43,13 @@
 
         <div id="lk-company-logo-for_logo">
             <div id="lk_company-logo"></div>
-            <div class="lk_company-logo-load"><p>загрузить</p></div>
+            <div class="lk_company-logo-load upload_logo"><p>загрузить</p></div>
         </div>
 
         <div class="lk-content-personal_data_block">
 
-            <input type="text" name="copmany_name" value="{{ company.name }}" placeholder="Название компании"/>
-            <textarea name="copmany_desc" value="{{ company.descript }}" placeholder="Текст о компании (не более 330 знаков)"></textarea>
+            <input type="text" name="company_name" value="{{ company.name }}" placeholder="Название компании"/>
+            <textarea name="company_desc" placeholder="Текст о компании (не более 330 знаков)">{{ company.descript }}</textarea>
 
 
         </div>
@@ -78,11 +90,11 @@
 
                 <div class="flag" id="rus_flag"></div>
 
-                <div class="flag_select" {% if company.city.country.id==1 or company.city.id is not defined %}style="display: block"{% endif %}>
+                <div class="flag_select" {% if company.city.find().country_id==1 or company.city.id is not defined %}style="display: block"{% endif %}>
                     <select  class="selectbox2" name="rus_country">
                         {% for city in cities %}
                             {% if city.country_id==1 %}
-                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                                <option  value="{{ city.id }}" {% if company.city.find().id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
@@ -91,11 +103,11 @@
                 <div class="repair_company_rasporka"></div>
 
                 <div class="flag" id="uk_flag"></div>
-                <div class="flag_select" {% if company.city.country.id==1 %}style="display: block"{% endif %}>
+                <div class="flag_select" {% if company.city.find().country_id==2 %}style="display: block"{% endif %}>
                     <select class="selectbox2" name="uk_country" disabled>
                         {% for city in cities %}
                             {% if city.country_id==2 %}
-                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                                <option  value="{{ city.id }}" {% if company.city.find().id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
@@ -104,11 +116,11 @@
                 <div class="repair_company_rasporka"></div>
 
                 <div class="flag" id="by_flag"></div>
-                <div class="flag_select" {% if company.city.country.id==1 %}style="display: block"{% endif %}>
+                <div class="flag_select" {% if company.city.find().country_id==3 %}style="display: block"{% endif %}>
                     <select class="selectbox2" name="by_country" disabled>
                         {% for city in cities %}
                             {% if city.country_id==3 %}
-                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                                <option  value="{{ city.id }}" {% if company.city.find().id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
@@ -117,11 +129,11 @@
                 <div class="repair_company_rasporka"></div>
 
                 <div class="flag" id="kaz_flag"></div>
-                <div class="flag_select" {% if company.city.country.id==1 %}style="display: block"{% endif %}>
+                <div class="flag_select" {% if company.city.find().country_id==4 %}style="display: block"{% endif %}>
                     <select class="selectbox2" name="kaz_country" disabled>
                         {% for city in cities %}
                             {% if city.country_id==4 %}
-                                <option  value="{{ city.id }}" {% if company.city.id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
+                                <option  value="{{ city.id }}" {% if company.city.find().id==city.id %}selected="selected" {% endif %}>{{ city.city }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
@@ -148,7 +160,7 @@
             <div class="lk-content-data_company">
 
                 <p>Дата формирования компании:</p>
-                <input type="text" name="date" value="{{ company.date }}">
+                <input type="text" class="date-picker" style="width: 150px" name="date" value="{% if company.date=='1970-01-01' %}{{ now }}{% else %}{{ company.date|date('d.m.Y') }}{% endif %}">
                 <h1>г.</h1>
 
             </div>

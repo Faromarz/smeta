@@ -7,24 +7,24 @@ class Controller_Company extends Controller_Core
         if($this->partner){
             $company = $this->user->partner;
             if($this->request->post()){
-                $company->name = (string) Arr::get($_POST, 'copmany_name', '');
-                $company->descript = (string) Arr::get($_POST, 'copmany_desc', '');
+                $company->name = (string) Arr::get($_POST, 'company_name', '');
+                $company->descript = (string) Arr::get($_POST, 'company_desc', '');
                 $company->spec_id = (int) Arr::get($_POST, 'spec', 0);
                 $company->site = (string) Arr::get($_POST, 'site', '');
-                $company->experience = (float) Arr::get($_POST, 'site', '');
-                $company->date = date('Y-m-d', Arr::get($_POST, 'site', ''));
-                $company->success_works = (int) Arr::get($_POST, 'site', '');
-                $company->workers = (int) Arr::get($_POST, 'site', '');
+                $company->experience = (float) Arr::get($_POST, 'experience', '');
+                $company->date = date('Y-m-d', strtotime(Arr::get($_POST, 'date', '')));
+                $company->success_works = (int) Arr::get($_POST, 'success_works', '');
+                $company->workers = (int) Arr::get($_POST, 'workers', '');
                 $company->save();
 
                 $user=$company->user;
                 $user->email = (string) Arr::get($_POST, 'email', '');
                 $user->save();
 
-                $city = (int) Arr::get($_POST, 'rus_country', 0)>0?(int) Arr::get($_POST, 'rus_country', 0):
-                    (int) Arr::get($_POST, 'uk_country', 0)>0?(int) Arr::get($_POST, 'uk_country', 0):
-                    (int) Arr::get($_POST, 'by_country', 0)>0?(int) Arr::get($_POST, 'by_country', 0):
-                    (int) Arr::get($_POST, 'kaz_country', 0)>0?(int) Arr::get($_POST, 'kaz_country', 0):0;
+                $city = (int) Arr::get($_POST, 'rus_country', 0)>0? (int) Arr::get($_POST, 'rus_country', 0):
+                    ((int) Arr::get($_POST, 'uk_country', 0)>0? (int) Arr::get($_POST, 'uk_country', 0):
+                        ((int) Arr::get($_POST, 'by_country', 0)>0? (int) Arr::get($_POST, 'by_country', 0):
+                        ((int) Arr::get($_POST, 'kaz_country', 0)>0? (int) Arr::get($_POST, 'kaz_country', 0):0)));
 
                 $partner_cities = ORM::factory('Partner_City')->where('partner_id','=',$company->id)->find_all();
                 foreach($partner_cities as $item){
@@ -37,7 +37,7 @@ class Controller_Company extends Controller_Core
             }
             $cities = ORM::factory('City')->where('country_id','in',array(1,2,3,4))->and_where('biggest_city','=',1)->order_by('city','ASC')->find_all();
             $spec = ORM::factory('Partner_Spec')->find_all();
-            $this->set('company', $company)->set('cities', $cities)->set('spec', $spec);
+            $this->set('company', $company)->set('cities', $cities)->set('spec', $spec)->set('now',date('d.m.Y'));
         }else throw new HTTP_Exception_404;
     }
 
