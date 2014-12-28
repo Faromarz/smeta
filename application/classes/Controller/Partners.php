@@ -40,9 +40,11 @@ class Controller_Partners extends Controller_Core
         }
         $partnerCount = ORM::factory('Partner')->count_all();
         $this->set('partnerCount', $partnerCount);
-        $partners = ORM::factory('Partner')->find_all();
+        $partners = ORM::factory('Partner')->where('group', '=', 1)->find_all();
         $this->set('partners', $partners);
         $contacts = ORM::factory('Contacts', 1);
         $this->set('contacts', $contacts);
+        $categories = ORM::factory('Partner_Spec')->find_all();
+        $this->set('categories', $categories);
     }
 }

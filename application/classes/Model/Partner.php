@@ -16,6 +16,10 @@ class Model_Partner extends ORM
         'user' => array(
             'model'   => 'User',
             'foreign_key'   => 'user_id',
+        ),
+        'group' => array(
+            'model'   => 'Partner_Spec',
+            'foreign_key'   => 'group',
         )
     );
 

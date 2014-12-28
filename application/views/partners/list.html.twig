@@ -1,0 +1,11 @@
+{% for partner in partners %}
+    <div class="partners-content-company">
+        <div class="rate_4 marginl10"></div>
+        <h1>{{ partner.name }}</h1>
+        <img src="media/img/partners/{{ partner.img }}">
+        <h2>Росссия</h2>
+        <p class="partners-content-company-town">Город</p>
+        <p class="partners-content-company-cell">+{{ partner.user.phone }}</p>
+        <a href="{{ partner.site }}">{{ partner.site }}</a>
+    </div>
+{% endfor %}

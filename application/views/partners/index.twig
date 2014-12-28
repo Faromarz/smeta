@@ -2,11 +2,11 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/partners/partners.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/css/cms.css') }}">
+    <script src="/media/js/partners_page/partner.js" type="text/javascript"></script>
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script type="text/javascript">
         ymaps.ready(init);
         var myMap;
-
         function init(){
             myMap = new ymaps.Map("partners-content-map", {
                 center: [55.54, 43.77],
@@ -14,7 +14,6 @@
                 controls: []
 
             });
-
         }
     </script>
     <div id="content">
@@ -35,10 +34,10 @@
 
         <div id="partners-category">
 
-            <select  class="selectbox2">
-                <option  value="1">Категория 1</option>
-                <option  value="2">Категория 2</option>
-                <option  value="3">Категория 3</option>
+            <select class="selectbox2" id="categoriesPartner">
+                {% for cat in categories%}
+                <option  value="{{cat.id}}">{{cat.name}}</option>
+                {% endfor %}
             </select>
 
         </div>
@@ -73,23 +72,13 @@
 
         <div class="rasporka100"></div>
 
-        <div class="partners-content-for_company">
-            {% for partner in partners %}
-            <div class="partners-content-company">
-                <div class="rate_4 marginl10"></div>
-                <h1>{{ partner.name }}</h1>
-                <img src="media/img/partners/{{ partner.img }}">
-                <h2>Росссия</h2>
-                <p class="partners-content-company-town">Город</p>
-                <p class="partners-content-company-cell">+{{ partner.user.phone }}</p>
-                <a href="{{ partner.site }}">{{ partner.site }}</a>
-            </div>
-            {% endfor %}
+        <div class="partners-content-for_company" id="partnersList">
+            {% include "partners/list.html.twig" %}
         </div>
 
-        <div id="partners-content-more">
+        {#<div id="partners-content-more">
             <p>ПОКАЗАТЬ ЕЩЕ</p>
-        </div>
+        </div>#}
 
         <div id="partners-content-partners">
             <h1>Партнёрство — в доверии</h1>
