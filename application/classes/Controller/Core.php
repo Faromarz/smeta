@@ -22,13 +22,14 @@ class Controller_Core extends Controller_Kotwig {
             $this->set('_admin', $this->admin);
         }
         if ($this->user) {
-            $this->client = $this->user->has('roles', ORM::factory('Role', array('name' => 'client')));
-            $this->set('_client', $this->client);
-        }
-        if ($this->user) {
             $this->partner = $this->user->has('roles', ORM::factory('Role', array('name' => 'partner')));
             $this->set('_partner', $this->partner);
         }
+        if ($this->user) {
+            $this->client = $this->user->has('roles', ORM::factory('Role', array('name' => 'client')));
+            $this->set('_client', $this->client);
+        }
+        
         $this->set('_token', Security::token());
         $this->set('_title', '');
         $this->set('_description', '');

@@ -1,0 +1,153 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link href="{{ Url.media('/media/css/reset.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/style.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/page_profile/lk_users.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/selectbox/jquery.selectbox.css') }}" rel="stylesheet" type="text/css"/>
+    
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
+    
+    <script type="text/javascript" src="{{ Url.media('/media/js/portal.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/page_profile/lk_users.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
+    
+    <div id="content">
+
+            <p id="lk-your">ваш</p>
+
+
+            <p id="lk-content-header">Личный кабинет</p>
+
+            <div id="lk-content-personal_data">
+
+                <h1>Персональная информация</h1>
+
+                <input id="lk-content-second_name" placeholder="Фамилия"    />
+                <input id="lk-content-name" placeholder="Имя"    />
+                <input id="lk-content-middle_name" placeholder="Отчество"    />
+                <label for="lk-content-date_of_birth">Дата рождения:</label><input id="lk-content-date_of_birth" placeholder="ДД.ММ.ГГГГ" />
+                <input id="lk-content-phone" placeholder="Контактный номер телефона" />
+                <input id="lk-content-mail" placeholder="Электронная почта"/>
+                <label for="lk-content-pasport_data1">Паспортные данные:</label><input id="lk-content-pasport_data1" placeholder="XXXX" />
+                <input id="lk-content-pasport_data2" placeholder="XXXXXX" />
+                <input id="lk-content-extradited" placeholder="Кем выдан"/>
+                <input id="lk-content-extradite_date" placeholder="ДД.ММ.ГГГГ"/>
+
+                <div id="lk-content-location_title">
+
+                    <p>Территориальная привязка вашей недвижимости:</p>
+                    <h2>Даная информация необходима для корректного расчета&nbspстоимости материалов и подбора ремонтных&nbspкомпаний.</h2>
+
+                </div>
+
+                <div id="lk-content-location">
+
+                    <div id="rus_flag" class="flag"></div>
+
+                    <div id="rus_select">
+                        <select  class="selectbox2">
+                            <option disabled>Ленинградская область</option>
+                            <option  value="Санкт-Петербур">Санкт-Петербург</option>
+                            <option disabled>Московская область</option>
+                            <option  value="Москва">Москва</option>
+                            <option disabled>Томская область</option>
+                            <option  value="Томск">Томск</option>
+                        </select>
+                    </div>
+
+                    <div class="repair_company_rasporka"></div>
+
+                    <div id="uk_flag" class="flag"></div>
+                    <div id="uk_select">
+                        <select   class="selectbox2">
+                            <option  value="Санкт-Петербур">Киев</option>
+                            <option  value="Москва">Житомир</option>
+                            <option  value="Томск">Львов</option>
+                        </select>
+                    </div>
+
+                    <div class="repair_company_rasporka"></div>
+
+                </div>
+
+                <p id="lk-content-note">ФИО, дата рождения и паспортные данные необходимы для формирования онлайн-договора, при заказе ремонта.</p>
+
+                <p id="lk-content-save_change">Сохранить изменения</p>
+
+                <p id="lk-content-change_password">изменить пароль к личному кабинету</p>
+
+                <div id="lk-content-for_password">
+
+                    <input placeholder="Новый пароль"/>
+                    <input placeholder="Введите новый пароль повторно"/>
+
+                </div>
+                <p id="lk-content-save_password">изменить пароль</p>
+
+                <div class="repair_company_rasporka"></div>
+
+            </div>
+
+
+            <div id="lk-your_smeta">
+
+                <p id="lk-your_smeta-header">ваша смета</p>
+
+                <div id="lk-your_smeta-for_price">
+
+                    <dl>
+                        <dt>Стоимость материалов:</dt>
+                        <dd>XXX XXX р.</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>Стоимость работ:</dt>
+                        <dd>XXX XXX р.</dd>
+                    </dl>
+
+
+
+                </div>
+
+                <h1>Скачать смету:</h1>
+                <a href="#" class="xls"></a>
+                <a href="#" class="pdf"></a>
+
+            </div>
+
+            <p id="lk-content-make_repairs">Закажите ремонт в вашей квартире по рассчитанной смете</p>
+            <div class="repair_company_rasporka"></div>
+
+
+        </div>
+
+        <div id="content_bottom">
+
+            <div id="reviews_left_corner">
+
+                <div id="lk-content_bottom-left_corner">
+
+                    <p id="lk-content_bottom-left_corner_conclude_contract">Заключить договор на ремонт</p>
+                    <h1>Напомним, что для заключения договора необходимо, чтобы поля ФИО, даты рождения и&nbspданных паспорта были заполнены (выше, в&nbspразделе «Персональная информация»).</h1>
+
+                </div>
+
+            </div>
+
+
+            <div id="reviews_right_corner">
+
+                <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+                <h2>при заказав ремонта от 100 000 рублей </h2>
+                <a href="#">Узнать подробности</a>
+
+            </div>
+
+
+
+        </div>
+
+{% endblock content %}

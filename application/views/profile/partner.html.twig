@@ -1,0 +1,623 @@
+{% extends "layout/html.twig" %}
+{% block content %}
+    <link href="{{ Url.media('/media/css/reset.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/style.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/page_profile/lk_users.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/page_profile/lk_company.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/css/cms.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ Url.media('/media/libs/selectbox/jquery.selectbox.css') }}" rel="stylesheet" type="text/css"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
+    
+    <script type="text/javascript" src="{{ Url.media('/media/js/portal.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/page_profile/lk_company.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
+    
+    
+    <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}"/>
+    <script src="{{ Url.media('/media/libs/metronic/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('media/libs/metronic/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js') }}" type="text/javascript"></script>
+    <script src="{{ Url.media('/media/libs/metronic/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js') }}" type="text/javascript"></script>
+    
+    
+    <div id="content">
+            <p id="lk-your">ваш</p>
+            <p id="lk-content-header">Личный кабинет</p>
+            <p class="lk-content-header_line">Информация о компании</p>
+
+            <div id="lk-content-personal_data">
+                <div id="lk-company-logo-for_logo">
+                    <div id="lk_company-logo" style='background:  url("{{ Url.media('/imagefly/w116-h116/'~_user.partner.getLogo) }}") no-repeat 50% 50% #ffffff;'></div>
+                    <div class="lk_company-logo-load">
+                        <p class="btn btn-success fileinput-button">
+                            <span>Изменить</span>
+                            <input id="uploadLogoPartner" type="file" name="img" data-url="/profile/saveimg/{{_user.partner.id}}">
+                        </p>
+                    </div>
+                     <script>
+                        $(document).ready(function(){
+                            $(function () {
+                                $('#uploadLogoPartner').fileupload({
+                                    dataType: 'json',
+                                    fail: function (e, data) {
+                                        alert('Error upload');
+                                    },
+                                    done: function (e, data) {
+                                        $('#lk_company-logo').attr('style', 'background:url("'+data.result.file+'") no-repeat 50% 50% #ffffff;');
+                                        alert('Логотип изменен');
+                                    },
+                                    add: function (e, data) {
+                                        if(confirm('Загрузить новый логотип? Старый будет удален.')){
+                                            data.submit();
+                                        }
+                                    }
+                                })
+                                    .prop('disabled', !$.support.fileInput)
+                                    .parent().addClass($.support.fileInput ? undefined : 'disabled');
+                            });
+                        });
+                    </script>
+                </div>
+
+                <div class="lk-content-personal_data_block">
+                    <input placeholder="Название компании" value="{{_user.partner.name}}"/>
+                    <textarea placeholder="Текст о компании (не более 330 знаков)">{{_user.partner.descript}}</textarea>
+                </div>
+
+                <div class="lk-content-personal_data_block">
+
+                    <select  class="selectbox3">
+                        <option selected disabled >Область специализации</option>
+                        <option value="2">Область специализации 1</option>
+                        <option value="2">Область специализации 2</option>
+                        <option value="3">Область специализации 3</option>
+                    </select>
+
+                    <select  class="selectbox3">
+                        <option selected disabled >Сегмент рынка</option>
+                        <option  value="1">Сегмент рынка 1</option>
+                        <option  value="2">Сегмент рынка 2</option>
+                        <option  value="3">Сегмент рынка 3</option>
+                    </select>
+
+                    <input placeholder="Адрес сайта" value="{{_user.partner.site}}"/>
+                    <input placeholder="Электронная почта" value="{{_user.email}}" />
+
+                </div>
+
+            </div>
+
+            <div id="lk-content-personal_data-geo_and_data">
+
+                <div id="lk-content-personal_data-geo">
+
+                    <p>Территориальная привязка вашей компании:</p>
+
+                    <div id="lk-content-location">
+
+                        <div class="flag" id="rus_flag"></div>
+
+                        <div id="rus_select">
+                            <select  class="selectbox2">
+                                <option disabled>Ленинградская область</option>
+                                <option  value="Санкт-Петербур">Санкт-Петербург</option>
+                                <option disabled>Московская область</option>
+                                <option  value="Москва">Москва</option>
+                                <option disabled>Томская область</option>
+                                <option  value="Томск">Томск</option>
+                            </select>
+                        </div>
+
+                        <div class="repair_company_rasporka"></div>
+
+                        <div class="flag" id="uk_flag"></div>
+                        <div id="uk_select">
+                            <select   class="selectbox2">
+                                <option  value="Санкт-Петербур">Киев</option>
+                                <option  value="Москва">Житомир</option>
+                                <option  value="Томск">Львов</option>
+                            </select>
+                        </div>
+
+                        <div class="repair_company_rasporka"></div>
+
+                    </div>
+
+                </div>
+
+                <div id="lk-content-data_company">
+
+
+                    <div class="lk-content-data_company">
+
+                        <p>Cредний опыт работы&nbsp;сотрудников</p>
+                        <input value="XX">
+                        <h1>лет</h1>
+
+                    </div>
+
+
+                    <div class="lk-content-data_company">
+
+                        <p>Дата формирования компании:</p>
+                        <input value="XXXX">
+                        <h1>г.</h1>
+
+                    </div>
+
+
+                    <div class="lk-content-data_company">
+
+                        <p>Количество завершённых ремонтных проектов:</p>
+                        <input value="XXXX">
+
+                    </div>
+
+
+                    <div class="lk-content-data_company">
+
+                        <p>Количество сотрудников в&nbsp;компании:</p>
+                        <input value="XXXX">
+                        <h1>человек</h1>
+
+                    </div>
+
+                </div>
+
+                <div class="rasporka100"></div>
+
+                <h6>Для корректного отображения вашей компании в списках поставщиков услуг необходимо заполнить все поля</h6>
+
+                <p id="lk_company-content-save_change">Сохранить изменения</p>
+
+            </div>
+
+
+
+
+
+            <div id="lk_company-worker">
+
+                <h1>Ваша команда</h1>
+
+                <div class="lk_company-worker-for_block">
+                   <div class="lk_company-worker-block">
+
+                    <div class="lk_company-worker-block-photo"></div>
+                    <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
+                    <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
+                    <input placeholder="Имя"/>
+                    <input placeholder="Фамилия" />
+                    <input placeholder="Должность"/>
+
+                    <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
+
+
+                </div>
+                   <div class="lk_company-worker-block_close"></div>
+                </div>
+
+                <div class="lk_company-worker-for_block">
+                    <div class="lk_company-worker-block">
+
+                    <div class="lk_company-worker-block-photo"></div>
+                    <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
+                    <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
+                    <input placeholder="Имя"/>
+                    <input placeholder="Фамилия" />
+                    <input placeholder="Должность"/>
+
+                    <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
+
+
+                </div>
+                    <div class="lk_company-worker-block_close"></div>
+                </div>
+
+
+                <p id="lk_company-worker-add">Добавить сотрудника</p>
+
+
+            </div>
+            <div id="lk_company-worker_icon">
+
+                <p></p>
+
+            </div>
+
+
+            <div id="lk_company-discount">
+
+                <h1>Скидки клиентам</h1>
+
+                <h2>Определите процент скидки (при расчетах учитывается автоматически) в зависимости от общей суммы ремонта:</h2>
+
+                <div id="lk_company-discount-for_block">
+
+                    <div class="lk_company-discount-block">
+
+                        <h6>При заказе ремонта на сумму</h6>
+                        <h5>от 30 000 до 200 000 р.</h5>
+                        <h3>Ваша скидка:</h3>
+                        <input value="XX" />
+                        <h3><span>%</span></h3>
+
+                    </div>
+
+
+                    <div class="lk_company-discount-block">
+
+                        <h6>При заказе ремонта на сумму</h6>
+                        <h5>от 201 000 до 600 000 р.</h5>
+                        <h3>Ваша скидка:</h3>
+                        <input value="XX" />
+                        <h3><span>%</span></h3>
+
+                    </div>
+
+
+                    <div class="lk_company-discount-block">
+
+                        <h6>При заказе ремонта на сумму</h6>
+                        <h5>от 600 000 р. и более</h5>
+                        <h3>Ваша скидка:</h3>
+                        <input value="XX" />
+                        <h3><span>%</span></h3>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+                <div id="lk_company-discount_icon">
+
+                    <p></p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div id="lk_company-examples_works">
+
+                <h1>Примеры работ</h1>
+
+                <h2>Эконом</h2>
+
+                <div class="lk_company-examples_works-for_block">
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-add">
+                            <p>+</p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="rasporka100"></div>
+
+
+                <h2>Стандарт</h2>
+
+                <div class="lk_company-examples_works-for_block">
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-img" style="background: url('media/img/company/company1/econom/example1.jpg') 50% 50%; background-size: cover"></div>
+                        <div class="lk_company-examples_works-block-change">
+                            <p>изменить</p>
+                        </div>
+                    </div>
+
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-add">
+                            <p>+</p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="rasporka100"></div>
+
+
+                <h2>Премиум</h2>
+
+                <div class="lk_company-examples_works-for_block">
+
+                    <div class="lk_company-examples_works-block">
+                        <div class="lk_company-examples_works-block-add">
+                            <p>+</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="rasporka100 marginb60"></div>
+
+
+
+            </div>
+            <div id="lk_company-examples_works_icon">
+
+                <p></p>
+
+            </div>
+
+
+
+
+            <div id="lk_company-price">
+
+                <h1>Прайс-лист на оказание услуг</h1>
+
+                <p class="lk_company-price-info1">Для того, чтобы ваша компания отображалась в списках
+                    поставщиков услуг при расчете сметы, вам необходимо указать
+                    расценки на типовые услуги, указаные ниже. </p>
+
+                <p class="lk_company-price-info2">Вы можете заполнить шаблон в формате excel и позже
+                    <a href="#">загрузить</a> на сервер в удобное для вас время.
+                    Скачать&nbspшаблон можно <a href="#">здесь</a></p>
+
+                <div class="rasporka100"></div>
+
+
+                <div class="lk_company-price-block">
+
+                    <div class="lk_company-price-block-header lk_company-price-block-header-up">
+
+                        <h2>Демонтажные работы</h2>
+                        <h3>Эконом</h3>
+                        <h3>Стандарт</h3>
+                        <h3>Премиум</h3>
+
+                    </div>
+
+                    <ul>
+
+                        <li>
+                            <p class="lk_company-price-block-number">1</p>
+                            <p class="lk_company-price-block-name">Окна</p>
+                            <input value="XXXX,XX" />
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p>р./шт.</p>
+                        </li>
+                        <li>
+                            <p class="lk_company-price-block-number">2</p>
+                            <p class="lk_company-price-block-name">Дверь входная</p>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p class="lk_company-price-block-measure">р./м²</p>
+                        </li>
+                        <li>
+                            <p class="lk_company-price-block-number">3</p>
+                            <p class="lk_company-price-block-name">Снятие линолеума, ковролина, ламината (без сохранения)</p>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p class="lk_company-price-block-measure">р./м.п.</p>
+                        </li>
+                        <li>
+                            <p class="lk_company-price-block-number">4</p>
+                            <p class="lk_company-price-block-name">Ванна</p>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p class="lk_company-price-block-measure">р./м²</p>
+                        </li>
+
+                    </ul>
+                    <div class="lk_company-price-block-rasporka"></div>
+
+                </div>
+
+                <div class="lk_company-price-for_save_change">
+                    <p id="dismantling" class="lk_company-price-save_change">Сохранить изменения</p>
+               </div>
+
+
+
+                <div class="lk_company-price-block">
+
+                    <div class="lk_company-price-block-header lk_company-price-block-header-up">
+
+                        <h2>Монтажные работы</h2>
+                        <h3>Эконом</h3>
+                        <h3>Стандарт</h3>
+                        <h3>Премиум</h3>
+
+                    </div>
+
+                    <ul>
+
+                        <li>
+                            <p class="lk_company-price-block-number">1</p>
+                            <p class="lk_company-price-block-name">Окна</p>
+                            <input value="XXXX,XX" />
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p>р./шт.</p>
+                        </li>
+                        <li>
+                            <p class="lk_company-price-block-number">2</p>
+                            <p class="lk_company-price-block-name">Дверь входная</p>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p class="lk_company-price-block-measure">р./м²</p>
+                        </li>
+                        <li>
+                            <p class="lk_company-price-block-number">3</p>
+                            <p class="lk_company-price-block-name">Снятие линолеума, ковролина, ламината (без сохранения)</p>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p class="lk_company-price-block-measure">р./м.п.</p>
+                        </li>
+                        <li>
+                            <p class="lk_company-price-block-number">4</p>
+                            <p class="lk_company-price-block-name">Ванна</p>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <input value="XXXX,XX"/>
+                            <p class="lk_company-price-block-measure">р./м²</p>
+                        </li>
+
+                    </ul>
+                    <div class="lk_company-price-block-rasporka"></div>
+
+                </div>
+
+                <div class="lk_company-price-for_save_change">
+                    <p id="installation" class="lk_company-price-save_change">Сохранить изменения</p>
+                </div>
+
+
+
+                <p class="lk_company-price-info3">Вы можете заполнить шаблон в формате excel и позже <a href="#">загрузить</a> на сервер в удобное для вас время. Скачать шаблон можно <a href="#">здесь</a></p>
+
+
+            </div>
+            <div id="lk_company-price_icon">
+
+                <p></p>
+
+            </div>
+
+
+            <p id="lk_company-reviews_header">Отзывы заказчиков</p>
+            <div class="rasporka100"></div>
+
+        </div>
+
+        <div id="content_bottom">
+
+            <div id="reviews_left_corner">
+
+                <div id="lk_company-content_bottom-left_corner">
+
+                    <div id="lk_company-content_bottom-left_corner-for_block">
+
+                        <div class="lk_company-content_bottom-left_corner-block">
+
+                            <h1>Работы проведены c XX.XX.XX по XX.XX.XX </h1>
+                            <h2>ул. Мосфильмовская, 24</h2>
+                            <p>«Сделано, конечно, на 5 с плюсом...Почти все провода в квартире удалось спрятать.»</p>
+                            <h2>Николай</h2>
+
+                        </div>
+
+
+                        <div class="lk_company-content_bottom-left_corner-block">
+
+                            <h1>Работы проведены c XX.XX.XX по XX.XX.XX </h1>
+                            <h2>ул. Зои и Александры Космодемьянских, 12 строение 2</h2>
+                            <p>«Спасибо за отличный ремонт!»</p>
+                            <h2>Ольга павловна</h2>
+
+                        </div>
+
+
+                        <div class="lk_company-content_bottom-left_corner-block">
+
+                            <h1>Работы проведены c XX.XX.XX по XX.XX.XX </h1>
+                            <h2>ул. Мосфильмовская, 24</h2>
+                            <p>«Сделано, конечно, на 5 с плюсом...Почти все провода в квартире удалось спрятать.»</p>
+                            <h2>Николай</h2>
+
+                        </div>
+
+
+                        <div class="lk_company-content_bottom-left_corner-block">
+
+                            <h1>Работы проведены c XX.XX.XX по XX.XX.XX </h1>
+                            <h2>ул. Зои и Александры Космодемьянских, 12 строение 2</h2>
+                            <p>«Спасибо за отличный ремонт!»</p>
+                            <h2>Ольга павловна</h2>
+
+                        </div>
+
+                    </div>
+
+                    <h6>Средняя оценка вашей работы:</h6>
+                    <div id="lk_company-content_bottom-left_corner-block-for_rate" class="rate_4"></div>
+                    <div id="lk_company-content_bottom-left_corner-block-line"></div>
+
+                </div>
+
+
+            </div>
+
+
+            <div id="reviews_right_corner">
+
+                <h1>Страховка вашей квартиры + ГО<br>на <span>500 000</span> рублей</h1>
+                <h2>при заказав ремонта от 100 000 рублей </h2>
+                <a href="#">Узнать подробности</a>
+
+            </div>
+
+
+
+        </div>
+
+{% endblock content %}

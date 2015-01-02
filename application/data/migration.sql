@@ -48,3 +48,8 @@ ALTER TABLE  `partners` ADD  `date` date NOT NULL;
 ALTER TABLE  `partners` ADD  `success_works` int(11) NOT NULL;
 ALTER TABLE  `partners` ADD  `workers` int(11) NOT NULL;
 ------------------------ 04.12.2014
+
+------------------------ 02.01.2015
+INSERT INTO mastersmeta.roles (`name`, description) 
+	VALUES ('client', 'Client');
+------------------------ 02.01.2015

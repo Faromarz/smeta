@@ -39,6 +39,7 @@ return array
      * Any other param configuration will throw a 404 error.
      */
     'presets'          => array(
+        'w116-h116',
         'w253-h253',
         'w567-h378',
         'w567'

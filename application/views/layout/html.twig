@@ -84,7 +84,7 @@
     </script>
 </head>
 <body>
-<div id="background{% if _controller|lower=='budget' %}_budget{% elseif _controller|lower=='company' %}-lk{% endif %}">
+<div id="background{% if _controller|lower=='budget' %}_budget{% elseif _controller|lower=='company' or _controller|lower=='profile' %}-lk{% endif %}">
     <div id="conteyner">
         <div id="header">
             <div id="header_left">
@@ -104,7 +104,7 @@
                 <div id="privat">
                     <p>
                     {% if _user %}
-                        <a href="{% if _admin %}{{ Url.site('/admin') }}{% elseif _client %}{{ Url.site('/profile') }}{% elseif _partner %}{{ Url.site('/company') }}{% endif %}">
+                        <a href="{% if _admin %}{{ Url.site('/admin') }}{% elseif _partner or _client %}{{ Url.site('/profile') }}{% else %}#{% endif %}">
                             {% if _partner %}{{ _user.partner.name }}{% else %}{{ _user.username }}{% endif %}
                         </a>
                     {% else %}
@@ -124,8 +124,7 @@
                 <h2>Позвоните и узнайте о действующих акциях</h2>
             </div>
         </div>
-        {% block content %}
-        {% endblock content %}
+        {% block content %}{% endblock content %}
         <div id="footer">
             <div id="footer_left">
                 <ul class="navigation">
@@ -158,7 +157,12 @@
             </div>
         </div>
     </div>
-    {% if _controller|lower == 'company' %}
+    {% if _controller|lower == 'profile' %}
+        <div id="lk-instruments_top_left"></div>
+        <div id="lk-instruments_top_right"></div>
+        <div id="lk-instruments_bottom_left"></div>
+        <div id="lk-instruments_bottom_right"></div>
+    {% elseif _controller|lower == 'company' %}
         <div id="lk-instruments_top_left"></div>
         <div id="lk-instruments_top_right"></div>
         <div id="lk-instruments_bottom_left"></div>

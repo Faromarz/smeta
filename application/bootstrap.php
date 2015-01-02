@@ -180,6 +180,11 @@ Route::set('project', 'project')
         'controller' => 'project',
         'action'     => 'index',
     ));
+Route::set('profile', 'profile(/<id>)', array('id'=>'[0-9]+'))
+    ->defaults(array(
+        'controller' => 'profile',
+        'action'     => 'index',
+    ));
 Route::set('article', 'article/<cat>', array('cat'=>'[0-9]+'))
     ->defaults(array(
         'controller' => 'article',
