@@ -114,7 +114,7 @@ var Partner = (function() {
                 if(response.error) {
                     alert(response.error); return false;
                 }
-                $(bottonSave[0]).attr('data-id', response.id).on('click', function(){_this.saveStaff(this);});
+                $(bottonSave[0]).attr('data-id', response.id).die('click').on('click', function(){_this.saveStaff(this);});
                 $(bottonRemove[0]).attr('data-id', response.id);
                 $(img[0]).attr('data-url', '/profile/saveimgstaff/'+response.id).fileupload({
                     dataType: 'json',
