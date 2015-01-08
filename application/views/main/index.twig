@@ -481,52 +481,18 @@
             <div id="our_face-for_scrolling-left_arrow"></div>
             <div id="our_face-for_scrolling-external_unit">
                 <div id="our_face-for_scrolling-inner_unit">
+                    {% for staff in partnerStaff %}
                     <div class="face_block_conteyner">
                         <a href="#" class="face_block">
-                            <div class="face_block-photo"></div>
-                            <h2>Имя Фамилия</h2>
-                            <h3>должность</h3>
-                            <h5>Название компании</h5>
-                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
+                            <div class="face_block-photo"{% if staff.photo is not empty %} style='background:  url("{{ Url.media('/imagefly/w270-h270/'~staff.getPhoto) }}") no-repeat 50% 50% #ffffff;'{% endif %}></div>
+                            <h2>{{ staff.last_name}} {{ staff.first_name}}</h2>
+                            <h3>{{ staff.position}}</h3>
+                            <h5>{{ staff.partner.name}}</h5>
+                            <p>{{ staff.text}}</p>
                         </a>
                     </div>
+                    {% endfor %}
 
-                    <div class="face_block_conteyner">
-                        <a href="#" class="face_block">
-                            <div class="face_block-photo"></div>
-                            <h2>Имя Фамилия</h2>
-                            <h3>должность</h3>
-                            <h5>Название компании</h5>
-                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
-                        </a>
-                    </div>
-
-                    <div class="face_block_conteyner">
-                        <a href="#" class="face_block-without_info">
-                            <div class="face_block-photo"></div>
-                            <h2>Имя Фамилия</h2>
-                            <h3>должность</h3>
-                            <h5>Название компании</h5>
-                        </a>
-                    </div>
-                    <div class="face_block_conteyner">
-                        <a href="#" class="face_block">
-                            <div class="face_block-photo"></div>
-                            <h2>Имя Фамилия</h2>
-                            <h3>должность</h3>
-                            <h5>Название компании</h5>
-                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
-                        </a>
-                    </div>
-                    <div class="face_block_conteyner">
-                        <a href="#" class="face_block">
-                            <div class="face_block-photo"></div>
-                            <h2>Имя Фамилия</h2>
-                            <h3>должность</h3>
-                            <h5>Название компании</h5>
-                            <p>Николай — руководитель нашей команды. Начинал обычным отделочником-универсалом. Сейчас — мастер ремонта и отделки, который знает все тонкости и нюансы ремонтного дела.</p>
-                        </a>
-                    </div>
                 </div>
             </div>
             <div id="our_face-for_scrolling-right_arrow"></div>

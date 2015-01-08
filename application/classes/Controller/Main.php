@@ -70,6 +70,9 @@ class Controller_Main extends Controller_Core
         $this->set('_countPartners', $countPartners);
         
         $this->set('showInstruments', true);
+        
+        
+        $this->set('partnerStaff', ORM::factory('Partner_Staff')->find_all());
 
     }
 
