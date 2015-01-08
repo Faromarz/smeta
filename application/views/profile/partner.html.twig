@@ -15,6 +15,7 @@
     <script type="text/javascript" src="{{ Url.media('/media/js/page_profile/lk_company.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/selectbox/jquery.selectbox-0.2.js') }}"></script>
     <script type="text/javascript" src="{{ Url.media('/media/libs/jquery.scrollto.js') }}"></script>
+    <script type="text/javascript" src="{{ Url.media('/media/js/page_profile/profile_partner.js') }}"></script>
     
     
     <link rel="stylesheet" type="text/css" href="{{ Url.media('/media/libs/metronic/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}"/>
@@ -30,7 +31,7 @@
 
             <div id="lk-content-personal_data">
                 <div id="lk-company-logo-for_logo">
-                    <div id="lk_company-logo" style='background:  url("{{ Url.media('/imagefly/w116-h116/'~_user.partner.getLogo) }}") no-repeat 50% 50% #ffffff;'></div>
+                    <div id="lk_company-logo"{% if _user.partner.img is not empty %} style='background:  url("{{ Url.media('/imagefly/w116-h116/'~_user.partner.getLogo) }}") no-repeat 50% 50% #ffffff;'{% endif %}></div>
                     <div class="lk_company-logo-load">
                         <p class="btn btn-success fileinput-button">
                             <span>Изменить</span>
@@ -63,28 +64,28 @@
                 </div>
 
                 <div class="lk-content-personal_data_block">
-                    <input placeholder="Название компании" value="{{_user.partner.name}}"/>
-                    <textarea placeholder="Текст о компании (не более 330 знаков)">{{_user.partner.descript}}</textarea>
+                    <input placeholder="Название компании" id="partnerName" name="name" value="{{_user.partner.name}}"/>
+                    <textarea placeholder="Текст о компании (не более 330 знаков)" id="partnerDescript" name="descript">{{_user.partner.descript}}</textarea>
                 </div>
 
                 <div class="lk-content-personal_data_block">
 
-                    <select  class="selectbox3">
-                        <option selected disabled >Область специализации</option>
-                        <option value="2">Область специализации 1</option>
-                        <option value="2">Область специализации 2</option>
-                        <option value="3">Область специализации 3</option>
+                    <select id="partnerGroup" class="selectbox3">
+                        <option{% if _user.partner.group is empty %} selected{% endif %} disabled >Область специализации</option>
+                        {% for cat in categories %}
+                            <option{% if _user.partner.group == cat.id %} selected{% endif %}  value="{{cat.id}}">{{cat.name}}</option>
+                        {% endfor %}
                     </select>
 
-                    <select  class="selectbox3">
-                        <option selected disabled >Сегмент рынка</option>
-                        <option  value="1">Сегмент рынка 1</option>
-                        <option  value="2">Сегмент рынка 2</option>
-                        <option  value="3">Сегмент рынка 3</option>
+                    <select id="partnerTypesRateId" class="selectbox3">
+                        <option{% if _user.partner.types_rate_id is empty %} selected{% endif %} disabled >Сегмент рынка</option>
+                        {% for rate in listRate %}
+                            <option{% if _user.partner.types_rate_id == rate.id %} selected{% endif %} value="{{rate.id}}">{{rate.name}}</option>
+                        {% endfor %}
                     </select>
 
-                    <input placeholder="Адрес сайта" value="{{_user.partner.site}}"/>
-                    <input placeholder="Электронная почта" value="{{_user.email}}" />
+                    <input placeholder="Адрес сайта" id="partnerSite" name="descript" value="{{_user.partner.site}}"/>
+                    <input placeholder="Электронная почта" id="partnerEmail" name="descript" value="{{_user.email}}" />
 
                 </div>
 
@@ -132,37 +133,29 @@
 
 
                     <div class="lk-content-data_company">
-
                         <p>Cредний опыт работы&nbsp;сотрудников</p>
-                        <input value="XX">
+                        <input id="partnerExperience" value="{{ _user.partner.experience}}">
                         <h1>лет</h1>
-
                     </div>
 
 
                     <div class="lk-content-data_company">
-
                         <p>Дата формирования компании:</p>
-                        <input value="XXXX">
+                        <input placeholder="yyyy"  id="partnerYear" value="{{ _user.partner.year}}">
                         <h1>г.</h1>
-
                     </div>
 
 
                     <div class="lk-content-data_company">
-
                         <p>Количество завершённых ремонтных проектов:</p>
-                        <input value="XXXX">
-
+                        <input id="partnerCountProject" value="{{_user.partner.count_project}}">
                     </div>
 
 
                     <div class="lk-content-data_company">
-
                         <p>Количество сотрудников в&nbsp;компании:</p>
-                        <input value="XXXX">
+                        <input id="partnerCountStaff" value="{{ _user.partner.count_staff }}">
                         <h1>человек</h1>
-
                     </div>
 
                 </div>
@@ -171,49 +164,43 @@
 
                 <h6>Для корректного отображения вашей компании в списках поставщиков услуг необходимо заполнить все поля</h6>
 
-                <p id="lk_company-content-save_change">Сохранить изменения</p>
+                <p id="lk_company-content-save_change" data-url="profile/saveinfo/{{_user.partner.id}}">Сохранить изменения</p>
 
             </div>
-
-
-
-
 
             <div id="lk_company-worker">
 
                 <h1>Ваша команда</h1>
 
                 <div class="lk_company-worker-for_block">
-                   <div class="lk_company-worker-block">
+                    <div class="lk_company-worker-block">
 
-                    <div class="lk_company-worker-block-photo"></div>
-                    <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
-                    <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
-                    <input placeholder="Имя"/>
-                    <input placeholder="Фамилия" />
-                    <input placeholder="Должность"/>
+                        <div class="lk_company-worker-block-photo"></div>
+                        <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
+                        <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
+                        <input placeholder="Имя"/>
+                        <input placeholder="Фамилия" />
+                        <input placeholder="Должность"/>
 
-                    <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
+                        <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
 
-
-                </div>
+                    </div>
                    <div class="lk_company-worker-block_close"></div>
                 </div>
 
                 <div class="lk_company-worker-for_block">
                     <div class="lk_company-worker-block">
 
-                    <div class="lk_company-worker-block-photo"></div>
-                    <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
-                    <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
-                    <input placeholder="Имя"/>
-                    <input placeholder="Фамилия" />
-                    <input placeholder="Должность"/>
+                        <div class="lk_company-worker-block-photo"></div>
+                        <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
+                        <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
+                        <input placeholder="Имя"/>
+                        <input placeholder="Фамилия" />
+                        <input placeholder="Должность"/>
 
-                    <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
+                        <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
 
-
-                </div>
+                    </div>
                     <div class="lk_company-worker-block_close"></div>
                 </div>
 

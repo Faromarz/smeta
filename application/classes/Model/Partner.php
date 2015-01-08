@@ -46,7 +46,7 @@ class Model_Partner extends ORM
     }
     public function upload_img()
     {
-        if(!$_FILES['img']['tmp_name']){
+        if(!isset($_FILES['img']['tmp_name'])){
             return false;
         }
         //$this->deleteImg();

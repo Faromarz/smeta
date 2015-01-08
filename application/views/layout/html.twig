@@ -105,7 +105,7 @@
                     <p>
                     {% if _user %}
                         <a href="{% if _admin %}{{ Url.site('/admin') }}{% elseif _partner or _client %}{{ Url.site('/profile') }}{% else %}#{% endif %}">
-                            {% if _partner %}{{ _user.partner.name }}{% else %}{{ _user.username }}{% endif %}
+                            {% if _partner %}{{ _user.partner.name is not empty ? _user.partner.name : 'Кабинет' }}{% else %}{{ _user.username }}{% endif %}
                         </a>
                     {% else %}
                         личный кабинет

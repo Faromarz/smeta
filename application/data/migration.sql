@@ -53,3 +53,13 @@ ALTER TABLE  `partners` ADD  `workers` int(11) NOT NULL;
 INSERT INTO mastersmeta.roles (`name`, description) 
 	VALUES ('client', 'Client');
 ------------------------ 02.01.2015
+------------------------ 08.01.2015
+ALTER TABLE `partners` DROP `telephon`;
+ALTER TABLE `partners` CHANGE `date` `year` INT(4) NULL DEFAULT NULL COMMENT 'Год формирования компании';
+UPDATE `mastersmeta`.`partners` SET `year` = NULL;
+ALTER TABLE `partners` DROP `img_temp`;
+ALTER TABLE `partners` CHANGE `experience` `experience` DECIMAL(20,2) NOT NULL COMMENT 'Средний опыт сотрудников';
+ALTER TABLE `partners` ADD `count_staff` INT NULL DEFAULT '0' COMMENT 'Количество сотрудников';
+ALTER TABLE `partners` ADD `count_project` INT NULL DEFAULT '0' COMMENT 'Количество завершенных проектов';
+ALTER TABLE `partners` CHANGE `patrner_id` `types_rate_id` INT(11) NULL DEFAULT NULL COMMENT 'Сегмент рынка';
+------------------------ 08.01.2015
