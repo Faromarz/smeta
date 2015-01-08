@@ -23,51 +23,61 @@ var Partner = (function() {
         if(data.name == '') {
             $('#partnerName').focus();
             alert('Укажите название');
+            return false;
         }
         data.descript = $('#partnerDescript').val();
         if(data.descript == '') {
             $('#partnerDescript').focus();
-            alert('Укажите текст о компании');            
+            alert('Укажите текст о компании');
+            return false;
         }
         data.site = $('#partnerSite').val();
         if(data.site == '') {
             $('#partnerSite').focus();
             alert('Укажите сайт');            
+            return false;
         }
         data.email = $('#partnerEmail').val();
         if(data.email == '') {
             $('#partnerEmail').focus();
-            alert('Укажите Email');            
+            alert('Укажите Email');
+            return false;
         }
         data.year = $('#partnerYear').val();
         if(data.year == '') {
             $('#partnerYear').focus();
-            alert('Укажите год формирования компании');            
+            alert('Укажите год формирования компании');
+            return false;
         }
         data.experience = $('#partnerExperience').val();
         if(data.experience == '') {
             $('#partnerExperience').focus();
-            alert('Укажите средний опыт сотрудников');            
+            alert('Укажите средний опыт сотрудников');
+            return false;
         }
         data.count_staff = $('#partnerCountStaff').val();
         if(data.count_staff == '') {
             $('#partnerCountStaff').focus();
-            alert('Укажите количество сотрудников');            
+            alert('Укажите количество сотрудников');
+            return false;
         }
         data.count_project = $('#partnerCountProject').val();
         if(data.count_project == '') {
             $('#partnerCountProject').focus();
-            alert('Укажите количество завершенных проектов');            
+            alert('Укажите количество завершенных проектов');
+            return false;
         }
         data.types_rate_id = $('#partnerTypesRateId').val();
         if(data.types_rate_id == '') {
             $('#partnerTypesRateId').focus();
-            alert('Укажите сегмент рынка');            
+            alert('Укажите сегмент рынка');
+            return false;
         }
         data.group = $('#partnerGroup').val();
         if(data.group == '') {
             $('#partnerGroup').focus();
-            alert('Укажите область специализации');            
+            alert('Укажите область специализации'); 
+            return false;
         }
         $.ajax({
             type: "POST",
