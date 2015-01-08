@@ -474,8 +474,8 @@
             <h6>Помогаем людям делать ремонт<br>с 2013 года.</h6>
         </div>
     </div>
+    {% if partnerStaff|length > 0 %}
     <div id="our_face">
-
         <h1>Партнеры, которым доверяем</h1>
         <div id="our_face-for_scrolling">
             <div id="our_face-for_scrolling-left_arrow"></div>
@@ -497,11 +497,10 @@
             </div>
             <div id="our_face-for_scrolling-right_arrow"></div>
         </div>
-        <div id="our_face-team">
-            <div></div>
-        </div>
+        <div id="our_face-team"><div></div></div>
     </div>
     <div class="repair_company_rasporka"></div>
+    {% endif %}
     </div>
     <div id="content_bottom">
 
