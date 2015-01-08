@@ -71,14 +71,14 @@
                 <div class="lk-content-personal_data_block">
 
                     <select id="partnerGroup" class="selectbox3">
-                        <option{% if _user.partner.group is empty %} selected{% endif %} disabled >Область специализации</option>
+                        <option value="" {% if _user.partner.group is empty %} selected{% endif %} disabled >Область специализации</option>
                         {% for cat in categories %}
                             <option{% if _user.partner.group == cat.id %} selected{% endif %}  value="{{cat.id}}">{{cat.name}}</option>
                         {% endfor %}
                     </select>
 
                     <select id="partnerTypesRateId" class="selectbox3">
-                        <option{% if _user.partner.types_rate_id is empty %} selected{% endif %} disabled >Сегмент рынка</option>
+                        <option value=""{% if _user.partner.types_rate_id is empty %} selected{% endif %} disabled >Сегмент рынка</option>
                         {% for rate in listRate %}
                             <option{% if _user.partner.types_rate_id == rate.id %} selected{% endif %} value="{{rate.id}}">{{rate.name}}</option>
                         {% endfor %}
