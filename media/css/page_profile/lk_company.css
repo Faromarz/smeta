@@ -221,7 +221,7 @@ textarea {
 .lk_company-worker-block-photo_load p{
     color: #ffffff;
     text-transform: uppercase;
-    margin: 130px 0 0 95px;
+    padding: 130px 0 0 95px;
 }
 
 .lk_company-worker-block textarea{

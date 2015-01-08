@@ -62,4 +62,6 @@ ALTER TABLE `partners` CHANGE `experience` `experience` DECIMAL(20,2) NOT NULL C
 ALTER TABLE `partners` ADD `count_staff` INT NULL DEFAULT '0' COMMENT 'Количество сотрудников';
 ALTER TABLE `partners` ADD `count_project` INT NULL DEFAULT '0' COMMENT 'Количество завершенных проектов';
 ALTER TABLE `partners` CHANGE `patrner_id` `types_rate_id` INT(11) NULL DEFAULT NULL COMMENT 'Сегмент рынка';
+
+
 ------------------------ 08.01.2015

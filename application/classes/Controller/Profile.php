@@ -75,4 +75,78 @@ class Controller_Profile extends Controller_Main
         }
         $this->set('_result', json_encode($array));
     }
+    public function action_addstaff()
+    {
+        $this->default_template = 'json';
+        $array = array();
+        if ($this->request->param('id')) {
+            $object = ORM::factory('Partner', $this->request->param('id'));
+            if ($object->loaded()) {
+                $staff = ORM::factory('Partner_Staff');
+                $staff->partner_id = $object->id;
+                $staff->save();
+                $array = array('id' => $staff->pk());
+            } else {
+                $array = array('error' => 'partner not found');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+    public function action_removestaff()
+    {
+        $this->default_template = 'json';
+        $array = array();
+        if ($this->request->param('id')) {
+            $object = ORM::factory('Partner_Staff', $this->request->param('id'));
+            if ($object->loaded()) {
+                $object->delete();
+            } else {
+                $array = array('error' => 'staff not found');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+    public function action_saveimgstaff()
+    {
+        $this->default_template = 'json';
+        $array = array();
+        if ($this->request->param('id')) {
+            $object = ORM::factory('Partner_Staff', $this->request->param('id'));
+            if ($object->loaded()) {
+                 if($_FILES['photo']['tmp_name']){
+                    $object->save();
+                    $array['file'] = '/imagefly/w270-h270/'.$object->getPhoto().'?'.  time();
+                } else {
+                    $array = array('error' => 'File empty');
+                }
+            } else {
+                $array = array('error' => 'partner not found');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
+    public function action_savestaff()
+    {
+        $this->default_template = 'json';
+        $array = array();
+        $post = $this->request->post();
+        if ($this->request->param('id') && $post) {
+            $object = ORM::factory('Partner_Staff', $this->request->param('id'));
+            if ($object->loaded()) {
+                $object->values($post);
+                $object->save();
+            } else {
+                $array = array('error' => 'partner not found');
+            }
+        } else {
+            $array = array('error' => 'data empty');
+        }
+        $this->set('_result', json_encode($array));
+    }
 }

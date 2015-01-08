@@ -29,10 +29,26 @@ $(document).ready(function () {
 
 
 
-    //функционал блоков: работники
-    $("#lk_company-worker").on("mouseenter", ".lk_company-worker-block-photo", function() {
-        $(this).parent().children(".lk_company-worker-block-photo_load").fadeIn(); }).on("mouseleave", ".lk_company-worker-block-photo_load", function() { $(this).fadeOut(); }).on("click", ".lk_company-worker-block_close", function() { $(this).parent(".lk_company-worker-for_block").remove(); }).on("keypress", "input", function () { $(this).parent().children('.lk_company-worker-block-save_change').css("background", "#f7540f"); }).on("keypress", "textarea", function () { $(this).parent().children('.lk_company-worker-block-save_change').css("background", "#f7540f"); }).on("click", ".lk_company-worker-block-save_change", function() { $(this).css("background", "#84909a"); });
-
+     //функционал блоков: работники
+    $("#lk_company-worker")
+            .on("mouseenter", ".lk_company-worker-block-photo", function() {
+                $(this).parent().children(".lk_company-worker-block-photo_load").fadeIn();
+            })
+            .on("mouseleave", ".lk_company-worker-block-photo_load", function() {
+                $(this).fadeOut();
+            })
+//            .on("click", ".lk_company-worker-block_close", function() {
+//                $(this).parent(".lk_company-worker-for_block").remove();
+//            })
+            .on("keypress", "input", function () {
+                $(this).parent().children('.lk_company-worker-block-save_change').css("background", "#f7540f");
+            })
+            .on("keypress", "textarea", function () {
+                $(this).parent().children('.lk_company-worker-block-save_change').css("background", "#f7540f");
+            })
+            .on("click", ".lk_company-worker-block-save_change", function() {
+                $(this).css("background", "#84909a");
+            });
     //функционал блоков: примеры работ
     $("#lk_company-examples_works").on("mouseenter", ".lk_company-examples_works-block", function() {
         $(this).children(".lk_company-examples_works-block-change").fadeIn(); }).on("mouseleave", ".lk_company-examples_works-block", function() {

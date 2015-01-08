@@ -41,6 +41,7 @@ return array
     'presets'          => array(
         'w116-h116',
         'w253-h253',
+        'w270-h270',
         'w567-h378',
         'w567'
     ),

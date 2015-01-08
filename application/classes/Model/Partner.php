@@ -11,6 +11,10 @@ class Model_Partner extends ORM
         'city' => array(
             'model'   => 'City',
             'through'   => 'partner_cities',
+        ),
+        'staff' => array(
+            'model'   => 'Partner_Staff',
+            'foreign_key'   => 'partner_id',
         )
     );
 
@@ -24,7 +28,7 @@ class Model_Partner extends ORM
             'foreign_key'   => 'group',
         )
     );
-
+    
     public function filters()
     {
         return array(

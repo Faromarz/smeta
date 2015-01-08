@@ -41,21 +41,22 @@
                      <script>
                         $(document).ready(function(){
                             $(function () {
-                                $('#uploadLogoPartner').fileupload({
-                                    dataType: 'json',
-                                    fail: function (e, data) {
-                                        alert('Error upload');
-                                    },
-                                    done: function (e, data) {
-                                        $('#lk_company-logo').attr('style', 'background:url("'+data.result.file+'") no-repeat 50% 50% #ffffff;');
-                                        alert('Логотип изменен');
-                                    },
-                                    add: function (e, data) {
-                                        if(confirm('Загрузить новый логотип? Старый будет удален.')){
-                                            data.submit();
+                                $('#uploadLogoPartner')
+                                    .fileupload({
+                                        dataType: 'json',
+                                        fail: function (e, data) {
+                                            alert('Error upload');
+                                        },
+                                        done: function (e, data) {
+                                            $('#lk_company-logo').attr('style', 'background:url("'+data.result.file+'") no-repeat 50% 50% #ffffff;');
+                                            alert('Логотип изменен');
+                                        },
+                                        add: function (e, data) {
+                                            if(confirm('Загрузить новый логотип? Старый будет удален.')){
+                                                data.submit();
+                                            }
                                         }
-                                    }
-                                })
+                                    })
                                     .prop('disabled', !$.support.fileInput)
                                     .parent().addClass($.support.fileInput ? undefined : 'disabled');
                             });
@@ -164,7 +165,7 @@
 
                 <h6>Для корректного отображения вашей компании в списках поставщиков услуг необходимо заполнить все поля</h6>
 
-                <p id="lk_company-content-save_change" data-url="profile/saveinfo/{{_user.partner.id}}">Сохранить изменения</p>
+                <p id="lk_company-content-save_change" data-url="/profile/saveinfo/{{_user.partner.id}}">Сохранить изменения</p>
 
             </div>
 
@@ -172,48 +173,51 @@
 
                 <h1>Ваша команда</h1>
 
-                <div class="lk_company-worker-for_block">
-                    <div class="lk_company-worker-block">
-
-                        <div class="lk_company-worker-block-photo"></div>
-                        <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
-                        <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
-                        <input placeholder="Имя"/>
-                        <input placeholder="Фамилия" />
-                        <input placeholder="Должность"/>
-
-                        <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
-
+                {% for staff in _user.partner.staff.find_all %}
+                    <div class="lk_company-worker-for_block">
+                        <div class="lk_company-worker-block">
+                            <div class="lk_company-worker-block-photo"{% if staff.photo is not empty %} style='background:  url("{{ Url.media('/imagefly/w270-h270/'~staff.getPhoto) }}") no-repeat 50% 50% #ffffff;'{% endif %}></div>
+                            <div class="lk_company-worker-block-photo_load">
+                                <p class="btn btn-success fileinput-button">
+                                    <span>загрузить</span>
+                                    <input class="uploadPhotoStaff" type="file" name="photo" data-url="/profile/saveimgstaff/{{staff.id}}">
+                                </p>
+                            </div>
+                            <textarea placeholder="Текст о сотруднике (не более 200 знаков)" id="staffText">{{staff.text}}</textarea>
+                            <input placeholder="Имя" id="staffLastName" value="{{staff.last_name}}"/>
+                            <input placeholder="Фамилия" id="staffFirstName" value="{{staff.first_name}}" />
+                            <input placeholder="Должность" id="staffPosition" value="{{staff.position}}" />
+                            <p class="lk_company-worker-block-save_change" data-id="{{staff.id}}">Сохранить изменения</p>
+                        </div>
+                       <div class="lk_company-worker-block_close" data-id="{{staff.id}}"></div>
                     </div>
-                   <div class="lk_company-worker-block_close"></div>
+                {% endfor %}
+                
+                <div id="blockAddStaff" style="display:none;">
+                    <div class="lk_company-worker-for_block">
+                        <div class="lk_company-worker-block">
+
+                            <div class="lk_company-worker-block-photo"></div>
+                            <div class="lk_company-worker-block-photo_load">
+                                <p class="btn btn-success fileinput-button">
+                                    <span>загрузить</span>
+                                    <input class="uploadPhotoStaff" type="file" name="photo">
+                                </p>
+                            </div>
+                            <textarea placeholder="Текст о сотруднике (не более 200 знаков)" id="staffText"></textarea>
+                            <input placeholder="Имя" id="staffLastName"/>
+                            <input placeholder="Фамилия" id="staffFirstName" />
+                            <input placeholder="Должность" id="staffPosition"/>
+                            <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
+                        </div>
+                        <div class="lk_company-worker-block_close"></div>
+                    </div>
                 </div>
 
-                <div class="lk_company-worker-for_block">
-                    <div class="lk_company-worker-block">
-
-                        <div class="lk_company-worker-block-photo"></div>
-                        <div class="lk_company-worker-block-photo_load"><p>загрузить</p></div>
-                        <textarea placeholder="Текст о сотруднике (не более 200 знаков)"></textarea>
-                        <input placeholder="Имя"/>
-                        <input placeholder="Фамилия" />
-                        <input placeholder="Должность"/>
-
-                        <p class="lk_company-worker-block-save_change">Сохранить изменения</p>
-
-                    </div>
-                    <div class="lk_company-worker-block_close"></div>
-                </div>
-
-
-                <p id="lk_company-worker-add">Добавить сотрудника</p>
-
+                <p id="lk_company-worker-add" data-url="/profile/addstaff/{{_user.partner.id}}">Добавить сотрудника</p>
 
             </div>
-            <div id="lk_company-worker_icon">
-
-                <p></p>
-
-            </div>
+            <div id="lk_company-worker_icon"><p></p></div>
 
 
             <div id="lk_company-discount">
@@ -225,49 +229,34 @@
                 <div id="lk_company-discount-for_block">
 
                     <div class="lk_company-discount-block">
-
                         <h6>При заказе ремонта на сумму</h6>
                         <h5>от 30 000 до 200 000 р.</h5>
                         <h3>Ваша скидка:</h3>
                         <input value="XX" />
                         <h3><span>%</span></h3>
-
                     </div>
 
 
                     <div class="lk_company-discount-block">
-
                         <h6>При заказе ремонта на сумму</h6>
                         <h5>от 201 000 до 600 000 р.</h5>
                         <h3>Ваша скидка:</h3>
                         <input value="XX" />
                         <h3><span>%</span></h3>
-
                     </div>
 
 
                     <div class="lk_company-discount-block">
-
                         <h6>При заказе ремонта на сумму</h6>
                         <h5>от 600 000 р. и более</h5>
                         <h3>Ваша скидка:</h3>
                         <input value="XX" />
                         <h3><span>%</span></h3>
-
                     </div>
 
                 </div>
 
-
-
-
-
-                <div id="lk_company-discount_icon">
-
-                    <p></p>
-
-                </div>
-
+                <div id="lk_company-discount_icon"><p></p></div>
 
             </div>
 
@@ -276,7 +265,6 @@
             <div id="lk_company-examples_works">
 
                 <h1>Примеры работ</h1>
-
                 <h2>Эконом</h2>
 
                 <div class="lk_company-examples_works-for_block">
@@ -322,14 +310,11 @@
                         </div>
                     </div>
 
-
-
                 </div>
                 <div class="rasporka100"></div>
 
 
                 <h2>Стандарт</h2>
-
                 <div class="lk_company-examples_works-for_block">
 
                     <div class="lk_company-examples_works-block">
@@ -353,21 +338,17 @@
                         </div>
                     </div>
 
-
                     <div class="lk_company-examples_works-block">
                         <div class="lk_company-examples_works-block-add">
                             <p>+</p>
                         </div>
                     </div>
 
-
-
                 </div>
                 <div class="rasporka100"></div>
 
 
                 <h2>Премиум</h2>
-
                 <div class="lk_company-examples_works-for_block">
 
                     <div class="lk_company-examples_works-block">
@@ -382,13 +363,7 @@
 
 
             </div>
-            <div id="lk_company-examples_works_icon">
-
-                <p></p>
-
-            </div>
-
-
+            <div id="lk_company-examples_works_icon"><p></p></div>
 
 
             <div id="lk_company-price">
